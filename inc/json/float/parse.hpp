@@ -1,0 +1,2 @@
+/* ret */
+parse (T * float) {}

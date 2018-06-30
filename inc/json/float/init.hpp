@@ -1,0 +1,4 @@
+void
+init (T * float)
+{
+}

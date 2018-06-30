@@ -1,0 +1,1 @@
+const T INVALID_CODE_POINT = -4;

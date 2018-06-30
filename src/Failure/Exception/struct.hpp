@@ -1,0 +1,3 @@
+struct T : Throwable::T
+{
+};

@@ -1,0 +1,1 @@
+typedef struct T T;

@@ -1,0 +1,18 @@
+off_t
+size ()
+{
+	const std::string message_prefix = "IO::TempFile::size\n";
+
+	try
+	{
+		struct stat file_status;
+
+		if (fstat (this -> fd, &file_status) == -1)
+		{
+			throw ResourceError::T ("fstat: " + strerror (errno) + "\n");
+		}
+
+		return file_status.st_size;
+	}
+	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+}

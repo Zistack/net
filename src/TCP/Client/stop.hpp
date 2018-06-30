@@ -1,0 +1,4 @@
+T::stop ()
+{
+	signal -> notify ();
+}
