@@ -96,21 +96,21 @@ function namespace-do
 }
 function is-struct
 {
-	test -e struct.hpp -a -e type.hpp
+	test -e struct.hpp
 }
 
 function is-typedef
 {
-	test ! -e struct.hpp -a -e type.hpp
+	test -e type.hpp
 }
-function get-declarations
+function get-function-declarations
 {
 	local file="${1}"
 
-	get-declarations-state-machine < "${file}" | clang-format
+	get-function-declarations-state-machine < "${file}" | clang-format
 }
 
-function get-declarations-state-machine
+function get-function-declarations-state-machine
 {
 	local state="waiting"
 
@@ -136,13 +136,44 @@ function get-declarations-state-machine
 	done
 }
 
-function include-struct-type
+function get-struct-declaration
+{
+	local file="${1}"
+
+	get-struct-declaration-state-machine < "${file}" | clang-format
+}
+
+function get-struct-declaration-state-machine
+{
+	local state="waiting"
+
+	while IFS='' read -r line
+	do
+		if [ "${state}" = "waiting" ] && [ -n "${line}" ]
+		then
+			state="in declaration"
+		fi
+
+		if [ "${state}" = "in declaration" ]
+		then
+			if grep -q '^struct T' <<< "${line}"
+			then
+				echo 'struct T;'
+				break
+			else
+				echo "${line}"
+			fi
+		fi
+	done
+}
+
+function declare-struct
 {
 	local path="${1}"
 
 	if is-struct
 	then
-		echo '#include "'"${path}"'/type.hpp"'
+		get-struct-declaration 'struct.hpp'
 	fi
 }
 
@@ -184,7 +215,7 @@ function declare-functions
 	then
 		for function in $(list-functions)
 		do
-			get-declarations "${function}"
+			get-function-declarations "${function}"
 		done
 	fi
 }
@@ -211,7 +242,7 @@ include-struct-type ''
 echo ''
 for module in $(list-modules)
 do
-	namespace-do "${module}" "${module}" "include-struct-type"
+	namespace-do "${module}" "${module}" "declare-struct"
 done
 
 echo ''

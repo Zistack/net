@@ -1,1 +1,1 @@
-typedef std::chrono::nanoseconds T;
+using T = std::chrono::nanoseconds;
