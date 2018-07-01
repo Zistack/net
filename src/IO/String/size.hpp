@@ -1,5 +1,5 @@
 off_t
-size ()
+T::size ()
 {
-	return (off_t) this -> string -> size ();
+	return (off_t) this->string->size ();
 }

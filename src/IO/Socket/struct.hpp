@@ -1,13 +1,16 @@
 struct T
 {
-	T (std::string hostname, std::string port, OutputStream::T <char> * log);
-	T (int fd);
+	T (std::string hostname,
+	    std::string port,
+	    Interface::OutputStream::T * log);
+	T (int file_descriptor);
 
-	void shutdown (Direction::T direction);
+	void
+	shutdown (Direction::T direction);
 
 	~T ();
 
 	FileDescriptor::InputStream::T * input_stream;
 	FileDescriptor::OutputStream::T * output_stream;
-	int fd;
+	int file_descriptor;
 };

@@ -1,4 +1,4 @@
-T::T (std::string * host, std::string port, Interface::OutputStream::T <char> * log)
+T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 {
 	std::string message_prefix = "IO::ServerSocket::T\n";
 
@@ -6,7 +6,7 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T <char> * 
 	{
 		struct addrinfo hints;
 
-		memset (& hints, 0, sizeof (hints));
+		memset (&hints, 0, sizeof (hints));
 
 		hints.ai_family = AF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM | SOCK_NONBLOCK;
@@ -14,62 +14,60 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T <char> * 
 
 		struct addrinfo * results;
 
-		char * node = host ? host -> data () : NULL;
+		const char * node = host ? host->data () : NULL;
 
-		int err = getaddrinfo (node, port.data (), & hints, & results);
+		int err = getaddrinfo (node, port.data (), &hints, &results);
 
 		if (err)
 		{
 			throw ResourceError::T (
-				"getaddrinfo: " + gai_strerror (err) + "\n"
-			);
+			    std::string ("getaddrinfo: ") + gai_strerror (err) + "\n");
 		}
 
 		struct addrinfo * p;
 
-		for (p = results; p != NULL; p = p -> ai_next)
+		for (p = results; p != NULL; p = p->ai_next)
 		{
-			this -> fd = socket (p -> ai_family, p -> ai_socktype, p -> ai_protocol);
+			this->file_descriptor =
+			    socket (p->ai_family, p->ai_socktype, p->ai_protocol);
 
-			if (fd == -1)
+			if (this->file_descriptor == -1)
 			{
-				if (log) log.print ("socket: " + strerror (errno) + "\n");
+				if (log)
+					log->print (
+					    std::string ("socket: ") + strerror (errno) + "\n");
 				continue;
 			}
 
 			int yes = 1;
-			if (setsockopt (
-				this -> fd,
-				SOL_SOCKET,
-				SO_REUSEADDR,
-				&yes,
-				sizeof (yes)) ==
-				-1)
+			if (setsockopt (this->file_descriptor,
+			        SOL_SOCKET,
+			        SO_REUSEADDR,
+			        &yes,
+			        sizeof (yes)) == -1)
 			{
-				close (this -> fd);
+				close (this->file_descriptor);
 				throw ResourceError::T (
-					"setsockopt: " + strerror (errno) + "\n"
-				);
+				    std::string ("setsockopt: ") + strerror (errno) + "\n");
 			}
 
-			if (setsockopt (
-				this -> fd,
-				SOL_SOCKET,
-				SO_LINGER,
-				&yes,
-				sizeof (yes)) ==
-				-1)
+			if (setsockopt (this->file_descriptor,
+			        SOL_SOCKET,
+			        SO_LINGER,
+			        &yes,
+			        sizeof (yes)) == -1)
 			{
-				close (this -> fd);
+				close (this->file_descriptor);
 				throw ResourceError::T (
-					"setsockopt: " + strerror (errno) + "\n"
-				);
+				    std::string ("setsockopt: ") + strerror (errno) + "\n");
 			}
 
-			if (bind (this -> fd, p -> ai_addr, p -> ai_addrlen) == -1)
+			if (bind (this->file_descriptor, p->ai_addr, p->ai_addrlen) == -1)
 			{
-				close (this -> fd);
-				if (log) log.print ("bind: " + strerror (errno) + "\n");
+				close (this->file_descriptor);
+				if (log)
+					log->print (
+					    std::string ("bind: ") + strerror (errno) + "\n");
 				continue;
 			}
 
@@ -78,16 +76,20 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T <char> * 
 
 		freeaddrinfo (results);
 
-		if (! p)
+		if (!p)
 		{
 			throw ResourceError::T ("No valid addresses\n");
 		}
 
-		if (listen (this -> fd, SOMAXCONN) == -1)
+		if (listen (this->file_descriptor, SOMAXCONN) == -1)
 		{
-			close (this -> fd);
-			throw ResourceError::T ("listen: " + strerror (errno) + "\n");
+			close (this->file_descriptor);
+			throw ResourceError::T (
+			    std::string ("listen: ") + strerror (errno) + "\n");
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

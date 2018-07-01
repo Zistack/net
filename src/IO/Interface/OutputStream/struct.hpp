@@ -1,7 +1,8 @@
-template <typename CharType>
 struct T
 {
-	virtual void put (CharType c) = 0;
+	virtual void
+	put (char c) = 0;
 
-	void print (std::basic_string <CharType> message);
+	void
+	print (std::string message);
 };

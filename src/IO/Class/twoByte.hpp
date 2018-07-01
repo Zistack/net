@@ -1,7 +1,8 @@
 bool
 twoByte (char c)
 {
-	return (c >= 0xC0) && (c < 0xE0);
+	unsigned char uc = (unsigned char) c;
+	return (uc >= 0xC0) && (uc < 0xE0);
 }
 
 bool

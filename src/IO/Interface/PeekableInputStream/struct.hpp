@@ -1,7 +1,9 @@
-template <typename CharType>
-struct T : virtual InputStream::T <CharType>
+struct T : virtual InputStream::T
 {
-	virtual CharType get () override = 0;
-	virtual CharType peek () = 0;
-	bool eof ();
+	virtual char
+	get () override = 0;
+	virtual char
+	peek () = 0;
+	bool
+	eof ();
 };

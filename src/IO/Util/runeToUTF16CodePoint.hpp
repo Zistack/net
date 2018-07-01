@@ -3,7 +3,7 @@ runeToUTF16CodePoint (char32_t c)
 {
 	std::u16string code_point;
 
-	if (Class::basicMultilingualPlane (c)
+	if (Class::basicMultilingualPlane (c))
 	{
 		code_point.push_back ((char16_t) (c & 0xFFFF));
 		return code_point;

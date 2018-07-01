@@ -5,18 +5,21 @@ T::accept ()
 
 	try
 	{
-		struct sockaddr_storage peer_address;
+		struct sockaddr peer_address;
 		socklen_t address_size;
 
-		int client_fd = accept4 (this -> fd, & peer_address, & address_size, SOCK_NONBLOCK);
+		int client_file_descriptor = accept4 (
+		    this->file_descriptor, &peer_address, &address_size, SOCK_NONBLOCK);
 
-		if (client_fd == -1)
+		if (client_file_descriptor == -1)
 		{
-			const std::string message = "accept: " + strerror (errno) + "\n";
+			const std::string message =
+			    std::string ("accept: ") + strerror (errno) + "\n";
 
-			switch (errno) {
+			switch (errno)
+			{
 			case EAGAIN:
-			case EWOULDBLOCK:
+			// case EWOULDBLOCK: // Apparently duplicate with EAGAIN
 			case ECONNABORTED:
 			case EINTR:
 			case EPERM:
@@ -36,7 +39,10 @@ T::accept ()
 			}
 		}
 
-		return new Socket::T (client_fd);
+		return new Socket::T (client_file_descriptor);
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

@@ -8,18 +8,19 @@ T::get ()
 		while (true)
 		{
 			char c;
-			ssize_t size = read (this -> fd, & c, 1);
+			ssize_t size = read (this->file_descriptor, &c, 1);
 
 			if (size == 0) throw EOF::T ();
 
 			if (size == -1)
 			{
-				const std::string message = "read: " + strerror (errno) + "\n";
+				const std::string message =
+				    std::string ("read: ") + strerror (errno) + "\n";
 
 				switch (errno)
 				{
 				case EAGAIN:
-				case EWOULDBLOCK:
+				// case EWOULDBLOCK: // Apparently a duplicate of EAGAIN.
 				case EINTR:
 					continue;
 				case EBADF:
@@ -35,5 +36,8 @@ T::get ()
 			return c;
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

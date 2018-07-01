@@ -1,4 +1,4 @@
 T::~T ()
 {
-	close (this -> fd);
+	close (this->file_descriptor);
 }

@@ -1,16 +1,16 @@
-template <typename CharType>
-struct T : Interface::OutputStream::T <CharType>
+struct T : Interface::OutputStream::T
 {
-	T (Interface::WatchableOutputStream::T <CharType> * output_stream);
+	T (Interface::WatchableOutputStream::T * output_stream);
 
-	void put (CharType c) override;
+	void
+	put (char c) override;
 
 	void
 	cancel ();
 
 	~T ();
 
-	Interface::WatchableOutputStream::T <CharType> * output_stream;
+	Interface::WatchableOutputStream::T * output_stream;
 	Signal::T * signal;
 	EPoll::T * epoll;
 };

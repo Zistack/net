@@ -1,4 +1,4 @@
-Watchable::T *
+Interface::Watchable::T *
 T::wait ()
 {
 	const std::string message_prefix = "IO::EPoll::wait\n";
@@ -9,10 +9,10 @@ T::wait ()
 		{
 			struct epoll_event ev;
 
-			if (epoll_wait (this -> fd, & ev, 1, -1) == -1)
+			if (epoll_wait (this->file_descriptor, &ev, 1, -1) == -1)
 			{
 				const std::string message =
-					"epoll_wait: " + strerror (errno) + "\n";
+				    std::string ("epoll_wait: ") + strerror (errno) + "\n";
 
 				switch (errno)
 				{
@@ -29,5 +29,8 @@ T::wait ()
 			return (Interface::Watchable::T *) ev.data.ptr;
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

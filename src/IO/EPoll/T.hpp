@@ -4,12 +4,16 @@ T::T ()
 
 	try
 	{
-		this -> fd = epoll_create (1);
+		this->file_descriptor = epoll_create (1);
 
-		if (this -> fd == -1)
+		if (this->file_descriptor == -1)
 		{
-			throw ResourceError::T ("epoll_create: " + strerror (errno) + "\n");
+			throw ResourceError::T (
+			    std::string ("epoll_create: ") + strerror (errno) + "\n");
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

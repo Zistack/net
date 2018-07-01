@@ -1,14 +1,16 @@
 struct T
 {
-	T ();
+	T (const std::string & pattern);
 
-	void reset ();
-	off_t size ();
+	void
+	reset ();
+	off_t
+	size ();
 
 	~T ();
 
 	char * name;
-	int fd;
+	int file_descriptor;
 
 	FileDescriptor::InputStream::T * input_stream;
 	FileDescriptor::OutputStream::T * output_stream;

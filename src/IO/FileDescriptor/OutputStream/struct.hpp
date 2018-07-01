@@ -1,13 +1,16 @@
-struct T : WatchableOutputStream::T <char>
+struct T : Interface::WatchableOutputStream::T
 {
-	T (int fd);
+	T (int file_descriptor);
 
-	void put (char c) override;
+	void
+	put (char c) override;
 
-	uint32_t events () const override;
-	int fd () const override;
+	uint32_t
+	events () const override;
+	int
+	fileDescriptor () const override;
 
 	~T () = default;
 
-	int fd;
+	int file_descriptor;
 };

@@ -1,7 +1,8 @@
 bool
 fourByte (char c)
 {
-	return (c >= 0xF0) && (c < 0xF1);
+	unsigned char uc = (unsigned char) c;
+	return (uc >= 0xF0) && (uc < 0xF1);
 }
 
 bool

@@ -1,5 +1,5 @@
 const char *
-T::what ()
+T::what () const noexcept
 {
 	return this->message.data ();
 }

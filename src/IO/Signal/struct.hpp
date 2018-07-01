@@ -1,15 +1,18 @@
-struct T : EPoll::Watchable::T
+struct T : Interface::Watchable::T
 {
 	T ();
 
-	void notify ();
+	void
+	notify ();
 
-	uint32_t events () const override;
-	int fd () const override;
+	uint32_t
+	events () const override;
+	int
+	fileDescriptor () const override;
 
 	~T ();
 
 	bool fired;
-	int read_fd;
-	int write_fd;
+	int read_file_descriptor;
+	int write_file_descriptor;
 };

@@ -1,14 +1,15 @@
-template <typename CharType>
-struct T : Interface::PeekableInputStream::T <CharType>
+struct T : Interface::PeekableInputStream::T
 {
-	T (Interface::InputStream::T <CharType> * input_stream);
+	T (Interface::InputStream::T * input_stream);
 
-	CharType get () override;
-	CharType peek () override;
+	char
+	get () override;
+	char
+	peek () override;
 
 	~T ();
 
-	CharType peek_char;
+	char peek_char;
 	bool peekable;
-	Interface::InputStream::T <CharType> * input_stream;
+	Interface::InputStream::T * input_stream;
 };

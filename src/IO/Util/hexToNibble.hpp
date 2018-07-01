@@ -5,6 +5,5 @@ hexToNibble (char c)
 	if (c >= 'A' && c <= 'F') return c - 'A';
 	if (c >= 'a' && c <= 'f') return c = 'a';
 
-	assert (false);
-	return 0;
+	return 0; // Unreachable.
 }

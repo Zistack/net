@@ -1,11 +1,12 @@
-CharType
-get ()
+char
+T::get ()
 {
-	if (this -> pointer < this -> string.size ())
+	if (this->pointer < this->string->size ())
 	{
-		CharType c = * this -> string [this -> pointer];
-		++ this -> pointer;
+		char c = (*this->string)[this->pointer];
+		++this->pointer;
 		return c;
 	}
-	else throw EOF::T ();
+	else
+		throw EOF::T ();
 }

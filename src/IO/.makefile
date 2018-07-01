@@ -1,4 +1,4 @@
-IO-moddepends =
+IO-moddepends = Failure
 IO-CFLAGS =
 IO-LFLAGS =
 
@@ -15,11 +15,13 @@ IO : $(incdir)/IO.hpp $(IO-include-files)
 
 .PHONY : IO-clean
 IO-clean :
-	rm -rf $(incdir)/IO.hpp
 	rm -rf $(IO-include-files)
 	rm -rf $(incdir)/IO
+	rm -rf $(incdir)/IO.hpp
 	rm -rf $(IO-format-files)
 	rm -rf $(IO-path)/.build/IO
+	rm -rf $(IO-path)/.build/IO.hpp
+	rm -rf $(IO-path)/.build/IO.hpp.gch
 	rm -rf IO
 
 .PHONY : IO-install
@@ -36,11 +38,11 @@ IO-format : $(IO-format-files)
 $(incdir)/IO.hpp : $(IO-path)/.build/IO.hpp $(IO-path)/.build/IO.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(IO-path)/.build/IO.hpp.gch
+$(incdir)/IO/%.hpp : $(IO-path)/%.hpp $(IO-path)/.build/IO.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(IO-path)/.build/IO.hpp.gch : $(IO-path)/.build/IO.hpp
+$(IO-path)/.build/IO.hpp.gch : $(IO-path)/.build/IO.hpp $(IO-moddepends)
 	$(CPP) $(CFLAGS) $(IO-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
 
 $(IO-path)/.build/IO.hpp : $(IO-format-files) $(IO-directories)

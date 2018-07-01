@@ -1,5 +1,6 @@
 bool
 continuation (char c)
 {
-	return (c >= 0x80) && (c < 0xC0);
+	unsigned char uc = (unsigned char) c;
+	return (uc >= 0x80) && (uc < 0xC0);
 }

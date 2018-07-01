@@ -1,7 +1,8 @@
 bool
 threeByte (char c)
 {
-	return (c >= 0xE0) && (c < 0xF0);
+	unsigned char uc = (unsigned char) c;
+	return (uc >= 0xE0) && (uc < 0xF0);
 }
 
 bool

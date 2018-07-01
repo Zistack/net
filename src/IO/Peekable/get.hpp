@@ -1,10 +1,11 @@
-CharType
+char
 T::get ()
 {
-	if (this -> peekable)
+	if (this->peekable)
 	{
-		this -> peekable = false;
-		return this -> peek_char;
+		this->peekable = false;
+		return this->peek_char;
 	}
-	else return this -> input_stream -> get ();
+	else
+		return this->input_stream->get ();
 }

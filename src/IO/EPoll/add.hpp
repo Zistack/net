@@ -7,15 +7,22 @@ T::add (Interface::Watchable::T * watchable)
 	{
 		struct epoll_event ev;
 
-		memset (& ev, 0, sizeof (ev));
+		memset (&ev, 0, sizeof (ev));
 
-		ev.events = watchable -> events ();
+		ev.events = watchable->events ();
 		ev.data.ptr = watchable;
 
-		if (epoll_ctl (this -> fd, EPOLL_CTL_ADD, watchable -> fd (), & ev))
+		if (epoll_ctl (this->file_descriptor,
+		        EPOLL_CTL_ADD,
+		        watchable->fileDescriptor (),
+		        &ev))
 		{
-			throw PipeError::T ("epoll_ctl: " + strerror (errno) + "\n");
+			throw ResourceError::T (
+			    std::string ("epoll_ctl: ") + strerror (errno) + "\n");
 		}
 	}
-	catch (Failure::Throwable::T e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

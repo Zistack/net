@@ -1,9 +1,8 @@
-template <typename CharType>
-struct T : Interface::InputStream::T <CharType>
+struct T : Interface::InputStream::T
 {
-	T (Interface::WatchableInputStream::T <CharType> * input_stream);
+	T (Interface::WatchableInputStream::T * input_stream);
 
-	CharType
+	char
 	get () override;
 
 	void
@@ -11,7 +10,7 @@ struct T : Interface::InputStream::T <CharType>
 
 	~T ();
 
-	Interface::WatchableInputStream::T <CharType> * input_stream;
+	Interface::WatchableInputStream::T * input_stream;
 	Signal::T * signal;
 	EPoll::T * epoll;
 };

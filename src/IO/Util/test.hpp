@@ -1,24 +1,34 @@
-template <typename CharType>
 bool
-test (IO::Interface::PeekableInputStream <CharType> * input_stream, CharType e)
+test (IO::Interface::PeekableInputStream::T * input_stream, char e)
 {
-	CharType c;
+	char c;
 
-	try c = input_stream -> peek ();
-	catch (EOF::T e) return false;
+	try
+	{
+		c = input_stream->peek ();
+	}
+	catch (EOF::T e)
+	{
+		return false;
+	}
 
 	return c == e;
 }
 
-template <typename CharType>
 bool
-test (IO::Interface::PeekableInputStream <CharType> * input_stream,
-	std::function <bool (CharType c)> classPredicate)
+test (IO::Interface::PeekableInputStream::T * input_stream,
+    std::function<bool(char c)> classPredicate)
 {
-	CharType c;
+	char c;
 
-	try c = input_stream -> peek ();
-	catch (EOF::T e) return false;
+	try
+	{
+		c = input_stream->peek ();
+	}
+	catch (EOF::T e)
+	{
+		return false;
+	}
 
 	return classPredicate (c);
 }

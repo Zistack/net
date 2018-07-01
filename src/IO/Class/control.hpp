@@ -1,7 +1,8 @@
 bool
 control (char c)
 {
-	return (c < 32) || (c == 127);
+	unsigned char uc = (unsigned char) c;
+	return (uc < 32) || (uc == 127);
 }
 
 bool

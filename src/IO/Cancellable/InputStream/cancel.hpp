@@ -1,5 +1,5 @@
 void
-cancel ()
+T::cancel ()
 {
-	this -> signal -> notify ();
+	this->signal->notify ();
 }

@@ -42,7 +42,7 @@ $(incdir)/Failure/%.hpp : $(Failure-path)/%.hpp $(Failure-path)/.build/Failure.h
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Failure-path)/.build/Failure.hpp.gch : $(Failure-path)/.build/Failure.hpp
+$(Failure-path)/.build/Failure.hpp.gch : $(Failure-path)/.build/Failure.hpp $(Failure-moddepends)
 	$(CPP) $(CFLAGS) $(Failure-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
 
 $(Failure-path)/.build/Failure.hpp : $(Failure-format-files) $(Failure-directories)

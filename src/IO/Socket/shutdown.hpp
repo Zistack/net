@@ -7,14 +7,18 @@ T::shutdown (Direction::T direction)
 	{
 		int how = 0;
 
-		if (direction == Direction::READ) how == SHUT_RD;
-		if (direction == Direction::WRITE) how == SHUT_WR;
-		if (direction == Direction::READ | Direction::WRITE) how == SHUT_RDWR;
+		if (direction == Direction::READ) how = SHUT_RD;
+		if (direction == Direction::WRITE) how = SHUT_WR;
+		if (direction == (Direction::READ | Direction::WRITE)) how = SHUT_RDWR;
 
-		if (shutdown (fd, how) == -1)
+		if (::shutdown (this->file_descriptor, how) == -1)
 		{
-			throw ResourceError::T ("shutdown: " + strerror (errno) + "\n");
+			throw ResourceError::T (
+			    std::string ("shutdown: ") + strerror (errno) + "\n");
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

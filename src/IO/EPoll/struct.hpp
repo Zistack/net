@@ -5,10 +5,10 @@ struct T
 	void
 	add (Interface::Watchable::T * watchable);
 
-	Watchable::T *
+	Interface::Watchable::T *
 	wait ();
 
 	~T ();
 
-	int fd;
+	int file_descriptor;
 };

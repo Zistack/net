@@ -1,5 +1,5 @@
 uint32_t
-T::events ()
+T::events () const
 {
 	return EPOLLIN | EPOLLERR;
 }

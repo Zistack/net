@@ -1,9 +1,9 @@
-~T (T * temp_file)
+T::~T ()
 {
-	delete this -> input_stream;
-	delete this -> output_stream;
+	delete this->input_stream;
+	delete this->output_stream;
 
-	close (this -> fd);
-	unlink (this -> name);
-	delete this -> name;
+	close (this->file_descriptor);
+	unlink (this->name);
+	delete this->name;
 }

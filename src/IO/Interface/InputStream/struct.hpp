@@ -1,5 +1,5 @@
-template <typename CharType>
 struct T
 {
-	virtual CharType get () = 0;
+	virtual char
+	get () = 0;
 };

@@ -1,31 +1,27 @@
-template <typename CharType>
 void
-expect (Interface::InputStream::T <CharType> * input_stream, CharType e)
+expect (Interface::InputStream::T * input_stream, char e)
 {
-	CharType c = input_stream -> get ();
+	char c = input_stream->get ();
 
 	if (c != e)
 	{
-		throw EncodingError::T (Message::unexpectedcharacter (c, e));
+		throw EncodingError::T (Message::unexpectedCharacter (c, e));
 	}
 }
 
-template <typename CharType>
-CharType
-expect (Interface::InputStream::T <CharType> * input_stream,
-	std::function <bool (CharType c)> classPredicate)
+char
+expect (Interface::InputStream::T * input_stream,
+    std::function<bool(char c)> classPredicate)
 {
-	CharType c = input_stream -> get ();
+	char c = input_stream->get ();
 
 	if (classPredicate (c)) return c;
 
 	throw EncodingError::T (Message::unexpectedCharacter (c));
 }
 
-template <typename CharType>
 void
-expect (Interface::InputStream::T <CharType> * input_stream,
-	std::basic_string <CharType> expected)
+expect (Interface::InputStream::T * input_stream, std::string expected)
 {
-	for (CharType e : expected) expect (input_stream, e);
+	for (char e : expected) expect (input_stream, e);
 }

@@ -1,5 +1,5 @@
 void
-T::print (std::basic_string <CharType> message)
+T::print (std::string message)
 {
-	for (CharType c : message) this -> put (c);
+	for (char c : message) this->put (c);
 }

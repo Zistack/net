@@ -1,18 +1,22 @@
-template <typename CharType>
-struct T : Interface::PeekableInputStream::T <CharType>, Interface::OutputStream::T <CharType>
+struct T : Interface::PeekableInputStream::T, Interface::OutputStream::T
 {
-	T (std::basic_string <CharType> * string);
+	T (std::string * string);
 
-	CharType get () override;
-	CharType peek () override;
+	char
+	get () override;
+	char
+	peek () override;
 
-	void put (CharType c) override;
+	void
+	put (char c) override;
 
-	void reset ();
-	off_t size ();
+	void
+	reset ();
+	off_t
+	size ();
 
 	~T () = default;
 
-	std::basic_string <CharType> * string;
+	std::string * string;
 	std::string::size_type pointer;
 };

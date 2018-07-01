@@ -1,5 +1,5 @@
 void
-reset ()
+T::reset ()
 {
 	this->pointer = 0;
 }

@@ -4,15 +4,19 @@ T::T () : fired (false)
 
 	try
 	{
-		int fd [2];
+		int file_descriptor[2];
 
-		if (pipe (fd) == -1)
+		if (pipe (file_descriptor) == -1)
 		{
-			throw ResourceError::T ("pipe: " + strerror (errno) + "\n");
+			throw ResourceError::T (
+			    std::string ("pipe: ") + strerror (errno) + "\n");
 		}
 
-		this -> read_fd = fd [0];
-		this -> write_fd = fd [1];
+		this->read_file_descriptor = file_descriptor[0];
+		this->write_file_descriptor = file_descriptor[1];
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

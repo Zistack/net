@@ -1,5 +1,5 @@
 T::~T ()
 {
-	if (! this -> fired) close (this -> write_fd);
-	close (this -> read_fd);
+	if (!this->fired) close (this->write_file_descriptor);
+	close (this->read_file_descriptor);
 }
