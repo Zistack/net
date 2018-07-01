@@ -1,6 +1,6 @@
 T::~T ()
 {
-	std::string * exception_message = std::atomic_load (& this -> exception_message);
+	Throwable::T * exception = std::atomic_load (&this->exception);
 
-	if (exception_message) delete exception_message;
+	if (exception) delete exception;
 }

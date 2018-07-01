@@ -1,6 +1,6 @@
-T&
-T::set (std::string message)
+T &
+T::set (const std::string & message)
 {
-	this -> message = message;
+	this->message = message;
 	return *this;
 }

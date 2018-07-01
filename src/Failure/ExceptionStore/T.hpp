@@ -1,4 +1,4 @@
 T::T ()
 {
-	std::atomic_init (exception_message, NULL);
+	std::atomic_init<Throwable::T *> (&this->exception, NULL);
 }

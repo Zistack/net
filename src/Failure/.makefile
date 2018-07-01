@@ -6,7 +6,7 @@ Failure-path = $(srcdir)/Failure
 Failure-files = $(shell find $(Failure-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 Failure-include-files = $(Failure-files:$(srcdir)/%=$(incdir)/%)
 Failure-install-files = $(Failure-files:$(srcdir)/%=/usr/include/%)
-Failure-directories = $(shell find $(Failure-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+Failure-directories = $(shell find $(Failure-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 Failure-format-files = $(Failure-files:$(srcdir)/%=$(Failure-path)/.build/%.format)
 Failure-install-moddepends = $(Failure-moddepends:%=%-install)
 
@@ -15,11 +15,13 @@ Failure : $(incdir)/Failure.hpp $(Failure-include-files)
 
 .PHONY : Failure-clean
 Failure-clean :
-	rm -rf $(incdir)/Failure.hpp
 	rm -rf $(Failure-include-files)
 	rm -rf $(incdir)/Failure
+	rm -rf $(incdir)/Failure.hpp
 	rm -rf $(Failure-format-files)
 	rm -rf $(Failure-path)/.build/Failure
+	rm -rf $(Failure-path)/.build/Failure.hpp
+	rm -rf $(Failure-path)/.build/Failure.hpp.gch
 	rm -rf Failure
 
 .PHONY : Failure-install
@@ -36,7 +38,7 @@ Failure-format : $(Failure-format-files)
 $(incdir)/Failure.hpp : $(Failure-path)/.build/Failure.hpp $(Failure-path)/.build/Failure.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(Failure-path)/.build/Failure.hpp.gch
+$(incdir)/Failure/%.hpp : $(Failure-path)/%.hpp $(Failure-path)/.build/Failure.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 

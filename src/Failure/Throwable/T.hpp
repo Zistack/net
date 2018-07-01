@@ -1,3 +1,1 @@
-T::T (std::string message) : message (message)
-{
-}
+T::T (const std::string & message) : message (message) {}

@@ -1,11 +1,11 @@
 void
-store (std::exception e)
+T::store (const Throwable::T & e)
 {
-	std::string * exception_message = new std::string (e.what ());
+	Throwable::T * exception = e.clone ();
 
-	if (! std::atomic_compare_exchange_strong (
-		& this -> exception_message, NULL, exception_message))
+	if (!std::atomic_compare_exchange_strong<Throwable::T *> (
+	        &this->exception, NULL, exception))
 	{
-		delete exception_message;
+		delete exception;
 	}
 }

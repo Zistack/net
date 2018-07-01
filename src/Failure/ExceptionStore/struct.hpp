@@ -3,12 +3,21 @@ struct T
 	T ();
 
 	void
-	store (std::exception e);
+	store (const Throwable::T & e);
 
 	void
 	poll ();
 
+	void
+	clear ();
+
 	~T ();
 
-	std::atomic <std::string *> exception_message;
+	std::atomic<Throwable::T *> exception;
 };
+
+/*
+ * Due to the limitations of C++, any exception thrown from poll must not be
+ * allowed to delete the ExceptionStore object by unwinding the stack, no
+ * matter how many times it is rethrown.
+ */

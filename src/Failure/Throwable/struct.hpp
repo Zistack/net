@@ -1,10 +1,15 @@
 struct T : std::exception
 {
-	T (std::string message);
+	T (const std::string & message);
 
-	const char * what () const override;
+	const char *
+	what () const noexcept override;
 
-	T& set (std::string message);
+	T &
+	set (const std::string & message);
+
+	T *
+	clone () const;
 
 	~T () = default;
 

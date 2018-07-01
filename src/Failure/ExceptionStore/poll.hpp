@@ -1,7 +1,8 @@
 void
-poll ()
+T::poll ()
 {
-	std::string * exception_message = std::atomic_exchange (& this -> exception_message, NULL);
+	Throwable::T * exception =
+	    std::atomic_load<Throwable::T *> (&this->exception);
 
-	if (exception_message) throw Error::T (exception_message);
+	if (exception) throw *exception;
 }
