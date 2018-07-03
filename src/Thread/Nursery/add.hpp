@@ -2,7 +2,7 @@ template <typename Function, typename... Args>
 void
 T::add (Function function, Args... args)
 {
-	std::unique_lock<decltype(this->mutex)> lock (this->mutex);
+	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
 
 	std::thread * new_thread = new std::thread (run, this, function, args...);
 

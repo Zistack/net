@@ -1,9 +1,9 @@
 T::T (IO::Interface::Protocol::T * protocol,
-	std::string hostname,
-	std::string port,
-	IO::Interface::OutputStream::T <char> * log) :
-	protocol (protocol),
-	log (log)
+    std::string hostname,
+    std::string port,
+    IO::Interface::OutputStream::T * log) :
+    protocol (protocol),
+    log (log)
 {
 	const std::string message_prefix = "TCP::Client::T\n";
 
@@ -12,5 +12,8 @@ T::T (IO::Interface::Protocol::T * protocol,
 		signal = new IO::Signal::T ();
 		socket = new IO::Socket::T (hostname, port, log);
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

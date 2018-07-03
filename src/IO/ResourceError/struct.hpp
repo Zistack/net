@@ -1,4 +1,4 @@
-struct T : Failure::Error::T
+struct T : Clonable (Failure::Error::T)
 {
-	T (const std::string & message);
+	using Failure::Error::T::T;
 };

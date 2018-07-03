@@ -1,8 +1,8 @@
 void
 T::clear ()
 {
-	Throwable::T * exception =
+	Throwable::T * e =
 	    std::atomic_exchange<Throwable::T *> (&this->exception, NULL);
 
-	if (exception) delete exception;
+	if (e) delete e;
 }

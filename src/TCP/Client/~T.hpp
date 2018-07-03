@@ -1,5 +1,5 @@
 T::~T ()
 {
-	delete this -> signal;
-	delete this -> socket;
+	delete this->signal;
+	delete this->socket;
 }

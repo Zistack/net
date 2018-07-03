@@ -1,11 +1,12 @@
 struct T
 {
 	T (IO::Interface::Protocol::T * protocol,
-		IO::Signal::T * signal,
-		IO::Socket::T * socket,
-		IO::Interface::OutputStream::T <char> * log);
+	    IO::Signal::T * signal,
+	    IO::Socket::T * socket,
+	    IO::Interface::OutputStream::T * log);
 
-	void run ();
+	void
+	run ();
 
 	~T () = default;
 
@@ -14,5 +15,5 @@ struct T
 	IO::Signal::T * signal;
 	IO::Socket::T * socket;
 
-	IO::Interface::OutputStream::T <char> * log;
+	IO::Interface::OutputStream::T * log;
 };

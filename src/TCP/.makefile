@@ -1,4 +1,4 @@
-TCP-moddepends =
+TCP-moddepends = Failure Thread IO
 TCP-CFLAGS =
 TCP-LFLAGS =
 
@@ -15,11 +15,13 @@ TCP : $(incdir)/TCP.hpp $(TCP-include-files)
 
 .PHONY : TCP-clean
 TCP-clean :
-	rm -rf $(incdir)/TCP.hpp
 	rm -rf $(TCP-include-files)
 	rm -rf $(incdir)/TCP
+	rm -rf $(incdir)/TCP.hpp
 	rm -rf $(TCP-format-files)
 	rm -rf $(TCP-path)/.build/TCP
+	rm -rf $(TCP-path)/.build/TCP.hpp
+	rm -rf $(TCP-path)/.build/TCP.hpp.gch
 	rm -rf TCP
 
 .PHONY : TCP-install
@@ -36,11 +38,11 @@ TCP-format : $(TCP-format-files)
 $(incdir)/TCP.hpp : $(TCP-path)/.build/TCP.hpp $(TCP-path)/.build/TCP.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(TCP-path)/.build/TCP.hpp.gch
+$(incdir)/TCP/%.hpp : $(TCP-path)/%.hpp $(TCP-path)/.build/TCP.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(TCP-path)/.build/TCP.hpp.gch : $(TCP-path)/.build/TCP.hpp
+$(TCP-path)/.build/TCP.hpp.gch : $(TCP-path)/.build/TCP.hpp $(TCP-moddepends)
 	$(CPP) $(CFLAGS) $(TCP-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
 
 $(TCP-path)/.build/TCP.hpp : $(TCP-format-files) $(TCP-directories)

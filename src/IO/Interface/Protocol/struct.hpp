@@ -6,4 +6,6 @@ struct T
 	event () = 0;
 	virtual void
 	clean () = 0;
+
+	virtual ~T () = 0;
 };

@@ -1,4 +1,4 @@
-struct T : Throwable::T
+struct T : Clonable (Throwable::T)
 {
-	T (const std::string & message);
+	using Throwable::T::T;
 };

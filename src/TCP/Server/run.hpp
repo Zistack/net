@@ -7,38 +7,45 @@ T::run ()
 	{
 		IO::EPoll::T epoll;
 
-		epoll.add (this -> signal);
-		epoll.add (this -> server_socket);
+		epoll.add (this->signal);
+		epoll.add (this->server_socket);
 
-		Nursery::ExceptionStore::T exception_store
-		Nursery::T nursery (& exception_store);
+		Failure::ExceptionStore::T exception_store;
+		Thread::Nursery::T nursery (exception_store);
 
 		while (true)
 		{
-			IO::EPoll::Watchable::T * ready_stream = epoll.wait ();
+			IO::Interface::Watchable::T * ready_stream = epoll.wait ();
 
 			exception_store.poll ();
 
-			if (ready_stream == this -> server_socket)
+			if (ready_stream == this->server_socket)
 			{
-				try Socket::T * socket = server_socket.accept ();
-				catch (IO::Exception::T e)
+				IO::Socket::T * socket = NULL;
+
+				try
 				{
-					log.print (e.what ());
+					socket = server_socket->accept ();
+				}
+				catch (const Failure::Throwable::T & e)
+				{
+					log->print (e.what ());
 					continue;
 				}
 
-				nursery.add (serve, this, socket);
+				nursery.add (&T::serve, this, socket);
 			}
-			else if (ready_stream == this -> signal)
+			else if (ready_stream == this->signal)
 			{
 				break;
 			}
 		}
 
-		Nursery.join ();
+		nursery.join ();
 		exception_store.poll ();
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
-	catch (Nursery::Error::T e) throw Error::T (message_refix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

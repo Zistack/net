@@ -11,7 +11,7 @@ T::run (Function function, Args... args)
 		this->exception_store.store (e);
 	}
 
-	std::unique_lock<decltype(this->mutex)> lock (this->mutex);
+	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
 
 	std::thread::id this_thread_id = std::this_thread::get_id ();
 	std::thread * this_thread = threads.at (this_thread_id);

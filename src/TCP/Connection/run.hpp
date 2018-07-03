@@ -5,26 +5,55 @@ T::run ()
 
 	try
 	{
-		EPoll::T epoll;
+		IO::EPoll::T epoll;
 
 		epoll.add (signal);
-		epoll.add (socket);
+		epoll.add (socket->input_stream);
 
-		this -> protocol -> init (socket);
+		this->protocol->init (socket);
 
-		Nursery::ExceptionStore::T exception_store;
+		Failure::ExceptionStore::T exception_store;
 
-		try this -> loop ()
-		catch (Error::T e) exception_store.store (e);
+		try
+		{
+			while (true)
+			{
+				IO::Interface::Watchable::T * ready_stream = epoll.wait ();
 
-		try this -> protocol -> clean ();
-		catch (std::exception e) exception_store.store (e);
+				if (ready_stream == this->socket->input_stream)
+					this->protocol->event ();
+				else if (ready_stream == this->signal)
+					break;
+			}
+		}
+		catch (const Failure::Throwable::T & e)
+		{
+			exception_store.store (e);
+		}
 
-		try this -> socket.shutdown (IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
-		catch (IO::Error::T e) exception.store (e);
+		try
+		{
+			this->protocol->clean ();
+		}
+		catch (const Failure::Throwable::T & e)
+		{
+			exception_store.store (e);
+		}
 
-		e.poll ();
+		try
+		{
+			this->socket->shutdown (
+			    IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
+		}
+		catch (const Failure::Throwable::T & e)
+		{
+			exception_store.store (e);
+		}
+
+		exception_store.poll ();
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
-	catch (Nursery::Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

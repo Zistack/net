@@ -1,4 +1,4 @@
-struct T : std::exception
+struct T : std::exception, Clonable::T<T, T>
 {
 	T (const std::string & message);
 
@@ -7,9 +7,6 @@ struct T : std::exception
 
 	T &
 	set (const std::string & message);
-
-	T *
-	clone () const;
 
 	~T () = default;
 

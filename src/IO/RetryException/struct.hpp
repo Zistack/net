@@ -1,10 +1,4 @@
-struct T : std::exception
+struct T : Clonable (Failure::Exception::T)
 {
-	T (std::string message) : message (message) {}
-	~T () = default;
-
-	const char *
-	what () const noexcept;
-
-	std::string message;
+	using Failure::Exception::T::T;
 };

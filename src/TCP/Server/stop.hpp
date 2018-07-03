@@ -1,4 +1,5 @@
+void
 T::stop ()
 {
-	signal -> notify ();
+	signal->notify ();
 }
