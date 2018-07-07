@@ -1,45 +1,51 @@
 std::string
-getExponent (IO::Interface::InputStream::T * input_steam)
+getExponent (IO::Interface::PeekableInputStream::T * input_stream)
 {
-	const std::string message_prefix = "Failed to parse exponent:\n";
+	const std::string message_prefix = "JSON::Rule::getExponent\n";
 
 	std::string exponent;
 
 	try
 	{
-		char c = input_stream -> peek ();
+		char c = input_stream->peek ();
 
 		if (c == '+' || c == '-')
 		{
-			exponent.push_back (input_stream -> get ());
+			exponent.push_back (input_stream->get ());
 		}
-		else exponent.push_back ('+');
+		else
+			exponent.push_back ('+');
 
-		while (Class::digit (input_stream -> peek ()))
+		while ((c = IO::Util::test (input_stream, Class::digit)))
 		{
-			exponent.push_back (input_stream -> get ());
+			exponent.push_back (input_stream->get ());
 		}
 
 		if (exponent.empty ())
 		{
-			throw Error::T (
-				Error::unpexectedCharacter (input_stream -> peek (), "'-' or digit");
+			throw ParsingError::T (
+			    IO::Message::unexpectedCharacter (c, "'-' or digit"));
 		}
-		if (exponent [0] == '-' && exponent.size () == 1)
+		if (exponent[0] == '-' && exponent.size () == 1)
 		{
-			throw Error::T (
-				Error::unexpectedcharacter (input_stream -> peek (), "digit");
+			throw ParsingError::T (
+			    IO::Message::unexpectedCharacter (c, "digit"));
 		}
-		else return exponent;
+		else
+			return exponent;
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
-	catch (IO::EOF::T e)
+	catch (Failure::Throwable::T & e)
 	{
-		if (exponent.empty () || (exponent [0] == '-' && exponent.size () == 1))
-		{
-			throw Error::T (message_prefix + Error::unexpectedEOF ());
-		}
-		else return exponent;
+		throw e.set (message_prefix + e.what ());
 	}
-	catch (Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (const IO::EOF::T & e)
+	{
+		if (exponent.empty () || (exponent[0] == '-' && exponent.size () == 1))
+		{
+			throw ParsingError::T (
+			    message_prefix + IO::Message::unexpectedEOF ());
+		}
+		else
+			return exponent;
+	}
 }

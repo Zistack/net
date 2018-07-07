@@ -1,34 +1,28 @@
 struct T
 {
-	T (IO::Interface::OutputStream::T <char> * output_stream);
+	T (IO::Interface::OutputStream::T * output_stream);
 
 	void
-	putArray (std::function <bool ()> isValue, std::function <void ()> putValue);
-
-	void
-	putBool (bool b);
-
-//	void
-//	putNumber (Number::T number);
-
-	void
-	putObject (std::unordered_map <std::string, std::function <void ()>> member_putters);
-
-	void
-	putString (std::string string);
+	put (Value::T * json_value);
 
 	~T () = default;
-
-	void
-	indent ();
 
 	void
 	open (char c);
 
 	void
-	clse (char c);
+	close (char c);
+
+	void
+	put (char c);
+
+	void
+	print (std::string string);
+
+	void
+	indent ();
 
 	unsigned int indentation;
 
-	IO::Interface::OutputStream::T <char> * output_stream;
+	IO::Interface::OutputStream::T * output_stream;
 };

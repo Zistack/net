@@ -1,7 +1,7 @@
 std::string
-getBase (IO::Interface::PeekableInputStream::T <char> * input_stream)
+getBase (IO::Interface::PeekableInputStream::T * input_stream)
 {
-	const std::string message_prefix = "Faled to parse base:\n";
+	const std::string message_prefix = "JSON::Rule::getBase\n";
 
 	std::string base;
 
@@ -9,12 +9,12 @@ getBase (IO::Interface::PeekableInputStream::T <char> * input_stream)
 
 	try
 	{
-		c = input_stream -> get ();
+		c = input_stream->get ();
 
 		if (c == '-')
 		{
 			base.push_back (c);
-			c = input_stream -> get ();
+			c = input_stream->get ();
 		}
 
 		if (c == '0')
@@ -29,27 +29,34 @@ getBase (IO::Interface::PeekableInputStream::T <char> * input_stream)
 
 			try
 			{
-				while (Class::digit (input_stream -> peek ()))
+				while (Class::digit (input_stream->peek ()))
 				{
-					base.push_back (input_stream -> get ());
+					base.push_back (input_stream->get ());
 				}
 
 				return base;
 			}
-			catch (IO::EOF::T e) return base;
+			catch (const IO::EOF::T & e)
+			{
+				return base;
+			}
 		}
 
 		std::string expected;
 
-		if (base.empty () || base [0] != '-') expected == "'-' or digit";
-		else expected == "digit";
+		if (base.empty () || base[0] != '-')
+			expected = "'-' or digit";
+		else
+			expected = "digit";
 
-		throw Error::T (Error::unexpectedCharacter (c, expected));
+		throw ParsingError::T (IO::Message::unexpectedCharacter (c, expected));
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
-	catch (IO::EOF::T e)
+	catch (Failure::Throwable::T & e)
 	{
-		throw Error::T (message_prefix + Error::unexpectedEOF ());
+		throw e.set (message_prefix + e.what ());
 	}
-	catch (Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (const IO::EOF::T & e)
+	{
+		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
+	}
 }

@@ -1,58 +1,60 @@
 void
-init (IO::Interface::PeekableInputStream::T <char> * input_stream)
+T::init (IO::Interface::PeekableInputStream::T * input_stream)
 {
-	const std::string message_prefix = "Failed to parse number:\n";
+	const std::string message_prefix = "JSON::Number::init\n";
 
 	char c;
 
 	try
 	{
-		base = new std::string (Rule::getBase (input_stream));
+		this->base = new std::string (Rule::getBase (input_stream));
 
-		if (input_stream -> eof ()) return;
+		if (input_stream->eof ()) return;
 
-		c = input_stream -> peek ();
+		c = input_stream->peek ();
 
 		if (c == '.')
 		{
-			input_stream -> get ();
+			input_stream->get ();
 			goto mantissa;
 		}
 
 		if (c == 'E' || c == 'e')
 		{
-			input_stream -> get ();
+			input_stream->get ();
 			goto exponent;
 		}
 
 		return;
 
-mantissa:
+	mantissa:
 
-		mantissa = new std::string (Rule::getMantissa (input_stream));
+		this->mantissa = new std::string (Rule::getMantissa (input_stream));
 
-		if (input_stream -> eof ()) return;
+		if (input_stream->eof ()) return;
 
-		c = input_stream -> peek ();
+		c = input_stream->peek ();
 
 		if (c == 'E' || c == 'e')
 		{
-			input_stream -> get ();
+			input_stream->get ();
 			goto exponent;
 		}
 
 		return;
 
-exponent:
+	exponent:
 
-		exponent = new std::string (Rule::getExponent (input_stream));
+		this->exponent = new std::string (Rule::getExponent (input_stream));
 
 		return;
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (Failure::Throwable::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 	catch (IO::EOF::T e)
 	{
-		throw Error::T (message_prefix + IO::Message::unexpectedEOF ());
+		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
 	}
-	catch (Error::T e) throw Error::T (message_prefix + e.what ());
 }

@@ -1,4 +1,4 @@
-JSON-moddepends =
+JSON-moddepends = Failure IO
 JSON-CFLAGS =
 JSON-LFLAGS =
 
@@ -15,11 +15,13 @@ JSON : $(incdir)/JSON.hpp $(JSON-include-files)
 
 .PHONY : JSON-clean
 JSON-clean :
-	rm -rf $(incdir)/JSON.hpp
 	rm -rf $(JSON-include-files)
 	rm -rf $(incdir)/JSON
+	rm -rf $(incdir)/JSON.hpp
 	rm -rf $(JSON-format-files)
 	rm -rf $(JSON-path)/.build/JSON
+	rm -rf $(JSON-path)/.build/JSON.hpp
+	rm -rf $(JSON-path)/.build/JSON.hpp.gch
 	rm -rf JSON
 
 .PHONY : JSON-install
@@ -36,11 +38,11 @@ JSON-format : $(JSON-format-files)
 $(incdir)/JSON.hpp : $(JSON-path)/.build/JSON.hpp $(JSON-path)/.build/JSON.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(JSON-path)/.build/JSON.hpp.gch
+$(incdir)/JSON/%.hpp : $(JSON-path)/%.hpp $(JSON-path)/.build/JSON.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(JSON-path)/.build/JSON.hpp.gch : $(JSON-path)/.build/JSON.hpp
+$(JSON-path)/.build/JSON.hpp.gch : $(JSON-path)/.build/JSON.hpp $(JSON-moddepends)
 	$(CPP) $(CFLAGS) $(JSON-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
 
 $(JSON-path)/.build/JSON.hpp : $(JSON-format-files) $(JSON-directories)

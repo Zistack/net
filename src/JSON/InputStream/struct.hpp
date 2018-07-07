@@ -1,23 +1,11 @@
 struct T
 {
-	T (IO::Interface::PeekableInputStream::T <char> * input_stream);
+	T (IO::Interface::PeekableInputStream::T * input_stream);
 
-	void
-	getArray (std::function <void ()> getValue);
-
-	bool
-	getBool ();
-
-//	Number::T
-//	getNumber ();
-
-	void
-	getObject (std::unordered_map <std::string, std::function<void ()>> member_getters);
-
-	std::string
-	getString ();
+	Value::T *
+	get ();
 
 	~T () = default;
 
-	IO::Interface::PeekableInputStream::T <char> * input_stream;
+	IO::Interface::PeekableInputStream::T * input_stream;
 };

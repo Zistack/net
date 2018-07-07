@@ -1,7 +1,8 @@
 #include <stdint.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 
-#include <iostream>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
-#include <gmpxx.h>
+#include <IO.hpp>

@@ -1,4 +1,4 @@
-T (IO::Interface::PeekableInputStream::T <char> * input_stream) :
-	input_stream (input_stream)
+T::T (IO::Interface::PeekableInputStream::T * input_stream) :
+    input_stream (input_stream)
 {
 }

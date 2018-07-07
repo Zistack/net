@@ -1,7 +1,7 @@
 char16_t
-getCodePoint (IO::Interface::InputStream::T <char> * input_stream)
+getCodePoint (IO::Interface::InputStream::T * input_stream)
 {
-	const std::string message_prefix = "Failed to parse code point:\n";
+	const std::string message_prefix = "JSON::Rule::getCodePoint\n";
 
 	char c;
 	char16_t code_point = 0;
@@ -13,15 +13,18 @@ getCodePoint (IO::Interface::InputStream::T <char> * input_stream)
 		{
 			c = IO::Util::expect (input_stream, IO::Class::hex);
 
-			code_point |= ((char16_t) IO::Util::hexToNibble (c)) << ((i - 1) * 4);
+			code_point |=
+			    ((char16_t) IO::Util::hexToNibble (c)) << ((i - 1) * 4);
 		}
 
 		return code_point;
 	}
-	catch (IO::Error::T e) throw Error::T (message_prefix + e.what ());
-	catch (IO::EOF::T e)
+	catch (Failure::Throwable::T & e)
 	{
-		throw Error::T (message_prefix + Error::unexpectedEOF ());
+		throw e.set (message_prefix + e.what ());
 	}
-	catch (Error::T e) throw Error::T (message_prefix + e.what ());
+	catch (const IO::EOF::T & e)
+	{
+		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
+	}
 }

@@ -1,16 +1,15 @@
-struct T
+struct T : Value::T
 {
-	T (IO::Interface::PeekableInputStream::T <char> * input_stream);
-
-	T (std::string);
-
-	void
-	writeTo (IO::Interface::OutputStream::T <char> * output_stream);
-
-	~T ();
+	T (IO::Interface::PeekableInputStream::T * input_stream);
+	T (std::string number);
 
 	void
-	init (IO::Interface::PeekableInputStream::T <char> * input_stream);
+	writeTo (OutputStream::T * json_output_stream) override;
+
+	~T () override;
+
+	void
+	init (IO::Interface::PeekableInputStream::T * input_stream);
 
 	std::string * base;
 	std::string * mantissa;
