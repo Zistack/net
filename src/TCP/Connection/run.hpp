@@ -7,10 +7,11 @@ T::run ()
 	{
 		IO::EPoll::T epoll;
 
-		epoll.add (signal);
-		epoll.add (socket->input_stream);
+		epoll.add (this->signal);
+		epoll.add (this->socket->input_stream);
 
-		this->protocol->init (socket);
+		this->protocol->init (
+		    this->socket->input_stream, this->socket->output_stream);
 
 		Failure::ExceptionStore::T exception_store;
 
