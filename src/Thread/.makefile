@@ -43,7 +43,7 @@ $(incdir)/Thread/%.hpp : $(Thread-path)/%.hpp $(Thread-path)/.build/Thread.hpp.g
 	cp $(<) $(@)
 
 $(Thread-path)/.build/Thread.hpp.gch : $(Thread-path)/.build/Thread.hpp $(Thread-moddepends)
-	$(CPP) $(CFLAGS) $(Thread-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(Thread-CFLAGS) -c -o $(@) $(<)
 
 $(Thread-path)/.build/Thread.hpp : $(Thread-format-files) $(Thread-directories)
 	./gen-hdr.sh $(srcdir) Thread | clang-format > $(@)

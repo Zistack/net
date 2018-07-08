@@ -15,11 +15,13 @@ HTTP : $(incdir)/HTTP.hpp $(HTTP-include-files)
 
 .PHONY : HTTP-clean
 HTTP-clean :
-	rm -rf $(incdir)/HTTP.hpp
 	rm -rf $(HTTP-include-files)
 	rm -rf $(incdir)/HTTP
+	rm -rf $(incdir)/HTTP.hpp
 	rm -rf $(HTTP-format-files)
 	rm -rf $(HTTP-path)/.build/HTTP
+	rm -rf $(HTTP-path)/.build/HTTP.hpp
+	rm -rf $(HTTP-path)/.build/HTTP.hpp.gch
 	rm -rf HTTP
 
 .PHONY : HTTP-install
@@ -36,12 +38,12 @@ HTTP-format : $(HTTP-format-files)
 $(incdir)/HTTP.hpp : $(HTTP-path)/.build/HTTP.hpp $(HTTP-path)/.build/HTTP.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(HTTP-path)/.build/HTTP.hpp.gch
+$(incdir)/HTTP/%.hpp : $(HTTP-path)/%.hpp $(HTTP-path)/.build/HTTP.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(HTTP-path)/.build/HTTP.hpp.gch : $(HTTP-path)/.build/HTTP.hpp
-	$(CPP) $(CFLAGS) $(HTTP-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+$(HTTP-path)/.build/HTTP.hpp.gch : $(HTTP-path)/.build/HTTP.hpp $(HTTP-moddepends)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(HTTP-CFLAGS) -c -o $(@) $(<)
 
 $(HTTP-path)/.build/HTTP.hpp : $(HTTP-format-files) $(HTTP-directories)
 	./gen-hdr.sh $(srcdir) HTTP | clang-format > $(@)

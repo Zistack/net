@@ -43,7 +43,7 @@ $(incdir)/JSON/%.hpp : $(JSON-path)/%.hpp $(JSON-path)/.build/JSON.hpp.gch
 	cp $(<) $(@)
 
 $(JSON-path)/.build/JSON.hpp.gch : $(JSON-path)/.build/JSON.hpp $(JSON-moddepends)
-	$(CPP) $(CFLAGS) $(JSON-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(JSON-CFLAGS) -c -o $(@) $(<)
 
 $(JSON-path)/.build/JSON.hpp : $(JSON-format-files) $(JSON-directories)
 	./gen-hdr.sh $(srcdir) JSON | clang-format > $(@)

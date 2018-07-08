@@ -43,7 +43,7 @@ $(incdir)/TCP/%.hpp : $(TCP-path)/%.hpp $(TCP-path)/.build/TCP.hpp.gch
 	cp $(<) $(@)
 
 $(TCP-path)/.build/TCP.hpp.gch : $(TCP-path)/.build/TCP.hpp $(TCP-moddepends)
-	$(CPP) $(CFLAGS) $(TCP-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(TCP-CFLAGS) -c -o $(@) $(<)
 
 $(TCP-path)/.build/TCP.hpp : $(TCP-format-files) $(TCP-directories)
 	./gen-hdr.sh $(srcdir) TCP | clang-format > $(@)

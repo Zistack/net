@@ -1,4 +1,4 @@
-TLS-moddepends =
+TLS-moddepends = Failure IO JSON
 TLS-CFLAGS =
 TLS-LFLAGS =
 
@@ -15,11 +15,13 @@ TLS : $(incdir)/TLS.hpp $(TLS-include-files)
 
 .PHONY : TLS-clean
 TLS-clean :
-	rm -rf $(incdir)/TLS.hpp
 	rm -rf $(TLS-include-files)
 	rm -rf $(incdir)/TLS
+	rm -rf $(incdir)/TLS.hpp
 	rm -rf $(TLS-format-files)
 	rm -rf $(TLS-path)/.build/TLS
+	rm -rf $(TLS-path)/.build/TLS.hpp
+	rm -rf $(TLS-path)/.build/TLS.hpp.gch
 	rm -rf TLS
 
 .PHONY : TLS-install
@@ -36,12 +38,12 @@ TLS-format : $(TLS-format-files)
 $(incdir)/TLS.hpp : $(TLS-path)/.build/TLS.hpp $(TLS-path)/.build/TLS.hpp.gch
 	cp $(<) $(@)
 
-$(incdir)/%.hpp : $(srcdir)/%.hpp $(TLS-path)/.build/TLS.hpp.gch
+$(incdir)/TLS/%.hpp : $(TLS-path)/%.hpp $(TLS-path)/.build/TLS.hpp.gch
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(TLS-path)/.build/TLS.hpp.gch : $(TLS-path)/.build/TLS.hpp
-	$(CPP) $(CFLAGS) $(TLS-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+$(TLS-path)/.build/TLS.hpp.gch : $(TLS-path)/.build/TLS.hpp $(TLS-moddepends)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(TLS-CFLAGS) -c -o $(@) $(<)
 
 $(TLS-path)/.build/TLS.hpp : $(TLS-format-files) $(TLS-directories)
 	./gen-hdr.sh $(srcdir) TLS | clang-format > $(@)

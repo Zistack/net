@@ -43,7 +43,7 @@ $(incdir)/IO/%.hpp : $(IO-path)/%.hpp $(IO-path)/.build/IO.hpp.gch
 	cp $(<) $(@)
 
 $(IO-path)/.build/IO.hpp.gch : $(IO-path)/.build/IO.hpp $(IO-moddepends)
-	$(CPP) $(CFLAGS) $(IO-CFLAGS) -I $(srcdir) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(IO-CFLAGS) -c -o $(@) $(<)
 
 $(IO-path)/.build/IO.hpp : $(IO-format-files) $(IO-directories)
 	./gen-hdr.sh $(srcdir) IO | clang-format > $(@)
