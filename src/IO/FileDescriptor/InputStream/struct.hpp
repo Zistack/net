@@ -5,8 +5,9 @@ struct T : Interface::WatchableInputStream::T
 	char
 	get () override;
 
-	uint32_t
+	Interface::Watchable::Events::T
 	events () const override;
+
 	int
 	fileDescriptor () const override;
 

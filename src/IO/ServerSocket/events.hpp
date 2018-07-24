@@ -1,5 +1,5 @@
-uint32_t
+Interface::Watchable::Events::T
 T::events () const
 {
-	return EPOLLIN | EPOLLERR;
+	return POLLIN;
 }

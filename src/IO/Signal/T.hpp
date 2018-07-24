@@ -1,19 +1,16 @@
-T::T () : fired (false)
+T::T ()
 {
 	const std::string message_prefix = "IO::Signal::T\n";
 
 	try
 	{
-		int file_descriptor[2];
+		this->file_descriptor = eventfd (0, EFD_SEMAPHORE);
 
-		if (pipe (file_descriptor) == -1)
+		if (this->file_descriptor == -1)
 		{
 			throw ResourceError::T (
-			    std::string ("pipe: ") + strerror (errno) + "\n");
+			    std::string ("eventfd: ") + strerror (errno) + "\n");
 		}
-
-		this->read_file_descriptor = file_descriptor[0];
-		this->write_file_descriptor = file_descriptor[1];
 	}
 	catch (Failure::Throwable::T & e)
 	{

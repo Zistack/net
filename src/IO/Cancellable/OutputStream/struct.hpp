@@ -1,16 +1,12 @@
 struct T : Interface::OutputStream::T
 {
-	T (Interface::WatchableOutputStream::T * output_stream);
+	T (Interface::WatchableOutputStream::T * output_stream, Signal::T * signal);
 
 	void
 	put (char c) override;
 
-	void
-	cancel ();
-
-	~T ();
+	~T () = default;
 
 	Interface::WatchableOutputStream::T * output_stream;
 	Signal::T * signal;
-	EPoll::T * epoll;
 };

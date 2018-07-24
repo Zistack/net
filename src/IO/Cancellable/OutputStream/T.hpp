@@ -1,15 +1,5 @@
-T::T (Interface::WatchableOutputStream::T * output_stream) :
-    output_stream (output_stream)
+T::T (Interface::WatchableOutputStream::T * output_stream, Signal::T * signal) :
+    output_stream (output_stream),
+    signal (signal)
 {
-	const std::string message_prefix = "IO::Cancellable::OutputStream::T\n";
-
-	try
-	{
-		signal = new Signal::T ();
-		epoll = new EPoll::T ();
-	}
-	catch (Failure::Throwable::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
-	}
 }

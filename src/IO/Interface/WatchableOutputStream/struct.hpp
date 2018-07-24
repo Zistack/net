@@ -1,7 +1,8 @@
 struct T : virtual Watchable::T, virtual OutputStream::T
 {
-	virtual uint32_t
+	virtual Watchable::Events::T
 	events () const override = 0;
+
 	virtual int
 	fileDescriptor () const override = 0;
 

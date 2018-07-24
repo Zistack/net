@@ -5,8 +5,9 @@ struct T : Interface::WatchableOutputStream::T
 	void
 	put (char c) override;
 
-	uint32_t
+	Interface::Watchable::Events::T
 	events () const override;
+
 	int
 	fileDescriptor () const override;
 

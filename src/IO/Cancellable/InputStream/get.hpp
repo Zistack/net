@@ -5,16 +5,9 @@ T::get ()
 
 	try
 	{
-		Interface::Watchable::T * ready_stream = this->epoll->wait ();
+		Util::wait (this->input_stream, this->signal);
 
-		if (ready_stream == this->input_stream)
-		{
-			return this->input_stream->get ();
-		}
-		else if (ready_stream == this->signal)
-		{
-			throw CancelError::T ("Operation cancelled\n");
-		}
+		return this->input_stream->get ();
 	}
 	catch (Failure::Throwable::T e)
 	{

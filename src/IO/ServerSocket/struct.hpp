@@ -7,8 +7,9 @@ struct T : Interface::Watchable::T
 	Socket::T *
 	accept ();
 
-	uint32_t
+	Interface::Watchable::Events::T
 	events () const override;
+
 	int
 	fileDescriptor () const override;
 

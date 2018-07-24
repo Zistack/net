@@ -1,5 +1,5 @@
-uint32_t
+Interface::Watchable::Events::T
 events ()
 {
-	return 0;
+	return POLLIN;
 }

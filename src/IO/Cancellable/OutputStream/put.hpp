@@ -5,16 +5,9 @@ T::put (char c)
 
 	try
 	{
-		Interface::Watchable::T * ready_stream = this->epoll->wait ();
+		Util::wait (this->output_stream, this->signal);
 
-		if (ready_stream == this->output_stream)
-		{
-			this->output_stream->put (c);
-		}
-		else if (ready_stream == this->signal)
-		{
-			throw CancelError::T ("Operation cancelled\n");
-		}
+		this->output_stream->put (c);
 	}
 	catch (Failure::Throwable::T & e)
 	{

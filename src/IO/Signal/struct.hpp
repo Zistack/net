@@ -3,16 +3,18 @@ struct T : Interface::Watchable::T
 	T ();
 
 	void
-	notify ();
+	send ();
 
-	uint32_t
+	void
+	recieve ();
+
+	Interface::Watchable::Events::T
 	events () const override;
+
 	int
 	fileDescriptor () const override;
 
 	~T ();
 
-	bool fired;
-	int read_file_descriptor;
-	int write_file_descriptor;
+	int file_descriptor;
 };

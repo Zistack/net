@@ -1,16 +1,12 @@
 struct T : Interface::InputStream::T
 {
-	T (Interface::WatchableInputStream::T * input_stream);
+	T (Interface::WatchableInputStream::T * input_stream, Signal::T * signal);
 
 	char
 	get () override;
 
-	void
-	cancel ();
-
-	~T ();
+	~T () = default;
 
 	Interface::WatchableInputStream::T * input_stream;
 	Signal::T * signal;
-	EPoll::T * epoll;
 };
