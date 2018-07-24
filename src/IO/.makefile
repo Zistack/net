@@ -2,11 +2,17 @@ IO-moddepends = Failure
 IO-CFLAGS =
 IO-LFLAGS =
 
+IO-moddepends-CFLAGS = $(foreach mod, $(IO-moddepends), $($(mod)-export-CFLAGS))
+IO-moddepends-LFLAGS = $(foreach mod, $(IO-moddepends), $($(mod)-export-LFLAGS))
+
+IO-export-CFLAGS = $(IO-CFLAGS) $(IO-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(IO-LFLAGS) $(IO-moddepends-LFLAGS)
+
 IO-path = $(srcdir)/IO
 IO-files = $(shell find $(IO-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 IO-include-files = $(IO-files:$(srcdir)/%=$(incdir)/%)
 IO-install-files = $(IO-files:$(srcdir)/%=/usr/include/%)
-IO-directories = $(shell find $(IO-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+IO-directories = $(shell find $(IO-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 IO-format-files = $(IO-files:$(srcdir)/%=$(IO-path)/.build/%.format)
 IO-install-moddepends = $(IO-moddepends:%=%-install)
 
@@ -43,7 +49,7 @@ $(incdir)/IO/%.hpp : $(IO-path)/%.hpp $(IO-path)/.build/IO.hpp.gch
 	cp $(<) $(@)
 
 $(IO-path)/.build/IO.hpp.gch : $(IO-path)/.build/IO.hpp $(IO-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(IO-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(IO-CFLAGS) $(IO-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(IO-path)/.build/IO.hpp : $(IO-format-files) $(IO-directories)
 	./gen-hdr.sh $(srcdir) IO | clang-format > $(@)

@@ -2,11 +2,17 @@ TLS-moddepends = Failure IO JSON
 TLS-CFLAGS =
 TLS-LFLAGS =
 
+TLS-moddepends-CFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-CFLAGS))
+TLS-moddepends-LFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-LFLAGS))
+
+TLS-export-CFLAGS = $(TLS-CFLAGS) $(TLS-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(TLS-LFLAGS) $(TLS-moddepends-LFLAGS)
+
 TLS-path = $(srcdir)/TLS
 TLS-files = $(shell find $(TLS-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 TLS-include-files = $(TLS-files:$(srcdir)/%=$(incdir)/%)
 TLS-install-files = $(TLS-files:$(srcdir)/%=/usr/include/%)
-TLS-directories = $(shell find $(TLS-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+TLS-directories = $(shell find $(TLS-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 TLS-format-files = $(TLS-files:$(srcdir)/%=$(TLS-path)/.build/%.format)
 TLS-install-moddepends = $(TLS-moddepends:%=%-install)
 
@@ -43,7 +49,7 @@ $(incdir)/TLS/%.hpp : $(TLS-path)/%.hpp $(TLS-path)/.build/TLS.hpp.gch
 	cp $(<) $(@)
 
 $(TLS-path)/.build/TLS.hpp.gch : $(TLS-path)/.build/TLS.hpp $(TLS-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(TLS-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(TLS-CFLAGS) $(TLS-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(TLS-path)/.build/TLS.hpp : $(TLS-format-files) $(TLS-directories)
 	./gen-hdr.sh $(srcdir) TLS | clang-format > $(@)

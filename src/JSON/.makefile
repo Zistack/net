@@ -2,11 +2,17 @@ JSON-moddepends = Failure IO
 JSON-CFLAGS =
 JSON-LFLAGS =
 
+JSON-moddepends-CFLAGS = $(foreach mod, $(JSON-moddepends), $($(mod)-export-CFLAGS))
+JSON-moddepends-LFLAGS = $(foreach mod, $(JSON-moddepends), $($(mod)-export-LFLAGS))
+
+JSON-export-CFLAGS = $(JSON-CFLAGS) $(JSON-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(JSON-LFLAGS) $(JSON-moddepends-LFLAGS)
+
 JSON-path = $(srcdir)/JSON
 JSON-files = $(shell find $(JSON-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 JSON-include-files = $(JSON-files:$(srcdir)/%=$(incdir)/%)
 JSON-install-files = $(JSON-files:$(srcdir)/%=/usr/include/%)
-JSON-directories = $(shell find $(JSON-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+JSON-directories = $(shell find $(JSON-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 JSON-format-files = $(JSON-files:$(srcdir)/%=$(JSON-path)/.build/%.format)
 JSON-install-moddepends = $(JSON-moddepends:%=%-install)
 
@@ -43,7 +49,7 @@ $(incdir)/JSON/%.hpp : $(JSON-path)/%.hpp $(JSON-path)/.build/JSON.hpp.gch
 	cp $(<) $(@)
 
 $(JSON-path)/.build/JSON.hpp.gch : $(JSON-path)/.build/JSON.hpp $(JSON-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(JSON-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(JSON-CFLAGS) $(JSON-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(JSON-path)/.build/JSON.hpp : $(JSON-format-files) $(JSON-directories)
 	./gen-hdr.sh $(srcdir) JSON | clang-format > $(@)

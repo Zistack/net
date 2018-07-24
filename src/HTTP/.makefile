@@ -2,11 +2,17 @@ HTTP-moddepends =
 HTTP-CFLAGS =
 HTTP-LFLAGS =
 
+HTTP-moddepends-CFLAGS = $(foreach mod, $(HTTP-moddepends), $($(mod)-export-CFLAGS))
+HTTP-moddepends-LFLAGS = $(foreach mod, $(HTTP-moddepends), $($(mod)-export-LFLAGS))
+
+HTTP-export-CFLAGS = $(HTTP-CFLAGS) $(HTTP-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(HTTP-LFLAGS) $(HTTP-moddepends-LFLAGS)
+
 HTTP-path = $(srcdir)/HTTP
 HTTP-files = $(shell find $(HTTP-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 HTTP-include-files = $(HTTP-files:$(srcdir)/%=$(incdir)/%)
 HTTP-install-files = $(HTTP-files:$(srcdir)/%=/usr/include/%)
-HTTP-directories = $(shell find $(HTTP-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+HTTP-directories = $(shell find $(HTTP-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 HTTP-format-files = $(HTTP-files:$(srcdir)/%=$(HTTP-path)/.build/%.format)
 HTTP-install-moddepends = $(HTTP-moddepends:%=%-install)
 
@@ -43,7 +49,7 @@ $(incdir)/HTTP/%.hpp : $(HTTP-path)/%.hpp $(HTTP-path)/.build/HTTP.hpp.gch
 	cp $(<) $(@)
 
 $(HTTP-path)/.build/HTTP.hpp.gch : $(HTTP-path)/.build/HTTP.hpp $(HTTP-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(HTTP-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(HTTP-CFLAGS) $(HTTP-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(HTTP-path)/.build/HTTP.hpp : $(HTTP-format-files) $(HTTP-directories)
 	./gen-hdr.sh $(srcdir) HTTP | clang-format > $(@)

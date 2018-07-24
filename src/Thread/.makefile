@@ -1,6 +1,12 @@
 Thread-moddepends = Failure
 Thread-CFLAGS =
-Thread-LFLAGS =
+Thread-LFLAGS = -lrt
+
+Thread-moddepends-CFLAGS = $(foreach mod, $(Thread-moddepends), $($(mod)-export-CFLAGS))
+Thread-moddepends-LFLAGS = $(foreach mod, $(Thread-moddepends), $($(mod)-export-LFLAGS))
+
+Thread-export-CFLAGS = $(Thread-CFLAGS) $(Thread-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(Thread-LFLAGS) $(Thread-moddepends-LFLAGS)
 
 Thread-path = $(srcdir)/Thread
 Thread-files = $(shell find $(Thread-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
@@ -43,7 +49,7 @@ $(incdir)/Thread/%.hpp : $(Thread-path)/%.hpp $(Thread-path)/.build/Thread.hpp.g
 	cp $(<) $(@)
 
 $(Thread-path)/.build/Thread.hpp.gch : $(Thread-path)/.build/Thread.hpp $(Thread-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Thread-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(Thread-CFLAGS) $(Thread-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(Thread-path)/.build/Thread.hpp : $(Thread-format-files) $(Thread-directories)
 	./gen-hdr.sh $(srcdir) Thread | clang-format > $(@)

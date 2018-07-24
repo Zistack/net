@@ -2,11 +2,17 @@ TCP-moddepends = Failure Thread IO
 TCP-CFLAGS =
 TCP-LFLAGS =
 
+TCP-moddepends-CFLAGS = $(foreach mod, $(TCP-moddepends), $($(mod)-export-CFLAGS))
+TCP-moddepends-LFLAGS = $(foreach mod, $(TCP-moddepends), $($(mod)-export-LFLAGS))
+
+TCP-export-CFLAGS = $(TCP-CFLAGS) $(TCP-moddepends-CFLAGS)
+nodname-export-LFLAGS = $(TCP-LFLAGS) $(TCP-moddepends-LFLAGS)
+
 TCP-path = $(srcdir)/TCP
 TCP-files = $(shell find $(TCP-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
 TCP-include-files = $(TCP-files:$(srcdir)/%=$(incdir)/%)
 TCP-install-files = $(TCP-files:$(srcdir)/%=/usr/include/%)
-TCP-directories = $(shell find $(TCP-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+TCP-directories = $(shell find $(TCP-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 TCP-format-files = $(TCP-files:$(srcdir)/%=$(TCP-path)/.build/%.format)
 TCP-install-moddepends = $(TCP-moddepends:%=%-install)
 
@@ -43,7 +49,7 @@ $(incdir)/TCP/%.hpp : $(TCP-path)/%.hpp $(TCP-path)/.build/TCP.hpp.gch
 	cp $(<) $(@)
 
 $(TCP-path)/.build/TCP.hpp.gch : $(TCP-path)/.build/TCP.hpp $(TCP-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(TCP-CFLAGS) -c -o $(@) $(<)
+	$(CPP) -I $(srcdir) $(CFLAGS) $(TCP-CFLAGS) $(TCP-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(TCP-path)/.build/TCP.hpp : $(TCP-format-files) $(TCP-directories)
 	./gen-hdr.sh $(srcdir) TCP | clang-format > $(@)

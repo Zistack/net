@@ -2,9 +2,12 @@ test-moddepends =
 test-CFLAGS =
 test-LFLAGS =
 
+test-moddepends-CFLAGS = $(foreach mod, $(test-moddepends), $($(mod)-export-CFLAGS))
+test-moddepends-LFLAGS = $(foreach mod, $(test-moddepends), $($(mod)-export-LFLAGS))
+
 test-path = $(srcdir)/test
 test-files = $(shell find $(test-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-test-directories = $(shell find $(test-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
+test-directories = $(shell find $(test-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
 test-format-files = $(test-files:$(srcdir)/%=$(test-path)/.build/%.format)
 test-install-moddepends = $(test-moddepends:%=%-install)
 
@@ -14,8 +17,8 @@ test : $(bindir)/test
 .PHONY : test-clean
 test-clean :
 	rm -rf $(bindir)/test
-	rm -rf $(test-path)/.build/main.o
 	rm -rf $(test-path)/.build/main.cpp
+	rm -rf $(test-path)/.build/main.o
 	rm -rf $(test-format-files)
 	rm -rf $(test-path)/.build/test
 	rm -rf test
@@ -31,10 +34,10 @@ test-uninstall :
 test-format : $(test-format-files)
 
 $(bindir)/test : $(test-path)/.build/main.o
-	$(CPP) $(LFLAGS) $(test-LFLAGS) -o $(@) $(<)
+	$(CPP) $(LFLAGS) $(test-LFLAGS) $(test-moddepends-LFLAGS) -o $(@) $(<)
 
 $(test-path)/.build/main.o : $(test-path)/.build/main.cpp $(test-moddepends)
-	$(CPP) $(CFLAGS) $(test-CFLAGS) -I $(test-path) -c -o $(@) $(<)
+	$(CPP) -I $(test-path) $(CFLAGS) $(test-CFLAGS) $(test-moddepends-CFLAGS) -c -o $(@) $(<)
 
 $(test-path)/.build/main.cpp : $(test-format-files) $(test-directories)
 	./gen-bin.sh $(test-path) | clang-format > $(@)
