@@ -1,5 +1,5 @@
-char
-T::get ()
+size_t
+T::read (char * buffer, size_t count)
 {
 	const std::string message_prefix = "IO::FileDescriptor::InputStream::get\n";
 
@@ -7,8 +7,7 @@ T::get ()
 	{
 		while (true)
 		{
-			char c;
-			ssize_t size = read (this->file_descriptor, &c, 1);
+			ssize_t size = ::read (this->file_descriptor, buffer, count);
 
 			if (size == 0) throw EOF::T ();
 
@@ -20,20 +19,22 @@ T::get ()
 				switch (errno)
 				{
 				case EAGAIN:
-				// case EWOULDBLOCK: // Apparently a duplicate of EAGAIN.
+#if EWOULDBLOCK != EAGAIN
+				case EWOULDBLOCK:
+#endif
 				case EINTR:
-					continue;
+					return 0;
 				case EBADF:
 				case EFAULT:
 				case EINVAL:
 				case EIO:
 				case EISDIR:
 				default:
-					throw ResourceError::T (message);
+					throw Failure::ResourceError::T (message);
 				}
 			}
 
-			return c;
+			return (size_t) size;
 		}
 	}
 	catch (Failure::Throwable::T & e)

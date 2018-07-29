@@ -1,4 +1,4 @@
-struct T : virtual Watchable::T, virtual InputStream::T
+struct T : Watchable::T, InputStream::T
 {
 	virtual Watchable::Events::T
 	events () const override = 0;

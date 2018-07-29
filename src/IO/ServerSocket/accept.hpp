@@ -1,4 +1,4 @@
-Socket::T *
+Socket::T
 T::accept ()
 {
 	const std::string message_prefix = "IO::ServerSocket::accept\n";
@@ -19,11 +19,13 @@ T::accept ()
 			switch (errno)
 			{
 			case EAGAIN:
-			// case EWOULDBLOCK: // Apparently duplicate with EAGAIN
+#if EWOULDBLOCK != EAGAIN
+			case EWOULDBLOCK:
+#endif
 			case ECONNABORTED:
 			case EINTR:
 			case EPERM:
-				throw RetryException::T (message);
+				throw Failure::RetryException::T (message);
 			case EBADF:
 			case EFAULT:
 			case EINVAL:
@@ -35,11 +37,11 @@ T::accept ()
 			case EOPNOTSUPP:
 			case EPROTO:
 			default:
-				throw ResourceError::T (message);
+				throw Failure::ResourceError::T (message);
 			}
 		}
 
-		return new Socket::T (client_file_descriptor);
+		return Socket::T (client_file_descriptor);
 	}
 	catch (Failure::Throwable::T & e)
 	{

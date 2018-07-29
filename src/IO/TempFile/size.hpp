@@ -9,7 +9,7 @@ T::size ()
 
 		if (fstat (this->file_descriptor, &file_status) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("fstat: ") + strerror (errno) + "\n");
 		}
 

@@ -4,7 +4,7 @@ struct T : Interface::Watchable::T
 
 	~T ();
 
-	Socket::T *
+	Socket::T
 	accept ();
 
 	Interface::Watchable::Events::T

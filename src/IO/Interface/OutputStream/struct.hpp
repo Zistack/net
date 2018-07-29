@@ -5,4 +5,7 @@ struct T
 
 	void
 	print (std::string message);
+
+	virtual void
+	write (char * buffer, size_t count) = 0;
 };

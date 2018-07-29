@@ -7,7 +7,7 @@ T::reset ()
 	{
 		if (lseek (this->file_descriptor, 0, SEEK_SET) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("lseek: ") + strerror (errno) + "\n");
 		}
 	}

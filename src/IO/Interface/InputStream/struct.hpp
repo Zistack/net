@@ -1,3 +1,4 @@
+
 struct T
 {
 	virtual char

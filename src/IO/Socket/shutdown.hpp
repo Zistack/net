@@ -13,7 +13,7 @@ T::shutdown (Direction::T direction)
 
 		if (::shutdown (this->file_descriptor, how) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("shutdown: ") + strerror (errno) + "\n");
 		}
 	}

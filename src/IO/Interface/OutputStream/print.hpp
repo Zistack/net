@@ -1,5 +1,5 @@
 void
 T::print (std::string message)
 {
-	for (char c : message) this->put (c);
+	this->write ((char *) message.data (), message.size ());
 }

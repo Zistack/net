@@ -12,6 +12,6 @@ struct T
 	char * name;
 	int file_descriptor;
 
-	FileDescriptor::InputStream::T * input_stream;
-	FileDescriptor::OutputStream::T * output_stream;
+	FileDescriptor::InputStream::T input_stream;
+	FileDescriptor::OutputStream::T output_stream;
 };

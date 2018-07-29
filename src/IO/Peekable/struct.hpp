@@ -1,15 +1,17 @@
 struct T : Interface::PeekableInputStream::T
 {
-	T (Interface::InputStream::T * input_stream);
+	T (Interface::InputStream::T & input_stream);
 
 	char
 	get () override;
+
 	char
 	peek () override;
 
-	~T ();
+	~T () = default;
+
+	Interface::InputStream::T & input_stream;
 
 	char peek_char;
 	bool peekable;
-	Interface::InputStream::T * input_stream;
 };

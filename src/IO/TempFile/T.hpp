@@ -10,14 +10,14 @@ T::T (const std::string & pattern)
 		if (this->file_descriptor == -1)
 		{
 			delete this->name;
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("mkstemp: ") + strerror (errno) + "\n");
 		}
 
 		this->input_stream =
-		    new FileDescriptor::InputStream::T (this->file_descriptor);
+		    FileDescriptor::InputStream::T (this->file_descriptor);
 		this->output_stream =
-		    new FileDescriptor::OutputStream::T (this->file_descriptor);
+		    FileDescriptor::OutputStream::T (this->file_descriptor);
 	}
 	catch (Failure::Throwable::T & e)
 	{

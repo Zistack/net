@@ -4,11 +4,15 @@ struct T : Interface::PeekableInputStream::T, Interface::OutputStream::T
 
 	char
 	get () override;
+
 	char
 	peek () override;
 
 	void
 	put (char c) override;
+
+	void
+	write (char * buffer, size_t count) override;
 
 	void
 	reset ();

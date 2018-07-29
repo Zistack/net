@@ -1,5 +1,5 @@
-void
-T::put (char c)
+size_t
+T::write (char * buffer, size_t count)
 {
 	const std::string message_prefix =
 	    "IO::FileDescriptor::OutputStream::write\n";
@@ -8,12 +8,7 @@ T::put (char c)
 	{
 		while (true)
 		{
-			ssize_t size = write (this->file_descriptor, &c, 1);
-
-			if (size == 0)
-			{
-				continue;
-			}
+			ssize_t size = ::write (this->file_descriptor, buffer, count);
 
 			if (size == -1)
 			{
@@ -23,9 +18,11 @@ T::put (char c)
 				switch (errno)
 				{
 				case EAGAIN:
-				// case EWOULDBLOCK: // Apparently a duplicate of EAGAIN.
+#if EWOULDBLOCK != EAGAIN
+				case EWOULDBLOCK:
+#endif
 				case EINTR:
-					continue;
+					return 0;
 				case EBADF:
 				case EDESTADDRREQ:
 				case EDQUOT:
@@ -37,11 +34,11 @@ T::put (char c)
 				case EPERM:
 				case EPIPE:
 				default:
-					throw ResourceError::T (message);
+					throw Failure::ResourceError::T (message);
 				}
 			}
 
-			return;
+			return (size_t) size;
 		}
 	}
 	catch (Failure::Throwable::T & e)

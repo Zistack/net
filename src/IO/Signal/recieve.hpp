@@ -9,7 +9,7 @@ T::recieve ()
 
 		if (read (this->file_descriptor, &event, sizeof (event)) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("read: ") + strerror (errno) + "\n");
 		}
 	}

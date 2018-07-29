@@ -10,7 +10,8 @@ struct T
 
 	~T ();
 
-	FileDescriptor::InputStream::T * input_stream;
-	FileDescriptor::OutputStream::T * output_stream;
 	int file_descriptor;
+
+	FileDescriptor::InputStream::T input_stream;
+	FileDescriptor::OutputStream::T output_stream;
 };

@@ -1,4 +1,4 @@
-struct T : virtual Watchable::T, virtual OutputStream::T
+struct T : Watchable::T, OutputStream::T
 {
 	virtual Watchable::Events::T
 	events () const override = 0;
@@ -8,4 +8,7 @@ struct T : virtual Watchable::T, virtual OutputStream::T
 
 	virtual void
 	put (char c) override = 0;
+
+	virtual void
+	write (char * buffer, size_t count) override = 0;
 };

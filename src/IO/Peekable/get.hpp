@@ -7,5 +7,5 @@ T::get ()
 		return this->peek_char;
 	}
 	else
-		return this->input_stream->get ();
+		return this->input_stream.get ();
 }

@@ -1,4 +1,4 @@
 T::~T ()
 {
-	this->cancel ();
+	timer_delete (this->timer_id);
 }

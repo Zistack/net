@@ -1,9 +1,10 @@
-struct T : Interface::WatchableOutputStream::T
+struct T : Interface::NonblockingOutputStream::T
 {
 	T (int file_descriptor);
+	T ();
 
-	void
-	put (char c) override;
+	size_t
+	write (char * buffer, size_t count) override;
 
 	Interface::Watchable::Events::T
 	events () const override;

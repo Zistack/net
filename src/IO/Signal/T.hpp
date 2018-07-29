@@ -4,11 +4,11 @@ T::T ()
 
 	try
 	{
-		this->file_descriptor = eventfd (0, EFD_SEMAPHORE);
+		this->file_descriptor = eventfd (0, EFD_SEMAPHORE | EFD_NONBLOCK);
 
 		if (this->file_descriptor == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("eventfd: ") + strerror (errno) + "\n");
 		}
 	}

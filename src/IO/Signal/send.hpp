@@ -9,7 +9,7 @@ T::send ()
 
 		if (write (this->file_descriptor, &event, sizeof (event)) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("write: ") + strerror (errno) + "\n");
 		}
 	}

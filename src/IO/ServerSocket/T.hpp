@@ -20,7 +20,7 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 
 		if (err)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("getaddrinfo: ") + gai_strerror (err) + "\n");
 		}
 
@@ -47,7 +47,7 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 			        sizeof (yes)) == -1)
 			{
 				close (this->file_descriptor);
-				throw ResourceError::T (
+				throw Failure::ResourceError::T (
 				    std::string ("setsockopt: ") + strerror (errno) + "\n");
 			}
 
@@ -58,7 +58,7 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 			        sizeof (yes)) == -1)
 			{
 				close (this->file_descriptor);
-				throw ResourceError::T (
+				throw Failure::ResourceError::T (
 				    std::string ("setsockopt: ") + strerror (errno) + "\n");
 			}
 
@@ -78,13 +78,13 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 
 		if (!p)
 		{
-			throw ResourceError::T ("No valid addresses\n");
+			throw Failure::ResourceError::T ("No valid addresses\n");
 		}
 
 		if (listen (this->file_descriptor, SOMAXCONN) == -1)
 		{
 			close (this->file_descriptor);
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("listen: ") + strerror (errno) + "\n");
 		}
 	}

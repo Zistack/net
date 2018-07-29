@@ -1,3 +1,7 @@
+#include <signal.h>
+#include <string.h>
+#include <time.h>
+
 #include <chrono>
 #include <condition_variable>
 #include <functional>

@@ -8,7 +8,7 @@ T::T ()
 
 		if (pipe (file_descriptor) == -1)
 		{
-			throw ResourceError::T (
+			throw Failure::ResourceError::T (
 			    std::string ("pipe: ") + strerror (errno) + "\n");
 		}
 
@@ -22,7 +22,7 @@ T::T ()
 			        fcntl (this->read_file_descriptor, F_GETFL) | O_NONBLOCK) ==
 			    -1)
 			{
-				throw ResourceError::T (
+				throw Failure::ResourceError::T (
 				    std::string ("fcntl: ") + strerror (errno) + "\n");
 			}
 
@@ -31,13 +31,13 @@ T::T ()
 			        fcntl (this->write_file_descriptor, F_GETFL) |
 			            O_NONBLOCK) == -1)
 			{
-				throw ResourceError::T (
+				throw Failure::ResourceError::T (
 				    std::string ("fcntl: ") + strerror (errno) + "\n");
 			}
 
-			this->input_stream = new IO::FileDescriptor::InputStream::T (
-			    this->read_file_descriptor);
-			this->output_stream = new IO::FileDescriptor::OutputStream::T (
+			this->input_stream =
+			    IO::FileDescriptor::InputStream::T (this->read_file_descriptor);
+			this->output_stream = IO::FileDescriptor::OutputStream::T (
 			    this->write_file_descriptor);
 		}
 		catch (const Failure::Throwable::T & e)

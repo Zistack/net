@@ -1,18 +1,12 @@
 struct T
 {
-	T (Duration::T timeout, std::function<void(void)> callback);
+	T (uint64_t nanoseconds, std::function<void(void)> callback);
 
-	void
-	cancel ();
+	static void
+	fire (union sigval arg);
 
 	~T ();
 
-	static void
-	run (Duration::T timeout,
-	    std::mutex * mutex,
-	    bool * cancelled,
-	    std::function<void(void)> callback);
-
-	std::mutex * mutex;
-	bool * cancelled;
+	std::function<void(void)> callback;
+	timer_t timer_id;
 };
