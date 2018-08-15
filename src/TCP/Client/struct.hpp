@@ -1,6 +1,6 @@
 struct T
 {
-	T (IO::Interface::Protocol::T * protocol,
+	T (IO::Interface::Protocol::T & protocol,
 	    std::string hostname,
 	    std::string port,
 	    IO::Interface::OutputStream::T * log);
@@ -13,7 +13,7 @@ struct T
 
 	~T ();
 
-	IO::Interface::Protocol::T * protocol;
+	IO::Interface::Protocol::T & protocol;
 
 	IO::Signal::T * signal;
 	IO::Socket::T * socket;

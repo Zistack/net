@@ -4,6 +4,7 @@ struct T
 	    std::string port,
 	    Interface::OutputStream::T * log);
 	T (int file_descriptor);
+	T () = default;
 
 	void
 	shutdown (Direction::T direction);

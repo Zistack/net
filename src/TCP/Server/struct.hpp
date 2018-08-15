@@ -17,7 +17,7 @@ struct T
 	~T ();
 
 	void
-	serve (IO::Socket::T * socket);
+	serve (IO::Socket::T socket);
 
 	IO::Interface::ProtocolFactory::T * protocol_factory;
 

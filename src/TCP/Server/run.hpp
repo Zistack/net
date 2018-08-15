@@ -5,40 +5,35 @@ T::run ()
 
 	try
 	{
-		IO::EPoll::T epoll;
-
-		epoll.add (this->signal);
-		epoll.add (this->server_socket);
-
 		Failure::ExceptionStore::T exception_store;
 		Thread::Nursery::T nursery (exception_store);
 
 		while (true)
 		{
-			IO::Interface::Watchable::T * ready_stream = epoll.wait ();
-
-			exception_store.poll ();
-
-			if (ready_stream == this->server_socket)
+			try
 			{
-				IO::Socket::T * socket = NULL;
-
-				try
-				{
-					socket = server_socket->accept ();
-				}
-				catch (const Failure::Throwable::T & e)
-				{
-					log->print (e.what ());
-					continue;
-				}
-
-				nursery.add (&T::serve, this, socket);
+				IO::Util::wait (*this->server_socket, *this->signal);
 			}
-			else if (ready_stream == this->signal)
+			catch (const Failure::CancelError::T & e)
 			{
 				break;
 			}
+
+			exception_store.poll ();
+
+			IO::Socket::T socket;
+
+			try
+			{
+				socket = server_socket->accept ();
+			}
+			catch (const Failure::Throwable::T & e)
+			{
+				log->print (e.what ());
+				continue;
+			}
+
+			nursery.add (&T::serve, this, socket);
 		}
 
 		nursery.join ();

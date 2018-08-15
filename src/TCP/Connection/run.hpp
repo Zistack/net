@@ -5,13 +5,8 @@ T::run ()
 
 	try
 	{
-		IO::EPoll::T epoll;
-
-		epoll.add (this->signal);
-		epoll.add (this->socket->input_stream);
-
-		this->protocol->init (
-		    this->socket->input_stream, this->socket->output_stream);
+		this->protocol.init (
+		    this->socket.input_stream, this->socket.output_stream);
 
 		Failure::ExceptionStore::T exception_store;
 
@@ -19,12 +14,15 @@ T::run ()
 		{
 			while (true)
 			{
-				IO::Interface::Watchable::T * ready_stream = epoll.wait ();
-
-				if (ready_stream == this->socket->input_stream)
-					this->protocol->event ();
-				else if (ready_stream == this->signal)
+				try
+				{
+					IO::Util::wait (this->socket.input_stream, this->signal);
+				}
+				catch (const Failure::CancelError::T & e)
+				{
 					break;
+				}
+				this->protocol.event ();
 			}
 		}
 		catch (const Failure::Throwable::T & e)
@@ -34,7 +32,7 @@ T::run ()
 
 		try
 		{
-			this->protocol->clean ();
+			this->protocol.clean ();
 		}
 		catch (const Failure::Throwable::T & e)
 		{
@@ -43,7 +41,7 @@ T::run ()
 
 		try
 		{
-			this->socket->shutdown (
+			this->socket.shutdown (
 			    IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
 		}
 		catch (const Failure::Throwable::T & e)

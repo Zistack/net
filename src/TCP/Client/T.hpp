@@ -1,4 +1,4 @@
-T::T (IO::Interface::Protocol::T * protocol,
+T::T (IO::Interface::Protocol::T & protocol,
     std::string hostname,
     std::string port,
     IO::Interface::OutputStream::T * log) :
