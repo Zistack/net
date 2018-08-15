@@ -6,6 +6,9 @@ struct T : Value::T
 	void
 	writeTo (OutputStream::T * json_output_stream) override;
 
+	T *
+	asNumber () override;
+
 	~T () override;
 
 	void

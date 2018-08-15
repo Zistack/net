@@ -6,5 +6,10 @@ struct T : Value::T
 	void
 	writeTo (OutputStream::T * json_output_stream) override;
 
+	T *
+	asString () override;
+
+	~T () override = default;
+
 	std::string value;
 };

@@ -6,6 +6,9 @@ struct T : Value::T
 	void
 	writeTo (OutputStream::T * json_output_stream) override;
 
+	T *
+	asArray () override;
+
 	~T () override;
 
 	std::vector<Value::T *> members;
