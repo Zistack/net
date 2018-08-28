@@ -1,4 +1,0 @@
-void
-clean (T * float)
-{
-}

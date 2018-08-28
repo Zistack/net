@@ -1,1 +1,0 @@
-const T INVALID_CHARACTER = -3;
