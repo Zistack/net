@@ -1,6 +1,6 @@
 Thread-moddepends = Failure
 Thread-CFLAGS =
-Thread-LFLAGS = -lrt
+Thread-LFLAGS = -lrt -lpthread
 
 Thread-moddepends-CFLAGS = $(foreach mod, $(Thread-moddepends), $($(mod)-export-CFLAGS))
 Thread-moddepends-LFLAGS = $(foreach mod, $(Thread-moddepends), $($(mod)-export-LFLAGS))
