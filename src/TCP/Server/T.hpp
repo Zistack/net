@@ -1,6 +1,6 @@
-T::T (IO::Interface::ProtocolFactory::T * protocol_factory,
-    std::string * host,
-    std::string port,
+T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
+    const char * host,
+    const char * port,
     IO::Interface::OutputStream::T * log) :
     protocol_factory (protocol_factory),
     log (log)

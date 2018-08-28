@@ -16,7 +16,7 @@ T::run ()
 			{
 				try
 				{
-					IO::Util::wait (this->socket->input_stream, *this->signal);
+					IO::Util::wait (*this->socket->input_stream, *this->signal);
 				}
 				catch (const Failure::CancelError::T & e)
 				{

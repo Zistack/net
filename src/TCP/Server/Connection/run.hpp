@@ -1,12 +1,12 @@
 void
 T::run ()
 {
-	const std::string message_prefix = "TCP::Connection::run\n";
+	const std::string message_prefix = "TCP::Server::Connection::run\n";
 
 	try
 	{
 		this->protocol.init (
-		    this->socket.input_stream, this->socket.output_stream);
+		    this->socket->input_stream, this->socket->output_stream);
 
 		Failure::ExceptionStore::T exception_store;
 
@@ -16,13 +16,21 @@ T::run ()
 			{
 				try
 				{
-					IO::Util::wait (this->socket.input_stream, this->signal);
+					IO::Util::wait (*this->socket->input_stream, this->signal);
 				}
 				catch (const Failure::CancelError::T & e)
 				{
 					break;
 				}
-				this->protocol.event ();
+
+				try
+				{
+					this->protocol.event ();
+				}
+				catch (const IO::EOF::T & e)
+				{
+					break;
+				}
 			}
 		}
 		catch (const Failure::Throwable::T & e)
@@ -41,7 +49,7 @@ T::run ()
 
 		try
 		{
-			this->socket.shutdown (
+			this->socket->shutdown (
 			    IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
 		}
 		catch (const Failure::Throwable::T & e)

@@ -21,7 +21,7 @@ T::run ()
 
 			exception_store.poll ();
 
-			IO::Socket::T socket;
+			IO::Socket::T * socket;
 
 			try
 			{
