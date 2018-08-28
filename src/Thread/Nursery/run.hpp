@@ -1,6 +1,6 @@
-template <typename Function, typename... Args>
+template <class Function, class... Args>
 void
-T::run (Function function, Args... args)
+T::run (Function && function, Args &&... args)
 {
 	try
 	{

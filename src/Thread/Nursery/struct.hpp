@@ -2,13 +2,13 @@ struct T
 {
 	T (Failure::ExceptionStore::T & exception_store);
 
-	template <typename Function, typename... Args>
+	template <class Function, class... Args>
 	void
-	add (Function function, Args... args);
+	add (Function && function, Args &&... args);
 
-	template <typename Function, typename... Args>
+	template <class Function, class... Args>
 	void
-	run (Function function, Args... args);
+	run (Function && function, Args &&... args);
 
 	void
 	join ();
