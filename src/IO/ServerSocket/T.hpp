@@ -1,4 +1,4 @@
-T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
+T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 {
 	std::string message_prefix = "IO::ServerSocket::T\n";
 
@@ -14,9 +14,7 @@ T::T (std::string * host, std::string port, Interface::OutputStream::T * log)
 
 		struct addrinfo * results;
 
-		const char * node = host ? host->data () : NULL;
-
-		int err = getaddrinfo (node, port.data (), &hints, &results);
+		int err = getaddrinfo (host, port, &hints, &results);
 
 		if (err)
 		{

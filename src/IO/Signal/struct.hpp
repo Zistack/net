@@ -1,11 +1,12 @@
 struct T : Interface::Watchable::T
 {
 	T ();
+	T (const T & other) = delete;
 
 	void
 	send ();
 
-	void
+	bool
 	recieve ();
 
 	Interface::Watchable::Events::T

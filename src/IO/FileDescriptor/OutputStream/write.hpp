@@ -1,5 +1,5 @@
 size_t
-T::write (char * buffer, size_t count)
+T::write (const char * buffer, size_t count)
 {
 	const std::string message_prefix =
 	    "IO::FileDescriptor::OutputStream::write\n";

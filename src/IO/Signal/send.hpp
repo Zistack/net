@@ -5,7 +5,7 @@ T::send ()
 
 	try
 	{
-		unsigned int event = 1;
+		uint64_t event = 1;
 
 		if (write (this->file_descriptor, &event, sizeof (event)) == -1)
 		{

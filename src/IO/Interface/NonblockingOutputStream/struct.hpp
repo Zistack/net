@@ -1,7 +1,7 @@
 struct T : Watchable::T
 {
 	virtual size_t
-	write (char * buffer, size_t count) = 0;
+	write (const char * buffer, size_t count) = 0;
 
 	virtual Watchable::Events::T
 	events () const override = 0;

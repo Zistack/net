@@ -15,9 +15,9 @@ T::T (const std::string & pattern)
 		}
 
 		this->input_stream =
-		    FileDescriptor::InputStream::T (this->file_descriptor);
+		    new FileDescriptor::InputStream::T (this->file_descriptor);
 		this->output_stream =
-		    FileDescriptor::OutputStream::T (this->file_descriptor);
+		    new FileDescriptor::OutputStream::T (this->file_descriptor);
 	}
 	catch (Failure::Throwable::T & e)
 	{

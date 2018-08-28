@@ -14,7 +14,7 @@ struct T : Interface::WatchableInputStream::T
 	~T () = default;
 
 	Interface::NonblockingInputStream::T & input_stream;
-	Signal::T signal;
+	Signal::T & signal;
 
 	static const size_t BUF_SIZE = 1024;
 	size_t start;

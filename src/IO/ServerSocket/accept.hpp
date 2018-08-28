@@ -1,4 +1,4 @@
-Socket::T
+Socket::T *
 T::accept ()
 {
 	const std::string message_prefix = "IO::ServerSocket::accept\n";
@@ -41,7 +41,7 @@ T::accept ()
 			}
 		}
 
-		return Socket::T (client_file_descriptor);
+		return new Socket::T (client_file_descriptor);
 	}
 	catch (Failure::Throwable::T & e)
 	{

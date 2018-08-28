@@ -5,6 +5,7 @@ struct T
 	    Interface::OutputStream::T * log);
 	T (int file_descriptor);
 	T () = default;
+	T (const T & other) = delete;
 
 	void
 	shutdown (Direction::T direction);
@@ -13,6 +14,6 @@ struct T
 
 	int file_descriptor;
 
-	FileDescriptor::InputStream::T input_stream;
-	FileDescriptor::OutputStream::T output_stream;
+	FileDescriptor::InputStream::T * input_stream;
+	FileDescriptor::OutputStream::T * output_stream;
 };

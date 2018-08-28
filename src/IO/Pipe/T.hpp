@@ -35,9 +35,9 @@ T::T ()
 				    std::string ("fcntl: ") + strerror (errno) + "\n");
 			}
 
-			this->input_stream =
-			    IO::FileDescriptor::InputStream::T (this->read_file_descriptor);
-			this->output_stream = IO::FileDescriptor::OutputStream::T (
+			this->input_stream = new IO::FileDescriptor::InputStream::T (
+			    this->read_file_descriptor);
+			this->output_stream = new IO::FileDescriptor::OutputStream::T (
 			    this->write_file_descriptor);
 		}
 		catch (const Failure::Throwable::T & e)

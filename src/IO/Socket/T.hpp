@@ -67,9 +67,9 @@ T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
 		if (!p) throw Failure::ResourceError::T ("No valid addresses\n");
 
 		this->input_stream =
-		    FileDescriptor::InputStream::T (this->file_descriptor);
+		    new FileDescriptor::InputStream::T (this->file_descriptor);
 		this->output_stream =
-		    FileDescriptor::OutputStream::T (this->file_descriptor);
+		    new FileDescriptor::OutputStream::T (this->file_descriptor);
 	}
 	catch (Failure::Throwable::T & e)
 	{
@@ -78,8 +78,8 @@ T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
 }
 
 T::T (int file_descriptor) :
-    input_stream (FileDescriptor::InputStream::T (file_descriptor)),
-    output_stream (FileDescriptor::OutputStream::T (file_descriptor)),
+    input_stream (new FileDescriptor::InputStream::T (file_descriptor)),
+    output_stream (new FileDescriptor::OutputStream::T (file_descriptor)),
     file_descriptor (file_descriptor)
 {
 }

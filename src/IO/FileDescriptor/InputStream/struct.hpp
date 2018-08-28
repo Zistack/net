@@ -1,7 +1,6 @@
 struct T : Interface::NonblockingInputStream::T
 {
 	T (int file_descriptor);
-	T ();
 
 	size_t
 	read (char * buffer, size_t count) override;
