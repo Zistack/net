@@ -10,5 +10,5 @@ struct T : Watchable::T, OutputStream::T
 	put (char c) override = 0;
 
 	virtual void
-	write (char * buffer, size_t count) override = 0;
+	write (const char * buffer, size_t count) override = 0;
 };

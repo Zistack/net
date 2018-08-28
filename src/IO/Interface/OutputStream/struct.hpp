@@ -7,5 +7,5 @@ struct T
 	print (std::string message);
 
 	virtual void
-	write (char * buffer, size_t count) = 0;
+	write (const char * buffer, size_t count) = 0;
 };

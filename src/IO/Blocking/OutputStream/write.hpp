@@ -1,5 +1,5 @@
 void
-T::write (char * buffer, size_t count)
+T::write (const char * buffer, size_t count)
 {
 	while (true)
 	{
