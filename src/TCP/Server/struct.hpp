@@ -16,8 +16,8 @@ struct T
 
 	~T ();
 
-	void
-	serve (IO::Socket::T * socket);
+	static void
+	serve (T * server, IO::Socket::T * socket);
 
 	IO::Interface::ProtocolFactory::T & protocol_factory;
 
