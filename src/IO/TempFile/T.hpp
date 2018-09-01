@@ -1,6 +1,6 @@
 T::T (const std::string & pattern)
 {
-	const std::string message_prefix = "IO::TempFile::T\n";
+	const std::string message_prefix = "IO::TempFile::T::T\n";
 
 	try
 	{

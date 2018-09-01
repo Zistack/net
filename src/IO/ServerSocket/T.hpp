@@ -1,6 +1,6 @@
 T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 {
-	std::string message_prefix = "IO::ServerSocket::T\n";
+	std::string message_prefix = "IO::ServerSocket::T::T\n";
 
 	try
 	{
@@ -8,9 +8,10 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 
 		memset (&hints, 0, sizeof (hints));
 
+		hints.ai_flags = AI_PASSIVE;
 		hints.ai_family = AF_UNSPEC;
 		hints.ai_socktype = SOCK_STREAM | SOCK_NONBLOCK;
-		hints.ai_flags = AI_PASSIVE;
+		hints.ai_protocol = IPPROTO_TCP;
 
 		struct addrinfo * results;
 

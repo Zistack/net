@@ -2,7 +2,7 @@ size_t
 T::write (const char * buffer, size_t count)
 {
 	const std::string message_prefix =
-	    "IO::FileDescriptor::OutputStream::write\n";
+	    "IO::FileDescriptor::OutputStream::T::write\n";
 
 	try
 	{

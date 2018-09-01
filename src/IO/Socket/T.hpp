@@ -1,6 +1,6 @@
 T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
 {
-	const std::string message_prefix = "IO::Socket::T\n";
+	const std::string message_prefix = "IO::Socket::T::T\n";
 
 	try
 	{

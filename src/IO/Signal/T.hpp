@@ -1,6 +1,6 @@
 T::T ()
 {
-	const std::string message_prefix = "IO::Signal::T\n";
+	const std::string message_prefix = "IO::Signal::T::T\n";
 
 	try
 	{

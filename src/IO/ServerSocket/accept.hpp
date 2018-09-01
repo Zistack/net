@@ -1,7 +1,7 @@
 Socket::T *
 T::accept ()
 {
-	const std::string message_prefix = "IO::ServerSocket::accept\n";
+	const std::string message_prefix = "IO::ServerSocket::T::accept\n";
 
 	try
 	{

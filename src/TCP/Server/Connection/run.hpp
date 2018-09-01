@@ -1,7 +1,7 @@
 void
 T::run ()
 {
-	const std::string message_prefix = "TCP::Server::Connection::run\n";
+	const std::string message_prefix = "TCP::Server::Connection::T::run\n";
 
 	try
 	{

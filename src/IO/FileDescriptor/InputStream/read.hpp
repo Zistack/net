@@ -1,7 +1,7 @@
 size_t
 T::read (char * buffer, size_t count)
 {
-	const std::string message_prefix = "IO::FileDescriptor::InputStream::get\n";
+	const std::string message_prefix = "IO::FileDescriptor::InputStream::T::read\n";
 
 	try
 	{

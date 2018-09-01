@@ -1,7 +1,7 @@
 T::T (uint64_t nanoseconds, std::function<void(void)> callback) :
     callback (callback)
 {
-	const std::string message_prefix = "Thread::Timeout::T\n";
+	const std::string message_prefix = "Thread::Timeout::T::T\n";
 
 	try
 	{

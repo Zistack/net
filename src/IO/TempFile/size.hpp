@@ -1,7 +1,7 @@
 off_t
 T::size ()
 {
-	const std::string message_prefix = "IO::TempFile::size\n";
+	const std::string message_prefix = "IO::TempFile::T::size\n";
 
 	try
 	{

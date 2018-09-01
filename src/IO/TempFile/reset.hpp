@@ -1,7 +1,7 @@
 void
 T::reset ()
 {
-	const std::string message_prefix = "IO::TempFile::reset\n";
+	const std::string message_prefix = "IO::TempFile::T::reset\n";
 
 	try
 	{

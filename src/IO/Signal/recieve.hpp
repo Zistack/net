@@ -1,7 +1,7 @@
 bool
 T::recieve ()
 {
-	const std::string message_prefix = "IO::Signal::recieve\n";
+	const std::string message_prefix = "IO::Signal::T::recieve\n";
 
 	try
 	{

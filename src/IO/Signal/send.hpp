@@ -1,7 +1,7 @@
 void
 T::send ()
 {
-	const std::string message_prefix = "IO::Signal::send\n";
+	const std::string message_prefix = "IO::Signal::T::send\n";
 
 	try
 	{

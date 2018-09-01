@@ -5,7 +5,7 @@ T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
     protocol_factory (protocol_factory),
     log (log)
 {
-	const std::string message_prefix = "Failed to construct TCP server:\n";
+	const std::string message_prefix = "TCP::Server::T::T\n";
 
 	try
 	{

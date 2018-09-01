@@ -1,7 +1,7 @@
 void
 T::shutdown (Direction::T direction)
 {
-	const std::string message_prefix = "IO::Socket::shutdown\n";
+	const std::string message_prefix = "IO::Socket::T::shutdown\n";
 
 	try
 	{

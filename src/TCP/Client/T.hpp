@@ -5,7 +5,7 @@ T::T (IO::Interface::Protocol::T & protocol,
     protocol (protocol),
     log (log)
 {
-	const std::string message_prefix = "TCP::Client::T\n";
+	const std::string message_prefix = "TCP::Client::T::T\n";
 
 	try
 	{
