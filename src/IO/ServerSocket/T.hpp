@@ -10,7 +10,7 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 
 		hints.ai_flags = AI_PASSIVE;
 		hints.ai_family = AF_UNSPEC;
-		hints.ai_socktype = SOCK_STREAM | SOCK_NONBLOCK;
+		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 
 		struct addrinfo * results;
@@ -27,14 +27,14 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 
 		for (p = results; p != NULL; p = p->ai_next)
 		{
-			this->file_descriptor =
-			    socket (p->ai_family, p->ai_socktype, p->ai_protocol);
+			this->file_descriptor = socket (
+			    p->ai_family, p->ai_socktype | SOCK_NONBLOCK, p->ai_protocol);
 
 			if (this->file_descriptor == -1)
 			{
-				if (log)
-					log->print (
-					    std::string ("socket: ") + strerror (errno) + "\n");
+				std::string message =
+				    std::string ("socket: ") + strerror (errno) + "\n";
+				if (log) log->print (message);
 				continue;
 			}
 
@@ -45,28 +45,18 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 			        &yes,
 			        sizeof (yes)) == -1)
 			{
+				std::string message =
+				    std::string ("setsockopt: ") + strerror (errno) + "\n";
 				close (this->file_descriptor);
-				throw Failure::ResourceError::T (
-				    std::string ("setsockopt: ") + strerror (errno) + "\n");
-			}
-
-			if (setsockopt (this->file_descriptor,
-			        SOL_SOCKET,
-			        SO_LINGER,
-			        &yes,
-			        sizeof (yes)) == -1)
-			{
-				close (this->file_descriptor);
-				throw Failure::ResourceError::T (
-				    std::string ("setsockopt: ") + strerror (errno) + "\n");
+				throw Failure::ResourceError::T (message);
 			}
 
 			if (bind (this->file_descriptor, p->ai_addr, p->ai_addrlen) == -1)
 			{
+				std::string message =
+				    std::string ("bind: ") + strerror (errno) + "\n";
 				close (this->file_descriptor);
-				if (log)
-					log->print (
-					    std::string ("bind: ") + strerror (errno) + "\n");
+				if (log) log->print (message);
 				continue;
 			}
 
@@ -82,9 +72,10 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 
 		if (listen (this->file_descriptor, SOMAXCONN) == -1)
 		{
+			std::string message =
+			    std::string ("listen: ") + strerror (errno) + "\n";
 			close (this->file_descriptor);
-			throw Failure::ResourceError::T (
-			    std::string ("listen: ") + strerror (errno) + "\n");
+			throw Failure::ResourceError::T (message);
 		}
 	}
 	catch (Failure::Throwable::T & e)

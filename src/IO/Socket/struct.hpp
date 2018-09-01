@@ -1,10 +1,9 @@
 struct T
 {
-	T (std::string hostname,
-	    std::string port,
+	T (const char * hostname,
+	    const char * port,
 	    Interface::OutputStream::T * log);
 	T (int file_descriptor);
-	T () = default;
 	T (const T & other) = delete;
 
 	void

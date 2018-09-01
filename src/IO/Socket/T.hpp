@@ -1,4 +1,6 @@
-T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
+T::T (const char * hostname,
+    const char * port,
+    Interface::OutputStream::T * log)
 {
 	const std::string message_prefix = "IO::Socket::T::T\n";
 
@@ -9,12 +11,11 @@ T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
 		memset (&hints, 0, sizeof (hints));
 
 		hints.ai_family = AF_UNSPEC;
-		hints.ai_socktype = SOCK_STREAM | SOCK_NONBLOCK;
+		hints.ai_socktype = SOCK_STREAM;
 
 		struct addrinfo * results;
 
-		int err =
-		    getaddrinfo (hostname.data (), port.data (), &hints, &results);
+		int err = getaddrinfo (hostname, port, &hints, &results);
 
 		if (err)
 		{
@@ -26,36 +27,24 @@ T::T (std::string hostname, std::string port, Interface::OutputStream::T * log)
 
 		for (p = results; p != NULL; p = p->ai_next)
 		{
-			this->file_descriptor =
-			    socket (p->ai_family, p->ai_socktype, p->ai_protocol);
+			this->file_descriptor = socket (
+			    p->ai_family, p->ai_socktype | SOCK_NONBLOCK, p->ai_protocol);
 
 			if (this->file_descriptor == -1)
 			{
-				if (log)
-					log->print (
-					    std::string ("socket: ") + strerror (errno) + "\n");
+				std::string message =
+				    std::string ("socket: ") + strerror (errno) + "\n";
+				if (log) log->print (message);
 				continue;
-			}
-
-			int yes = 1;
-			if (setsockopt (this->file_descriptor,
-			        SOL_SOCKET,
-			        SO_LINGER,
-			        &yes,
-			        sizeof (yes)) == -1)
-			{
-				close (this->file_descriptor);
-				throw Failure::ResourceError::T (
-				    std::string ("setsockopt: ") + strerror (errno) + "\n");
 			}
 
 			if (connect (this->file_descriptor, p->ai_addr, p->ai_addrlen) ==
 			    -1)
 			{
+				std::string message =
+				    std::string ("connect: ") + strerror (errno) + "\n";
 				close (this->file_descriptor);
-				if (log)
-					log->print (
-					    std::string ("connect: ") + strerror (errno) + "\n");
+				if (log) log->print (message);
 				continue;
 			}
 
