@@ -10,5 +10,5 @@ struct T
 	virtual void
 	clean () = 0;
 
-	virtual ~T () = 0;
+	virtual ~T () = default;
 };

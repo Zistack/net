@@ -18,5 +18,5 @@ struct T : Interface::WatchableOutputStream::T
 	~T () = default;
 
 	Interface::NonblockingOutputStream::T & output_stream;
-	Signal::T signal;
+	Signal::T & signal;
 };
