@@ -1,15 +1,15 @@
 void
-wait (Interface::Watchable::T & watchable, Signal::T & signal)
+wait (Interface::Watchable::T * watchable, Signal::T * signal)
 {
 	const std::string message_prefix = "IO::Util::Wait\n";
 
 	try
 	{
-		struct pollfd fds[2] = {{.fd = watchable.fileDescriptor (),
-		                            .events = watchable.events (),
+		struct pollfd fds[2] = {{.fd = watchable->fileDescriptor (),
+		                            .events = watchable->events (),
 		                            .revents = 0},
-		    {.fd = signal.fileDescriptor (),
-		        .events = watchable.events (),
+		    {.fd = signal->fileDescriptor (),
+		        .events = signal->events (),
 		        .revents = 0}};
 
 		while (poll (fds, 2, -1) == -1)
@@ -28,7 +28,7 @@ wait (Interface::Watchable::T & watchable, Signal::T & signal)
 
 		if (fds[1].revents)
 		{
-			signal.recieve ();
+			signal->recieve ();
 			throw Failure::CancelError::T ("Operation cancelled\n");
 		}
 	}
@@ -39,14 +39,14 @@ wait (Interface::Watchable::T & watchable, Signal::T & signal)
 }
 
 void
-wait (Interface::Watchable::T & watchable)
+wait (Interface::Watchable::T * watchable)
 {
 	const std::string message_prefix = "IO::Util::Wait\n";
 
 	try
 	{
-		struct pollfd fd = {.fd = watchable.fileDescriptor (),
-		    .events = watchable.events (),
+		struct pollfd fd = {.fd = watchable->fileDescriptor (),
+		    .events = watchable->events (),
 		    .revents = 0};
 
 		while (poll (&fd, 1, -1) == -1)
