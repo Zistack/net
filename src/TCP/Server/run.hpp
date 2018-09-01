@@ -12,7 +12,7 @@ T::run ()
 		{
 			try
 			{
-				IO::Util::wait (*this->server_socket, *this->signal);
+				IO::Util::wait (this->server_socket, this->signal);
 			}
 			catch (const Failure::CancelError::T & e)
 			{

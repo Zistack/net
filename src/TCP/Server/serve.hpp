@@ -5,7 +5,7 @@ T::serve (T * server, IO::Socket::T * socket)
 
 	{
 		Connection::T connection (
-		    *protocol, *server->signal, socket, server->log);
+		    protocol, server->signal, socket, server->log);
 
 		connection.run ();
 	}

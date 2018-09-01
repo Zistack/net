@@ -1,6 +1,6 @@
-T::T (IO::Interface::Protocol::T & protocol,
-    std::string hostname,
-    std::string port,
+T::T (IO::Interface::Protocol::T * protocol,
+    const char * hostname,
+    const char * port,
     IO::Interface::OutputStream::T * log) :
     protocol (protocol),
     log (log)

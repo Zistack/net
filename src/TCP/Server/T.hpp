@@ -1,5 +1,5 @@
 T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
-    const char * host,
+    const char * hostname,
     const char * port,
     IO::Interface::OutputStream::T * log) :
     protocol_factory (protocol_factory),
@@ -10,7 +10,7 @@ T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
 	try
 	{
 		signal = new IO::Signal::T ();
-		server_socket = new IO::ServerSocket::T (host, port, log);
+		server_socket = new IO::ServerSocket::T (hostname, port, log);
 	}
 	catch (Failure::Throwable::T & e)
 	{

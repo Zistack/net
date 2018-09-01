@@ -1,7 +1,7 @@
 struct T
 {
 	T (IO::Interface::ProtocolFactory::T & protocol_factory,
-	    const char * host,
+	    const char * hostname,
 	    const char * port,
 	    IO::Interface::OutputStream::T * log);
 
