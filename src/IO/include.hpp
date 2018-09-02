@@ -14,8 +14,10 @@
 
 #include <exception>
 #include <functional>
+#include <future>
 #include <string>
 
 #include <Failure.hpp>
+#include <Thread.hpp>
 
 #undef EOF

@@ -1,0 +1,57 @@
+template <class RequestType, class ResponseType>
+struct T : Interface::Protocol::T
+{
+	T (uint64_t input_timeout, uint64_t output_timeout);
+
+	void
+	init (Interface::NonblockingInputStream::T * input_stream,
+	    Interface::NonblockingOutputStream::T * output_stream) override;
+
+	void
+	event () override;
+
+	void
+	clean () override;
+
+	~T () = default;
+
+	static void
+	run (T * protocol);
+
+	static void
+	computeResponse (T * protocol,
+	    RequestType request,
+	    std::promise<ResponseType> * promise);
+
+	void
+	cleanQueue ();
+
+	virtual RequestType
+	readRequest (Interface::InputStream::T * input_stream) = 0;
+
+	virtual ResponseType
+	map (RequestType request) = 0;
+
+	virtual void
+	writeResponse (ResponseType response,
+	    IO::Interface::OutputStream::T * output_stream) = 0;
+
+	virtual void
+	destroyRequest (RequestType request) = 0;
+
+	virtual void
+	destroyResponse (ResponseType response) = 0;
+
+	uint64_t input_timeout;
+	Signal::T * input_timeout_signal;
+	Blocking::InputStream::T * input_stream;
+
+	uint64_t output_timeout;
+	Signal::T * output_timeout_signal;
+	Blocking::OutputStream::T * output_stream;
+
+	Failure::ExceptionStore::T exception_store;
+	Thread::Nursery::T nursery;
+
+	Thread::ConcurrentQueue::T<std::promise<ResponseType> *> response_queue;
+};
