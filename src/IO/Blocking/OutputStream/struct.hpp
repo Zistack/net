@@ -1,7 +1,7 @@
 struct T : Interface::WatchableOutputStream::T
 {
-	T (Interface::NonblockingOutputStream::T & output_stream,
-	    Signal::T & signal);
+	T (Interface::NonblockingOutputStream::T * output_stream,
+	    Signal::T * signal);
 
 	void
 	put (char c) override;
@@ -17,6 +17,6 @@ struct T : Interface::WatchableOutputStream::T
 
 	~T () = default;
 
-	Interface::NonblockingOutputStream::T & output_stream;
-	Signal::T & signal;
+	Interface::NonblockingOutputStream::T * output_stream;
+	Signal::T * signal;
 };
