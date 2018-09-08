@@ -9,7 +9,7 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 		memset (&hints, 0, sizeof (hints));
 
 		hints.ai_flags = AI_PASSIVE;
-		hints.ai_family = AF_UNSPEC;
+		hints.ai_family = AF_INET6;
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 
@@ -25,7 +25,7 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 
 		struct addrinfo * p;
 
-		for (p = results; p != NULL; p = p->ai_next)
+		for (p = results; p != nullptr; p = p->ai_next)
 		{
 			this->file_descriptor = socket (
 			    p->ai_family, p->ai_socktype | SOCK_NONBLOCK, p->ai_protocol);
@@ -47,6 +47,7 @@ T::T (const char * host, const char * port, Interface::OutputStream::T * log)
 			{
 				std::string message =
 				    std::string ("setsockopt: ") + strerror (errno) + "\n";
+				freeaddrinfo (results);
 				close (this->file_descriptor);
 				throw Failure::ResourceError::T (message);
 			}
