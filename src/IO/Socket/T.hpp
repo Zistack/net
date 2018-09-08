@@ -25,10 +25,10 @@ T::T (const char * hostname,
 
 		struct addrinfo * p;
 
-		for (p = results; p != NULL; p = p->ai_next)
+		for (p = results; p != nullptr; p = p->ai_next)
 		{
-			this->file_descriptor = socket (
-			    p->ai_family, p->ai_socktype | SOCK_NONBLOCK, p->ai_protocol);
+			this->file_descriptor =
+			    socket (p->ai_family, p->ai_socktype, p->ai_protocol);
 
 			if (this->file_descriptor == -1)
 			{
@@ -54,6 +54,16 @@ T::T (const char * hostname,
 		freeaddrinfo (results);
 
 		if (!p) throw Failure::ResourceError::T ("No valid addresses\n");
+
+		if (fcntl (this->file_descriptor,
+		        F_SETFD,
+		        fcntl (this->file_descriptor, F_GETFD, 0) | O_NONBLOCK) == -1)
+		{
+			std::string message =
+			    std::string ("fcntl: ") + strerror (errno) + "\n";
+			close (this->file_descriptor);
+			throw Failure::ResourceError::T (message);
+		}
 
 		this->input_stream =
 		    new FileDescriptor::InputStream::T (this->file_descriptor);
