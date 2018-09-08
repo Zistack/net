@@ -28,6 +28,8 @@ runProtocol (Interface::Protocol::T * protocol,
 				break;
 			}
 
+			exception_store.poll ();
+
 			try
 			{
 				protocol->event ();
