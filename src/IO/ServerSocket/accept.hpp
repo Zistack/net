@@ -5,11 +5,8 @@ T::accept ()
 
 	try
 	{
-		struct sockaddr peer_address;
-		socklen_t address_size;
-
-		int client_file_descriptor = accept4 (
-		    this->file_descriptor, &peer_address, &address_size, SOCK_NONBLOCK);
+		int client_file_descriptor =
+		    accept4 (this->file_descriptor, nullptr, nullptr, SOCK_NONBLOCK);
 
 		if (client_file_descriptor == -1)
 		{
