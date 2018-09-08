@@ -1,7 +1,7 @@
 template <class Element>
 struct T
 {
-	T () = default;
+	T ();
 
 	void
 	push (Element element);
