@@ -2,10 +2,10 @@ struct T
 {
 	T ();
 
-	void
+	bool
 	store (const std::exception & e);
 
-	void
+	bool
 	store (std::exception_ptr e);
 
 	void
