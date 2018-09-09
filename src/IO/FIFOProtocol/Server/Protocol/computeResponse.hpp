@@ -5,9 +5,20 @@ T<RequestType, ResponseType>::computeResponse (
     RequestType request,
     std::promise<ResponseType> * promise)
 {
-	ResponseType response = protocol->map (request);
+	ResponseType response;
+
+	try
+	{
+		response = protocol->map (request);
+	}
+	catch (...)
+	{
+		promise->set_exception (std::current_exception ());
+		protocol->destroyRequest (request);
+		throw Failure::Error::T (
+		    "Failure occurred in request->response mapping function\n");
+	}
 
 	promise->set_value (response);
-
 	protocol->destroyRequest (request);
 }

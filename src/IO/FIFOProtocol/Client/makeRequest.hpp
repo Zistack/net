@@ -23,12 +23,20 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 		}
 	});
 
+	try
 	{
-		Thread::Timeout::T (this->output_timeout,
-		    [&]() { this->output_timeout_signal->send (); });
-		this->writeRequest (request, this->output_stream);
+		{
+			Thread::Timeout::T (this->output_timeout, [&]() {
+				this->output_timeout_signal->send ();
+			});
+			this->writeRequest (request, this->output_stream);
+		}
+		this->output_timeout_signal->recieve ();
 	}
-	this->output_timeout_signal->recieve ();
+	catch (Failure::CancelException::T)
+	{
+		throw Failure::Error::T ("Writing request timed out\n");
+	}
 
 	this->response_queue.push (&promise);
 
