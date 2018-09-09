@@ -6,7 +6,9 @@ struct T : Interface::Protocol::T
 
 	void
 	init (Interface::NonblockingInputStream::T * input_stream,
-	    Interface::NonblockingOutputStream::T * output_stream) override;
+	    Interface::NonblockingOutputStream::T * output_stream,
+	    Failure::ExceptionStore::T & exception_store,
+	    std::function<void(void)> stop) override;
 
 	void
 	event () override;
@@ -51,8 +53,9 @@ struct T : Interface::Protocol::T
 	Signal::T * output_timeout_signal;
 	Blocking::OutputStream::T * output_stream;
 
-	Failure::ExceptionStore::T exception_store;
-	Thread::Nursery::T nursery;
+	std::function<void(void)> stop;
+
+	Thread::Nursery::T * nursery;
 
 	Thread::ConcurrentQueue::T<std::promise<ResponseType> *> response_queue;
 };

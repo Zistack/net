@@ -15,8 +15,7 @@ T<RequestType, ResponseType>::computeResponse (
 	{
 		promise->set_exception (std::current_exception ());
 		protocol->destroyRequest (request);
-		throw Failure::Error::T (
-		    "Failure occurred in request->response mapping function\n");
+		throw;
 	}
 
 	promise->set_value (response);

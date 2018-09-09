@@ -14,4 +14,6 @@ T<RequestType, ResponseType>::clean ()
 
 	delete this->output_timeout_signal;
 	delete this->output_stream;
+
+	this->stop = nullptr;
 }

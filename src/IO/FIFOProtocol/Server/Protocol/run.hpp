@@ -23,11 +23,13 @@ T<RequestType, ResponseType>::run (T<RequestType, ResponseType> * protocol)
 		}
 		catch (Failure::CancelException::T)
 		{
+			protocol->destroyResponse (response);
 			throw Failure::Error::T (
 			    message_prefix + "Writing response timed out\n");
 		}
 		catch (Failure::Error::T & e)
 		{
+			protocol->destroyResponse (response);
 			throw e.set (message_prefix + e.what ());
 		}
 

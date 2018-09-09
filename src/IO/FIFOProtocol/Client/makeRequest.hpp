@@ -8,7 +8,7 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 	std::unique_lock<T<RequestType, ResponseType>> lock (*this);
 
 	if (!active)
-		throw Failure::Error::T (message_prefix + "Protocol not active");
+		throw Failure::Error::T (message_prefix + "Protocol not active\n");
 
 	std::promise<ResponseType> promise;
 
@@ -25,32 +25,42 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 
 	try
 	{
+		try
 		{
-			Thread::Timer::T output_timer (this->output_timeout,
-			    [&]() { this->output_timeout_signal->send (); });
-			this->writeRequest (request, this->output_stream);
+			{
+				Thread::Timer::T output_timer (this->output_timeout,
+				    [&]() { this->output_timeout_signal->send (); });
+				this->writeRequest (request, this->output_stream);
+			}
+			this->output_timeout_signal->recieve ();
 		}
-		this->output_timeout_signal->recieve ();
-	}
-	catch (Failure::CancelException::T)
-	{
-		throw Failure::Error::T ("Writing request timed out\n");
-	}
+		catch (Failure::CancelException::T)
+		{
+			throw Failure::Error::T (
+			    message_prefix + "Writing request timed out\n");
+		}
 
-	this->response_queue.push (&promise);
+		this->response_queue.push (&promise);
 
-	lock.unlock ();
+		lock.unlock ();
 
-	try
-	{
-		return promise.get_future ().get ();
+		try
+		{
+			return promise.get_future ().get ();
+		}
+		catch (Failure::CancelException::T)
+		{
+			throw Failure::Error::T (
+			    message_prefix + "Transaction timed out\n");
+		}
+		catch (Failure::Error::T & e)
+		{
+			throw e.set (message_prefix + e.what ());
+		}
 	}
-	catch (Failure::CancelException::T)
+	catch (...)
 	{
-		throw Failure::Error::T (message_prefix + "Transaction timed out");
-	}
-	catch (Failure::Error::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
+		this->stop ();
+		throw;
 	}
 }

@@ -7,7 +7,9 @@ runProtocol (Interface::Protocol::T * protocol,
 {
 	try
 	{
-		protocol->init (input_stream, output_stream);
+		protocol->init (input_stream, output_stream, exception_store, [=]() {
+			shutdown_signal->send ();
+		});
 	}
 	catch (...)
 	{
@@ -27,8 +29,6 @@ runProtocol (Interface::Protocol::T * protocol,
 			{
 				break;
 			}
-
-			exception_store.poll ();
 
 			try
 			{

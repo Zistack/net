@@ -7,8 +7,6 @@ T<RequestType, ResponseType>::event ()
 
 	RequestType request;
 
-	this->exception_store.poll ();
-
 	try
 	{
 		{
@@ -31,5 +29,5 @@ T<RequestType, ResponseType>::event ()
 
 	this->response_queue.push (promise);
 
-	this->nursery.add (&T::computeResponse, this, request, promise);
+	this->nursery->add (&T::computeResponse, this, request, promise);
 }
