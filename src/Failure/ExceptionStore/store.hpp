@@ -7,7 +7,7 @@ T::store (const std::exception & e)
 void
 T::store (std::exception_ptr e)
 {
-	std::unique_lock<decltype (this->m)> (this->m);
+	std::unique_lock<decltype (this->m)> lock (this->m);
 
 	if (!this->exception) this->exception = e;
 }
