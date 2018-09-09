@@ -1,14 +1,35 @@
-template <class Function, class... Args>
 void
-T::add (Function && function, Args &&... args)
+T::add (std::function<void(void)> run)
 {
-	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
+	this->add (run, nullptr, nullptr);
+}
 
-	std::thread * new_thread =
-	    new std::thread (&T::run<std::decay_t<Function>, std::decay_t<Args>...>,
-	        this,
-	        function,
-	        args...);
+void
+T::add (std::function<void(void)> run, std::function<void(void)> cancel)
+{
+	this->add (run, nullptr, cancel);
+}
 
-	this->threads.insert ({new_thread->get_id (), new_thread});
+void
+T::add (std::function<void(void)> run,
+    std::function<void(void)> clean,
+    std::function<void(void)> cancel)
+{
+	this->start (
+	    [run, clean, this]() {
+		    bool first_fail = false;
+		    try
+		    {
+			    run ();
+		    }
+		    catch (...)
+		    {
+			    first_fail =
+			        this->exception_store.store (std::current_exception ());
+		    }
+		    this->finish ();
+		    if (first_fail) this->cancel ();
+		    if (clean) clean ();
+	    },
+	    cancel);
 }
