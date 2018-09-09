@@ -9,8 +9,8 @@ T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
 
 	try
 	{
-		signal = new IO::Signal::T ();
-		server_socket = new IO::ServerSocket::T (hostname, port, log);
+		this->shutdown_signal = new IO::Signal::T ();
+		this->server_socket = new IO::ServerSocket::T (hostname, port, log);
 	}
 	catch (Failure::Error::T & e)
 	{
