@@ -1,8 +1,7 @@
 void
 T::clear ()
 {
-	Throwable::T * e =
-	    std::atomic_exchange<Throwable::T *> (&this->exception, NULL);
+	std::unique_lock<decltype (this->m)> (this->m);
 
-	if (e) delete e;
+	this->exception = nullptr;
 }

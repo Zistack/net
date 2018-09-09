@@ -1,7 +1,7 @@
 void
 T::poll ()
 {
-	Throwable::T * e = std::atomic_load<Throwable::T *> (&this->exception);
+	std::unique_lock<decltype (this->m)> (this->m);
 
-	if (e) throw *e;
+	if (this->exception) std::rethrow_exception (this->exception);
 }

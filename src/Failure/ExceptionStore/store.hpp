@@ -1,12 +1,13 @@
 void
-T::store (const Throwable::T & e)
+T::store (const std::exception & e)
 {
-	Throwable::T * clone_of_e = e.clone ();
-	Throwable::T * expected_value = NULL;
+	this->store (std::make_exception_ptr (e));
+}
 
-	if (!std::atomic_compare_exchange_strong<Throwable::T *> (
-	        &this->exception, &expected_value, clone_of_e))
-	{
-		delete clone_of_e;
-	}
+void
+T::store (std::exception_ptr e)
+{
+	std::unique_lock<decltype (this->m)> (this->m);
+
+	if (!this->exception) this->exception = e;
 }

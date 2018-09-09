@@ -1,5 +1,4 @@
 #include <atomic>
 #include <exception>
+#include <mutex>
 #include <string>
-
-#define Clonable(Base) Base, Failure::Clonable::T<Base, T>

@@ -3,7 +3,10 @@ struct T
 	T ();
 
 	void
-	store (const Throwable::T & e);
+	store (const std::exception & e);
+
+	void
+	store (std::exception_ptr e);
 
 	void
 	poll ();
@@ -11,7 +14,8 @@ struct T
 	void
 	clear ();
 
-	~T ();
+	~T () = default;
 
-	std::atomic<Throwable::T *> exception;
+	std::mutex m;
+	std::exception_ptr exception;
 };
