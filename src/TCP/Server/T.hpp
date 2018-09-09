@@ -12,7 +12,7 @@ T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
 		signal = new IO::Signal::T ();
 		server_socket = new IO::ServerSocket::T (hostname, port, log);
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}

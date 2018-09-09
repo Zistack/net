@@ -16,16 +16,16 @@ T::run ()
 		this->socket->shutdown (
 		    IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
 	}
-	catch (Failure::Throwable::T & e)
+	catch (...)
 	{
-		exception_store.store (e);
+		exception_store.store (std::current_exception ());
 	}
 
 	try
 	{
 		exception_store.poll ();
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}

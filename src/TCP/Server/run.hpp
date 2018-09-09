@@ -1,46 +1,50 @@
 void
 T::run ()
 {
-	const std::string message_prefix = "TCP::Server::T::run\n";
+	Failure::ExceptionStore::T exception_store;
+	Thread::Nursery::T nursery (exception_store);
 
-	try
+	while (true)
 	{
-		Failure::ExceptionStore::T exception_store;
-		Thread::Nursery::T nursery (exception_store);
-
-		while (true)
+		try
 		{
-			try
-			{
-				IO::Util::wait (this->server_socket, this->signal);
-			}
-			catch (const Failure::CancelError::T & e)
-			{
-				break;
-			}
-
-			exception_store.poll ();
-
-			IO::Socket::T * socket;
-
-			try
-			{
-				socket = server_socket->accept ();
-			}
-			catch (const Failure::Throwable::T & e)
-			{
-				log->print (e.what ());
-				continue;
-			}
-
-			nursery.add (&T::serve, this, socket);
+			IO::Util::wait (this->server_socket, this->signal);
+		}
+		catch (Failure::CancelException::T)
+		{
+			break;
+		}
+		catch (...)
+		{
+			exception_store.store (std::current_exception ());
+			break;
 		}
 
-		nursery.join ();
-		exception_store.poll ();
+		try
+		{
+			exception_store.poll ();
+		}
+		catch (...)
+		{
+			break;
+		}
+
+		IO::Socket::T * socket;
+
+		try
+		{
+			socket = server_socket->accept ();
+		}
+		catch (...)
+		{
+			exception_store.store (std::current_exception ());
+			break;
+		}
+
+		nursery.add (&T::serve, this, socket);
 	}
-	catch (Failure::Throwable::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
-	}
+
+	nursery.join ();
+
+	exception_store.poll ();
 }
