@@ -1,13 +1,13 @@
 template <class RequestType, class ResponseType>
 void
-T<RequestType, ResponseType>::run (T<RequestType, ResponseType> * protocol)
+T<RequestType, ResponseType>::run ()
 {
 	const std::string message_prefix =
 	    "IO::FIFOProtocol::Server::Protocol::T::run\n";
 
 	while (true)
 	{
-		std::promise<ResponseType> * promise = protocol->response_queue.pop ();
+		std::promise<ResponseType> * promise = this->response_queue.pop ();
 
 		ResponseType response = promise->get_future ().get ();
 		delete promise;
@@ -15,24 +15,24 @@ T<RequestType, ResponseType>::run (T<RequestType, ResponseType> * protocol)
 		try
 		{
 			{
-				Thread::Timer::T output_timer (protocol->output_timeout,
-				    [&]() { protocol->output_timeout_signal->send (); });
-				protocol->writeResponse (response, protocol->output_stream);
+				Thread::Timer::T output_timer (this->output_timeout,
+				    [this]() { this->output_timeout_signal->send (); });
+				this->writeResponse (response, this->output_stream);
 			}
-			protocol->output_timeout_signal->recieve ();
+			this->output_timeout_signal->recieve ();
 		}
 		catch (Failure::CancelException::T)
 		{
-			protocol->destroyResponse (response);
+			this->destroyResponse (response);
 			throw Failure::Error::T (
 			    message_prefix + "Writing response timed out\n");
 		}
 		catch (Failure::Error::T & e)
 		{
-			protocol->destroyResponse (response);
+			this->destroyResponse (response);
 			throw e.set (message_prefix + e.what ());
 		}
 
-		protocol->destroyResponse (response);
+		this->destroyResponse (response);
 	}
 }

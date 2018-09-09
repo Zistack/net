@@ -16,7 +16,7 @@ T<RequestType, ResponseType>::init (
 
 	this->stop = stop;
 
-	this->nursery =
-	    new Thread::Nursery::T (exception_store, [&]() { this->stop (); });
-	this->nursery->add (&T::run, this);
+	this->nursery = new Thread::Nursery::T (exception_store);
+	this->nursery->add (
+	    [this]() { this->run (); }, [this]() { this->stop (); });
 }

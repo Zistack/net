@@ -8,7 +8,7 @@ T<RequestType, ResponseType>::event ()
 	{
 		{
 			Thread::Timer::T input_timer (this->input_timeout,
-			    [&]() { this->input_timeout_signal->send (); });
+			    [this]() { this->input_timeout_signal->send (); });
 			response = this->readResponse (this->input_stream);
 		}
 		this->input_timeout_signal->recieve ();

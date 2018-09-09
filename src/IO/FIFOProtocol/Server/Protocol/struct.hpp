@@ -18,13 +18,11 @@ struct T : Interface::Protocol::T
 
 	~T () = default;
 
-	static void
-	run (T * protocol);
+	void
+	run ();
 
-	static void
-	computeResponse (T * protocol,
-	    RequestType request,
-	    std::promise<ResponseType> * promise);
+	void
+	computeResponse (RequestType request, std::promise<ResponseType> * promise);
 
 	void
 	cleanQueue ();

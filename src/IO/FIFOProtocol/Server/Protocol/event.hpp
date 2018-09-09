@@ -11,7 +11,7 @@ T<RequestType, ResponseType>::event ()
 	{
 		{
 			Thread::Timer::T input_timer (this->input_timeout,
-			    [&]() { this->input_timeout_signal->send (); });
+			    [this]() { this->input_timeout_signal->send (); });
 			request = this->readRequest (this->input_stream);
 		}
 		this->input_timeout_signal->recieve ();
@@ -29,5 +29,7 @@ T<RequestType, ResponseType>::event ()
 
 	this->response_queue.push (promise);
 
-	this->nursery->add (&T::computeResponse, this, request, promise);
+	this->nursery->add ([this, request, promise]() {
+		this->computeResponse (request, promise);
+	});
 }
