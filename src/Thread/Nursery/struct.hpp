@@ -1,6 +1,8 @@
 struct T
 {
 	T (Failure::ExceptionStore::T & exception_store);
+	T (Failure::ExceptionStore::T & exception_store,
+	    std::function<void(void)> callback);
 
 	template <class Function, class... Args>
 	void
@@ -21,4 +23,5 @@ struct T
 	std::unordered_map<std::thread::id, std::thread *> threads;
 
 	Failure::ExceptionStore::T & exception_store;
+	std::function<void(void)> callback;
 };

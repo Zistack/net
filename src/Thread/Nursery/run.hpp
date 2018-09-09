@@ -8,13 +8,17 @@ T::run (Function && function, Args &&... args)
 	}
 	catch (...)
 	{
-		this->exception_store.store (std::current_exception ());
+		if (this->exception_store.store (std::current_exception ()))
+		{
+			if (callback) callback ();
+		}
 	}
+
+	std::thread::id this_thread_id = std::this_thread::get_id ();
 
 	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
 
-	std::thread::id this_thread_id = std::this_thread::get_id ();
-	std::thread * this_thread = threads.at (this_thread_id);
+	std::thread * this_thread = this->threads.at (this_thread_id);
 
 	this->threads.erase (this_thread_id);
 
