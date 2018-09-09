@@ -12,7 +12,7 @@ T<RequestType, ResponseType>::event ()
 	try
 	{
 		{
-			Thread::Timeout::T (this->input_timeout,
+			Thread::Timer::T input_timer (this->input_timeout,
 			    [&]() { this->input_timeout_signal->send (); });
 			request = this->readRequest (this->input_stream);
 		}

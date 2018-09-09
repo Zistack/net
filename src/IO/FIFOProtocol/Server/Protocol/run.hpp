@@ -15,7 +15,7 @@ T<RequestType, ResponseType>::run (T<RequestType, ResponseType> * protocol)
 		try
 		{
 			{
-				Thread::Timeout::T (protocol->output_timeout,
+				Thread::Timer::T output_timer (protocol->output_timeout,
 				    [&]() { protocol->output_timeout_signal->send (); });
 				protocol->writeResponse (response, protocol->output_stream);
 			}

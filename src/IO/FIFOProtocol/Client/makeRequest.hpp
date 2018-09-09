@@ -12,7 +12,7 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 
 	std::promise<ResponseType> promise;
 
-	Thread::Timeout::T (this->round_trip_timeout, [&]() {
+	Thread::Timer::T round_trip_timer (this->round_trip_timeout, [&]() {
 		try
 		{
 			promise.set_exception (
@@ -26,9 +26,8 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 	try
 	{
 		{
-			Thread::Timeout::T (this->output_timeout, [&]() {
-				this->output_timeout_signal->send ();
-			});
+			Thread::Timer::T output_timer (this->output_timeout,
+			    [&]() { this->output_timeout_signal->send (); });
 			this->writeRequest (request, this->output_stream);
 		}
 		this->output_timeout_signal->recieve ();

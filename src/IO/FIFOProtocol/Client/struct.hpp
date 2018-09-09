@@ -1,9 +1,9 @@
 template <class RequestType, class ResponseType>
 struct T : Interface::Protocol::T
 {
-	T (uint64_t intput_timeout,
-	    uint64_t output_timeout,
-	    uint64_t round_trip_timeout);
+	T (std::chrono::milliseconds input_timeout,
+	    std::chrono::milliseconds output_timeout,
+	    std::chrono::milliseconds round_trip_timeout);
 
 	void
 	init (Interface::NonblockingInputStream::T * input_stream,
@@ -41,15 +41,15 @@ struct T : Interface::Protocol::T
 	bool locked;
 	bool active;
 
-	uint64_t input_timeout;
+	std::chrono::milliseconds input_timeout;
 	Signal::T * input_timeout_signal;
 	Blocking::InputStream::T * input_stream;
 
-	uint64_t output_timeout;
+	std::chrono::milliseconds output_timeout;
 	Signal::T * output_timeout_signal;
 	Blocking::OutputStream::T * output_stream;
 
-	uint64_t round_trip_timeout;
+	std::chrono::milliseconds round_trip_timeout;
 
 	Thread::ConcurrentQueue::T<std::promise<ResponseType> *> response_queue;
 };
