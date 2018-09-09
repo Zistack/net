@@ -6,9 +6,9 @@ T::run (Function && function, Args &&... args)
 	{
 		function (args...);
 	}
-	catch (const Failure::Throwable::T & e)
+	catch (...)
 	{
-		this->exception_store.store (e);
+		this->exception_store.store (std::current_exception ());
 	}
 
 	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
