@@ -7,10 +7,10 @@ T<RequestType, ResponseType>::event ()
 
 	RequestType request;
 
+	this->exception_store.poll ();
+
 	try
 	{
-		this->exception_store.poll ();
-
 		{
 			Thread::Timeout::T (this->input_timeout,
 			    [&]() { this->input_timeout_signal->send (); });
@@ -18,7 +18,11 @@ T<RequestType, ResponseType>::event ()
 		}
 		this->input_timeout_signal->recieve ();
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::CancelException::T)
+	{
+		throw Failure::Error::T ("Reading request timed out\n");
+	}
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}

@@ -3,22 +3,15 @@ T::shutdown (Direction::T direction)
 {
 	const std::string message_prefix = "IO::Socket::T::shutdown\n";
 
-	try
-	{
-		int how = 0;
+	int how = 0;
 
-		if (direction == Direction::READ) how = SHUT_RD;
-		if (direction == Direction::WRITE) how = SHUT_WR;
-		if (direction == (Direction::READ | Direction::WRITE)) how = SHUT_RDWR;
+	if (direction == Direction::READ) how = SHUT_RD;
+	if (direction == Direction::WRITE) how = SHUT_WR;
+	if (direction == (Direction::READ | Direction::WRITE)) how = SHUT_RDWR;
 
-		if (::shutdown (this->file_descriptor, how) == -1)
-		{
-			throw Failure::ResourceError::T (
-			    std::string ("shutdown: ") + strerror (errno) + "\n");
-		}
-	}
-	catch (Failure::Throwable::T & e)
+	if (::shutdown (this->file_descriptor, how) == -1)
 	{
-		throw e.set (message_prefix + e.what ());
+		throw Failure::Error::T (
+		    message_prefix + "shutdown: " + strerror (errno) + "\n");
 	}
 }

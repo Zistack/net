@@ -9,9 +9,9 @@ runProtocol (Interface::Protocol::T * protocol,
 	{
 		protocol->init (input_stream, output_stream);
 	}
-	catch (const Failure::Throwable::T & e)
+	catch (...)
 	{
-		exception_store.store (e);
+		exception_store.store (std::current_exception ());
 		return;
 	}
 
@@ -23,7 +23,7 @@ runProtocol (Interface::Protocol::T * protocol,
 			{
 				IO::Util::wait (input_stream, shutdown_signal);
 			}
-			catch (const Failure::CancelError::T & e)
+			catch (Failure::CancelException::T)
 			{
 				break;
 			}
@@ -34,23 +34,23 @@ runProtocol (Interface::Protocol::T * protocol,
 			{
 				protocol->event ();
 			}
-			catch (const IO::EOF::T & e)
+			catch (IO::EOF::T)
 			{
 				break;
 			}
 		}
 	}
-	catch (const Failure::Throwable::T & e)
+	catch (...)
 	{
-		exception_store.store (e);
+		exception_store.store (std::current_exception ());
 	}
 
 	try
 	{
 		protocol->clean ();
 	}
-	catch (const Failure::Throwable::T & e)
+	catch (...)
 	{
-		exception_store.store (e);
+		exception_store.store (std::current_exception ());
 	}
 }

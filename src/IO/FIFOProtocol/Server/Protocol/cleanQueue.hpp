@@ -14,7 +14,7 @@ T<RequestType, ResponseType>::cleanQueue ()
 			this->destroyResponse (response);
 		}
 	}
-	catch (const Failure::End::T & e)
+	catch (Thread::ConcurrentQueue::End::T)
 	{
 	}
 }

@@ -3,16 +3,9 @@ T::reset ()
 {
 	const std::string message_prefix = "IO::TempFile::T::reset\n";
 
-	try
+	if (lseek (this->file_descriptor, 0, SEEK_SET) == -1)
 	{
-		if (lseek (this->file_descriptor, 0, SEEK_SET) == -1)
-		{
-			throw Failure::ResourceError::T (
-			    std::string ("lseek: ") + strerror (errno) + "\n");
-		}
-	}
-	catch (Failure::Throwable::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
+		throw Failure::Error::T (
+		    message_prefix + "lseek: " + strerror (errno) + "\n");
 	}
 }

@@ -5,12 +5,12 @@ getUTF8CodePoint (Interface::InputStream::T * input_stream)
 
 	std::string code_point;
 
+	char c = input_stream->get ();
+
+	code_point.push_back (c);
+
 	try
 	{
-		char c = input_stream->get ();
-
-		code_point.push_back (c);
-
 		if (Class::oneByte (c))
 		{
 			return code_point;
@@ -46,18 +46,19 @@ getUTF8CodePoint (Interface::InputStream::T * input_stream)
 		// We should check that the code point encoded by the byte sequence is
 		// valid.
 
-		throw EncodingError::T (Message::unexpectedCharacter (
-		    c, "initial byte of a valid UTF-8 code point"));
+		throw ExpectationException::T ();
 	}
-	catch (const EOF::T & e)
+	catch (EOF::T)
 	{
 		if (code_point.empty ())
-			throw e;
+			throw;
 		else
-			throw EncodingError::T (message_prefix + Message::unexpectedEOF ());
+			throw Failure::Error::T (
+			    message_prefix + Message::unexpectedEOF ());
 	}
-	catch (Failure::Throwable::T & e)
+	catch (ExpectationException::T)
 	{
-		throw e.set (message_prefix + e.what ());
+		throw Failure::Error::T (
+		    message_prefix + "Expected valid UTF-8 byte sequence\n");
 	}
 }

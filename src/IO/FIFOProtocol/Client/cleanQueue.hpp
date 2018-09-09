@@ -7,11 +7,11 @@ T<RequestType, ResponseType>::cleanQueue ()
 		while (true)
 		{
 			std::promise<ResponseType> * promise = response_queue.pop ();
-			promise->set_exception (
-			    std::make_exception_ptr (Failure::Error::T ("Internal error")));
+			promise->set_exception (std::make_exception_ptr (
+			    Failure::Error::T ("Error occured elsewhere in FIFO client")));
 		}
 	}
-	catch (Failure::End::T)
+	catch (Thread::ConcurrentQueue::End::T)
 	{
 	}
 }

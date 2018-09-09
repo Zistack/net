@@ -3,18 +3,11 @@ T::send ()
 {
 	const std::string message_prefix = "IO::Signal::T::send\n";
 
-	try
-	{
-		uint64_t event = 1;
+	uint64_t event = 1;
 
-		if (write (this->file_descriptor, &event, sizeof (event)) == -1)
-		{
-			throw Failure::ResourceError::T (
-			    std::string ("write: ") + strerror (errno) + "\n");
-		}
-	}
-	catch (Failure::Throwable::T & e)
+	if (write (this->file_descriptor, &event, sizeof (event)) == -1)
 	{
-		throw e.set (message_prefix + e.what ());
+		throw Failure::Error::T (
+		    message_prefix + "write: " + strerror (errno) + "\n");
 	}
 }

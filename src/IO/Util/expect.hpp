@@ -5,7 +5,7 @@ expect (Interface::InputStream::T * input_stream, char e)
 
 	if (c != e)
 	{
-		throw EncodingError::T (Message::unexpectedCharacter (c, e));
+		throw ExpectationException::T ();
 	}
 }
 
@@ -17,7 +17,7 @@ expect (Interface::InputStream::T * input_stream,
 
 	if (classPredicate (c)) return c;
 
-	throw EncodingError::T (Message::unexpectedCharacter (c));
+	throw ExpectationException::T ();
 }
 
 void

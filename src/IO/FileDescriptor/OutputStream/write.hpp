@@ -4,45 +4,36 @@ T::write (const char * buffer, size_t count)
 	const std::string message_prefix =
 	    "IO::FileDescriptor::OutputStream::T::write\n";
 
-	try
+	while (true)
 	{
-		while (true)
+		ssize_t size = ::write (this->file_descriptor, buffer, count);
+
+		if (size == -1)
 		{
-			ssize_t size = ::write (this->file_descriptor, buffer, count);
-
-			if (size == -1)
+			switch (errno)
 			{
-				const std::string message =
-				    std::string ("write: ") + strerror (errno) + "\n";
-
-				switch (errno)
-				{
-				case EAGAIN:
+			case EAGAIN:
 #if EWOULDBLOCK != EAGAIN
-				case EWOULDBLOCK:
+			case EWOULDBLOCK:
 #endif
-				case EINTR:
-					return 0;
-				case EBADF:
-				case EDESTADDRREQ:
-				case EDQUOT:
-				case EFAULT:
-				case EFBIG:
-				case EINVAL:
-				case EIO:
-				case ENOSPC:
-				case EPERM:
-				case EPIPE:
-				default:
-					throw Failure::ResourceError::T (message);
-				}
+			case EINTR:
+				return 0;
+			case EBADF:
+			case EDESTADDRREQ:
+			case EDQUOT:
+			case EFAULT:
+			case EFBIG:
+			case EINVAL:
+			case EIO:
+			case ENOSPC:
+			case EPERM:
+			case EPIPE:
+			default:
+				throw Failure::Error::T (
+				    message_prefix + "write: " + strerror (errno) + "\n");
 			}
-
-			return (size_t) size;
 		}
-	}
-	catch (Failure::Throwable::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
+
+		return (size_t) size;
 	}
 }
