@@ -2,7 +2,7 @@ void
 T::run ()
 {
 	Failure::ExceptionStore::T exception_store;
-	Thread::Nursery::T nursery (exception_store);
+	Thread::Nursery::T nursery (exception_store, [&]() { this->stop (); });
 
 	while (true)
 	{
@@ -17,15 +17,6 @@ T::run ()
 		catch (...)
 		{
 			exception_store.store (std::current_exception ());
-			break;
-		}
-
-		try
-		{
-			exception_store.poll ();
-		}
-		catch (...)
-		{
 			break;
 		}
 
