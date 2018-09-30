@@ -1,13 +1,13 @@
 void
-wait (Interface::Watchable::T * watchable, Signal::T * signal)
+wait (Interface::Watchable::T * watchable, Interface::Watchable::T * cancel)
 {
 	const std::string message_prefix = "IO::Util::Wait\n";
 
 	struct pollfd fds[2] = {{.fd = watchable->fileDescriptor (),
 	                            .events = watchable->events (),
 	                            .revents = 0},
-	    {.fd = signal->fileDescriptor (),
-	        .events = signal->events (),
+	    {.fd = cancel->fileDescriptor (),
+	        .events = cancel->events (),
 	        .revents = 0}};
 
 	while (poll (fds, 2, -1) == -1)
@@ -24,11 +24,7 @@ wait (Interface::Watchable::T * watchable, Signal::T * signal)
 		}
 	}
 
-	if (fds[1].revents)
-	{
-		signal->recieve ();
-		throw Failure::CancelException::T ();
-	}
+	if (fds[1].revents) throw Failure::CancelException::T ();
 }
 
 void
