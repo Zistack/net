@@ -1,5 +1,5 @@
 void
 T::stop ()
 {
-	signal->send ();
+	this->protocol->stop ();
 }

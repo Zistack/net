@@ -1,19 +1,10 @@
-T::T (IO::Interface::Protocol::T * protocol,
-    const char * hostname,
+T::T (const char * hostname,
     const char * port,
-    IO::Interface::OutputStream::T * log) :
-    protocol (protocol),
-    log (log)
+    IO::Interface::OutputStream::T * log,
+    IO::Interface::Protocol::T * protocol) :
+    hostname (hostname),
+    port (port),
+    log (log),
+    protocol (protocol)
 {
-	const std::string message_prefix = "TCP::Client::T::T\n";
-
-	try
-	{
-		signal = new IO::Signal::T ();
-		socket = new IO::Socket::T (hostname, port, log);
-	}
-	catch (Failure::Error::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
-	}
 }

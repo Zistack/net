@@ -1,5 +1,5 @@
 void
 T::stop ()
 {
-	this->shutdown_signal->send ();
+	this->shutdown_signal.reset ();
 }

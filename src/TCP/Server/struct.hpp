@@ -1,28 +1,23 @@
 struct T
 {
-	T (IO::Interface::ProtocolFactory::T & protocol_factory,
-	    const char * hostname,
+	T (const char * hostname,
 	    const char * port,
-	    IO::Interface::OutputStream::T * log);
+	    IO::Interface::OutputStream::T * log,
+	    IO::Interface::ProtocolFactory::T * protocol_factory);
 
 	void
 	run ();
 
 	void
-	close ();
-
-	void
 	stop ();
 
-	void
-	kill ();
+	~T () = default;
 
-	~T ();
-
-	IO::Interface::ProtocolFactory::T & protocol_factory;
-
-	IO::Signal::T * shutdown_signal;
-	IO::ServerSocket::T * server_socket;
-
+	const char * hostname;
+	const char * port;
 	IO::Interface::OutputStream::T * log;
+
+	IO::Interface::ProtocolFactory::T * protocol_factory;
+
+	Shutdown::Signal::T shutdown_signal;
 };

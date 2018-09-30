@@ -1,74 +1,60 @@
 void
 T::run ()
 {
-	Failure::ExceptionStore::T exception_store;
-	Thread::Nursery::T nursery (exception_store);
+	const std::string message_prefix = "TCP::Server::T::run\n";
 
-	while (true)
+	try
 	{
+		Failure::ExceptionStore::T exception_store;
+
+		IO::ServerSocket::T server_socket (
+		    this->hostname, this->port, this->log);
+
 		try
 		{
-			IO::Util::wait (this->server_socket, this->shutdown_signal);
-		}
-		catch (Failure::CancelException::T)
-		{
-			break;
+			Thread::Nursery::T nursery;
+
+			Protocol::eventLoop (exception_store,
+			    server_socket,
+			    this->shutdown_signal,
+			    [this, &server_socket, &nursery]() {
+				    IO::Socket::T * socket;
+
+				    socket = new IO::Socket::T (&server_socket);
+				    IO::Interface::Protocol::T * protocol;
+				    try
+				    {
+					    protocol = this->protocol_factory->make ();
+				    }
+				    catch (...)
+				    {
+					    delete socket;
+					    throw;
+				    }
+
+				    nursery.add (
+				        [protocol, socket]() {
+					        protocol->run (
+					            socket->input_stream, socket->output_stream);
+				        },
+				        [protocol, socket]() {
+					        delete protocol;
+					        delete socket;
+				        },
+				        [protocol]() { protocol->stop (); });
+			    });
+
+			nursery.cancel ();
 		}
 		catch (...)
 		{
 			exception_store.store (std::current_exception ());
-			break;
 		}
 
-		IO::Socket::T * socket;
-
-		try
-		{
-			socket = server_socket->accept ();
-		}
-		catch (...)
-		{
-			exception_store.store (std::current_exception ());
-			break;
-		}
-
-		IO::Interface::Protocol::T * protocol;
-
-		try
-		{
-			protocol = this->protocol_factory.make ();
-		}
-		catch (...)
-		{
-			exception_store.store (std::current_exception ());
-			break;
-		}
-
-		Connection::T * connection;
-
-		try
-		{
-			connection = new Connection::T (protocol, socket, this->log);
-		}
-		catch (...)
-		{
-			exception_store.store (std::current_exception ());
-			delete protocol;
-			break;
-		}
-
-		nursery.add ([connection]() { connection->run (); },
-		    [protocol, socket, connection]() {
-			    delete connection;
-			    delete protocol;
-			    delete socket;
-		    },
-		    [connection]() { connection->stop (); });
+		exception_store.poll ();
 	}
-
-	nursery.cancel ();
-
-	nursery.join ();
-
-	exception_store.poll ();
+	catch (Failure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

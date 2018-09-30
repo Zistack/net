@@ -3,27 +3,11 @@ T::run ()
 {
 	const std::string message_prefix = "TCP::Client::T::run\n";
 
-	Failure::ExceptionStore::T exception_store;
-
-	IO::Util::runProtocol (this->protocol,
-	    exception_store,
-	    this->socket->input_stream,
-	    this->socket->output_stream,
-	    this->signal);
-
 	try
 	{
-		this->socket->shutdown (
-		    IO::Socket::Direction::READ | IO::Socket::Direction::WRITE);
-	}
-	catch (...)
-	{
-		exception_store.store (std::current_exception ());
-	}
+		IO::Socket::T socket (this->hostname, this->port, this->log);
 
-	try
-	{
-		exception_store.poll ();
+		this->protocol->run (socket.input_stream, socket.output_stream);
 	}
 	catch (Failure::Error::T & e)
 	{

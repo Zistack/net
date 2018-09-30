@@ -1,19 +1,10 @@
-T::T (IO::Interface::ProtocolFactory::T & protocol_factory,
-    const char * hostname,
+T::T (const char * hostname,
     const char * port,
-    IO::Interface::OutputStream::T * log) :
-    protocol_factory (protocol_factory),
-    log (log)
+    IO::Interface::OutputStream::T * log,
+    IO::Interface::ProtocolFactory::T * protocol_factory) :
+    hostname (hostname),
+    port (port),
+    log (log),
+    protocol_factory (protocol_factory)
 {
-	const std::string message_prefix = "TCP::Server::T::T\n";
-
-	try
-	{
-		this->shutdown_signal = new IO::Signal::T ();
-		this->server_socket = new IO::ServerSocket::T (hostname, port, log);
-	}
-	catch (Failure::Error::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
-	}
 }

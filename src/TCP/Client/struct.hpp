@@ -1,9 +1,9 @@
 struct T
 {
-	T (IO::Interface::Protocol::T * protocol,
-	    const char * hostname,
+	T (const char * hostname,
 	    const char * port,
-	    IO::Interface::OutputStream::T * log);
+	    IO::Interface::OutputStream::T * log,
+	    IO::Interface::Protocol::T * protocol);
 
 	void
 	run ();
@@ -13,10 +13,10 @@ struct T
 
 	~T ();
 
-	IO::Interface::Protocol::T * protocol;
-
-	IO::Signal::T * signal;
-	IO::Socket::T * socket;
+	const char * hostname;
+	const char * port;
 
 	IO::Interface::OutputStream::T * log;
+
+	IO::Interface::Protocol::T * protocol;
 };
