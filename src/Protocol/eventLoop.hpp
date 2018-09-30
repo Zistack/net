@@ -4,40 +4,28 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
     Shutdown::Signal::T & shutdown_signal,
     std::function<void(void)> event)
 {
-	try
-	{
-		Shutdown::Scope::T shutdown_scope (shutdown_signal);
+	Shutdown::Scope::T shutdown_scope (shutdown_signal, &exception_store);
 
-		try
+	exception_store.tryStore ([&]() {
+		while (true)
 		{
-			while (true)
+			try
 			{
-				try
-				{
-					IO::Util::wait (&watchable, &shutdown_signal);
-				}
-				catch (Failure::CancelException::T)
-				{
-					break;
-				}
+				IO::Util::wait (&watchable, &shutdown_signal);
+			}
+			catch (Failure::CancelException::T)
+			{
+				break;
+			}
 
-				try
-				{
-					event ();
-				}
-				catch (IO::EOF::T)
-				{
-					break;
-				}
+			try
+			{
+				event ();
+			}
+			catch (IO::EOF::T)
+			{
+				break;
 			}
 		}
-		catch (...)
-		{
-			exception_store.store (std::current_exception ());
-		}
-	}
-	catch (...)
-	{
-		exception_store.store (std::current_exception ());
-	}
+	});
 }
