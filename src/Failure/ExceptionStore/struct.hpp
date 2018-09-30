@@ -9,6 +9,9 @@ struct T
 	store (std::exception_ptr e);
 
 	void
+	tryStore (std::function<void(void)> f);
+
+	void
 	poll ();
 
 	void
