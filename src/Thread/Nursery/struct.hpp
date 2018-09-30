@@ -1,6 +1,6 @@
 struct T
 {
-	T (Failure::ExceptionStore::T & exception_store);
+	T () = default;
 
 	void
 	add (std::function<void(void)> run);
@@ -16,11 +16,9 @@ struct T
 	void
 	cancel ();
 
-	void
-	join ();
-
 	~T ();
 
+	private:
 	void
 	start (std::function<void(void)> run, std::function<void(void)> cancel);
 
@@ -34,5 +32,5 @@ struct T
 	    std::pair<std::thread *, std::function<void(void)>>>
 	    threads;
 
-	Failure::ExceptionStore::T & exception_store;
+	Failure::ExceptionStore::T exception_store;
 };
