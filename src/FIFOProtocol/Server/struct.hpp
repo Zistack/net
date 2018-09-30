@@ -1,11 +1,11 @@
 template <class RequestType, class ResponseType>
-struct T : Interface::ProtocolFactory::T
+struct T : IO::Interface::ProtocolFactory::T
 {
 	T (std::chrono::milliseconds input_timeout,
 	    std::chrono::milliseconds output_timeout);
 
-	Protocol::T<RequestType, ResponseType> *
-	make () = 0;
+	virtual Protocol::T<RequestType, ResponseType> *
+	make () override = 0;
 
 	~T () = default;
 

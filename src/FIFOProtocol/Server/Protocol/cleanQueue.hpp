@@ -7,11 +7,15 @@ T<RequestType, ResponseType>::cleanQueue ()
 		while (true)
 		{
 			std::promise<ResponseType> * promise = this->response_queue.pop ();
-
-			ResponseType response = promise->get_future ().get ();
+			try
+			{
+				ResponseType response = promise->get_future ().get ();
+				this->destroyResponse (response);
+			}
+			catch (...)
+			{
+			}
 			delete promise;
-
-			this->destroyResponse (response);
 		}
 	}
 	catch (Thread::ConcurrentQueue::End::T)

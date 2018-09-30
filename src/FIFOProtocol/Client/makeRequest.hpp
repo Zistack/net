@@ -5,18 +5,18 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 	const std::string message_prefix =
 	    "IO::FIFOProtocol::Client::T::makeRequest\n";
 
-	std::unique_lock<T<RequestType, ResponseType>> lock (*this);
+	std::unique_lock<decltype (this->status_bit)> lock (this->status_bit);
 
-	if (!active)
-		throw Failure::Error::T (message_prefix + "Protocol not active\n");
+	if (!this->status_bit)
+		throw Failure::Error::T (message_prefix + "Protocol is not running\n");
 
 	std::promise<ResponseType> promise;
 
 	Thread::Timer::T round_trip_timer (this->round_trip_timeout, [&promise]() {
 		try
 		{
-			promise.set_exception (
-			    std::make_exception_ptr (Failure::CancelException::T ()));
+			promise.set_exception (std::make_exception_ptr (
+			    Failure::Error::T ("Transaction timed out\n")));
 		}
 		catch (std::future_error)
 		{
@@ -29,10 +29,10 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 		{
 			{
 				Thread::Timer::T output_timer (this->output_timeout,
-				    [this]() { this->output_timeout_signal->send (); });
+				    [this]() { this->output_timeout_signal.send (); });
 				this->writeRequest (request, this->output_stream);
 			}
-			this->output_timeout_signal->recieve ();
+			this->output_timeout_signal.recieve ();
 		}
 		catch (Failure::CancelException::T)
 		{
@@ -47,11 +47,6 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 		try
 		{
 			return promise.get_future ().get ();
-		}
-		catch (Failure::CancelException::T)
-		{
-			throw Failure::Error::T (
-			    message_prefix + "Transaction timed out\n");
 		}
 		catch (Failure::Error::T & e)
 		{
