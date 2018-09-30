@@ -1,4 +1,4 @@
-void
+bool
 T::tryStore (std::function<void(void)> f)
 {
 	try
@@ -7,6 +7,8 @@ T::tryStore (std::function<void(void)> f)
 	}
 	catch (...)
 	{
-		this->store (std::current_exception ());
+		return this->store (std::current_exception ());
 	}
+
+	return false;
 }

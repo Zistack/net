@@ -8,7 +8,7 @@ struct T
 	bool
 	store (std::exception_ptr e);
 
-	void
+	bool
 	tryStore (std::function<void(void)> f);
 
 	void
