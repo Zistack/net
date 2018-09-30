@@ -1,6 +1,6 @@
 struct T : IO::Interface::Watchable::T
 {
-	T () = default;
+	T ();
 
 	int
 	fileDescriptor () const override;
