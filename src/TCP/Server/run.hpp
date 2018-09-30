@@ -10,9 +10,8 @@ T::run ()
 		IO::ServerSocket::T server_socket (
 		    this->hostname, this->port, this->log);
 
-		try
 		{
-			Thread::Nursery::T nursery;
+			Thread::Nursery::T nursery (&exception_store);
 
 			Protocol::eventLoop (exception_store,
 			    server_socket,
@@ -45,10 +44,6 @@ T::run ()
 			    });
 
 			nursery.cancel ();
-		}
-		catch (...)
-		{
-			exception_store.store (std::current_exception ());
 		}
 
 		exception_store.poll ();
