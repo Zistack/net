@@ -1,6 +1,7 @@
 struct T
 {
-	T () = default;
+	T (Failure::ExceptionStore::T * exception_store = nullptr);
+	T (const T & other) = delete;
 
 	void
 	add (std::function<void(void)> run);
@@ -33,4 +34,5 @@ struct T
 	    threads;
 
 	Failure::ExceptionStore::T exception_store;
+	Failure::ExceptionStore::T * external_store;
 };

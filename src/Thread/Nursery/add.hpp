@@ -17,16 +17,8 @@ T::add (std::function<void(void)> run,
 {
 	this->start (
 	    [run, clean, this]() {
-		    bool first_fail = false;
-		    try
-		    {
-			    run ();
-		    }
-		    catch (...)
-		    {
-			    first_fail =
-			        this->exception_store.store (std::current_exception ());
-		    }
+		    bool first_fail =
+		        this->exception_store.tryStore ([&]() { run (); });
 		    this->finish ();
 		    if (first_fail) this->cancel ();
 		    if (clean) clean ();

@@ -4,5 +4,11 @@ T::~T ()
 
 	while (!this->threads.empty ()) this->c.wait (lock);
 
-	this->exception_store.poll ();
+	if (this->external_store)
+	{
+		this->external_store->tryStore (
+		    [&]() { this->exception_store.poll (); });
+	}
+	else
+		this->exception_store.poll ();
 }
