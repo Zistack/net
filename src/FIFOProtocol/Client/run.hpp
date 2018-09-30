@@ -12,12 +12,14 @@ T<RequestType, ResponseType>::run (
 	    input_stream, &this->input_timeout_signal);
 	IO::Blocking::OutputStream::T blocking_output_stream (
 	    output_stream, &this->output_timeout_signal);
+
 	this->output_stream = &blocking_output_stream;
 
-	this->response_queue.open ();
-
 	{
-		Status::Scope::T (this->status_bit);
+		Thread::ConcurrentQueue::Scope::T<std::promise<ResponseType> *>
+		    response_period (this->response_queue);
+
+		Status::Scope::T request_period (this->status_bit);
 
 		Protocol::eventLoop (exception_store,
 		    blocking_input_stream,
@@ -26,8 +28,6 @@ T<RequestType, ResponseType>::run (
 			    this->event (blocking_input_stream);
 		    });
 	}
-
-	this->response_queue.close ();
 
 	this->cleanQueue ();
 

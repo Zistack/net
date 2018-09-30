@@ -8,7 +8,9 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 	std::unique_lock<decltype (this->status_bit)> lock (this->status_bit);
 
 	if (!this->status_bit)
+	{
 		throw Failure::Error::T (message_prefix + "Protocol is not running\n");
+	}
 
 	std::promise<ResponseType> promise;
 

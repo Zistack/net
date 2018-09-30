@@ -14,28 +14,26 @@ T<RequestType, ResponseType>::run (
 	IO::Blocking::OutputStream::T blocking_output_stream (
 	    output_stream, &this->output_timeout_signal);
 
-	try
 	{
-		Thread::Nursery::T nursery;
+		Thread::Nursery::T nursery (&exception_store);
 
-		this->response_queue.open ();
+		Thread::ConcurrentQueue::Scope::T<std::promise<ResponseType> *>
+		    response_period (this->response_queue);
 
 		nursery.add ([this, &blocking_output_stream]() {
 			this->output (blocking_output_stream);
 		});
 
-		::Protocol::eventLoop (exception_store,
-		    blocking_input_stream,
-		    this->shutdown_signal,
-		    [this, &blocking_input_stream, &nursery]() {
-			    this->event (blocking_input_stream, nursery);
-		    });
-
-		this->response_queue.close ();
-	}
-	catch (...)
-	{
-		exception_store.store (std::current_exception ());
+		nursery.add (
+		    [this, &exception_store, &blocking_input_stream, &nursery]() {
+			    ::Protocol::eventLoop (exception_store,
+			        blocking_input_stream,
+			        this->shutdown_signal,
+			        [this, &blocking_input_stream, &nursery]() {
+				        this->event (blocking_input_stream, nursery);
+			        });
+		    },
+		    [this]() { this->stop (); });
 	}
 
 	this->cleanQueue ();
