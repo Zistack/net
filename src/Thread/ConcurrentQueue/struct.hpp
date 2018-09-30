@@ -4,6 +4,9 @@ struct T
 	T ();
 
 	void
+	open ();
+
+	void
 	push (Element element);
 
 	Element
