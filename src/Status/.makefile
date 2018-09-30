@@ -1,4 +1,4 @@
-Status-moddepends =
+Status-moddepends = Thread
 Status-CFLAGS =
 Status-LFLAGS =
 

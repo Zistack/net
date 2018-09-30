@@ -1,4 +1,4 @@
-T::operator bool ()
+T::operator bool () const
 {
 	return this->status ();
 }

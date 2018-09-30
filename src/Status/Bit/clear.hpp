@@ -5,5 +5,5 @@ T::clear ()
 
 	this->state = false;
 
-	this->clearCallback ();
+	if (this->clearCallback) this->clearCallback ();
 }

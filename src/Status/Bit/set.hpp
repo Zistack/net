@@ -5,5 +5,5 @@ T::set ()
 
 	this->state = true;
 
-	this->setCallback ();
+	if (this->setCallback) this->setCallback ();
 }
