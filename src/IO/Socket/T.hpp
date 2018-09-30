@@ -68,9 +68,33 @@ T::T (const char * hostname,
 	    new FileDescriptor::OutputStream::T (this->file_descriptor);
 }
 
-T::T (int file_descriptor) :
-    input_stream (new FileDescriptor::InputStream::T (file_descriptor)),
-    output_stream (new FileDescriptor::OutputStream::T (file_descriptor)),
-    file_descriptor (file_descriptor)
+T::T (ServerSocket::T * server_socket)
 {
+	const std::string message_prefix = "IO::Socket::T::T\n";
+
+	while ((this->file_descriptor = accept4 (server_socket->file_descriptor,
+	            nullptr,
+	            nullptr,
+	            SOCK_NONBLOCK)) == -1)
+	{
+		switch (errno)
+		{
+		case EAGAIN:
+#if EWOULDBLOCK != EAGAIN
+		case EWOULDBLOCK:
+#endif
+		case EINTR:
+			continue;
+		case ECONNABORTED:
+			throw AbortedException::T ();
+		default:
+			throw Failure::Error::T (
+			    message_prefix + "accept: " + strerror (errno) + "\n");
+		}
+	}
+
+	this->input_stream =
+	    new FileDescriptor::InputStream::T (this->file_descriptor);
+	this->output_stream =
+	    new FileDescriptor::OutputStream::T (this->file_descriptor);
 }

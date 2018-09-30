@@ -3,7 +3,8 @@ struct T
 	T (const char * hostname,
 	    const char * port,
 	    Interface::OutputStream::T * log);
-	T (int file_descriptor);
+	T (ServerSocket::T * server_socket);
+
 	T (const T & other) = delete;
 
 	void
