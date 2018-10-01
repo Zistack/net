@@ -3,4 +3,5 @@ void
 T<RequestType, ResponseType>::stop ()
 {
 	this->shutdown_signal.reset ();
+	this->response_queue.cancel ();
 }

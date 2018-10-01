@@ -20,11 +20,17 @@ T<RequestType, ResponseType>::event (
 		throw Failure::Error::T ("Reading request timed out\n");
 	}
 
-	std::promise<ResponseType> * promise = new std::promise<ResponseType>;
+	::Protocol::Delay::T<ResponseType> delay;
 
-	this->response_queue.push (promise);
+	try
+	{
+		delay = this->response_queue.push ();
+	}
+	catch (Failure::CancelException::T)
+	{
+		throw Failure::Error::T ("Response queue is inactive\n");
+	}
 
-	nursery.add ([this, request, promise]() {
-		this->computeResponse (request, promise);
-	});
+	nursery.add (
+	    [this, request, delay]() { this->computeResponse (request, delay); });
 }

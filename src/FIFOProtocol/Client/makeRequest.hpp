@@ -12,18 +12,22 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 		throw Failure::Error::T (message_prefix + "Protocol is not running\n");
 	}
 
-	std::promise<ResponseType> promise;
+	Protocol::Delay::T<ResponseType> response;
 
-	Thread::Timer::T round_trip_timer (this->round_trip_timeout, [&promise]() {
-		try
-		{
-			promise.set_exception (std::make_exception_ptr (
-			    Failure::Error::T ("Transaction timed out\n")));
-		}
-		catch (std::future_error)
-		{
-		}
-	});
+	try
+	{
+		response = this->response_queue.push ();
+	}
+	catch (Failure::CancelException::T & e)
+	{
+		// This should never actually occur, though the code is harmless in any
+		// case.
+		throw Failure::Error::T (
+		    message_prefix + "Response queue is inactive\n");
+	}
+
+	Thread::Timer::T round_trip_timer (
+	    this->round_trip_timeout, [&response]() { response.cancel (); });
 
 	try
 	{
@@ -42,13 +46,15 @@ T<RequestType, ResponseType>::makeRequest (RequestType request)
 			    message_prefix + "Writing request timed out\n");
 		}
 
-		this->response_queue.push (&promise);
-
 		lock.unlock ();
 
 		try
 		{
-			return promise.get_future ().get ();
+			return response.get ();
+		}
+		catch (Failure::CancelException::T)
+		{
+			throw Failure::Error::T (message_prefix + "Operation timed out\n");
 		}
 		catch (Failure::Error::T & e)
 		{

@@ -19,5 +19,5 @@ T<RequestType, ResponseType>::event (
 		throw Failure::Error::T ("Reading response timed out\n");
 	}
 
-	this->response_queue.pop ()->set_value (response);
+	this->response_queue.pop ().set (response);
 }

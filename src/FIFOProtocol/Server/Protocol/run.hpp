@@ -15,14 +15,16 @@ T<RequestType, ResponseType>::run (
 	    output_stream, &this->output_timeout_signal);
 
 	{
+		::Protocol::DelayQueue::Scope::T<ResponseType> response_period (
+		    this->response_queue);
+
 		Thread::Nursery::T nursery (&exception_store);
 
-		Thread::ConcurrentQueue::Scope::T<std::promise<ResponseType> *>
-		    response_period (this->response_queue);
-
-		nursery.add ([this, &blocking_output_stream]() {
-			this->output (blocking_output_stream);
-		});
+		nursery.add (
+		    [this, &blocking_output_stream]() {
+			    this->output (blocking_output_stream);
+		    },
+		    [this]() { this->response_queue.cancel (); });
 
 		nursery.add (
 		    [this, &exception_store, &blocking_input_stream, &nursery]() {
@@ -32,11 +34,11 @@ T<RequestType, ResponseType>::run (
 			        [this, &blocking_input_stream, &nursery]() {
 				        this->event (blocking_input_stream, nursery);
 			        });
+			    exception_store.poll ();
+			    this->stop ();
 		    },
-		    [this]() { this->stop (); });
+		    [this]() { this->shutdown_signal.reset (); });
 	}
-
-	this->cleanQueue ();
 
 	try
 	{

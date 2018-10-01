@@ -39,10 +39,8 @@ struct T : IO::Interface::Protocol::T
 	    Thread::Nursery::T & nursery);
 
 	void
-	computeResponse (RequestType request, std::promise<ResponseType> * promise);
-
-	void
-	cleanQueue ();
+	computeResponse (RequestType request,
+	    ::Protocol::Delay::T<ResponseType> delay);
 
 	Shutdown::Signal::T shutdown_signal;
 
@@ -52,5 +50,5 @@ struct T : IO::Interface::Protocol::T
 	std::chrono::milliseconds output_timeout;
 	IO::Signal::T output_timeout_signal;
 
-	Thread::ConcurrentQueue::T<std::promise<ResponseType> *> response_queue;
+	::Protocol::DelayQueue::T<ResponseType> response_queue;
 };

@@ -16,8 +16,8 @@ T<RequestType, ResponseType>::run (
 	this->output_stream = &blocking_output_stream;
 
 	{
-		Thread::ConcurrentQueue::Scope::T<std::promise<ResponseType> *>
-		    response_period (this->response_queue);
+		Protocol::DelayQueue::Scope::T<ResponseType> response_period (
+		    this->response_queue);
 
 		Status::Scope::T request_period (this->status_bit);
 
@@ -28,8 +28,6 @@ T<RequestType, ResponseType>::run (
 			    this->event (blocking_input_stream);
 		    });
 	}
-
-	this->cleanQueue ();
 
 	try
 	{

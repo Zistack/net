@@ -7,9 +7,7 @@ T<RequestType, ResponseType>::output (
 	{
 		while (true)
 		{
-			auto promise = this->response_queue.pop ();
-			ResponseType response = promise->get_future ().get ();
-			delete promise;
+			ResponseType response = this->response_queue.pop ().get ();
 
 			try
 			{
@@ -28,7 +26,7 @@ T<RequestType, ResponseType>::output (
 			this->destroyResponse (response);
 		}
 	}
-	catch (Thread::ConcurrentQueue::End::T)
+	catch (Failure::CancelException::T)
 	{
 	}
 }

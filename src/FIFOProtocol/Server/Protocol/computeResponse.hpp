@@ -1,7 +1,7 @@
 template <class RequestType, class ResponseType>
 void
 T<RequestType, ResponseType>::computeResponse (RequestType request,
-    std::promise<ResponseType> * promise)
+    ::Protocol::Delay::T<ResponseType> delay)
 {
 	ResponseType response;
 
@@ -11,11 +11,10 @@ T<RequestType, ResponseType>::computeResponse (RequestType request,
 	}
 	catch (...)
 	{
-		promise->set_exception (std::current_exception ());
 		this->destroyRequest (request);
 		throw;
 	}
 
-	promise->set_value (response);
+	delay.set (response);
 	this->destroyRequest (request);
 }

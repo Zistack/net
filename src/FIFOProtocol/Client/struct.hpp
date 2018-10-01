@@ -29,9 +29,6 @@ struct T : IO::Interface::Protocol::T
 	void
 	event (IO::Blocking::InputStream::T & input_stream);
 
-	void
-	cleanQueue ();
-
 	Status::Bit::T status_bit;
 	Shutdown::Signal::T shutdown_signal;
 
@@ -45,5 +42,5 @@ struct T : IO::Interface::Protocol::T
 
 	std::chrono::milliseconds round_trip_timeout;
 
-	Thread::ConcurrentQueue::T<std::promise<ResponseType> *> response_queue;
+	Protocol::DelayQueue::T<ResponseType> response_queue;
 };
