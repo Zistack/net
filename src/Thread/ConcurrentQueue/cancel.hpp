@@ -1,10 +1,10 @@
 template <class Element>
 void
-T<Element>::open ()
+T<Element>::cancel ()
 {
 	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
 
-	this->closed = false;
+	this->closed = true;
 
 	this->condition_variable.notify_one ();
 }

@@ -4,16 +4,19 @@ struct T
 	T ();
 
 	void
-	open ();
+	push (const Element & element);
 
 	void
-	push (Element element);
+	push (Element && element);
 
 	Element
 	pop ();
 
 	void
-	close ();
+	cancel ();
+
+	void
+	reset ();
 
 	~T () = default;
 

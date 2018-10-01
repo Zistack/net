@@ -13,7 +13,7 @@ T<Element>::pop ()
 			return element;
 		}
 
-		if (this->closed) throw End::T ();
+		if (this->closed) throw Failure::CancelException::T ();
 
 		this->condition_variable.wait (lock);
 	}
