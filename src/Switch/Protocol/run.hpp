@@ -2,6 +2,9 @@ void
 T::run (IO::Interface::NonblockingInputStream::T * input_stream,
     IO::Interface::NonblockingOutputStream::T * output_stream)
 {
+	Failure::CleanupAction::T cleanup (
+	    [this]() { this->current_protocol = this->initial_protocol; });
+
 	try
 	{
 		while (true)
@@ -18,11 +21,8 @@ T::run (IO::Interface::NonblockingInputStream::T * input_stream,
 			break;
 		}
 	}
-	// This here is a clear indicator that we should be using RAII here.
 	catch (...)
 	{
-		this->current_protocol = this->initial_protocol;
 		throw;
 	}
-	this->current_protocol = this->initial_protocol;
 }
