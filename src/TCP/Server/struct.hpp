@@ -1,23 +1,21 @@
-struct T
+struct T : IO::Interface::ServerSocket::T
 {
-	T (const char * hostname,
-	    const char * port,
-	    IO::Interface::OutputStream::T * log,
-	    IO::Interface::ProtocolFactory::T * protocol_factory);
+	T (const char * host, const char * port);
+	T (const Config::T & config);
+	T (JSON::Value::T * config_value);
 
-	void
-	run ();
+	T (const T & other) = delete;
 
-	void
-	stop ();
+	Client::T *
+	accept () override;
 
-	~T () = default;
+	IO::Interface::Watchable::Events::T
+	events () const override;
 
-	const char * hostname;
-	const char * port;
-	IO::Interface::OutputStream::T * log;
+	int
+	fileDescriptor () const override;
 
-	IO::Interface::ProtocolFactory::T * protocol_factory;
+	~T () override;
 
-	Shutdown::Signal::T shutdown_signal;
+	int file_descriptor;
 };

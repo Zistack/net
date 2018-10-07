@@ -1,4 +1,4 @@
-TCP-moddepends = Failure Thread IO Shutdown Protocol
+TCP-moddepends = Failure IO JSON
 TCP-CFLAGS =
 TCP-LFLAGS =
 

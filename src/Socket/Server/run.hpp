@@ -1,14 +1,13 @@
 void
 T::run ()
 {
-	const std::string message_prefix = "TCP::Server::T::run\n";
+	const std::string message_prefix = "Socket::Server::T::run\n";
 
 	try
 	{
 		Failure::ExceptionStore::T exception_store;
 
-		IO::ServerSocket::T server_socket (
-		    this->hostname, this->port, this->log);
+		IO::Interface::ServerSocket::T * server_socket = this->newSocket ();
 
 		{
 			Thread::Nursery::T nursery (&exception_store);
@@ -16,10 +15,10 @@ T::run ()
 			Protocol::eventLoop (exception_store,
 			    server_socket,
 			    this->shutdown_signal,
-			    [this, &server_socket, &nursery]() {
-				    IO::Socket::T * socket;
+			    [this, server_socket, &nursery]() {
+				    IO::Interface::ClientSocket::T * socket;
 
-				    socket = new IO::Socket::T (&server_socket);
+				    socket = server_socket->accept ();
 				    IO::Interface::Protocol::T * protocol;
 				    try
 				    {
@@ -33,8 +32,8 @@ T::run ()
 
 				    nursery.add (
 				        [protocol, socket]() {
-					        protocol->run (
-					            socket->input_stream, socket->output_stream);
+					        protocol->run (socket->inputStream (),
+					            socket->outputStream ());
 				        },
 				        [protocol, socket]() {
 					        delete protocol;
@@ -45,6 +44,8 @@ T::run ()
 
 			nursery.cancel ();
 		}
+
+		delete server_socket;
 
 		exception_store.poll ();
 	}
