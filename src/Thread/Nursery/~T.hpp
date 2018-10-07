@@ -1,4 +1,4 @@
-T::~T ()
+T::~T () noexcept (false)
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 
@@ -7,7 +7,7 @@ T::~T ()
 	if (this->external_store)
 	{
 		this->external_store->tryStore (
-		    [&]() { this->exception_store.poll (); });
+		    [this]() { this->exception_store.poll (); });
 	}
 	else
 		this->exception_store.poll ();

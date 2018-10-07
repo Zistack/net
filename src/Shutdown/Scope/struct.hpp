@@ -4,7 +4,7 @@ struct T
 	    Failure::ExceptionStore::T * exception_store = nullptr);
 	T (const T & other) = delete;
 
-	~T ();
+	~T () noexcept (false);
 
 	Signal::T & signal;
 	Failure::ExceptionStore::T * exception_store;

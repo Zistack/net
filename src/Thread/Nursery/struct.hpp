@@ -17,7 +17,7 @@ struct T
 	void
 	cancel ();
 
-	~T ();
+	~T () noexcept (false);
 
 	private:
 	void
