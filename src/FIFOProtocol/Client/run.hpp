@@ -22,7 +22,7 @@ T<RequestType, ResponseType>::run (
 		Status::Scope::T request_period (this->status_bit);
 
 		Protocol::eventLoop (exception_store,
-		    blocking_input_stream,
+		    &blocking_input_stream,
 		    this->shutdown_signal,
 		    [this, &blocking_input_stream]() {
 			    this->event (blocking_input_stream);

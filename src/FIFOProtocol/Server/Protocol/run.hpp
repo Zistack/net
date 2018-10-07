@@ -29,7 +29,7 @@ T<RequestType, ResponseType>::run (
 		nursery.add (
 		    [this, &exception_store, &blocking_input_stream, &nursery]() {
 			    ::Protocol::eventLoop (exception_store,
-			        blocking_input_stream,
+			        &blocking_input_stream,
 			        this->shutdown_signal,
 			        [this, &blocking_input_stream, &nursery]() {
 				        this->event (blocking_input_stream, nursery);
