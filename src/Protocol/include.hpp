@@ -1,6 +1,6 @@
 #include <functional>
-#include <memory>
 #include <future>
+#include <memory>
 
 #include <Failure.hpp>
 #include <IO.hpp>

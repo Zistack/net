@@ -1,6 +1,6 @@
 void
 eventLoop (Failure::ExceptionStore::T & exception_store,
-    IO::Interface::Watchable::T & watchable,
+    IO::Interface::Watchable::T * watchable,
     Shutdown::Signal::T & shutdown_signal,
     std::function<void(void)> event)
 {
@@ -11,7 +11,7 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
 		{
 			try
 			{
-				IO::Util::wait (&watchable, &shutdown_signal);
+				IO::Util::wait (watchable, &shutdown_signal);
 			}
 			catch (Failure::CancelException::T)
 			{
