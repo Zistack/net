@@ -1,13 +1,16 @@
 struct T : Value::T
 {
-	T (InputStream::T * json_input_stream);
-	T (std::unordered_map<std::string, Value::T *> members);
+	T (IO::Interface::PeekableInputStream::T * input_stream);
+
+	template <class Iterable>
+	T (const Iterable & members);
 
 	Value::T *
 	at (std::string name);
 
 	void
-	writeTo (OutputStream::T * json_output_stream) override;
+	writeTo (IO::Interface::OutputStream::T * output_stream,
+	    size_t indentation = 0) override;
 
 	T *
 	asObject () override;

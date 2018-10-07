@@ -23,18 +23,18 @@ getExponent (IO::Interface::PeekableInputStream::T * input_stream)
 
 		if (exponent.empty ())
 		{
-			throw ParsingError::T (
+			throw Failure::Error::T (
 			    IO::Message::unexpectedCharacter (c, "'-' or digit"));
 		}
 		if (exponent[0] == '-' && exponent.size () == 1)
 		{
-			throw ParsingError::T (
+			throw Failure::Error::T (
 			    IO::Message::unexpectedCharacter (c, "digit"));
 		}
 		else
 			return exponent;
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
@@ -42,7 +42,7 @@ getExponent (IO::Interface::PeekableInputStream::T * input_stream)
 	{
 		if (exponent.empty () || (exponent[0] == '-' && exponent.size () == 1))
 		{
-			throw ParsingError::T (
+			throw Failure::Error::T (
 			    message_prefix + IO::Message::unexpectedEOF ());
 		}
 		else

@@ -1,17 +1,20 @@
 void
-T::writeTo (OutputStream::T * json_output_stream)
+T::writeTo (IO::Interface::OutputStream::T * output_stream, size_t indentation)
 {
-	json_output_stream->open ('[');
+	Util::indent (output_stream, indentation);
+	output_stream->put ('[');
 
 	auto it = this->members.begin ();
 	for (; it != this->members.end (); ++it)
 	{
-		if (it != this->members.begin ())
-		{
-			json_output_stream->print (",\n");
-		}
-		json_output_stream->put (*it);
+		if (it != this->members.begin ()) output_stream->put (',');
+		output_stream->put ('\n');
+
+		(*it)->writeTo (output_stream, indentation + 1);
 	}
 
-	json_output_stream->close (']');
+	output_stream->put ('\n');
+
+	Util::indent (output_stream, indentation);
+	output_stream->put (']');
 }

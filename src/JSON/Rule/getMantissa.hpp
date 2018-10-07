@@ -14,13 +14,13 @@ getMantissa (IO::Interface::PeekableInputStream::T * input_stream)
 
 		if (mantissa.empty ())
 		{
-			throw ParsingError::T (IO::Message::unexpectedCharacter (
+			throw Failure::Error::T (IO::Message::unexpectedCharacter (
 			    input_stream->peek (), "digit"));
 		}
 		else
 			return mantissa;
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
@@ -28,7 +28,7 @@ getMantissa (IO::Interface::PeekableInputStream::T * input_stream)
 	{
 		if (mantissa.empty ())
 		{
-			throw ParsingError::T (
+			throw Failure::Error::T (
 			    message_prefix + IO::Message::unexpectedEOF ());
 		}
 		else

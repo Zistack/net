@@ -49,14 +49,16 @@ getBase (IO::Interface::PeekableInputStream::T * input_stream)
 		else
 			expected = "digit";
 
-		throw ParsingError::T (IO::Message::unexpectedCharacter (c, expected));
+		throw Failure::Error::T (
+		    IO::Message::unexpectedCharacter (c, expected));
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
 	catch (const IO::EOF::T & e)
 	{
-		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
+		throw Failure::Error::T (
+		    message_prefix + IO::Message::unexpectedEOF ());
 	}
 }

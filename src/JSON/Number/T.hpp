@@ -14,7 +14,7 @@ T::T (std::string number) : base (NULL), mantissa (NULL), exponent (NULL)
 
 	if (!string_stream.eof ())
 	{
-		throw ParsingError::T ("JSON::Number::T\n" +
+		throw Failure::Error::T ("JSON::Number::T\n" +
 		    IO::Message::unexpectedCharacter (string_stream.peek ()));
 	}
 }

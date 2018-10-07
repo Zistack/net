@@ -1,13 +1,9 @@
-T::T (InputStream::T * json_input_stream)
+T::T (IO::Interface::PeekableInputStream::T * input_stream)
 {
 	const std::string message_prefix = "JSON::Array::T\n";
 
 	try
 	{
-		IO::Interface::PeekableInputStream::T * input_stream =
-		    json_input_stream->input_stream;
-
-		Util::skipWhitespace (input_stream);
 		IO::Util::expect (input_stream, '[');
 
 		Util::skipWhitespace (input_stream);
@@ -19,7 +15,7 @@ T::T (InputStream::T * json_input_stream)
 
 		while (true)
 		{
-			members.push_back (json_input_stream->get ());
+			members.push_back (read (input_stream));
 
 			Util::skipWhitespace (input_stream);
 			char c = input_stream->get ();
@@ -28,18 +24,22 @@ T::T (InputStream::T * json_input_stream)
 
 			if (c == ',') continue;
 
-			throw ParsingError::T (
+			throw Failure::Error::T (
 			    IO::Message::unexpectedCharacter (c, "']' or ','"));
 		}
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
 	catch (const IO::EOF::T & e)
 	{
-		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
+		throw Failure::Error::T (
+		    message_prefix + IO::Message::unexpectedEOF ());
 	}
 }
 
-T::T (std::vector<Value::T *> members) : members (members) {}
+template <class Iterable>
+T::T (const Iterable & members) : members (members.begin (), members.end ())
+{
+}

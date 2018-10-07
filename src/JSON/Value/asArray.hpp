@@ -1,5 +1,5 @@
 Array::T *
 T::asArray ()
 {
-	throw TypeError::T ("Value is not an array");
+	throw Failure::Error::T ("Value is not an array");
 }

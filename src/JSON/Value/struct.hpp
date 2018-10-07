@@ -1,7 +1,8 @@
 struct T
 {
 	virtual void
-	writeTo (OutputStream::T * json_output_stream) = 0;
+	writeTo (IO::Interface::OutputStream::T * output_stream,
+	    size_t indentation = 0) = 0;
 
 	virtual Array::T *
 	asArray ();
@@ -18,5 +19,5 @@ struct T
 	virtual String::T *
 	asString ();
 
-	virtual ~T ();
+	virtual ~T () = default;
 };

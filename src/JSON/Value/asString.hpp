@@ -1,5 +1,5 @@
 String::T *
 T::asString ()
 {
-	throw TypeError::T ("Value is not a string");
+	throw Failure::Error::T ("Value is not a string");
 }

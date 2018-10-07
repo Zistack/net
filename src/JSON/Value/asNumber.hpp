@@ -1,5 +1,5 @@
 Number::T *
 T::asNumber ()
 {
-	throw TypeError::T ("Value is not a number");
+	throw Failure::Error::T ("Value is not a number");
 }

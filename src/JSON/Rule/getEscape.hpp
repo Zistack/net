@@ -20,7 +20,7 @@ getEscape (IO::Interface::InputStream::T * input_stream)
 
 			if ((second & 0xFC00) != 0xDC00)
 			{
-				throw ParsingError::T (IO::Message::unexpectedCharacter (
+				throw Failure::Error::T (IO::Message::unexpectedCharacter (
 				    second, "a high surrogate code point"));
 			}
 
@@ -28,7 +28,7 @@ getEscape (IO::Interface::InputStream::T * input_stream)
 		}
 		else if ((first & 0xFC00) == 0xDC00)
 		{
-			throw ParsingError::T (IO::Message::unexpectedCharacter (
+			throw Failure::Error::T (IO::Message::unexpectedCharacter (
 			    first, "a code point in the basic multilingual plane"));
 		}
 		else
@@ -37,13 +37,13 @@ getEscape (IO::Interface::InputStream::T * input_stream)
 		if ((rune & 0xFC00) == 0xD800 || (rune & 0xFC00) == 0xDC00 ||
 		    rune > 0x10FFFF)
 		{
-			throw ParsingError::T (IO::Message::unexpectedCharacter (
+			throw Failure::Error::T (IO::Message::unexpectedCharacter (
 			    rune, "a valid UTF code point"));
 		}
 
 		return rune;
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}

@@ -1,10 +1,11 @@
 struct T : Value::T
 {
 	T (IO::Interface::PeekableInputStream::T * input_stream);
-	T (std::string string);
+	T (const std::string & string);
 
 	void
-	writeTo (OutputStream::T * json_output_stream) override;
+	writeTo (IO::Interface::OutputStream::T * output_stream,
+	    size_t indentation = 0) override;
 
 	T *
 	asString () override;

@@ -49,12 +49,13 @@ T::init (IO::Interface::PeekableInputStream::T * input_stream)
 
 		return;
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
 	catch (IO::EOF::T e)
 	{
-		throw ParsingError::T (message_prefix + IO::Message::unexpectedEOF ());
+		throw Failure::Error::T (
+		    message_prefix + IO::Message::unexpectedEOF ());
 	}
 }

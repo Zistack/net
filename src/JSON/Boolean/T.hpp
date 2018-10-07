@@ -18,9 +18,9 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 			this->value = false;
 		}
 
-		throw ParsingError::T (IO::Message::unexpectedCharacter (c));
+		throw Failure::Error::T (IO::Message::unexpectedCharacter (c));
 	}
-	catch (Failure::Throwable::T & e)
+	catch (Failure::Error::T & e)
 	{
 		throw e.set (message_prefix + e.what ());
 	}

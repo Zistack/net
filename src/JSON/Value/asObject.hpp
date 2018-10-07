@@ -1,5 +1,5 @@
 Object::T *
 T::asObject ()
 {
-	throw TypeError::T ("Value is not an object");
+	throw Failure::Error::T ("Value is not an object");
 }

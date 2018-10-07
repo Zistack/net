@@ -1,5 +1,5 @@
 Boolean::T *
 T::asBoolean ()
 {
-	throw TypeError::T ("Value is not a boolean");
+	throw Failure::Error::T ("Value is not a boolean");
 }
