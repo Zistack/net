@@ -9,6 +9,9 @@ T<RequestType, ResponseType>::output (
 		{
 			ResponseType response = this->response_queue.pop ().get ();
 
+			Failure::CleanupAction::T cleanup_response (
+			    [this, &response]() { this->destroyRespnse (response); });
+
 			try
 			{
 				{
@@ -20,10 +23,8 @@ T<RequestType, ResponseType>::output (
 			}
 			catch (Failure::CancelException::T)
 			{
-				this->destroyResponse (response);
 				throw Failure::Error::T ("Writing response timed out\n");
 			}
-			this->destroyResponse (response);
 		}
 	}
 	catch (Failure::CancelException::T)
