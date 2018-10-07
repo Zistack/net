@@ -1,4 +1,4 @@
-T::T (Interface::InputStream::T & input_stream) :
+T::T (Interface::InputStream::T * input_stream) :
     input_stream (input_stream),
     peekable (false)
 {
