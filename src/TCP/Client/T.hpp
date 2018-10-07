@@ -62,7 +62,10 @@ T::T (const char * hostname, const char * port)
 	    new IO::FileDescriptor::OutputStream::T (this->file_descriptor);
 }
 
-T::T (const Config::T & config) : T (config.hostname, config.port) {}
+T::T (const Config::T & config) :
+    T (config.hostnameCString (), config.portCString ())
+{
+}
 
 T::T (JSON::Value::T * config_value) : T (Config::T (config_value)) {}
 

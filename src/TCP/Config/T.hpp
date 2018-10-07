@@ -1,23 +1,10 @@
-T::T (const char * hostname, const char * port) :
-    hostname (nullptr),
-    port (nullptr)
+T::T (const std::string & hostname, const std::string & port) :
+    hostname (hostname),
+    port (port)
 {
-	if (hostname)
-	{
-		size_t hostname_length = strlen (hostname) + 1;
-		this->hostname = new char[hostname_length];
-		strncpy (this->hostname, hostname, hostname_length);
-	}
-
-	if (port)
-	{
-		size_t hostname_length = strlen (hostname) + 1;
-		this->hostname = new char[hostname_length];
-		strncpy (this->hostname, hostname, hostname_length);
-	}
 }
 
-T::T (JSON::Value::T * config_value) : hostname (nullptr), port (nullptr)
+T::T (JSON::Value::T * config_value) : hostname (""), port ("")
 {
 	const std::string message_prefix = "TCP::Config::T::T\n";
 
@@ -36,11 +23,7 @@ T::T (JSON::Value::T * config_value) : hostname (nullptr), port (nullptr)
 		{
 			JSON::String::T * hostname_string = hostname_value->asString ();
 
-			size_t hostname_length = hostname_string->value.size () + 1;
-			this->hostname = new char[hostname_length];
-			strncpy (this->hostname,
-			    hostname_string->value.data (),
-			    hostname_length);
+			this->hostname = hostname_string->value;
 		}
 
 		JSON::Value::T * port_value = config_object->at ("Port");
@@ -48,9 +31,7 @@ T::T (JSON::Value::T * config_value) : hostname (nullptr), port (nullptr)
 		{
 			JSON::String::T * port_string = port_value->asString ();
 
-			size_t port_length = port_string->value.size () + 1;
-			this->port = new char[port_length];
-			strncpy (this->port, port_string->value.data (), port_length);
+			this->port = port_string->value;
 		}
 	}
 	catch (Failure::Error::T & e)
