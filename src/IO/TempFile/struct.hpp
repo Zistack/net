@@ -5,6 +5,7 @@ struct T
 
 	void
 	reset ();
+
 	off_t
 	size ();
 
