@@ -1,4 +1,4 @@
-T::T ()
+T::T () : is_shutdown (false)
 {
 	const std::string message_prefix = "IO::Pipe::T::T\n";
 
