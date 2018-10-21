@@ -9,7 +9,7 @@ T::writeTo (IO::Interface::OutputStream::T * output_stream, size_t indentation)
 
 		output_stream->put ('"');
 
-		for (char c : this->value)
+		for (char c : this->string)
 		{
 			switch (c)
 			{

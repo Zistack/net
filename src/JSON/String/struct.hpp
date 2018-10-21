@@ -10,7 +10,13 @@ struct T : Value::T
 	T *
 	asString () override;
 
+	std::string &
+	value ();
+
+	const std::string &
+	value () const;
+
 	~T () override = default;
 
-	std::string value;
+	std::string string;
 };

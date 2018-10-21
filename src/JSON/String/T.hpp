@@ -24,31 +24,31 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 				switch (c)
 				{
 				case 'b':
-					this->value.push_back ('\x08');
+					this->string.push_back ('\x08');
 					continue;
 				case 't':
-					this->value.push_back ('\x09');
+					this->string.push_back ('\x09');
 					continue;
 				case 'n':
-					this->value.push_back ('\x0A');
+					this->string.push_back ('\x0A');
 					continue;
 				case 'f':
-					this->value.push_back ('\x0C');
+					this->string.push_back ('\x0C');
 					continue;
 				case 'r':
-					this->value.push_back ('\x0D');
+					this->string.push_back ('\x0D');
 					continue;
 				case 'u':
-					this->value.append (IO::Util::runeToUTF8CodePoint (
+					this->string.append (IO::Util::runeToUTF8CodePoint (
 					    Rule::getEscape (input_stream)));
 					continue;
 				default:
-					this->value.push_back (c);
+					this->string.push_back (c);
 					continue;
 				}
 			}
 
-			this->value.push_back (c);
+			this->string.push_back (c);
 		}
 	}
 	catch (Failure::Error::T & e)
@@ -62,4 +62,4 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 	}
 }
 
-T::T (const std::string & string) : value (string) {}
+T::T (const std::string & string) : string (string) {}

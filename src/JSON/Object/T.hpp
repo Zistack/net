@@ -18,7 +18,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 			Util::skipWhitespace (input_stream);
 
 			String::T * json_string = new String::T (input_stream);
-			std::string key = json_string->value;
+			std::string key = json_string->value ();
 			delete json_string;
 
 			Util::skipWhitespace (input_stream);

@@ -14,7 +14,7 @@ getCodePoint (IO::Interface::InputStream::T * input_stream)
 			c = IO::Util::expect (input_stream, IO::Class::hex);
 
 			code_point |=
-			    ((char16_t) IO::Util::hexToNibble (c)) << ((i - 1) * 4);
+			    (char16_t) (IO::Util::hexToNibble (c) << ((i - 1) * 4));
 		}
 
 		return code_point;
