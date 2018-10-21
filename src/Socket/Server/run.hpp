@@ -32,8 +32,15 @@ T::run ()
 
 				    nursery.add (
 				        [protocol, socket]() {
-					        protocol->run (socket->inputStream (),
-					            socket->outputStream ());
+					        try
+					        {
+						        protocol->run (socket->inputStream (),
+						            socket->outputStream ());
+					        }
+					        catch (const Failure::Error::T & e)
+					        {
+						        // Log it, which for now means ignore it.
+					        }
 				        },
 				        [protocol, socket]() {
 					        delete protocol;
