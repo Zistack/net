@@ -1,7 +1,8 @@
 template <class RequestType, class ResponseType>
 void
 T<RequestType, ResponseType>::output (
-    IO::Blocking::OutputStream::T & output_stream)
+    IO::Blocking::OutputStream::T & output_stream,
+    IO::Signal::T & output_timeout_signal)
 {
 	try
 	{
@@ -10,16 +11,16 @@ T<RequestType, ResponseType>::output (
 			ResponseType response = this->response_queue.pop ().get ();
 
 			Failure::CleanupAction::T cleanup_response (
-			    [this, &response]() { this->destroyRespnse (response); });
+			    [this, &response]() { this->destroyResponse (response); });
 
 			try
 			{
 				{
 					Thread::Timer::T output_timer (this->output_timeout,
-					    [this]() { this->output_timeout_signal.send (); });
+					    [&]() { output_timeout_signal.send (); });
 					this->writeResponse (response, &output_stream);
 				}
-				this->output_timeout_signal.recieve ();
+				output_timeout_signal.recieve ();
 			}
 			catch (Failure::CancelException::T)
 			{

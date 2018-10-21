@@ -32,10 +32,12 @@ struct T : IO::Interface::Protocol::T
 
 	private:
 	void
-	output (IO::Blocking::OutputStream::T & output_stream);
+	output (IO::Blocking::OutputStream::T & output_stream,
+	    IO::Signal::T & output_timeout_signal);
 
 	void
 	event (IO::Blocking::InputStream::T & input_stream,
+	    IO::Signal::T & input_timeout_signal,
 	    Thread::Nursery::T & nursery);
 
 	void
@@ -45,10 +47,7 @@ struct T : IO::Interface::Protocol::T
 	Shutdown::Signal::T shutdown_signal;
 
 	std::chrono::milliseconds input_timeout;
-	IO::Signal::T input_timeout_signal;
-
 	std::chrono::milliseconds output_timeout;
-	IO::Signal::T output_timeout_signal;
 
 	::Protocol::DelayQueue::T<ResponseType> response_queue;
 };

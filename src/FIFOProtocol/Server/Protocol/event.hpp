@@ -2,6 +2,7 @@ template <class RequestType, class ResponseType>
 void
 T<RequestType, ResponseType>::event (
     IO::Blocking::InputStream::T & input_stream,
+    IO::Signal::T & input_timeout_signal,
     Thread::Nursery::T & nursery)
 {
 	RequestType request;
@@ -9,11 +10,11 @@ T<RequestType, ResponseType>::event (
 	try
 	{
 		{
-			Thread::Timer::T input_timer (this->input_timeout,
-			    [this]() { this->input_timeout_signal.send (); });
+			Thread::Timer::T input_timer (
+			    this->input_timeout, [&]() { input_timeout_signal.send (); });
 			request = this->readRequest (&input_stream);
 		}
-		this->input_timeout_signal.recieve ();
+		input_timeout_signal.recieve ();
 	}
 	catch (Failure::CancelException::T)
 	{

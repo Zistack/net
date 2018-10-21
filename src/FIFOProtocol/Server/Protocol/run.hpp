@@ -9,10 +9,13 @@ T<RequestType, ResponseType>::run (
 
 	Failure::ExceptionStore::T exception_store;
 
+	IO::Signal::T input_timeout_signal;
 	IO::Blocking::InputStream::T blocking_input_stream (
-	    input_stream, &this->input_timeout_signal);
+	    input_stream, &input_timeout_signal);
+
+	IO::Signal::T output_timeout_signal;
 	IO::Blocking::OutputStream::T blocking_output_stream (
-	    output_stream, &this->output_timeout_signal);
+	    output_stream, &output_timeout_signal);
 
 	{
 		::Protocol::DelayQueue::Scope::T<ResponseType> response_period (
@@ -21,18 +24,27 @@ T<RequestType, ResponseType>::run (
 		Thread::Nursery::T nursery (&exception_store);
 
 		nursery.add (
-		    [this, &blocking_output_stream]() {
-			    this->output (blocking_output_stream);
+		    [this, &blocking_output_stream, &output_timeout_signal]() {
+			    this->output (blocking_output_stream, output_timeout_signal);
 		    },
 		    [this]() { this->response_queue.cancel (); });
 
 		nursery.add (
-		    [this, &exception_store, &blocking_input_stream, &nursery]() {
+		    [this,
+		        &exception_store,
+		        &blocking_input_stream,
+		        &input_timeout_signal,
+		        &nursery]() {
 			    ::Protocol::eventLoop (exception_store,
 			        &blocking_input_stream,
 			        this->shutdown_signal,
-			        [this, &blocking_input_stream, &nursery]() {
-				        this->event (blocking_input_stream, nursery);
+			        [this,
+			            &blocking_input_stream,
+			            &input_timeout_signal,
+			            &nursery]() {
+				        this->event (blocking_input_stream,
+				            input_timeout_signal,
+				            nursery);
 			        });
 			    exception_store.poll ();
 			    this->stop ();
