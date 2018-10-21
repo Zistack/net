@@ -3,9 +3,9 @@ T::write (const char * buffer, size_t count)
 {
 	while (true)
 	{
-		size_t written = this->output_stream->write (buffer, count);
-		buffer += written;
-		count -= written;
+		size_t size = this->output_stream->write (buffer, count);
+		buffer += size;
+		count -= size;
 
 		if (!count) return;
 
