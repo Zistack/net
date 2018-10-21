@@ -1,30 +1,20 @@
 struct T
 {
-	T (JSON::Value::T * json_value);
-	T (std::list<std::pair<const char *, const char *>> public_private_keypairs,
-	    const char * client_ca_filename,
-	    const char * server_ca_filename,
-	    const char * server_ca_path,
-	    const char * cipher_string,
-	    const char * dh_parameter_filename);
+	virtual ~T () = default;
 
-	void
-	addIdentityKeyPair (const char * public_key_file,
-	    const char * private_key_file);
+	protected:
+	T (struct tls * tls_context);
 
-	void
-	setServerCA (const char * server_ca_filename, const char * server_ca_path);
+	T (const T & other) = delete;
 
-	void
-	setClientCA (const char * client_ca_filename);
+	T (T && other) = default;
 
-	void
-	setCipherString (const char * cipher_string);
+	T &
+	operator= (const T & other) = delete;
 
-	void
-	setDHParameters (const char * dh_parameter_file);
+	T &
+	operator= (T && other) = default;
 
-	~T ();
-
-	SSL_CTX * ssl_ctx;
+	std::unique_ptr<struct tls, Functor::T<decltype (tls_free), tls_free>>
+	    tls_context;
 };

@@ -1,6 +1,6 @@
-TLS-moddepends = Failure IO JSON
+TLS-moddepends = Failure IO JSON NullableString Thread Shutdown Protocol Functor
 TLS-CFLAGS =
-TLS-LFLAGS =
+TLS-LFLAGS = -ltls -lssl -lcrypto
 
 TLS-moddepends-CFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-CFLAGS))
 TLS-moddepends-LFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-LFLAGS))

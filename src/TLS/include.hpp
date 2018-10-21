@@ -1,19 +1,16 @@
-#include <errno.h>
-#include <sys/socket.h>
+#include <tls.h>
 
-#include <openssl/bio.h>
-#include <openssl/err.h>
-#include <openssl/pem.h>
-#include <openssl/ssl.h>
-
-#include <condition_variable>
-#include <list>
-#include <mutex>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <condition_variable>
+#include <mutex>
 #include <utility>
 
 #include <Failure.hpp>
+#include <Functor.hpp>
 #include <IO.hpp>
 #include <JSON.hpp>
+#include <Protocol.hpp>
+#include <Shutdown.hpp>
 #include <Thread.hpp>
