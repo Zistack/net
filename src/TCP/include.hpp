@@ -12,3 +12,4 @@
 #include <Failure.hpp>
 #include <IO.hpp>
 #include <JSON.hpp>
+#include <NullableString.hpp>

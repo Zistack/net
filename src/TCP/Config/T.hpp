@@ -1,17 +1,17 @@
-T::T (const std::string & hostname, const std::string & port) :
+T::T (const NullableString::T & hostname, const NullableString::T & port) :
     hostname (hostname),
     port (port)
 {
 }
 
-T::T (JSON::Value::T * config_value) : hostname (""), port ("")
+T::T (JSON::Value::T * config_value)
 {
 	const std::string message_prefix = "TCP::Config::T::T\n";
 
 	if (!config_value)
 	{
 		throw Failure::Error::T (
-		    message_prefix + "Expected non-null config object\n");
+		    message_prefix + "Configuration must be non-null\n");
 	}
 
 	try
@@ -23,7 +23,7 @@ T::T (JSON::Value::T * config_value) : hostname (""), port ("")
 		{
 			JSON::String::T * hostname_string = hostname_value->asString ();
 
-			this->hostname = hostname_string->value;
+			this->hostname = hostname_string->value ();
 		}
 
 		JSON::Value::T * port_value = config_object->at ("Port");
@@ -31,7 +31,7 @@ T::T (JSON::Value::T * config_value) : hostname (""), port ("")
 		{
 			JSON::String::T * port_string = port_value->asString ();
 
-			this->port = port_string->value;
+			this->port = port_string->value ();
 		}
 	}
 	catch (Failure::Error::T & e)

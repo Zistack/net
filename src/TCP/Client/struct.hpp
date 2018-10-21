@@ -1,6 +1,6 @@
 struct T : IO::Interface::ClientSocket::T
 {
-	T (const char * hostname, const char * port);
+	T (const NullableString::T & hostname, const NullableString::T & port);
 	T (const Config::T & config);
 	T (JSON::Value::T * config_value);
 

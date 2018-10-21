@@ -1,4 +1,4 @@
-T::T (const char * host, const char * port)
+T::T (const NullableString::T & host, const NullableString::T & port)
 {
 	std::string message_prefix = "TCP::Server::T::T\n";
 
@@ -74,9 +74,6 @@ T::T (const char * host, const char * port)
 	}
 }
 
-T::T (const Config::T & config) :
-    T (config.hostnameCString (), config.portCString ())
-{
-}
+T::T (const Config::T & config) : T (config.hostname, config.port) {}
 
 T::T (JSON::Value::T * config_value) : T (Config::T (config_value)) {}

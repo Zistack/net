@@ -1,16 +1,13 @@
 struct T
 {
-	T (const std::string & hostname, const std::string & port);
+	T (const NullableString::T & hostname, const NullableString::T & port);
+
 	T (JSON::Value::T * config_value);
 
-	const char *
-	hostnameCString () const;
-
-	const char *
-	portCString () const;
+	T () = default;
 
 	~T () = default;
 
-	std::string hostname;
-	std::string port;
+	NullableString::T hostname;
+	NullableString::T port;
 };
