@@ -1,46 +1,15 @@
-T::T () : is_shutdown (false)
+T::T () : T (newPipe ()) {}
+
+T::T (std::pair<int, int> pipe_file_descriptors) :
+    T (pipe_file_descriptors.first, pipe_file_descriptors.second)
 {
-	const std::string message_prefix = "IO::Pipe::T::T\n";
+}
 
-	int file_descriptor[2];
-
-	if (pipe (file_descriptor) == -1)
-	{
-		throw Failure::Error::T (
-		    message_prefix + "pipe: " + strerror (errno) + "\n");
-	}
-
-	this->read_file_descriptor = file_descriptor[0];
-	this->write_file_descriptor = file_descriptor[1];
-
-	try
-	{
-		if (fcntl (this->read_file_descriptor,
-		        F_SETFL,
-		        fcntl (this->read_file_descriptor, F_GETFL) | O_NONBLOCK) == -1)
-		{
-			throw Failure::Error::T (
-			    message_prefix + "fcntl: " + strerror (errno) + "\n");
-		}
-
-		if (fcntl (this->write_file_descriptor,
-		        F_SETFL,
-		        fcntl (this->write_file_descriptor, F_GETFL) | O_NONBLOCK) ==
-		    -1)
-		{
-			throw Failure::Error::T (
-			    message_prefix + "fcntl: " + strerror (errno) + "\n");
-		}
-
-		this->input_stream =
-		    new IO::FileDescriptor::InputStream::T (this->read_file_descriptor);
-		this->output_stream = new IO::FileDescriptor::OutputStream::T (
-		    this->write_file_descriptor);
-	}
-	catch (Failure::Error::T)
-	{
-		close (this->read_file_descriptor);
-		close (this->write_file_descriptor);
-		throw;
-	}
+T::T (int read_file_descriptor, int write_file_descriptor) :
+    read_file_descriptor (read_file_descriptor),
+    write_file_descriptor (write_file_descriptor),
+    is_shutdown (false),
+    input_stream (read_file_descriptor),
+    output_stream (write_file_descriptor)
+{
 }

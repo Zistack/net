@@ -1,20 +1,41 @@
 struct T
 {
 	T ();
+
 	T (const T & other) = delete;
+
+	T (T && other) = delete;
 
 	T &
 	operator= (const T & other) = delete;
 
+	T &
+	operator= (T && other) = delete;
+
 	void
 	shutdown ();
 
+	FileDescriptor::InputStream::T &
+	inputStream ();
+
+	FileDescriptor::OutputStream::T &
+	outputStream ();
+
 	~T ();
 
-	FileDescriptor::InputStream::T * input_stream;
-	FileDescriptor::OutputStream::T * output_stream;
+	private:
+	T (int read_file_descriptor, int write_file_descriptor);
+
+	T (std::pair<int, int> pipe_file_descriptors);
+
+	static std::pair<int, int>
+	newPipe ();
 
 	int read_file_descriptor;
 	int write_file_descriptor;
+
 	bool is_shutdown;
+
+	FileDescriptor::InputStream::T input_stream;
+	FileDescriptor::OutputStream::T output_stream;
 };
