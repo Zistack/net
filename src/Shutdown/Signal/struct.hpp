@@ -9,16 +9,23 @@ struct T : IO::Interface::Watchable::T
 	events () const override;
 
 	void
-	set ();
+	send ();
 
-	void
-	reset ();
-
-	void
-	clear ();
+	bool
+	running ();
 
 	~T () = default;
 
+	private:
+	void
+	open ();
+
+	void
+	close ();
+
 	IO::Signal::T signal;
 	std::atomic<State::T> state;
+
+	friend Scope::T<T>;
+	friend SuppressingScope::T<T>;
 };

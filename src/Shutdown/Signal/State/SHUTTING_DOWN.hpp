@@ -1,0 +1,1 @@
+const T SHUTTING_DOWN = 2;

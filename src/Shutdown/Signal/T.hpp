@@ -1,1 +1,1 @@
-T::T () : state (State::CLEAR) {}
+T::T () : state (State::INACTIVE) {}
