@@ -1,6 +1,6 @@
 struct T : Watchable::T
 {
-	virtual ClientSocket::T *
+	virtual std::unique_ptr<Interface::Socket::T>
 	accept () = 0;
 
 	virtual Watchable::Events::T

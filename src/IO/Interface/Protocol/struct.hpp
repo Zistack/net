@@ -1,8 +1,11 @@
 struct T
 {
 	virtual void
-	run (IO::Interface::NonblockingInputStream::T * input_stream,
-	    IO::Interface::NonblockingOutputStream::T * output_stream) = 0;
+	prime (IO::Interface::NonblockingInputStream::T & input_stream,
+	    IO::Interface::NonblockingOutputStream::T & output_stream) = 0;
+
+	virtual void
+	run () = 0;
 
 	virtual void
 	stop () = 0;
