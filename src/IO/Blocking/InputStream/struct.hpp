@@ -1,6 +1,16 @@
 struct T : Interface::WatchableInputStream::T
 {
-	T (Interface::NonblockingInputStream::T * input_stream, Signal::T * signal);
+	T (Interface::NonblockingInputStream::T & input_stream, Signal::T & signal);
+
+	T (const T & other) = delete;
+
+	T (T && other) = delete;
+
+	T &
+	operator= (const T & other) = delete;
+
+	T &
+	operator= (T && other) = delete;
 
 	char
 	get () override;
@@ -13,8 +23,8 @@ struct T : Interface::WatchableInputStream::T
 
 	~T () = default;
 
-	Interface::NonblockingInputStream::T * input_stream;
-	Signal::T * signal;
+	Interface::NonblockingInputStream::T & input_stream;
+	Signal::T & signal;
 
 	static const size_t BUF_SIZE = 1024;
 	size_t start;

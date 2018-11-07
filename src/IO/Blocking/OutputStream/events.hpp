@@ -1,5 +1,5 @@
 Interface::Watchable::Events::T
 T::events () const
 {
-	return this->output_stream->events ();
+	return this->output_stream.events ();
 }

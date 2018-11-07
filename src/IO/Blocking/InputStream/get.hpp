@@ -5,7 +5,7 @@ T::get ()
 	{
 		while (true)
 		{
-			this->end = this->input_stream->read (this->buffer, T::BUF_SIZE);
+			this->end = this->input_stream.read (this->buffer, T::BUF_SIZE);
 			if (this->end) break;
 			Util::wait (this->input_stream, this->signal);
 		}

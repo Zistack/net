@@ -1,5 +1,5 @@
 int
 T::fileDescriptor () const
 {
-	return this->input_stream->fileDescriptor ();
+	return this->input_stream.fileDescriptor ();
 }
