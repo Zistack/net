@@ -3,19 +3,25 @@ struct T
 {
 	T () = default;
 
-	Delay::T<Element>
-	push ();
+	void
+	push (Delay::T<Element> & delay);
 
 	Delay::T<Element>
 	pop ();
 
-	void
-	cancel ();
-
-	void
-	reset ();
+	Optional::T<Delay::T<Element>>
+	tryPop ();
 
 	~T () = default;
 
+	private:
+	void
+	open ();
+
+	void
+	close ();
+
 	Thread::ConcurrentQueue::T<Delay::T<Element>> queue;
+
+	friend Scope::T<T>;
 };

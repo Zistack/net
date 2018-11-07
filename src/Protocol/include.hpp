@@ -4,4 +4,6 @@
 
 #include <Failure.hpp>
 #include <IO.hpp>
+#include <Optional.hpp>
+#include <Scope.hpp>
 #include <Shutdown.hpp>
