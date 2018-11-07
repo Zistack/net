@@ -1,5 +1,6 @@
+template <class Callable>
 bool
-T::tryStore (std::function<void(void)> f)
+T::tryStore (Callable && f)
 {
 	try
 	{

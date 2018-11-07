@@ -8,17 +8,24 @@ struct T
 	bool
 	store (std::exception_ptr e);
 
+	template <class Callable>
 	bool
-	tryStore (std::function<void(void)> f);
+	tryStore (Callable && f);
+
+	operator bool () const;
 
 	void
 	poll ();
+
+	void
+	pop ();
 
 	void
 	clear ();
 
 	~T () = default;
 
+	private:
 	std::mutex m;
 	std::exception_ptr exception;
 };
