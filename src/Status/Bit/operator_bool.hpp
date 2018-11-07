@@ -1,4 +1,5 @@
-T::operator bool () const
+template <class Lockable>
+T<Lockable>::operator bool () const
 {
-	return this->status ();
+	return this->state;
 }
