@@ -1,7 +1,11 @@
 template <class Callable, Callable f>
-struct T
+struct T;
+
+template <class ReturnType,
+    class... ArgumentTypes,
+    ReturnType (f) (ArgumentTypes...)>
+struct T<ReturnType (ArgumentTypes...), f>
 {
-	template <class... Args>
-	typename ReturnType::T<Callable>::Type
-	operator() (Args &&... args);
+	ReturnType
+	operator() (ArgumentTypes &&... arguments);
 };

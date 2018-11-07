@@ -1,7 +1,8 @@
-template <class Callable, Callable f>
-template <class... Args>
-typename ReturnType::T<Callable>::Type
-T<Callable, f>::operator() (Args &&... args)
+template <class ReturnType,
+    class... ArgumentTypes,
+    ReturnType (f) (ArgumentTypes...)>
+ReturnType
+T<ReturnType (ArgumentTypes...), f>::operator() (ArgumentTypes &&... arguments)
 {
-	return f (args...);
+	return f (std::forward<ArgumentTypes> (arguments)...);
 }
