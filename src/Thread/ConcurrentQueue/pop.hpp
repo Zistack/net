@@ -2,7 +2,7 @@ template <class Element>
 Element
 T<Element>::pop ()
 {
-	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
+	std::unique_lock<decltype (this->m)> lock (this->m);
 
 	while (true)
 	{
@@ -15,6 +15,6 @@ T<Element>::pop ()
 
 		if (this->closed) throw Failure::CancelException::T ();
 
-		this->condition_variable.wait (lock);
+		this->c.wait (lock);
 	}
 }

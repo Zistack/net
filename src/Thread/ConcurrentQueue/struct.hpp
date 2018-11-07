@@ -12,16 +12,20 @@ struct T
 	Element
 	pop ();
 
-	void
-	cancel ();
+	Optional::T<Element>
+	tryPop ();
 
 	void
-	reset ();
+	open ();
+
+	void
+	close ();
 
 	~T () = default;
 
+	private:
+	std::mutex m;
+	std::condition_variable c;
 	bool closed;
-	std::mutex mutex;
-	std::condition_variable condition_variable;
 	std::list<Element> elements;
 };
