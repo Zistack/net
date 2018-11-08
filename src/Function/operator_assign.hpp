@@ -15,3 +15,12 @@ T<ReturnType (ArgumentTypes...)>::operator= (T && other)
 
 	return *this;
 }
+
+template <class ReturnType, class... ArgumentTypes>
+T<ReturnType (ArgumentTypes...)> & T<ReturnType (ArgumentTypes...)>::operator= (
+    std::nullptr_t)
+{
+	this->function = nullptr;
+
+	return *this;
+}

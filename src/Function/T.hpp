@@ -16,6 +16,11 @@ T<ReturnType (ArgumentTypes...)>::T (T && other) :
 }
 
 template <class ReturnType, class... ArgumentTypes>
+T<ReturnType (ArgumentTypes...)>::T (std::nullptr_t) : function (nullptr)
+{
+}
+
+template <class ReturnType, class... ArgumentTypes>
 template <class Callable, typename, typename>
 T<ReturnType (ArgumentTypes...)>::T (const Callable & callable) :
     function (

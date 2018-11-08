@@ -10,6 +10,8 @@ struct T<ReturnType (ArgumentTypes...)>
 
 	T (T && other);
 
+	T (std::nullptr_t);
+
 	template <class Callable,
 	    typename = typename std::enable_if<
 	        !std::is_same<T, typename std::decay<Callable>::type>::value>::type,
@@ -31,6 +33,8 @@ struct T<ReturnType (ArgumentTypes...)>
 
 	T &
 	operator= (T && other);
+
+	T & operator= (std::nullptr_t);
 
 	operator bool () const;
 
