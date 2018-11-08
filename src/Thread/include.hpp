@@ -10,3 +10,5 @@
 #include <unordered_set>
 
 #include <Failure.hpp>
+#include <Function.hpp>
+#include <Optional.hpp>

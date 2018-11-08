@@ -1,27 +1,12 @@
+template <class Function, class Cancel>
 void
-T::add (std::function<void(void)> run)
-{
-	this->add (run, nullptr, nullptr);
-}
-
-void
-T::add (std::function<void(void)> run, std::function<void(void)> cancel)
-{
-	this->add (run, nullptr, cancel);
-}
-
-void
-T::add (std::function<void(void)> run,
-    std::function<void(void)> clean,
-    std::function<void(void)> cancel)
+T::add (Function && function, Cancel && cancel) noexcept
 {
 	this->start (
-	    [run, clean, this]() {
-		    bool first_fail =
-		        this->exception_store.tryStore ([&]() { run (); });
+	    [this, function (std::forward<Function> (function))]() mutable {
+		    bool first_fail = this->exception_store.tryStore (function);
 		    this->finish ();
 		    if (first_fail) this->cancel ();
-		    if (clean) clean ();
 	    },
-	    cancel);
+	    std::forward<Cancel> (cancel));
 }

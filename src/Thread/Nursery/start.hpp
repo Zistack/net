@@ -1,9 +1,15 @@
-void
-T::start (std::function<void(void)> run, std::function<void(void)> cancel)
+template <class Function, class Cancel>
+bool
+T::start (Function && function, Cancel && cancel)
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 
-	std::thread * thread = new std::thread (run);
+	if (this->exception_store) return false;
 
-	this->threads.insert ({thread->get_id (), {thread, cancel}});
+	Thread::T thread (
+	    std::forward<Function> (function), std::forward<Cancel> (cancel));
+
+	this->threads.insert ({thread.id (), std::move (thread)});
+
+	return true;
 }

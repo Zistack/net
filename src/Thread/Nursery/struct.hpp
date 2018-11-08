@@ -1,38 +1,52 @@
 struct T
 {
-	T (Failure::ExceptionStore::T * exception_store = nullptr);
+	T () noexcept;
+
+	T (Failure::ExceptionStore::T & exception_store) noexcept;
+
 	T (const T & other) = delete;
 
+	T (T && other) = delete;
+
+	T &
+	operator= (const T & other) = delete;
+
+	T &
+	operator= (T && other) = delete;
+
+	template <class Function, class Cancel = std::nullptr_t>
 	void
-	add (std::function<void(void)> run);
+	add (Function && function, Cancel && cancel = nullptr) noexcept;
+
+	template <class Function, class Cancel = std::nullptr_t>
+	void
+	run (Function && function, Cancel && cancel = nullptr) noexcept;
+
+	template <class Function, class Cancel = std::nullptr_t>
+	void
+	call (Function && function, Cancel && cancel = nullptr);
 
 	void
-	add (std::function<void(void)> run, std::function<void(void)> cancel);
-
-	void
-	add (std::function<void(void)> run,
-	    std::function<void(void)> clean,
-	    std::function<void(void)> cancel);
-
-	void
-	cancel ();
+	cancel () noexcept;
 
 	~T () noexcept (false);
 
 	private:
-	void
-	start (std::function<void(void)> run, std::function<void(void)> cancel);
+	template <class Function, class Cancel>
+	bool
+	start (Function && function, Cancel && cancel);
 
 	void
-	finish ();
+	finish () noexcept;
+
+	void
+	join ();
 
 	std::mutex m;
 	std::condition_variable c;
 
-	std::unordered_map<std::thread::id,
-	    std::pair<std::thread *, std::function<void(void)>>>
-	    threads;
+	std::unordered_map<std::thread::id, Thread::T> threads;
 
-	Failure::ExceptionStore::T exception_store;
-	Failure::ExceptionStore::T * external_store;
+	std::unique_ptr<Failure::ExceptionStore::T> internal_store;
+	Failure::ExceptionStore::T & exception_store;
 };
