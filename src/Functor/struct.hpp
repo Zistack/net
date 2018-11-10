@@ -7,5 +7,5 @@ template <class ReturnType,
 struct T<ReturnType (ArgumentTypes...), f>
 {
 	ReturnType
-	operator() (ArgumentTypes &&... arguments);
+	operator() (ArgumentTypes... arguments);
 };
