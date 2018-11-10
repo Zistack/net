@@ -1,11 +1,11 @@
 bool
-test (IO::Interface::PeekableInputStream::T * input_stream, char e)
+test (IO::Interface::PeekableInputStream::T & input_stream, char e)
 {
 	char c;
 
 	try
 	{
-		c = input_stream->peek ();
+		c = input_stream.peek ();
 	}
 	catch (EOF::T)
 	{
@@ -16,14 +16,14 @@ test (IO::Interface::PeekableInputStream::T * input_stream, char e)
 }
 
 bool
-test (IO::Interface::PeekableInputStream::T * input_stream,
+test (IO::Interface::PeekableInputStream::T & input_stream,
     std::function<bool(char c)> classPredicate)
 {
 	char c;
 
 	try
 	{
-		c = input_stream->peek ();
+		c = input_stream.peek ();
 	}
 	catch (EOF::T)
 	{

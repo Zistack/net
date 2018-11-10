@@ -1,7 +1,7 @@
 void
-expect (Interface::InputStream::T * input_stream, char e)
+expect (Interface::InputStream::T & input_stream, char e)
 {
-	char c = input_stream->get ();
+	char c = input_stream.get ();
 
 	if (c != e)
 	{
@@ -10,10 +10,10 @@ expect (Interface::InputStream::T * input_stream, char e)
 }
 
 char
-expect (Interface::InputStream::T * input_stream,
+expect (Interface::InputStream::T & input_stream,
     std::function<bool(char c)> classPredicate)
 {
-	char c = input_stream->get ();
+	char c = input_stream.get ();
 
 	if (classPredicate (c)) return c;
 
@@ -21,7 +21,7 @@ expect (Interface::InputStream::T * input_stream,
 }
 
 void
-expect (Interface::InputStream::T * input_stream, std::string expected)
+expect (Interface::InputStream::T & input_stream, std::string expected)
 {
 	for (char e : expected) expect (input_stream, e);
 }
