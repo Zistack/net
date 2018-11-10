@@ -24,9 +24,9 @@ struct T
 	~T ();
 
 	private:
-	T (int read_file_descriptor, int write_file_descriptor);
-
 	T (std::pair<int, int> pipe_file_descriptors);
+
+	T (int read_file_descriptor, int write_file_descriptor);
 
 	static std::pair<int, int>
 	newPipe ();
