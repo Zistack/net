@@ -1,19 +1,14 @@
-T::T (const std::string & pattern)
+T::T (const std::string & pattern) : T (newTempFile (pattern)) {}
+
+T::T (std::pair<std::unique_ptr<char[]>, int> temp_file) :
+    T (std::move (temp_file.first), temp_file.second)
 {
-	const std::string message_prefix = "IO::TempFile::T::T\n";
+}
 
-	this->name = new char[pattern.size () + 1];
-	this->file_descriptor = mkstemp (name);
-
-	if (this->file_descriptor == -1)
-	{
-		delete this->name;
-		throw Failure::Error::T (
-		    message_prefix + "mkstemp: " + strerror (errno) + "\n");
-	}
-
-	this->input_stream =
-	    new FileDescriptor::InputStream::T (this->file_descriptor);
-	this->output_stream =
-	    new FileDescriptor::OutputStream::T (this->file_descriptor);
+T::T (std::unique_ptr<char[]> && name, int file_descriptor) :
+    name (std::move (name)),
+    file_descriptor (file_descriptor),
+    input_stream (file_descriptor),
+    output_stream (file_descriptor)
+{
 }
