@@ -1,6 +1,6 @@
 template <class Function, class Cancel>
 bool
-T::start (Function && function, Cancel && cancel)
+T::start (Function && function, Cancel && cancel) noexcept
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 

@@ -34,7 +34,7 @@ struct T
 	private:
 	template <class Function, class Cancel>
 	bool
-	start (Function && function, Cancel && cancel);
+	start (Function && function, Cancel && cancel) noexcept;
 
 	void
 	finish () noexcept;

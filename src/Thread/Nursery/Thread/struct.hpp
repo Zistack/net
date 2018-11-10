@@ -4,10 +4,12 @@ struct T
 	    class Cancel,
 	    typename = typename std::enable_if<!std::is_same<std::nullptr_t,
 	        typename std::decay<Function>::type>::value>::type>
-	T (Function && function, Cancel && cancel);
+	T (Function && function, Cancel && cancel)
+	noexcept;
 
 	template <class Cancel>
-	T (std::nullptr_t, Cancel && cancel);
+	T (std::nullptr_t, Cancel && cancel)
+	noexcept;
 
 	T (const T & other) = delete;
 
@@ -20,13 +22,13 @@ struct T
 	operator= (T && other) = default;
 
 	std::thread::id
-	id () const;
+	id () const noexcept;
 
 	void
-	cancel ();
+	cancel () noexcept;
 
 	void
-	reset ();
+	reset () noexcept;
 
 	~T ();
 

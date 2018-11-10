@@ -1,5 +1,5 @@
 void
-T::cancel ()
+T::cancel () noexcept
 {
 	if (this->c) this->c ();
 }

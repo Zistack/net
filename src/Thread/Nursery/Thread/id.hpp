@@ -1,5 +1,5 @@
 std::thread::id
-T::id () const
+T::id () const noexcept
 {
 	if (this->thread.joinable ())
 	{
