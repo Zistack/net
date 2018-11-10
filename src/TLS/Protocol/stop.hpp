@@ -1,5 +1,5 @@
 void
 T::stop ()
 {
-	this->protocol->stop ();
+	this->protocol.stop ();
 }

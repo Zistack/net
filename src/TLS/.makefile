@@ -1,4 +1,4 @@
-TLS-moddepends = Failure IO JSON NullableString Thread Shutdown Protocol Functor
+TLS-moddepends = Failure IO JSON NullableString Thread Shutdown Protocol Functor SuppressingScope
 TLS-CFLAGS =
 TLS-LFLAGS = -ltls -lssl -lcrypto
 

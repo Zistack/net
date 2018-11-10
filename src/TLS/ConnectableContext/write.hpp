@@ -15,10 +15,10 @@ T::write (char * buffer, size_t count, IO::Signal::T & signal)
 			{
 			case TLS_WANT_POLLIN:
 				needed_read = true;
-				IO::Util::wait (this->input, &signal);
+				IO::Util::wait (this->input, signal);
 				continue;
 			case TLS_WANT_POLLOUT:
-				IO::Util::wait (this->output, &signal);
+				IO::Util::wait (this->output, signal);
 				continue;
 			default:
 			case -1:

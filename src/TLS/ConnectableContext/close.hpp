@@ -8,10 +8,10 @@ T::close (IO::Signal::T & signal)
 		switch (tls_close (this->tls_context.get ()))
 		{
 		case TLS_WANT_POLLIN:
-			IO::Util::wait (this->input, &signal);
+			IO::Util::wait (this->input, signal);
 			continue;
 		case TLS_WANT_POLLOUT:
-			IO::Util::wait (this->output, &signal);
+			IO::Util::wait (this->output, signal);
 			continue;
 		default:
 		case -1:

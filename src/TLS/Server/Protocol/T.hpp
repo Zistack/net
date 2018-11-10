@@ -1,7 +1,7 @@
-T::T (IO::Interface::ProtocolFactory::T * protocol_factory,
+T::T (IO::Interface::Server::Protocol::T & server_protocol,
     std::chrono::milliseconds timeout,
     Config::T & config) :
-    protocol_factory (protocol_factory),
+    server_protocol (server_protocol),
     timeout (timeout),
     context (config)
 {

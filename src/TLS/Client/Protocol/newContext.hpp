@@ -1,6 +1,6 @@
 std::unique_ptr<ConnectableContext::T>
-T::newContext (IO::Interface::NonblockingInputStream::T * input_stream,
-    IO::Interface::NonblockingOutputStream::T * output_stream)
+T::newContext (IO::Interface::NonblockingInputStream::T & input_stream,
+    IO::Interface::NonblockingOutputStream::T & output_stream)
 {
 	std::unique_ptr<ConnectableContext::T> context;
 

@@ -1,9 +1,8 @@
 void
-T::input (IO::Interface::NonblockingInputStream::T * input_stream,
+T::input (IO::Interface::NonblockingInputStream::T & input_stream,
     ConnectableContext::T & context,
     char * input_buffer,
-    IO::Interface::OutputStream::T * output_stream_to_protocol,
-    IO::Signal::T & input_timeout_signal)
+    IO::Blocking::OutputStream::T & output_stream_to_protocol)
 {
 	const std::string message_prefix = "TLS::Protocol::T::input\n";
 
@@ -12,11 +11,7 @@ T::input (IO::Interface::NonblockingInputStream::T * input_stream,
 	::Protocol::eventLoop (exception_store,
 	    input_stream,
 	    this->input_shutdown_signal,
-	    [this,
-	        &context,
-	        input_buffer,
-	        output_stream_to_protocol,
-	        &input_timeout_signal]() {
+	    [this, &context, input_buffer, &output_stream_to_protocol]() {
 		    std::unique_lock<decltype (this->context_lock)> lock (
 		        this->context_lock);
 
@@ -29,17 +24,17 @@ T::input (IO::Interface::NonblockingInputStream::T * input_stream,
 		    try
 		    {
 			    {
-				    Thread::Timer::T input_timer (
-				        this->timeout, [&]() { input_timeout_signal.send (); });
+				    Thread::Timer::T input_timer (this->timeout,
+				        [&]() { this->input_timeout_signal.send (); });
 
 				    size_t num_bytes = context.read (
-				        input_buffer, T::BUF_SIZE, input_timeout_signal);
+				        input_buffer, T::BUF_SIZE, this->input_timeout_signal);
 
 				    lock.unlock ();
 
-				    output_stream_to_protocol->write (input_buffer, num_bytes);
+				    output_stream_to_protocol.write (input_buffer, num_bytes);
 			    }
-			    input_timeout_signal.recieve ();
+			    this->input_timeout_signal.recieve ();
 		    }
 		    catch (Failure::CancelException::T)
 		    {

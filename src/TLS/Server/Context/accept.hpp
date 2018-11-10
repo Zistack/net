@@ -1,6 +1,6 @@
 std::unique_ptr<Connection::Context::T>
-T::accept (IO::Interface::NonblockingInputStream::T * input,
-    IO::Interface::NonblockingOutputStream::T * output,
+T::accept (IO::Interface::NonblockingInputStream::T & input,
+    IO::Interface::NonblockingOutputStream::T & output,
     IO::Signal::T & signal)
 {
 	return std::make_unique<Connection::Context::T> (
@@ -8,8 +8,8 @@ T::accept (IO::Interface::NonblockingInputStream::T * input,
 }
 
 struct tls *
-T::accept (IO::Interface::NonblockingInputStream::T * input,
-    IO::Interface::NonblockingOutputStream::T * output)
+T::accept (IO::Interface::NonblockingInputStream::T & input,
+    IO::Interface::NonblockingOutputStream::T & output)
 {
 	const std::string message_prefix = "TLS::Server::Context::T::accept\n";
 
@@ -17,8 +17,8 @@ T::accept (IO::Interface::NonblockingInputStream::T * input,
 
 	if (tls_accept_fds (this->tls_context.get (),
 	        &client_context,
-	        input->fileDescriptor (),
-	        output->fileDescriptor ()))
+	        input.fileDescriptor (),
+	        output.fileDescriptor ()))
 	{
 		throw Failure::Error::T (message_prefix +
 		    "Failed to establish TLS connection: " +

@@ -12,8 +12,8 @@ struct T : virtual Context::T
 	virtual ~T () = default;
 
 	protected:
-	T (IO::Interface::NonblockingInputStream::T * input,
-	    IO::Interface::NonblockingOutputStream::T * output);
+	T (IO::Interface::NonblockingInputStream::T & input,
+	    IO::Interface::NonblockingOutputStream::T & output);
 
 	T (const T & other) = delete;
 
@@ -30,6 +30,6 @@ struct T : virtual Context::T
 
 	// Maybe we'll move close () down here.
 
-	IO::Interface::Watchable::T * input;
-	IO::Interface::Watchable::T * output;
+	IO::Interface::Watchable::T & input;
+	IO::Interface::Watchable::T & output;
 };

@@ -13,4 +13,5 @@
 #include <JSON.hpp>
 #include <Protocol.hpp>
 #include <Shutdown.hpp>
+#include <SuppressingScope.hpp>
 #include <Thread.hpp>

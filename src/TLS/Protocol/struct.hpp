@@ -1,11 +1,14 @@
 struct T : IO::Interface::Protocol::T
 {
-	T (IO::Interface::Protocol::T * protocol,
+	T (IO::Interface::Protocol::T & protocol,
 	    std::chrono::milliseconds timeout);
 
 	void
-	run (IO::Interface::NonblockingInputStream::T * input_stream,
-	    IO::Interface::NonblockingOutputStream::T * output_stream) override;
+	prime (IO::Interface::NonblockingInputStream::T & input_stream,
+	    IO::Interface::NonblockingOutputStream::T & output_stream) override;
+
+	void
+	run () override;
 
 	void
 	stop () override;
@@ -14,32 +17,58 @@ struct T : IO::Interface::Protocol::T
 
 	protected:
 	virtual std::unique_ptr<ConnectableContext::T>
-	newContext (IO::Interface::NonblockingInputStream::T * input_stream,
-	    IO::Interface::NonblockingOutputStream::T * output_stream) = 0;
+	newContext (IO::Interface::NonblockingInputStream::T & input_stream,
+	    IO::Interface::NonblockingOutputStream::T & output_stream) = 0;
 
-	IO::Interface::Protocol::T * protocol;
+	// Given members
+
+	IO::Interface::Protocol::T & protocol;
 	std::chrono::milliseconds timeout;
 
 	private:
 	void
-	input (IO::Interface::NonblockingInputStream::T * input_stream,
+	input (IO::Interface::NonblockingInputStream::T & input_stream,
 	    ConnectableContext::T & context,
 	    char * input_buffer,
-	    IO::Interface::OutputStream::T * output_stream_to_protocol,
-	    IO::Signal::T & input_timeout_signal);
+	    IO::Blocking::OutputStream::T & output_stream_to_protocol);
 
 	void
-	output (
-	    IO::Interface::NonblockingInputStream::T * input_stream_from_protocol,
+	output (IO::FileDescriptor::InputStream::T & input_stream_from_protocol,
 	    char * output_buffer,
-	    ConnectableContext::T & context,
-	    IO::Signal::T & output_timeout_signal);
+	    ConnectableContext::T & context);
+
+	// Internal members
+
+	IO::Signal::T input_timeout_signal;
+	IO::Signal::T output_timeout_signal;
 
 	static const int BUF_SIZE = 1024;
+
+	char input_buffer[BUF_SIZE];
+	char output_buffer[BUF_SIZE];
 
 	Thread::SleepLock::T context_lock;
 	bool spurious_read;
 
 	Shutdown::Signal::T input_shutdown_signal;
 	Shutdown::Signal::T output_shutdown_signal;
+
+	Failure::ExceptionStore::T exception_store;
+
+	// Transient members
+
+	IO::Interface::NonblockingInputStream::T * input_stream;
+	IO::Interface::NonblockingOutputStream::T * output_stream;
+
+	std::unique_ptr<ConnectableContext::T> context;
+
+	std::unique_ptr<IO::Pipe::T> socket_to_protocol;
+	std::unique_ptr<IO::Pipe::T> protocol_to_socket;
+
+	std::unique_ptr<IO::Blocking::OutputStream::T> output_stream_to_protocol;
+
+	SuppressingScope::T<decltype (input_shutdown_signal)>
+	    input_shutdown_signal_scope;
+	SuppressingScope::T<decltype (output_shutdown_signal)>
+	    output_shutdown_signal_scope;
 };
