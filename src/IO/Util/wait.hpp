@@ -1,13 +1,13 @@
 void
-wait (Interface::Watchable::T * watchable, Interface::Watchable::T * cancel)
+wait (Interface::Watchable::T & watchable, Interface::Watchable::T & cancel)
 {
-	const std::string message_prefix = "IO::Util::Wait\n";
+	const std::string message_prefix = "IO::Util::wait\n";
 
-	struct pollfd fds[2] = {{.fd = watchable->fileDescriptor (),
-	                            .events = watchable->events (),
+	struct pollfd fds[2] = {{.fd = watchable.fileDescriptor (),
+	                            .events = watchable.events (),
 	                            .revents = 0},
-	    {.fd = cancel->fileDescriptor (),
-	        .events = cancel->events (),
+	    {.fd = cancel.fileDescriptor (),
+	        .events = cancel.events (),
 	        .revents = 0}};
 
 	while (poll (fds, 2, -1) == -1)
@@ -28,12 +28,12 @@ wait (Interface::Watchable::T * watchable, Interface::Watchable::T * cancel)
 }
 
 void
-wait (Interface::Watchable::T * watchable)
+wait (Interface::Watchable::T & watchable)
 {
-	const std::string message_prefix = "IO::Util::Wait\n";
+	const std::string message_prefix = "IO::Util::wait\n";
 
-	struct pollfd fd = {.fd = watchable->fileDescriptor (),
-	    .events = watchable->events (),
+	struct pollfd fd = {.fd = watchable.fileDescriptor (),
+	    .events = watchable.events (),
 	    .revents = 0};
 
 	while (poll (&fd, 1, -1) == -1)
