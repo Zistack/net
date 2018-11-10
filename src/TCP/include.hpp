@@ -13,3 +13,4 @@
 #include <IO.hpp>
 #include <JSON.hpp>
 #include <NullableString.hpp>
+#include <Socket.hpp>

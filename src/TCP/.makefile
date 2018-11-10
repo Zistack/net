@@ -1,4 +1,4 @@
-TCP-moddepends = Failure IO JSON NullableString
+TCP-moddepends = Failure IO JSON NullableString Socket
 TCP-CFLAGS =
 TCP-LFLAGS =
 
