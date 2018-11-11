@@ -9,6 +9,7 @@ struct T : IO::Interface::Server::Protocol::T
 
 	~T () = default;
 
+	private:
 	IO::Interface::Server::Protocol::T & server_protocol;
 	std::chrono::milliseconds timeout;
 

@@ -2,15 +2,15 @@ std::unique_ptr<ConnectableContext::T>
 T::newContext (IO::Interface::NonblockingInputStream::T & input_stream,
     IO::Interface::NonblockingOutputStream::T & output_stream)
 {
-	std::unique_ptr<ConnectableContext::T> context;
+	std::unique_ptr<ConnectableContext::T> context =
+	    this->server_context.accept (input_stream, output_stream);
 
 	try
 	{
 		IO::Signal::T signal;
 		Thread::Timer::T accept_timer (
 		    this->timeout, [&]() { signal.send (); });
-		context = std::make_unique<Context::T> (
-		    this->server_context, input_stream, output_stream, signal);
+		context->connect (signal);
 	}
 	catch (Failure::CancelException::T)
 	{

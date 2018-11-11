@@ -19,5 +19,6 @@ struct T : TLS::Config::T
 
 	~T () = default;
 
+	private:
 	std::string server_name;
 };

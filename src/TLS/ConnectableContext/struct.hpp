@@ -13,6 +13,9 @@ struct T : virtual Context::T
 	T &
 	operator= (const T && other) = delete;
 
+	virtual void
+	connect (IO::Signal::T & signal) = 0;
+
 	size_t
 	read (char * buffer, size_t count, IO::Signal::T & signal);
 
@@ -27,8 +30,6 @@ struct T : virtual Context::T
 	protected:
 	void
 	handshake (IO::Signal::T & signal);
-
-	// Maybe we'll move close () down here.
 
 	IO::Interface::Watchable::T & input;
 	IO::Interface::Watchable::T & output;

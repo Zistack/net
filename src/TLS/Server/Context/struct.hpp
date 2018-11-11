@@ -4,14 +4,13 @@ struct T : TLS::ConfigurableContext::T
 
 	std::unique_ptr<Connection::Context::T>
 	accept (IO::Interface::NonblockingInputStream::T & input,
-	    IO::Interface::NonblockingOutputStream::T & output,
-	    IO::Signal::T & signal);
+	    IO::Interface::NonblockingOutputStream::T & output);
 
 	~T () = default;
 
 	private:
 	struct tls *
-	accept (IO::Interface::NonblockingInputStream::T & input,
+	newConnection (IO::Interface::NonblockingInputStream::T & input,
 	    IO::Interface::NonblockingOutputStream::T & output);
 
 	friend Connection::Context::T;
