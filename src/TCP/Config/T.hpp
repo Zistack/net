@@ -16,23 +16,13 @@ T::T (JSON::Value::T * config_value)
 
 	try
 	{
-		JSON::Object::T * config_object = config_value->asObject ();
+		JSON::Object::T & config_object = config_value->asObject ();
 
-		JSON::Value::T * hostname_value = config_object->at ("Hostname");
-		if (hostname_value)
-		{
-			JSON::String::T * hostname_string = hostname_value->asString ();
+		JSON::Value::T * hostname_value = config_object.at ("Hostname");
+		if (hostname_value) this->hostname = hostname_value->asString ();
 
-			this->hostname = hostname_string->value ();
-		}
-
-		JSON::Value::T * port_value = config_object->at ("Port");
-		if (port_value)
-		{
-			JSON::String::T * port_string = port_value->asString ();
-
-			this->port = port_string->value ();
-		}
+		JSON::Value::T * port_value = config_object.at ("Port");
+		if (port_value) this->port = port_value->asString ();
 	}
 	catch (Failure::Error::T & e)
 	{
