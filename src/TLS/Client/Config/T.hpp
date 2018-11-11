@@ -25,11 +25,7 @@ T::T (JSON::Value::T * config_value)
 
 	JSON::Object::T & config_object = config_value->asObject ();
 
-	JSON::Value::T * ca_path_value = config_object.at ("CA Path");
-
-	if (ca_path_value)
-		this->setCAPath (ca_path_value->asString ());
-	else
+	if (!this->setCAPath (config_object))
 	{
 		throw Failure::Error::T (
 		    message_prefix + "TLS Client must have 'CA Path' specified\n");
@@ -39,26 +35,14 @@ T::T (JSON::Value::T * config_value)
 	if (!server_name_value) server_name_value = config_object.at ("Hostname");
 
 	if (server_name_value)
+	{
 		this->server_name = server_name_value->asString ();
+	}
 	else
 	{
 		throw Failure::Error::T (
 		    message_prefix + "TLS Client must specify a server name\n");
 	}
 
-	JSON::Value::T * private_key_filename_value =
-	    config_object.at ("Private Key");
-	JSON::Value::T * certificate_filename_value =
-	    config_object.at ("Certificate");
-
-	if (private_key_filename_value && certificate_filename_value)
-	{
-		this->setIdentity (private_key_filename_value->asString (),
-		    certificate_filename_value->asString ());
-	}
-	else if (private_key_filename_value || certificate_filename_value)
-	{
-		throw Failure::Error::T (message_prefix +
-		    "Private key and certificate must be specified together\n");
-	}
+	this->setIdentity (config_object);
 }

@@ -10,3 +10,13 @@ T::setCAPath (const std::string & ca_path)
 		    tls_config_error (this->tls_config.get ()) + "\n");
 	}
 }
+
+bool
+T::setCAPath (const JSON::Object::T & config_object)
+{
+	JSON::Value::T * ca_path_value = config_object.at ("CA Path");
+
+	if (ca_path_value) this->setCAPath (ca_path_value->asString ());
+
+	return (bool) ca_path_value;
+}

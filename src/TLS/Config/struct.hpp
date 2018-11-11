@@ -21,9 +21,15 @@ struct T
 	void
 	setCAPath (const std::string & ca_path);
 
+	bool
+	setCAPath (const JSON::Object::T & config_object);
+
 	void
 	setIdentity (const std::string & private_key_filename,
 	    const std::string & certificate_filename);
+
+	bool
+	setIdentity (const JSON::Object::T & config_object);
 
 	private:
 	std::unique_ptr<struct tls_config,

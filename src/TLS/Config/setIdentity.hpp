@@ -20,3 +20,28 @@ T::setIdentity (const std::string & private_key_filename,
 		    tls_config_error (this->tls_config.get ()) + "\n");
 	}
 }
+
+bool
+T::setIdentity (const JSON::Object::T & config_object)
+{
+	const std::string message_prefix = "TLS::Config::T::setIdentity\n";
+
+	JSON::Value::T * private_key_filename_value =
+	    config_object.at ("Private Key");
+	JSON::Value::T * certificate_filename_value =
+	    config_object.at ("Certificate");
+
+	if (private_key_filename_value && certificate_filename_value)
+	{
+		this->setIdentity (private_key_filename_value->asString (),
+		    certificate_filename_value->asString ());
+		return true;
+	}
+	else if (private_key_filename_value || certificate_filename_value)
+	{
+		throw Failure::Error::T (message_prefix +
+		    "Private key and certificate must be specified together\n");
+	}
+	else
+		return false;
+}
