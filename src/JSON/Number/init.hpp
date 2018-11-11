@@ -1,5 +1,5 @@
 void
-T::init (IO::Interface::PeekableInputStream::T * input_stream)
+T::init (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Number::init\n";
 
@@ -7,21 +7,21 @@ T::init (IO::Interface::PeekableInputStream::T * input_stream)
 
 	try
 	{
-		this->base = new std::string (Rule::getBase (input_stream));
+		this->base = Rule::getBase (input_stream);
 
-		if (input_stream->eof ()) return;
+		if (input_stream.eof ()) return;
 
-		c = input_stream->peek ();
+		c = input_stream.peek ();
 
 		if (c == '.')
 		{
-			input_stream->get ();
+			input_stream.get ();
 			goto mantissa;
 		}
 
 		if (c == 'E' || c == 'e')
 		{
-			input_stream->get ();
+			input_stream.get ();
 			goto exponent;
 		}
 
@@ -29,15 +29,16 @@ T::init (IO::Interface::PeekableInputStream::T * input_stream)
 
 	mantissa:
 
-		this->mantissa = new std::string (Rule::getMantissa (input_stream));
+		this->mantissa =
+		    std::make_unique<std::string> (Rule::getMantissa (input_stream));
 
-		if (input_stream->eof ()) return;
+		if (input_stream.eof ()) return;
 
-		c = input_stream->peek ();
+		c = input_stream.peek ();
 
 		if (c == 'E' || c == 'e')
 		{
-			input_stream->get ();
+			input_stream.get ();
 			goto exponent;
 		}
 
@@ -45,7 +46,8 @@ T::init (IO::Interface::PeekableInputStream::T * input_stream)
 
 	exponent:
 
-		this->exponent = new std::string (Rule::getExponent (input_stream));
+		this->exponent =
+		    std::make_unique<std::string> (Rule::getExponent (input_stream));
 
 		return;
 	}

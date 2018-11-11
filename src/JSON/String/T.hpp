@@ -1,4 +1,4 @@
-T::T (IO::Interface::PeekableInputStream::T * input_stream)
+T::T (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::String::T\n";
 
@@ -8,7 +8,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 
 		while (true)
 		{
-			char c = input_stream->get ();
+			char c = input_stream.get ();
 
 			if (Class::control (c))
 			{
@@ -19,7 +19,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 
 			if (c == '\\')
 			{
-				c = input_stream->get ();
+				c = input_stream.get ();
 
 				switch (c)
 				{

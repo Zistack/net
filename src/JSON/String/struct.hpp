@@ -1,13 +1,13 @@
 struct T : Value::T
 {
-	T (IO::Interface::PeekableInputStream::T * input_stream);
+	T (IO::Interface::PeekableInputStream::T & input_stream);
 	T (const std::string & string);
 
 	void
-	writeTo (IO::Interface::OutputStream::T * output_stream,
+	writeTo (IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation = 0) override;
 
-	T *
+	T &
 	asString () override;
 
 	std::string &
@@ -16,7 +16,10 @@ struct T : Value::T
 	const std::string &
 	value () const;
 
+	operator const std::string & () const;
+
 	~T () override = default;
 
+	private:
 	std::string string;
 };

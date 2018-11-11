@@ -1,22 +1,22 @@
 struct T
 {
 	virtual void
-	writeTo (IO::Interface::OutputStream::T * output_stream,
+	writeTo (IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation = 0) = 0;
 
-	virtual Array::T *
+	virtual Array::T &
 	asArray ();
 
-	virtual Boolean::T *
+	virtual Boolean::T &
 	asBoolean ();
 
-	virtual Number::T *
+	virtual Number::T &
 	asNumber ();
 
-	virtual Object::T *
+	virtual Object::T &
 	asObject ();
 
-	virtual String::T *
+	virtual String::T &
 	asString ();
 
 	virtual ~T () = default;

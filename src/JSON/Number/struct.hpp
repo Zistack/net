@@ -1,21 +1,22 @@
 struct T : Value::T
 {
-	T (IO::Interface::PeekableInputStream::T * input_stream);
+	T (IO::Interface::PeekableInputStream::T & input_stream);
 	T (std::string number);
 
 	void
-	writeTo (IO::Interface::OutputStream::T * output_stream,
+	writeTo (IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation = 0) override;
 
-	T *
+	T &
 	asNumber () override;
 
-	~T () override;
+	~T () override = default;
 
+	private:
 	void
-	init (IO::Interface::PeekableInputStream::T * input_stream);
+	init (IO::Interface::PeekableInputStream::T & input_stream);
 
-	std::string * base;
-	std::string * mantissa;
-	std::string * exponent;
+	std::string base;
+	std::unique_ptr<std::string> mantissa;
+	std::unique_ptr<std::string> exponent;
 };

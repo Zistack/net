@@ -1,5 +1,5 @@
 char16_t
-getCodePoint (IO::Interface::InputStream::T * input_stream)
+getCodePoint (IO::Interface::InputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Rule::getCodePoint\n";
 

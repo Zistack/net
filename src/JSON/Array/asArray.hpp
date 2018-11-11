@@ -1,5 +1,5 @@
-T *
+T &
 T::asArray ()
 {
-	return this;
+	return *this;
 }

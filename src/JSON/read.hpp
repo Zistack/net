@@ -1,5 +1,5 @@
-Value::T *
-read (IO::Interface::PeekableInputStream::T * input_stream)
+std::unique_ptr<Value::T>
+read (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::read\n";
 
@@ -7,21 +7,22 @@ read (IO::Interface::PeekableInputStream::T * input_stream)
 	{
 		Util::skipWhitespace (input_stream);
 
-		char c = input_stream->peek ();
+		char c = input_stream.peek ();
 
 		switch (c)
 		{
 		case '{':
-			return new Object::T (input_stream);
+			return std::make_unique<Object::T> (input_stream);
 		case '[':
-			return new Array::T (input_stream);
+			return std::make_unique<Array::T> (input_stream);
 		case 't':
 		case 'f':
-			return new Boolean::T (input_stream);
+			return std::make_unique<Boolean::T> (input_stream);
 		case 'n':
-			return NULL;
+			IO::Util::expect (input_stream, "null");
+			return nullptr;
 		case '"':
-			return new String::T (input_stream);
+			return std::make_unique<String::T> (input_stream);
 		case '+':
 		case '-':
 		case '0':
@@ -34,7 +35,7 @@ read (IO::Interface::PeekableInputStream::T * input_stream)
 		case '7':
 		case '8':
 		case '9':
-			return new Number::T (input_stream);
+			return std::make_unique<Number::T> (input_stream);
 		default:
 			throw Failure::Error::T (IO::Message::unexpectedCharacter (c));
 		}

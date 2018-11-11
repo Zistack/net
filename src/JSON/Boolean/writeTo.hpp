@@ -1,15 +1,15 @@
 void
-T::writeTo (IO::Interface::OutputStream::T * output_stream, size_t indentation)
+T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 {
 	const std::string message_prefix = "JSON::Boolean::writeTo\n";
 
 	try
 	{
 		Util::indent (output_stream, indentation);
-		if (this->value)
-			output_stream->print ("true");
+		if (this->b)
+			output_stream.print ("true");
 		else
-			output_stream->print ("false");
+			output_stream.print ("false");
 	}
 	catch (Failure::Error::T & e)
 	{

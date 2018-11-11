@@ -1,5 +1,5 @@
 void
-T::writeTo (IO::Interface::OutputStream::T * output_stream, size_t indentation)
+T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 {
 	const std::string message_prefix = "JSON::String::writeTo\n";
 
@@ -7,42 +7,42 @@ T::writeTo (IO::Interface::OutputStream::T * output_stream, size_t indentation)
 	{
 		Util::indent (output_stream, indentation);
 
-		output_stream->put ('"');
+		output_stream.put ('"');
 
 		for (char c : this->string)
 		{
 			switch (c)
 			{
 			case '"':
-				output_stream->print ("\\\"");
+				output_stream.print ("\\\"");
 				break;
 			case '\\':
-				output_stream->print ("\\\\");
+				output_stream.print ("\\\\");
 				break;
 			case '\x08':
-				output_stream->print ("\\b");
+				output_stream.print ("\\b");
 				break;
 			case '\x09':
-				output_stream->print ("\\t");
+				output_stream.print ("\\t");
 				break;
 			case '\x0A':
-				output_stream->print ("\\n");
+				output_stream.print ("\\n");
 				break;
 			case '\x0C':
-				output_stream->print ("\\f");
+				output_stream.print ("\\f");
 				break;
 			case '\x0D':
-				output_stream->print ("\\r");
+				output_stream.print ("\\r");
 				break;
 			default:
 				if (Class::control (c))
 					Rule::putEscape (output_stream, (char32_t) c);
 				else
-					output_stream->put (c);
+					output_stream.put (c);
 			}
 		}
 
-		output_stream->put ('"');
+		output_stream.put ('"');
 	}
 	catch (Failure::Error::T & e)
 	{

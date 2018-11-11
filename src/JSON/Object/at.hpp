@@ -1,8 +1,8 @@
 Value::T *
-T::at (std::string name)
+T::at (const std::string & name) const
 {
-	if (this->members.count (name))
-		return this->members[name];
+	if (this->contains (name))
+		return this->members.at (name).get ();
 	else
 		return nullptr;
 }

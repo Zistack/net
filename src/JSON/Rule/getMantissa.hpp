@@ -1,5 +1,5 @@
 std::string
-getMantissa (IO::Interface::PeekableInputStream::T * input_stream)
+getMantissa (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Rule::getMantissa\n";
 
@@ -7,15 +7,15 @@ getMantissa (IO::Interface::PeekableInputStream::T * input_stream)
 
 	try
 	{
-		while (Class::digit (input_stream->peek ()))
+		while (Class::digit (input_stream.peek ()))
 		{
-			mantissa.push_back (input_stream->get ());
+			mantissa.push_back (input_stream.get ());
 		}
 
 		if (mantissa.empty ())
 		{
 			throw Failure::Error::T (IO::Message::unexpectedCharacter (
-			    input_stream->peek (), "digit"));
+			    input_stream.peek (), "digit"));
 		}
 		else
 			return mantissa;

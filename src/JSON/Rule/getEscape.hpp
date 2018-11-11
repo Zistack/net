@@ -1,5 +1,5 @@
 char32_t
-getEscape (IO::Interface::InputStream::T * input_stream)
+getEscape (IO::Interface::InputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Rule::getEscape\n";
 

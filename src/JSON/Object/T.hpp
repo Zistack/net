@@ -1,4 +1,4 @@
-T::T (IO::Interface::PeekableInputStream::T * input_stream)
+T::T (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Object::T\n";
 
@@ -9,7 +9,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 		Util::skipWhitespace (input_stream);
 		if (IO::Util::test (input_stream, '}'))
 		{
-			input_stream->get ();
+			input_stream.get ();
 			return;
 		}
 
@@ -17,19 +17,18 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 		{
 			Util::skipWhitespace (input_stream);
 
-			String::T * json_string = new String::T (input_stream);
-			std::string key = json_string->value ();
-			delete json_string;
+			String::T json_string (input_stream);
+			std::string key = json_string.value ();
 
 			Util::skipWhitespace (input_stream);
 			IO::Util::expect (input_stream, ':');
 
-			Value::T * json_value = read (input_stream);
+			std::unique_ptr<Value::T> json_value = read (input_stream);
 
-			members.insert ({key, json_value});
+			members.insert ({key, std::move (json_value)});
 
 			Util::skipWhitespace (input_stream);
-			char c = input_stream->get ();
+			char c = input_stream.get ();
 
 			if (c == '}') return;
 

@@ -1,5 +1,5 @@
-T *
+T &
 T::asObject ()
 {
-	return this;
+	return *this;
 }

@@ -1,5 +1,5 @@
-T *
+T &
 T::asNumber ()
 {
-	return this;
+	return *this;
 }

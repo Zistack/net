@@ -1,16 +1,13 @@
-T::T (IO::Interface::PeekableInputStream::T * input_stream) :
-    base (NULL),
-    mantissa (NULL),
-    exponent (NULL)
+T::T (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	init (input_stream);
 }
 
-T::T (std::string number) : base (NULL), mantissa (NULL), exponent (NULL)
+T::T (std::string number)
 {
-	IO::String::T string_stream (&number);
+	IO::String::T string_stream (number);
 
-	init (&string_stream);
+	init (string_stream);
 
 	if (!string_stream.eof ())
 	{

@@ -1,5 +1,5 @@
 std::string
-getBase (IO::Interface::PeekableInputStream::T * input_stream)
+getBase (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Rule::getBase\n";
 
@@ -9,12 +9,12 @@ getBase (IO::Interface::PeekableInputStream::T * input_stream)
 
 	try
 	{
-		c = input_stream->get ();
+		c = input_stream.get ();
 
 		if (c == '-')
 		{
 			base.push_back (c);
-			c = input_stream->get ();
+			c = input_stream.get ();
 		}
 
 		if (c == '0')
@@ -29,9 +29,9 @@ getBase (IO::Interface::PeekableInputStream::T * input_stream)
 
 			try
 			{
-				while (Class::digit (input_stream->peek ()))
+				while (Class::digit (input_stream.peek ()))
 				{
-					base.push_back (input_stream->get ());
+					base.push_back (input_stream.get ());
 				}
 
 				return base;

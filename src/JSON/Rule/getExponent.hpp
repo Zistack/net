@@ -1,5 +1,5 @@
 std::string
-getExponent (IO::Interface::PeekableInputStream::T * input_stream)
+getExponent (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Rule::getExponent\n";
 
@@ -7,18 +7,18 @@ getExponent (IO::Interface::PeekableInputStream::T * input_stream)
 
 	try
 	{
-		char c = input_stream->peek ();
+		char c = input_stream.peek ();
 
 		if (c == '+' || c == '-')
 		{
-			exponent.push_back (input_stream->get ());
+			exponent.push_back (input_stream.get ());
 		}
 		else
 			exponent.push_back ('+');
 
 		while ((c = IO::Util::test (input_stream, Class::digit)))
 		{
-			exponent.push_back (input_stream->get ());
+			exponent.push_back (input_stream.get ());
 		}
 
 		if (exponent.empty ())

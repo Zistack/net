@@ -1,5 +1,5 @@
-T *
+T &
 T::asBoolean ()
 {
-	return this;
+	return *this;
 }

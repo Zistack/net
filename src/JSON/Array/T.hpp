@@ -1,4 +1,4 @@
-T::T (IO::Interface::PeekableInputStream::T * input_stream)
+T::T (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "JSON::Array::T\n";
 
@@ -9,7 +9,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 		Util::skipWhitespace (input_stream);
 		if (IO::Util::test (input_stream, ']'))
 		{
-			input_stream->get ();
+			input_stream.get ();
 			return;
 		}
 
@@ -18,7 +18,7 @@ T::T (IO::Interface::PeekableInputStream::T * input_stream)
 			members.push_back (read (input_stream));
 
 			Util::skipWhitespace (input_stream);
-			char c = input_stream->get ();
+			char c = input_stream.get ();
 
 			if (c == ']') return;
 
