@@ -1,9 +1,9 @@
 char
 T::peek ()
 {
-	if (this->pointer < this->string->size ())
+	if (this->pointer < this->string.size ())
 	{
-		return (*this->string)[this->pointer];
+		return this->string[this->pointer];
 	}
 
 	throw EOF::T ();

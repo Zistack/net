@@ -1,9 +1,9 @@
 char
 T::get ()
 {
-	if (this->pointer < this->string->size ())
+	if (this->pointer < this->string.size ())
 	{
-		char c = (*this->string)[this->pointer];
+		char c = this->string[this->pointer];
 		++this->pointer;
 		return c;
 	}

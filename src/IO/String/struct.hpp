@@ -1,6 +1,6 @@
 struct T : Interface::PeekableInputStream::T, Interface::OutputStream::T
 {
-	T (std::string * string);
+	T (std::string & string);
 
 	char
 	get () override;
@@ -21,6 +21,6 @@ struct T : Interface::PeekableInputStream::T, Interface::OutputStream::T
 
 	~T () = default;
 
-	std::string * string;
+	std::string & string;
 	std::string::size_type pointer;
 };

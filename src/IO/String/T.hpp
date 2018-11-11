@@ -1,1 +1,1 @@
-T::T (std::string * string) : string (string) {}
+T::T (std::string & string) : string (string) {}
