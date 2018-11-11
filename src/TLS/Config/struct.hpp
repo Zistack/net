@@ -1,6 +1,5 @@
 struct T
 {
-	protected:
 	// Revocation and cipher strings are things that we might want to configure,
 	// but we can worry about them later.
 
@@ -18,6 +17,7 @@ struct T
 
 	virtual ~T () = default;
 
+	protected:
 	void
 	setCAPath (const std::string & ca_path);
 
@@ -25,6 +25,7 @@ struct T
 	setIdentity (const std::string & private_key_filename,
 	    const std::string & certificate_filename);
 
+	private:
 	std::unique_ptr<struct tls_config,
 	    Functor::T<decltype (tls_config_free), tls_config_free>>
 	    tls_config;

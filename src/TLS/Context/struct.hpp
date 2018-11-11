@@ -1,8 +1,5 @@
 struct T
 {
-	virtual ~T () = default;
-
-	protected:
 	T (struct tls * tls_context);
 
 	T (const T & other) = delete;
@@ -15,6 +12,9 @@ struct T
 	T &
 	operator= (T && other) = default;
 
+	virtual ~T () = default;
+
+	protected:
 	std::unique_ptr<struct tls, Functor::T<decltype (tls_free), tls_free>>
 	    tls_context;
 };

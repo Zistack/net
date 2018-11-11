@@ -1,10 +1,10 @@
 struct T : virtual Context::T
 {
+	T ();
+
 	virtual ~T () = default;
 
 	protected:
-	T ();
-
 	void
 	configure (const Config::T & config);
 };

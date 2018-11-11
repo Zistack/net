@@ -20,31 +20,21 @@ T::T (JSON::Value::T * config_value)
 		throw Failure::Error::T (
 		    message_prefix + "Configuration must be non-null\n");
 
-	JSON::Object::T * config_object = config_value->asObject ();
+	JSON::Object::T & config_object = config_value->asObject ();
 
-	JSON::Value::T * ca_path_value = config_object->at ("CA Path");
+	JSON::Value::T * ca_path_value = config_object.at ("CA Path");
 
-	if (ca_path_value)
-	{
-		JSON::String::T * ca_path_string = ca_path_value->asString ();
-
-		this->setCAPath (ca_path_string->value ());
-	}
+	if (ca_path_value) this->setCAPath (ca_path_value->asString ());
 
 	JSON::Value::T * private_key_filename_value =
-	    config_object->at ("Private Key");
+	    config_object.at ("Private Key");
 	JSON::Value::T * certificate_filename_value =
-	    config_object->at ("Certificate");
+	    config_object.at ("Certificate");
 
 	if (private_key_filename_value && certificate_filename_value)
 	{
-		JSON::String::T * private_key_filename_string =
-		    private_key_filename_value->asString ();
-		JSON::String::T * certificate_filename_string =
-		    certificate_filename_value->asString ();
-
-		this->setIdentity (private_key_filename_string->value (),
-		    certificate_filename_string->value ());
+		this->setIdentity (private_key_filename_value->asString (),
+		    certificate_filename_value->asString ());
 	}
 	else if (private_key_filename_value || certificate_filename_value)
 	{
