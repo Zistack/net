@@ -9,9 +9,16 @@ expect (Interface::InputStream::T & input_stream, char e)
 	}
 }
 
+template <class Predicate,
+    typename
+#ifndef IO_Util_expect_hpp_2
+#define IO_Util_expect_hpp_2
+    = typename std::enable_if<
+        std::is_invocable_r<bool, Predicate, char>::value>::type
+#endif
+    >
 char
-expect (Interface::InputStream::T & input_stream,
-    std::function<bool(char c)> classPredicate)
+expect (Interface::InputStream::T & input_stream, Predicate && classPredicate)
 {
 	char c = input_stream.get ();
 

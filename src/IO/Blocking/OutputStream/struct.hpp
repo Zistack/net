@@ -1,7 +1,12 @@
 struct T : Interface::WatchableOutputStream::T
 {
+	template <class... CancelSignals>
 	T (Interface::NonblockingOutputStream::T & output_stream,
-	    Signal::T & signal);
+	    CancelSignals &... cancel_signals);
+
+	T (Interface::NonblockingOutputStream::T & output_stream,
+	    std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
+	        cancel_signals);
 
 	T (const T & other) = delete;
 
@@ -28,5 +33,6 @@ struct T : Interface::WatchableOutputStream::T
 	~T () = default;
 
 	Interface::NonblockingOutputStream::T & output_stream;
-	Signal::T & signal;
+	std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
+	    cancel_signals;
 };

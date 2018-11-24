@@ -7,7 +7,7 @@ T::get ()
 		{
 			this->end = this->input_stream.read (this->buffer, T::BUF_SIZE);
 			if (this->end) break;
-			Util::wait (this->input_stream, this->signal);
+			Util::wait (this->input_stream, this->cancel_signals);
 		}
 		this->start = 0;
 	}

@@ -1,16 +1,20 @@
+template <class Stream, class... CancelSignals>
 void
-wait (Interface::Watchable::T & watchable, Interface::Watchable::T & cancel)
+wait (Stream && stream, CancelSignals &&... cancel_signals)
 {
 	const std::string message_prefix = "IO::Util::wait\n";
 
-	struct pollfd fds[2] = {{.fd = watchable.fileDescriptor (),
-	                            .events = watchable.events (),
-	                            .revents = 0},
-	    {.fd = cancel.fileDescriptor (),
-	        .events = cancel.events (),
-	        .revents = 0}};
+	size_t num_watchables = 1 + sizeof...(cancel_signals);
 
-	while (poll (fds, 2, -1) == -1)
+	struct pollfd fds[num_watchables];
+	fds[0] = {.fd = stream.fileDescriptor (),
+	    .events = stream.events (),
+	    .revents = 0};
+
+	int i = 1;
+	(waitLoad (cancel_signals, fds, i), ...);
+
+	while (poll (fds, num_watchables, -1) == -1)
 	{
 		switch (errno)
 		{
@@ -24,19 +28,37 @@ wait (Interface::Watchable::T & watchable, Interface::Watchable::T & cancel)
 		}
 	}
 
-	if (fds[1].revents) throw Failure::CancelException::T ();
+	for (i = 1; i < num_watchables; ++i)
+	{
+		if (fds[i].revents) throw Failure::CancelException::T ();
+	}
 }
 
+template <class Stream>
 void
-wait (Interface::Watchable::T & watchable)
+wait (Stream && stream,
+    std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
+        cancel_signals)
 {
 	const std::string message_prefix = "IO::Util::wait\n";
 
-	struct pollfd fd = {.fd = watchable.fileDescriptor (),
-	    .events = watchable.events (),
+	size_t num_watchables = 1 + cancel_signals.size ();
+
+	struct pollfd fds[num_watchables];
+	fds[0] = {.fd = stream.fileDescriptor (),
+	    .events = stream.events (),
 	    .revents = 0};
 
-	while (poll (&fd, 1, -1) == -1)
+	int i = 1;
+	for (Interface::Watchable::T & cancel_signal : cancel_signals)
+	{
+		fds[i] = {.fd = cancel_signal.fileDescriptor (),
+		    .events = cancel_signal.events (),
+		    .revents = 0};
+		++i;
+	}
+
+	while (poll (fds, num_watchables, -1) == -1)
 	{
 		switch (errno)
 		{
@@ -48,5 +70,10 @@ wait (Interface::Watchable::T & watchable)
 			throw Failure::Error::T (
 			    message_prefix + "poll: " + strerror (errno) + "\n");
 		}
+	}
+
+	for (i = 1; i < num_watchables; ++i)
+	{
+		if (fds[i].revents) throw Failure::CancelException::T ();
 	}
 }
