@@ -1,27 +1,43 @@
-std::list <std::string>
-getList (IO::Interface::PeekableInputStream::T <char> * filtered_input_stream)
+template <class Element, Element (IO::Interface::PeekableInputStream::T &) parseElement>
+std::list<Element>
+getList (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "HTTP::Rule::getList\n";
 
+	std::list<Element> elements;
+
 	try
 	{
-		Util::skipWhitespace (filtered_input_stream);
-
-		std::list <std::string> tokens;
-
 		while (true)
 		{
-			if (IO::Util::test (filtered_input_stream, ','))
+			if (IO::Util::test (input_stream, ','))
 			{
-				filtered_input_stream -> get ();
+				input_stream.get ();
+				Util::skipWhitespace (input_stream);
 				continue;
 			}
 
-			std::string token = getToken (filtered_input_stream);
+			if (input_stream.eof ()) return elements;
 
-			IO::Util::expect (filtered_input_stream, ',');
+			elements.push_back (parseElement (input_stream));
+
+			Util::skipWhitespace (input_stream);
+
+			if (IO::Util::test (input_stream, ','))
+			{
+				input_stream.get ();
+				Util::skipWhitespace (input_stream);
+				continue;
+			}
+			else return elements;
 		}
 	}
-	catch (IO::EOF::T) return tokens;
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (IO::EOF::T)
+	{
+		return elements;
+	}
+	catch (Failure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

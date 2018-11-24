@@ -1,25 +1,20 @@
-std::pair <std::string, std::string>
+std::pair<std::string, NullableString::T>
 getChunkExtension (
-	IO::Interface::PeekableInputStream::T <char> * filtered_input_stream
-)
+    IO::Interface::PeekableInputStream::T & input_stream)
 {
-	const std::string message_prefix = "HTTP::Rule::getChunkExtension\n";
+	std::string field_name = getToken (input_stream);
+	NullableString::T field_value;
 
-	try
+	if (IO::Util::test (input_stream, '='))
 	{
-		std::string field_name = getToken (filtered_input_stream);
-
-		expect (filtered_input_stream, "=");
-
-		std::string field_value;
-
-		if (test (filtered_input_stream, '"'))
+		if (IO::Util::test (input_stream, '"'))
 		{
-			field_value = getQuotedString (filtered_input_stream);
+			field_value = getQuotedString (input_stream);
 		}
-		else field_value = getToken (filtered_input_stream);
-
-		return {field_name, field_value};
+		else
+			field_value = getToken (input_stream);
+		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+
+	return {field_name, field_value};
 }

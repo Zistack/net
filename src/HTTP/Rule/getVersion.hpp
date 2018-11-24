@@ -1,6 +1,5 @@
 std::string
-getVersion (
-	IO::Interface::PeekableInputStream::T <char> * filtered_input_stream)
+getVersion (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "HTTP::Rule::getVersion\n";
 
@@ -10,20 +9,23 @@ getVersion (
 
 		std::string token;
 
-		if ((token = getToken (filtered_input_stream)) != "HTTP")
+		if ((token = getToken (input_stream)) != "HTTP")
 		{
-			throw IO::EncodingError::T ("Invalid token: " + token + "\n");
+			throw Failure::Error::T ("Invalid token: " + token + "\n");
 		}
 
-		IO::Util::expect (filtered_input_stream, '/');
+		IO::Util::expect (input_stream, '/');
 
-		uint64_t major = getNum (filtered_input_stream);
+		uint64_t major = getNum (input_stream);
 
-		IO::Util::expect (filtered_input_stream, '.');
+		IO::Util::expect (input_stream, '.');
 
-		uint64_t minor = getNum (filtered_input_stream);
+		uint64_t minor = getNum (input_stream);
 
 		return "HTTP/" + std::to_string (major) + "." + std::to_string (minor);
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }

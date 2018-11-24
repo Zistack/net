@@ -1,35 +1,36 @@
 std::string
 getQuotedString (
-	IO::Interface::PeekableInputStream::T <char> * filtered_input_stream
-)
+    IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "HTTP::Rule::getQuotedString\n";
 
 	try
 	{
-		Util::skipWhitespace (filtered_input_stream);
-
 		std::string quoted_string;
 
-		IO::Util::expect (filtered_input_stream, '"');
+		IO::Util::expect (input_stream, '"');
 
 		while (true)
 		{
-			char c = filtered_input_stream -> peek ();
+			char c = input_stream.peek ();
 
-			if (c == '"') break;
-
-			IO::Util::expect (filtered_input_stream, Class::text);
+			if (c == '"')
+			{
+				input_stream.get ();
+				return quoted_string;
+			};
 
 			if (c == '\\')
 			{
-				c = IO::Util::expect (filtered_input_stream, Class::text);
+				input_stream.get ();
+				quoted_string . push_back (IO::Util::expect (input_stream, Class::text));
 			}
 
-			quoted_string.push_back (c);
+			quoted_string . push_back (IO::Util::expect (input_stream, Class::text));
 		}
-
-		return quoted_string;
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }
