@@ -13,7 +13,7 @@ WARNINGS = -Wchar-subscripts -Wcomment -Wformat=2 -Winit-self -Wimplicit \
 -Wvolatile-register-var -Wno-write-strings -Wsign-promo
 
 CPP = clang++
-CFLAGS = $(WARNINGS) -Werror -pipe -I $(incdir) -std=c++14
+CFLAGS = $(WARNINGS) -Werror -pipe -I $(incdir) -std=c++17
 LFLAGS =
 
 modmkfiles = $(shell find $(srcdir) -type f -name .makefile)
