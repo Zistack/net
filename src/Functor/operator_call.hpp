@@ -1,8 +1,7 @@
-template <class ReturnType,
-    class... ArgumentTypes,
-    ReturnType (f) (ArgumentTypes...)>
-ReturnType
-T<ReturnType (ArgumentTypes...), f>::operator() (ArgumentTypes... arguments)
+template <auto f>
+template <class... Arguments, typename>
+typename std::invoke_result<decltype (f), Arguments...>::type
+T<f>::operator() (Arguments &&... arguments)
 {
-	return f (arguments...);
+	return f (std::forward<Arguments> (arguments)...);
 }
