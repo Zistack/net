@@ -2,7 +2,10 @@ struct T : Value::T
 {
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
-	template <class Iterable>
+	template <class Iterable,
+	    typename = typename std::enable_if<std::is_convertible<
+	        decltype (*std::declval<Iterable> ().begin ()),
+	        std::pair<std::string, std::unique_ptr<Value::T>>>::value>::type>
 	T (const Iterable & members);
 
 	bool

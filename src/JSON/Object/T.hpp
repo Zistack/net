@@ -49,7 +49,7 @@ T::T (IO::Interface::PeekableInputStream::T & input_stream)
 	}
 }
 
-template <class Iterable>
+template <class Iterable, typename>
 T::T (const Iterable & members) : members (members.begin (), members.end ())
 {
 }
