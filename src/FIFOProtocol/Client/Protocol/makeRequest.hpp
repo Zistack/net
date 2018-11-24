@@ -1,6 +1,6 @@
 template <class RequestType, class ResponseType>
 ResponseType
-T<RequestType, ResponseType>::makeRequest (RequestType request)
+T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 {
 	const std::string message_prefix =
 	    "IO::FIFOProtocol::Client::T::makeRequest\n";

@@ -21,11 +21,16 @@ struct T : IO::Interface::Protocol::T
 	readRequest (IO::Blocking::InputStream::T & input_stream) = 0;
 
 	virtual ResponseType
-	map (RequestType request) = 0;
+	map (const RequestType & request) = 0;
 
 	virtual void
-	writeResponse (ResponseType response,
+	writeResponse (const ResponseType & response,
 	    IO::Blocking::OutputStream::T & output_stream) = 0;
+
+	// Given members
+
+	std::chrono::milliseconds input_timeout;
+	std::chrono::milliseconds output_timeout;
 
 	private:
 	void
@@ -42,11 +47,6 @@ struct T : IO::Interface::Protocol::T
 	void
 	computeResponse (RequestType request,
 	    ::Protocol::Delay::T<ResponseType> response_delay);
-
-	// Given members
-
-	std::chrono::milliseconds input_timeout;
-	std::chrono::milliseconds output_timeout;
 
 	// Internal members
 

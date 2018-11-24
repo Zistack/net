@@ -16,13 +16,13 @@ struct T : IO::Interface::Protocol::T
 	stop () override;
 
 	ResponseType
-	makeRequest (RequestType request);
+	makeRequest (const RequestType & request);
 
 	virtual ~T () override = default;
 
 	protected:
 	virtual void
-	writeRequest (RequestType request,
+	writeRequest (const RequestType & request,
 	    IO::Blocking::OutputStream::T & output_stream) = 0;
 
 	virtual ResponseType
