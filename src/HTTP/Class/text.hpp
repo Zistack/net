@@ -1,5 +1,5 @@
 bool
 text (char c)
 {
-	return ! control (c);
+	return vchar (c) || whitespace (c);
 }

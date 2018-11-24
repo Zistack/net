@@ -1,5 +1,5 @@
 bool
 token (char c)
 {
-	return character (c) && ! separator (c);
+	return (c == '!') || (c == '#') || (c == '$') || (c == '%') || (c == '&') || (c == '\'') || (c == '*') || (c == '+') || (c == '-') || (c == '.') || (c == '^') || (c == '_') || (c == '`') || (c == '|') || (c == '~') || digit (c) || alpha (c);
 }

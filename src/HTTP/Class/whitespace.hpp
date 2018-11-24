@@ -1,5 +1,5 @@
 bool
 whitespace (char c)
 {
-	return c == ' ' || c == '\t';
+	return (c == ' ') || (c == '\t');
 }
