@@ -15,6 +15,5 @@ struct T
 	virtual ~T () = default;
 
 	protected:
-	std::unique_ptr<struct tls, Functor::T<decltype (tls_free), tls_free>>
-	    tls_context;
+	std::unique_ptr<struct tls, Functor::T<tls_free>> tls_context;
 };

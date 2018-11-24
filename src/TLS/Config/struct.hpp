@@ -32,9 +32,7 @@ struct T
 	setIdentity (const JSON::Object::T & config_object);
 
 	private:
-	std::unique_ptr<struct tls_config,
-	    Functor::T<decltype (tls_config_free), tls_config_free>>
-	    tls_config;
+	std::unique_ptr<struct tls_config, Functor::T<tls_config_free>> tls_config;
 
 	friend ConfigurableContext::T;
 };
