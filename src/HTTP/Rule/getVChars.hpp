@@ -9,7 +9,7 @@ getVChars (IO::PeekableInputStream::T & input_stream)
 
 		while (IO::Util::test (input_stream, Class::vchar))
 		{
-			vchars . push_back (input_stream.get ());
+			vchars.push_back (input_stream.get ());
 		}
 
 		if (!vchars.empty ()) return vchars;
@@ -18,7 +18,7 @@ getVChars (IO::PeekableInputStream::T & input_stream)
 	}
 	catch (IO::EOF::T)
 	{
-		if (! vchars.epmty ()) return vchars;
+		if (!vchars.epmty ()) return vchars;
 
 		throw Failure::Error::T (message_prefix + IO::Message::unexpectedEOF ())
 	}

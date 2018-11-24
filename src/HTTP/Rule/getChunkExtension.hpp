@@ -1,6 +1,5 @@
 std::pair<std::string, NullableString::T>
-getChunkExtension (
-    IO::Interface::PeekableInputStream::T & input_stream)
+getChunkExtension (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	std::string field_name = getToken (input_stream);
 	NullableString::T field_value;
@@ -13,8 +12,8 @@ getChunkExtension (
 		}
 		else
 			field_value = getToken (input_stream);
-		}
 	}
+}
 
-	return {field_name, field_value};
+return {field_name, field_value};
 }

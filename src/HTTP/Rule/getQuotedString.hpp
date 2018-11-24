@@ -1,6 +1,5 @@
 std::string
-getQuotedString (
-    IO::Interface::PeekableInputStream::T & input_stream)
+getQuotedString (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "HTTP::Rule::getQuotedString\n";
 
@@ -23,10 +22,12 @@ getQuotedString (
 			if (c == '\\')
 			{
 				input_stream.get ();
-				quoted_string . push_back (IO::Util::expect (input_stream, Class::text));
+				quoted_string.push_back (
+				    IO::Util::expect (input_stream, Class::text));
 			}
 
-			quoted_string . push_back (IO::Util::expect (input_stream, Class::text));
+			quoted_string.push_back (
+			    IO::Util::expect (input_stream, Class::text));
 		}
 	}
 	catch (Failure::Error::T & e)

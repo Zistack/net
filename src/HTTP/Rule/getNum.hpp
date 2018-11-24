@@ -21,8 +21,8 @@ getNum (IO::Interface::PeekableInputStream::T & input_stream)
 		catch (std::out_of_range e)
 		{
 			throw Failure::Error::T (
-			    "Failed to convert number string to integer:\n" +
-			    e.what () + "\n");
+			    "Failed to convert number string to integer:\n" + e.what () +
+			    "\n");
 		}
 
 		return ret;

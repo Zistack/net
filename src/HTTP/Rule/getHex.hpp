@@ -21,8 +21,8 @@ getHex (IO::Interface::PeekableInputStream::T & input_stream)
 		catch (std::out_of_range e)
 		{
 			throw Failure::Error::T (
-			    "Failed to convert hex string to integer:\n" +
-			    e.what () + "\n");
+			    "Failed to convert hex string to integer:\n" + e.what () +
+			    "\n");
 		}
 
 		return ret;

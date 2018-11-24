@@ -1,4 +1,5 @@
-template <class Element, Element (IO::Interface::PeekableInputStream::T &) parseElement>
+template <class Element,
+    Element (IO::Interface::PeekableInputStream::T &) parseElement>
 std::list<Element>
 getList (IO::Interface::PeekableInputStream::T & input_stream)
 {
@@ -29,7 +30,8 @@ getList (IO::Interface::PeekableInputStream::T & input_stream)
 				Util::skipWhitespace (input_stream);
 				continue;
 			}
-			else return elements;
+			else
+				return elements;
 		}
 	}
 	catch (IO::EOF::T)
