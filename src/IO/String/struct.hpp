@@ -1,26 +1,30 @@
-struct T : Interface::PeekableInputStream::T, Interface::OutputStream::T
+struct T : Interface::ByteBlock::T
 {
-	T (std::string & string);
+	T (const std::string & string);
 
-	char
-	get () override;
-
-	char
-	peek () override;
+	T (std::string && string);
 
 	void
-	put (char c) override;
+	reset () override;
 
-	void
-	write (const char * buffer, size_t count) override;
-
-	void
-	reset ();
 	off_t
-	size ();
+	size () override;
 
-	~T () = default;
+	PeekableInputStream::T &
+	peekableInputStream () override;
 
-	std::string & string;
+	PeekableInputStream::T &
+	inputStream () override;
+
+	OutputStream::T &
+	outputStream () override;
+
+	~T () override = default;
+
+	private:
+	std::string string;
 	std::string::size_type pointer;
+
+	PeekableInputStream::T peekable_input_stream;
+	OutputStream::T output_stream;
 };

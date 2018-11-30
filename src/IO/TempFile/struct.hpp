@@ -1,4 +1,4 @@
-struct T
+struct T : Interface::NonblockingByteBlock::T
 {
 	T (const std::string & pattern);
 
@@ -13,18 +13,18 @@ struct T
 	operator= (T && other) = delete;
 
 	void
-	reset ();
+	reset () override;
 
 	off_t
-	size ();
+	size () override;
 
 	FileDescriptor::InputStream::T &
-	inputStream ();
+	inputStream () override;
 
 	FileDescriptor::OutputStream::T &
-	outputStream ();
+	outputStream () override;
 
-	~T ();
+	~T () override;
 
 	private:
 	T (std::pair<std::unique_ptr<char[]>, int> temp_file);
