@@ -32,6 +32,7 @@ struct T : Interface::WatchableOutputStream::T
 
 	~T () = default;
 
+	private:
 	Interface::NonblockingOutputStream::T & output_stream;
 	std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
 	    cancel_signals;
