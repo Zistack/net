@@ -1,5 +1,5 @@
 void
-T::handshake (IO::Signal::T & signal)
+T::handshake (IO::Interface::Watchable::T & signal)
 {
 	const std::string message_prefix = "TLS::Context::T::handshake\n";
 

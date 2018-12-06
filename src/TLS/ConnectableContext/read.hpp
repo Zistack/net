@@ -1,5 +1,5 @@
 size_t
-T::read (char * buffer, size_t count, IO::Signal::T & signal)
+T::read (char * buffer, size_t count, IO::Interface::Watchable::T & signal)
 {
 	const std::string message_prefix = "TLS::Context::T::read\n";
 

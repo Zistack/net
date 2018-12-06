@@ -12,7 +12,7 @@ struct T : IO::Interface::Protocol::T
 	run () override;
 
 	void
-	stop () override;
+	cancel () override;
 
 	virtual ~T () override = default;
 
@@ -50,8 +50,8 @@ struct T : IO::Interface::Protocol::T
 
 	// Internal members
 
-	IO::Signal::T input_timeout_signal;
-	IO::Signal::T output_timeout_signal;
+	IO::CancelSignal::T input_timeout_signal;
+	IO::CancelSignal::T output_timeout_signal;
 
 	::Protocol::DelayQueue::T<ResponseType> response_queue;
 	Shutdown::Signal::T shutdown_signal;

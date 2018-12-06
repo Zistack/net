@@ -10,10 +10,10 @@ T<RequestType, ResponseType>::event (
 	{
 		{
 			Thread::Timer::T input_timer (this->input_timeout,
-			    [&]() { this->input_timeout_signal.send (); });
+			    [&]() { this->input_timeout_signal.cancel (); });
 			request = this->readRequest (input_stream);
 		}
-		this->input_timeout_signal.recieve ();
+		this->input_timeout_signal.clear ();
 	}
 	catch (Failure::CancelException::T)
 	{

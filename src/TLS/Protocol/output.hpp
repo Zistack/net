@@ -15,7 +15,7 @@ T::output (IO::FileDescriptor::InputStream::T & input_stream_from_protocol,
 		    {
 			    {
 				    Thread::Timer::T output_timer (this->timeout,
-				        [&]() { this->output_timeout_signal.send (); });
+				        [&]() { this->output_timeout_signal.cancel (); });
 
 				    size_t num_bytes = input_stream_from_protocol.read (
 				        output_buffer, T::BUF_SIZE);
@@ -26,7 +26,7 @@ T::output (IO::FileDescriptor::InputStream::T & input_stream_from_protocol,
 				    this->spurious_read = context.write (
 				        output_buffer, num_bytes, this->output_timeout_signal);
 			    }
-			    this->output_timeout_signal.recieve ();
+			    this->output_timeout_signal.clear ();
 		    }
 		    catch (Failure::CancelException::T)
 		    {

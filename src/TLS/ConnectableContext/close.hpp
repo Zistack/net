@@ -1,5 +1,5 @@
 void
-T::close (IO::Signal::T & signal)
+T::close (IO::Interface::Watchable::T & signal)
 {
 	const std::string message_prefix = "TLS::Context::T::close\n";
 

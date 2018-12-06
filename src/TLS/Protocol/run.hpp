@@ -45,22 +45,22 @@ T::run ()
 			        output_stream_to_protocol);
 			    socket_to_protocol.shutdown ();
 		    },
-		    [this]() { this->input_shutdown_signal.send (); });
+		    &this->input_shutdown_signal);
 
 		nursery.add (
 		    [this, &context (*context), &input_stream_from_protocol]() {
 			    this->output (
 			        input_stream_from_protocol, output_buffer, context);
 		    },
-		    [this]() { this->output_shutdown_signal.send (); });
+		    &this->output_shutdown_signal);
 
 		nursery.run (
 		    [this]() {
 			    this->protocol.run ();
-			    this->input_shutdown_signal.send ();
-			    this->output_shutdown_signal.send ();
+			    this->input_shutdown_signal.cancel ();
+			    this->output_shutdown_signal.cancel ();
 		    },
-		    [this]() { this->protocol.stop (); });
+		    &this->protocol);
 	}
 
 	// This should probably be done in the destructor of the context object.

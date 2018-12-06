@@ -11,7 +11,7 @@ struct T : IO::Interface::Protocol::T
 	run () override;
 
 	void
-	stop () override;
+	cancel () override;
 
 	virtual ~T () override = default;
 
@@ -39,8 +39,8 @@ struct T : IO::Interface::Protocol::T
 
 	// Internal members
 
-	IO::Signal::T input_timeout_signal;
-	IO::Signal::T output_timeout_signal;
+	IO::CancelSignal::T input_timeout_signal;
+	IO::CancelSignal::T output_timeout_signal;
 
 	static const int BUF_SIZE = 1024;
 

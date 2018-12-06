@@ -1,4 +1,4 @@
-struct T : IO::Interface::Watchable::T
+struct T : IO::Interface::Watchable::T, Failure::Cancellable::T
 {
 	T ();
 
@@ -9,7 +9,7 @@ struct T : IO::Interface::Watchable::T
 	events () const override;
 
 	void
-	send ();
+	cancel () override;
 
 	bool
 	running ();

@@ -5,7 +5,7 @@ struct T : TLS::ConnectableContext::T
 	    IO::Interface::NonblockingOutputStream::T & output);
 
 	void
-	connect (IO::Signal::T & signal) override;
+	connect (IO::Interface::Watchable::T & signal) override;
 
 	~T () = default;
 };

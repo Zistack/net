@@ -14,7 +14,7 @@ T::run ()
 			    this->listen (nursery);
 			    nursery.cancel ();
 		    },
-		    [this]() { this->stop (); });
+		    this);
 	}
 
 	try

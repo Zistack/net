@@ -13,10 +13,10 @@ T<RequestType, ResponseType>::output (
 			{
 				{
 					Thread::Timer::T output_timer (this->output_timeout,
-					    [&]() { this->output_timeout_signal.send (); });
+					    [&]() { this->output_timeout_signal.cancel (); });
 					this->writeResponse (response, output_stream);
 				}
-				this->output_timeout_signal.recieve ();
+				this->output_timeout_signal.clear ();
 			}
 			catch (Failure::CancelException::T)
 			{

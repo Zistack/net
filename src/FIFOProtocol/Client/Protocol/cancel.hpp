@@ -1,6 +1,6 @@
 template <class RequestType, class ResponseType>
 void
-T<RequestType, ResponseType>::stop ()
+T<RequestType, ResponseType>::cancel ()
 {
 	this->shutdown_signal.send ();
 }

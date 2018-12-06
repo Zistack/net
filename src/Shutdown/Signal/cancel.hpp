@@ -1,5 +1,5 @@
 void
-T::send ()
+T::cancel ()
 {
 	State::T expected = State::RUNNING;
 

@@ -1,5 +1,5 @@
 bool
-T::write (char * buffer, size_t count, IO::Signal::T & signal)
+T::write (char * buffer, size_t count, IO::Interface::Watchable::T & signal)
 {
 	const std::string message_prefix = "TLS::Context::T::write\n";
 

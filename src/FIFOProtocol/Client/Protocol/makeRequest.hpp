@@ -44,11 +44,13 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 			    try
 			    {
 				    {
-					    Thread::Timer::T output_timer (this->output_timeout,
-					        [this]() { this->output_timeout_signal.send (); });
+					    Thread::Timer::T output_timer (
+					        this->output_timeout, [this]() {
+						        this->output_timeout_signal.cancel ();
+					        });
 					    this->writeRequest (request, *this->output_stream);
 				    }
-				    this->output_timeout_signal.recieve ();
+				    this->output_timeout_signal.clear ();
 			    }
 			    catch (Failure::CancelException::T)
 			    {

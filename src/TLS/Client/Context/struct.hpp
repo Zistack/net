@@ -5,7 +5,7 @@ struct T : TLS::ConfigurableContext::T, TLS::ConnectableContext::T
 	    const Config::T & config);
 
 	void
-	connect (IO::Signal::T & signal) override;
+	connect (IO::Interface::Watchable::T & signal) override;
 
 	~T () = default;
 

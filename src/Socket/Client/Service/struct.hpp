@@ -1,4 +1,4 @@
-struct T
+struct T : Failure::Cancellable::T
 {
 	T (IO::Interface::Protocol::T & client_protocol);
 
@@ -9,7 +9,7 @@ struct T
 	run ();
 
 	void
-	stop ();
+	cancel () override;
 
 	virtual ~T () = default;
 

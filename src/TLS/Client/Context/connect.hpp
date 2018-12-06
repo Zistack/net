@@ -1,5 +1,5 @@
 void
-T::connect (IO::Signal::T & signal)
+T::connect (IO::Interface::Watchable::T & signal)
 {
 	const std::string message_prefix = "TLS::Client::Context::T::connect\n";
 

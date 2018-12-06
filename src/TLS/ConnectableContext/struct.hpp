@@ -14,22 +14,22 @@ struct T : virtual Context::T
 	operator= (const T && other) = delete;
 
 	virtual void
-	connect (IO::Signal::T & signal) = 0;
+	connect (IO::Interface::Watchable::T & signal) = 0;
 
 	size_t
-	read (char * buffer, size_t count, IO::Signal::T & signal);
+	read (char * buffer, size_t count, IO::Interface::Watchable::T & signal);
 
 	bool
-	write (char * buffer, size_t count, IO::Signal::T & signal);
+	write (char * buffer, size_t count, IO::Interface::Watchable::T & signal);
 
 	void
-	close (IO::Signal::T & signal);
+	close (IO::Interface::Watchable::T & signal);
 
 	virtual ~T () = default;
 
 	protected:
 	void
-	handshake (IO::Signal::T & signal);
+	handshake (IO::Interface::Watchable::T & signal);
 
 	IO::Interface::Watchable::T & input;
 	IO::Interface::Watchable::T & output;

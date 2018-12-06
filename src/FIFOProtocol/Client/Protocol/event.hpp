@@ -14,10 +14,10 @@ T<RequestType, ResponseType>::event (
 	{
 		{
 			Thread::Timer::T input_timer (this->input_timeout,
-			    [this]() { this->input_timeout_signal.send (); });
+			    [this]() { this->input_timeout_signal.cancel (); });
 			response_delay.value ().set (this->readResponse (input_stream));
 		}
-		this->input_timeout_signal.recieve ();
+		this->input_timeout_signal.clear ();
 	}
 	catch (Failure::CancelException::T)
 	{

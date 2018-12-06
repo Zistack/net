@@ -25,7 +25,7 @@ T::input (IO::Interface::NonblockingInputStream::T & input_stream,
 		    {
 			    {
 				    Thread::Timer::T input_timer (this->timeout,
-				        [&]() { this->input_timeout_signal.send (); });
+				        [&]() { this->input_timeout_signal.cancel (); });
 
 				    size_t num_bytes = context.read (
 				        input_buffer, T::BUF_SIZE, this->input_timeout_signal);
@@ -34,7 +34,7 @@ T::input (IO::Interface::NonblockingInputStream::T & input_stream,
 
 				    output_stream_to_protocol.write (input_buffer, num_bytes);
 			    }
-			    this->input_timeout_signal.recieve ();
+			    this->input_timeout_signal.clear ();
 		    }
 		    catch (Failure::CancelException::T)
 		    {

@@ -18,15 +18,18 @@ T::listen (Thread::Nursery::T & nursery)
 			    std::unique_ptr<IO::Interface::Socket::T> connection_socket =
 			        server_socket.accept ();
 
-			    std::shared_ptr<IO::Interface::Protocol::T>
+			    std::unique_ptr<IO::Interface::Protocol::T>
 			        connection_protocol = this->server_protocol.make ();
+			    IO::Interface::Protocol::T * connection_protocol_ptr =
+			        connection_protocol.get ();
 
 			    connection_protocol->prime (connection_socket->inputStream (),
 			        connection_socket->outputStream ());
 
 			    nursery.add (
 			        [connection_socket (std::move (connection_socket)),
-			            connection_protocol]() {
+			            connection_protocol (
+			                std::move (connection_protocol))]() {
 				        try
 				        {
 					        connection_protocol->run ();
@@ -36,7 +39,7 @@ T::listen (Thread::Nursery::T & nursery)
 					        // Log it, which for now means ignore it.
 				        }
 			        },
-			        [connection_protocol]() { connection_protocol->stop (); });
+			        connection_protocol_ptr);
 		    });
 	}
 
