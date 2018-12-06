@@ -1,12 +1,7 @@
 struct T : Interface::WatchableOutputStream::T
 {
-	template <class... CancelSignals>
 	T (Interface::NonblockingOutputStream::T & output_stream,
-	    CancelSignals &... cancel_signals);
-
-	T (Interface::NonblockingOutputStream::T & output_stream,
-	    std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
-	        cancel_signals);
+	    Interface::Watchable::T & cancel_signal);
 
 	T (const T & other) = delete;
 
@@ -34,6 +29,5 @@ struct T : Interface::WatchableOutputStream::T
 
 	private:
 	Interface::NonblockingOutputStream::T & output_stream;
-	std::initializer_list<std::reference_wrapper<Interface::Watchable::T>>
-	    cancel_signals;
+	Interface::Watchable::T & cancel_signal;
 };

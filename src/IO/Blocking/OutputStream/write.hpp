@@ -9,6 +9,6 @@ T::write (const char * buffer, size_t count)
 
 		if (!count) return;
 
-		Util::wait (this->output_stream, this->cancel_signals);
+		Util::wait (this->output_stream, this->cancel_signal);
 	}
 }

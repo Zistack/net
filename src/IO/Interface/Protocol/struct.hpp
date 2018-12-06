@@ -1,4 +1,4 @@
-struct T
+struct T : Failure::Cancellable::T
 {
 	virtual void
 	prime (IO::Interface::NonblockingInputStream::T & input_stream,
@@ -8,7 +8,7 @@ struct T
 	run () = 0;
 
 	virtual void
-	stop () = 0;
+	cancel () override = 0;
 
 	virtual ~T () = default;
 };
