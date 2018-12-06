@@ -1,4 +1,4 @@
-NullableString-moddepends = Optional
+NullableString-moddepends =
 NullableString-CFLAGS =
 NullableString-LFLAGS =
 

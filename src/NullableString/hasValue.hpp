@@ -1,5 +1,5 @@
 bool
 T::hasValue () const
 {
-	return this->string;
+	return this->string.has_value ();
 }
