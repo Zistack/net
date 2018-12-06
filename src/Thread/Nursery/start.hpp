@@ -1,13 +1,12 @@
-template <class Function, class Cancel>
+template <class Function>
 bool
-T::start (Function && function, Cancel && cancel) noexcept
+T::start (Function && function, Failure::Cancellable::T * cancellable) noexcept
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 
 	if (this->exception_store) return false;
 
-	Thread::T thread (
-	    std::forward<Function> (function), std::forward<Cancel> (cancel));
+	Thread::T thread (std::forward<Function> (function), cancellable);
 
 	this->threads.insert ({thread.id (), std::move (thread)});
 

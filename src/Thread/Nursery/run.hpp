@@ -1,8 +1,8 @@
-template <class Function, class Cancel>
+template <class Function>
 void
-T::run (Function && function, Cancel && cancel) noexcept
+T::run (Function && function, Failure::Cancellable::T * cancellable) noexcept
 {
-	if (this->start (nullptr, std::forward<Cancel> (cancel)))
+	if (this->start (nullptr, cancellable))
 	{
 		bool first_fail = this->exception_store.tryStore (function);
 		this->finish ();

@@ -1,5 +1,5 @@
 template <class Element>
-Optional::T<Element>
+std::optional<Element>
 T<Element>::tryPop ()
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
@@ -11,5 +11,7 @@ T<Element>::tryPop ()
 		return element;
 	}
 	else
+	{
 		return {};
+	}
 }

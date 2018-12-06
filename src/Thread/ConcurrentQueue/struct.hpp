@@ -12,7 +12,7 @@ struct T
 	Element
 	pop ();
 
-	Optional::T<Element>
+	std::optional<Element>
 	tryPop ();
 
 	void

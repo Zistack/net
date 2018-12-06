@@ -1,10 +1,10 @@
-template <class Function, class Cancel>
+template <class Function>
 void
-T::call (Function && function, Cancel && cancel)
+T::call (Function && function, Failure::Cancellable::T * cancellable)
 {
 	const std::string message_prefix = "Thread::Nursery::T::call\n";
 
-	if (this->start (nullptr, std::forward<Cancel> (cancel)))
+	if (this->start (nullptr, cancellable))
 	{
 		bool first_fail = false;
 

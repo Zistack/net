@@ -1,6 +1,6 @@
-template <class Function, class Cancel>
+template <class Function>
 void
-T::add (Function && function, Cancel && cancel) noexcept
+T::add (Function && function, Failure::Cancellable::T * cancellable) noexcept
 {
 	this->start (
 	    [this, function (std::forward<Function> (function))]() mutable {
@@ -8,5 +8,5 @@ T::add (Function && function, Cancel && cancel) noexcept
 		    this->finish ();
 		    if (first_fail) this->cancel ();
 	    },
-	    std::forward<Cancel> (cancel));
+	    cancellable);
 }

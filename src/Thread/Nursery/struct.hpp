@@ -1,4 +1,4 @@
-struct T
+struct T : Failure::Cancellable::T
 {
 	T () noexcept;
 
@@ -14,27 +14,31 @@ struct T
 	T &
 	operator= (T && other) = delete;
 
-	template <class Function, class Cancel = std::nullptr_t>
+	template <class Function>
 	void
-	add (Function && function, Cancel && cancel = nullptr) noexcept;
+	add (Function && function,
+	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
 
-	template <class Function, class Cancel = std::nullptr_t>
+	template <class Function>
 	void
-	run (Function && function, Cancel && cancel = nullptr) noexcept;
+	run (Function && function,
+	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
 
-	template <class Function, class Cancel = std::nullptr_t>
+	template <class Function>
 	void
-	call (Function && function, Cancel && cancel = nullptr);
+	call (Function && function,
+	    Failure::Cancellable::T * cancellable = nullptr);
 
 	void
-	cancel () noexcept;
+	cancel () noexcept override;
 
 	~T () noexcept (false);
 
 	private:
-	template <class Function, class Cancel>
+	template <class Function>
 	bool
-	start (Function && function, Cancel && cancel) noexcept;
+	start (Function && function,
+	    Failure::Cancellable::T * cancellable) noexcept;
 
 	void
 	finish () noexcept;
