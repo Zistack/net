@@ -48,6 +48,7 @@ struct T : Failure::Cancellable::T
 
 	std::mutex m;
 	std::condition_variable c;
+	bool cancelled;
 
 	std::unordered_map<std::thread::id, Thread::T> threads;
 
