@@ -1,5 +1,5 @@
 void
-skipWhitespace (IO::Interface::PeekableInputStream::T <char> * input_stream)
+skipWhitespace (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	const std::string message_prefix = "HTTP::Util::skipWhitespace\n";
 
@@ -7,8 +7,11 @@ skipWhitespace (IO::Interface::PeekableInputStream::T <char> * input_stream)
 	{
 		while (IO::Util::test (input_stream, Class::whitespace))
 		{
-			input_stream->get ();
+			input_stream.get ();
 		}
 	}
-	catch (Failure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Failure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }
