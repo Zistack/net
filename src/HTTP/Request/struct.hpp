@@ -1,24 +1,30 @@
 struct T
 {
-	T (IO::Interface::PeekableInputStream::T <char> * filtered_input_stream,
-		IO::Interface::PeekableInputStream::T <char> * input_stream);
+	T (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_cancel_signal, Failure::CancelScope::T & cancel_scope);
 
-	T (std::string method,
-		URI::T uri,
-		std::string version,
-		Headers::T headers,
-		Entity::T * entity);
+	T (const std::string & method,
+	    const URI::T & uri,
+	    const std::string & version,
+	    const HeaderMap::T & headers,
+	    std::unique_ptr<Entity::T> && entity);
 
 	void
-	writeTo (IO::Interface::OutputStream::T <char> * output_stream);
+	writeTo (const NullableString::T & transfer_encoding_spec, IO::Interface::OutputStream::T & output_stream, IO::CancelSignal::T & output_cancel_signal, Failure::CancelScope::T & cancel_scope);
 
-	~T ();
+	~T () = default;
+
+	private:
+	void
+	getRequestLine (IO::Interface::PeekableInputStream::T & input_stream);
+
+	void
+	putRequestLine (IO::Interface::OutputStream::T & output_stream);
 
 	std::string method;
 	UTI::T uri;
 	std::string version;
 
-	Message::Headers::T headers;
+	HeaderMap::T headers;
 
-	Entity::T * entity;
+	std::unique_ptr<Entity::T> entity;
 };

@@ -1,51 +1,50 @@
-T (IO::Interface::PeekableInputStream::T * filtered_input_stream,
-	IO::Interface::PeekableInputStream::T * input_stream) :
-	entity (NULL)
+T (IO::Interface::InputStream::T & blocking_input_stream, IO::CancelSignal::T & input_cancel_signal, Failure::CancelScope::T & cancel_scope)
 {
-	const std::string message_prefix = "HTTP::Response::T\n";
+	const std::string message_prefix = "HTTP::Response::T::T\n";
+
+	IO::PeekableInputStream::T input_stream (blocking_input_stream);
 
 	try
 	{
-		status_code = Rule::getStatusCode (input_stream);
-
-		IO::Util::expect (input_stream, " ");
-
-		uri = URI::T (input_stream);
-
-		IO::Util::expect (input_stream, " ");
-
-		version = Rule::getVersion (input_stream);
-
-		IO::Util::expect (input_stream, "\r\n");
-
-		headers = Rule::getHeaders (input_stream);
-
-		IO::Util::expect (input_stream, "\r\n");
-
-		if (Rule::isEntity (& headers))
 		{
-			EntityInfo entity_info (& headers);
+			Failure::CancelScope::Bind::T input_cancel_binding (cancel_scope, input_cancel_signal);
 
-			entity =
-				new Entity (& entity_info, filtered_input_stream, input_stream);
+			this -> getStatusLine (input_stream);
+
+			this -> headers = HeaderMap::T (input_stream);
+
+			IO::Util::expect (input_stream, "\r\n");
 		}
+
+		// That number needs to be configurable.
+		this -> entity = headersToEntity<false> (this->headers, 4096);
+
+		if (this -> entity)
+		{
+			TransferEncoding::Decoder::T decoder;
+			headersToDecoder (this -> headers, decoder);
+
+			decoder . decode (input_stream, input_cancel_signal, *entity, cancel_scope);
+		}
+
+		this->headers.remove ("Content-Length");
+		this->headers.remove ("Transfer-Encoding");
 	}
-	catch (Faulure::Throwable::T& e) throw e.set (message_prefix + e.what ());
+	catch (Faulure::Error::T & e)
+	{
+		throw e.set (message_prefix + e.what ());
+	}
 }
 
-T (std::string status_code,
-	URI::T uri,
-	std::string version,
-	Headers::T headers,
-	Entity::T * entity) :
-	status_code (status_code),
-	uri (uri),
-	version (version),
-	headers (headers),
-	entity (entity)
+T (uint64_t status_code,
+    const URI::T & uri,
+    const std::string & version,
+    const HeaderMap::T & headers,
+    std::unique_ptr <Entity::T> && entity) :
+    status_code (status_code),
+    uri (uri),
+    version (version),
+    headers (headers),
+    entity (std::move (entity))
 {
-	if (entity)
-	{
-		headers.insert ({"Content-Length", std::to_string (entity->size ())});
-	}
 }

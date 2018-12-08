@@ -1,24 +1,26 @@
 void
-T::writeTo (IO::Interface::OutputStream::T <char> * output_stream)
+T::writeTo (const NullableString::T & transfer_encoding_spec, IO::Interface::OutputStream::T & output_stream, IO::CancelSignal::T & output_cancel_signal, Failure::CancelScope::T & cancel_scope)
 {
-	output_stream -> print (status_code);
-	output_stream -> put (' ');
-	uri.writeTo (output_stream);
-	output_stream -> put (' ');
-	output_stream -> print (version);
-	output_stream -> print ("\r\n");
-
-	Message::putHeaders (output_stream, headers);
-
-	output_stream -> print ("\r\n");
-
-	if (! entity) return;
-
-	entity -> reset ();
-
-	off_t i;
-	for (i = 0; i < entity->size (); ++ i)
 	{
-		output_stream -> put (entity -> get ());
+		Failure::CancelScope::Bind::T output_cancel_binding (cancel_scope, output_cancel_signal);
+
+		this -> putStatusLine (output_stream);
+
+		this -> headers.writeTo (output_stream);
+
+		if (this -> entity)
+		{
+			specToHeaders (this -> entity, transfer_encoding_spec).writeTo (output_stream);
+		}
+
+		output_stream.print ("\r\n");
+	}
+
+	if (this -> entity)
+	{
+		TransferEncoding::Encoder::T encoder;
+		specToEncoder (this->entity, transfer_encoding_spec, encoder);
+
+		encoder.encode (*entity, output_stream, output_cancel_signal, cancel_scope);
 	}
 }

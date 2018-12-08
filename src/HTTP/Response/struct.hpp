@@ -1,23 +1,27 @@
 struct T
 {
-	T (IO::Interface::InputStream::T <char> * input_stream);
+	T (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_cancel_signal, Failure::CancelScope::T & cancel_scope);
 
-	T (std::string status_code,
-		URI::T uri,
-		std::string version,
-		Headers::T headers,
-		Entity::T * entity);
+	T (uint64_t,
+	    const URI::T & uri,
+	    const std::string & version,
+	    const HeaderMap::T & headers,
+	    std::unique_ptr <Entity::T> && entity);
 
 	void
-	writeTo (IO::Interface::OutputStream::T <char> * output_stream);
+	writeTo (const NullableString::T & transfer_encoding_spec, IO::Interface::OutputStream::T & output_stream, IO::CancelSignal::T & output_cancel_signal, Failure::CancelScope::T & cancel_scope);
 
-	~T ();
+	~T () = default;
 
-	std::string status_code;
+	private:
+	void
+	getStatusLine (IO::Interface::InputStream::T & input_stream);
+
+	uint64_t status_code;
 	URI::T uri;
 	std::string version;
 
-	Message::Headers::T headers;
+	HeaderMap::T headers;
 
-	Entity::T * entity;
+	std::unique_ptr <Entity::T> entity;
 };
