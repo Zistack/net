@@ -19,12 +19,16 @@ struct T : Cancellable::T
 	~T () = default;
 
 	private:
-	void
+	bool
 	add (Cancellable::T & cancellable);
 
 	void
 	remove (Cancellable::T & cancellable);
 
+	friend struct Bind::T;
+
 	std::mutex m;
+	bool cancelled;
+
 	std::unordered_set<Cancellable::T *> members;
 };
