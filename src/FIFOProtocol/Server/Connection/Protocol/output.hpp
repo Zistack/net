@@ -12,11 +12,17 @@ T<RequestType, ResponseType>::output (
 			try
 			{
 				{
-					Thread::Timer::T output_timer (this->output_timeout,
-					    [&]() { this->output_timeout_signal.cancel (); });
-					this->writeResponse (response, output_stream);
+					Failure::CancelScope::T output_cancel_scope;
+					Thread::Timer::T output_timer (
+					    this->output_timeout, [&output_cancel_scope]() {
+						    output_cancel_scope.cancel ();
+					    });
+					this->writeResponse (response,
+					    output_stream,
+					    this->output_cancel_signal,
+					    output_cancel_scope);
 				}
-				this->output_timeout_signal.clear ();
+				this->output_cancel_signal.clear ();
 			}
 			catch (Failure::CancelException::T)
 			{

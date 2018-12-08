@@ -23,10 +23,14 @@ struct T : IO::Interface::Protocol::T
 	protected:
 	virtual void
 	writeRequest (const RequestType & request,
-	    IO::Blocking::OutputStream::T & output_stream) = 0;
+	    IO::Blocking::OutputStream::T & output_stream,
+	    IO::CancelSignal::T & output_cancel_signal,
+	    Failure::CancelScope::T & cancel_scope) = 0;
 
 	virtual ResponseType
-	readResponse (IO::Blocking::InputStream::T & input_stream) = 0;
+	readResponse (IO::Blocking::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_cancel_signal,
+	    Failure::CancelScope::T & cancel_scope) = 0;
 
 	private:
 	void
@@ -40,8 +44,8 @@ struct T : IO::Interface::Protocol::T
 
 	// Internal members
 
-	IO::CancelSignal::T input_timeout_signal;
-	IO::CancelSignal::T output_timeout_signal;
+	IO::CancelSignal::T input_cancel_signal;
+	IO::CancelSignal::T output_cancel_signal;
 
 	::Protocol::DelayQueue::T<ResponseType> response_queue;
 	Shutdown::Signal::T shutdown_signal;

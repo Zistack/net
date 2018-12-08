@@ -9,11 +9,13 @@ T<RequestType, ResponseType>::event (
 	try
 	{
 		{
+			Failure::CancelScope::T input_cancel_scope;
 			Thread::Timer::T input_timer (this->input_timeout,
-			    [&]() { this->input_timeout_signal.cancel (); });
-			request = this->readRequest (input_stream);
+			    [&input_cancel_scope]() { input_cancel_scope.cancel (); });
+			request = this->readRequest (
+			    input_stream, this->input_cancel_signal, input_cancel_scope);
 		}
-		this->input_timeout_signal.clear ();
+		this->input_cancel_signal.clear ();
 	}
 	catch (Failure::CancelException::T)
 	{

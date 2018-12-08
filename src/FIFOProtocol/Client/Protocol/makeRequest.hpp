@@ -44,13 +44,17 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 			    try
 			    {
 				    {
+					    Failure::CancelScope::T output_cancel_scope;
 					    Thread::Timer::T output_timer (
-					        this->output_timeout, [this]() {
-						        this->output_timeout_signal.cancel ();
+					        this->output_timeout, [&output_cancel_scope]() {
+						        output_cancel_scope.cancel ();
 					        });
-					    this->writeRequest (request, *this->output_stream);
+					    this->writeRequest (request,
+					        *this->output_stream,
+					        this->output_cancel_signal,
+					        output_cancel_scope);
 				    }
-				    this->output_timeout_signal.clear ();
+				    this->output_cancel_signal.clear ();
 			    }
 			    catch (Failure::CancelException::T)
 			    {
