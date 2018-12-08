@@ -1,4 +1,6 @@
-T::T (IO::Interface::InputStream::T & blocking_input_stream, IO::CancelSignal::T & input_cancel_signal, Failure::CancelScope::T & cancel_scope)
+T::T (IO::Interface::InputStream::T & blocking_input_stream,
+    IO::CancelSignal::T & input_cancel_signal,
+    Failure::CancelScope::T & cancel_scope)
 {
 	const std::string message_prefix = "HTTP::Request::T::T\n";
 
@@ -7,7 +9,8 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream, IO::CancelSignal::T
 	try
 	{
 		{
-			Failure::CancelScope::Bind::T input_cancel_binding (cancel_scope, input_cancel_signal);
+			Failure::CancelScope::Bind::T input_cancel_binding (
+			    cancel_scope, input_cancel_signal);
 
 			this->getRequestLine (input_stream);
 
@@ -24,7 +27,8 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream, IO::CancelSignal::T
 			TransferEncoding::Decoder::T decoder;
 			headersToDecoder (this->headers, decoder);
 
-			decoder . decode (input_stream, input_cancel_signal, *entity, cancel_scope);
+			decoder.decode (
+			    input_stream, input_cancel_signal, *entity, cancel_scope);
 		}
 
 		this->headers.remove ("Content-Length");

@@ -9,7 +9,10 @@ struct T
 	addStage (const Specification::T & specification);
 
 	void
-	decode (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_cancel_signal, Entity::T & entity, Failure::CancelScope::T & cancel_scope);
+	decode (IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_cancel_signal,
+	    Entity::T & entity,
+	    Failure::CancelScope::T & cancel_scope);
 
 	~T () = default;
 };

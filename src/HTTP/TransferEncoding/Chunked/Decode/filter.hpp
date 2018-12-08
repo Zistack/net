@@ -1,6 +1,5 @@
 void
-T::filter (
-    IO::Interface::InputStream::T & blocking_input_stream,
+T::filter (IO::Interface::InputStream::T & blocking_input_stream,
     IO::Interface::OutputStream::T & output_stream)
 {
 	IO::PeekableInputStream::T input_stream (blocking_input_stream);
@@ -22,7 +21,7 @@ T::filter (
 
 		BoundedIdentity::T (chunk_size) (input_stream, output_stream)
 
-		IO::Util::expect (input_stream, "\r\n");
+		    IO::Util::expect (input_stream, "\r\n");
 	}
 
 	// We discard trailers, because we don't understand any.

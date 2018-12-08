@@ -13,9 +13,9 @@ T::filter (
 	{
 		try
 		{
-			for (bytes = 0; bytes < BUF_SIZE; ++ bytes)
+			for (bytes = 0; bytes < BUF_SIZE; ++bytes)
 			{
-				buffer [bytes] = input_stream . get ();
+				buffer[bytes] = input_stream.get ();
 			}
 		}
 		catch (IO::EOF::T)

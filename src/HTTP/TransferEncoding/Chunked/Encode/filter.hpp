@@ -1,6 +1,5 @@
 void
-T::filter (
-    IO::Interface::InputStream::T & input_stream,
+T::filter (IO::Interface::InputStream::T & input_stream,
     IO::Interface::OutputStream::T & output_stream)
 {
 	char buffer[this->chunk_size];

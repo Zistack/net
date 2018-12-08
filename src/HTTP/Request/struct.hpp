@@ -1,6 +1,8 @@
 struct T
 {
-	T (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_cancel_signal, Failure::CancelScope::T & cancel_scope);
+	T (IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_cancel_signal,
+	    Failure::CancelScope::T & cancel_scope);
 
 	T (const std::string & method,
 	    const URI::T & uri,
@@ -9,7 +11,10 @@ struct T
 	    std::unique_ptr<Entity::T> && entity);
 
 	void
-	writeTo (const NullableString::T & transfer_encoding_spec, IO::Interface::OutputStream::T & output_stream, IO::CancelSignal::T & output_cancel_signal, Failure::CancelScope::T & cancel_scope);
+	writeTo (const NullableString::T & transfer_encoding_spec,
+	    IO::Interface::OutputStream::T & output_stream,
+	    IO::CancelSignal::T & output_cancel_signal,
+	    Failure::CancelScope::T & cancel_scope);
 
 	~T () = default;
 

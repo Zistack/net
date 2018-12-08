@@ -16,15 +16,19 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 
 		if (input_cancel_signal)
 		{
-			input_cancel_binding = Failure::CancelScope::Bind::T input_cancel_binding (cancel_scope, *input_cancel_signal);
+			input_cancel_binding =
+			    Failure::CancelScope::Bind::T input_cancel_binding (
+			        cancel_scope, *input_cancel_signal);
 		}
 
 		if (output_cancel_signal)
 		{
-			output_cancel_binding = Failure::CancelScope::Bind::T output_cancel_binding (cancel_scope, *output_cancel_binding);
+			output_cancel_binding =
+			    Failure::CancelScope::Bind::T output_cancel_binding (
+			        cancel_scope, *output_cancel_binding);
 		}
 
-		stage . filter (input_stream, output_stream);
+		stage.filter (input_stream, output_stream);
 	}
 	else
 	{
@@ -60,7 +64,7 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 				    IO::Blocking::OutputStream::T output_stream (
 				        next_pipe->outputStream (), input_cancel_signal);
 
-				    stage . filter (input_stream, output_stream);
+				    stage.filter (input_stream, output_stream);
 
 				    next_pipe->shutdown ();
 			    },
@@ -88,7 +92,7 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 					    IO::Blocking::OutputStream::T output_stream (
 					        next_pipe->outputStream (), *stage_cancel_signal);
 
-					    stage . filter (input_stream, output_stream);
+					    stage.filter (input_stream, output_stream);
 
 					    next_pipe->shutdown ();
 				    },
@@ -115,7 +119,7 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 				    IO::Blocking::InputStream::T input_stream (
 				        previous_pipe->inputStream (), output_cancel_signal);
 
-				    stage . filter (input_stream, output_stream);
+				    stage.filter (input_stream, output_stream);
 			    },
 			    output_cancel_signal);
 		}

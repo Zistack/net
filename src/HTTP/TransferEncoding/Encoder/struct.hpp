@@ -9,7 +9,10 @@ struct T : Pipeline::T
 	addLastStage (const Specification::T & specification);
 
 	void
-	encode (Entity::T & entity, IO::Interface::OutputStream::T & output_stream, IO::CancelSignal::T & output_cancel_signal, Failure::CancelScope::T & cancel_scope);
+	encode (Entity::T & entity,
+	    IO::Interface::OutputStream::T & output_stream,
+	    IO::CancelSignal::T & output_cancel_signal,
+	    Failure::CancelScope::T & cancel_scope);
 
 	~T () = default;
 };
