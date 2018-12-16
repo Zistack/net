@@ -1,7 +1,7 @@
 struct T : Value::T
 {
 	T (IO::Interface::PeekableInputStream::T & input_stream);
-	T (std::string number);
+	T (const std::string & number_string);
 
 	void
 	writeTo (IO::Interface::OutputStream::T & output_stream,
