@@ -19,7 +19,7 @@ wait (Interface::Watchable::T & stream, Interface::Watchable::T & cancel_signal)
 			continue;
 		case EINVAL:
 		default:
-			throw Failure::Error::T (
+			throw Failure::ResourceError::T (
 			    message_prefix + "poll: " + strerror (errno) + "\n");
 		}
 	}
@@ -45,7 +45,7 @@ wait (Interface::Watchable::T & stream)
 			continue;
 		case EINVAL:
 		default:
-			throw Failure::Error::T (
+			throw Failure::ResourceError::T (
 			    message_prefix + "poll: " + strerror (errno) + "\n");
 		}
 	}

@@ -5,7 +5,7 @@ expect (Interface::InputStream::T & input_stream, char e)
 
 	if (c != e)
 	{
-		throw Failure::Error::T (Message::unexpectedCharacter (c, e));
+		throw Failure::SyntaxError::T (Message::unexpectedCharacter (c, e));
 	}
 }
 
@@ -15,7 +15,7 @@ template <class Predicate,
 #define IO_Util_expect_hpp_2
     = typename std::enable_if<
         std::is_invocable_r<bool, Predicate, char>::value>::type
-#endif
+#endif /* IO_Util_expect_hpp_2 */
     >
 char
 expect (Interface::InputStream::T & input_stream, Predicate && classPredicate)
@@ -24,7 +24,7 @@ expect (Interface::InputStream::T & input_stream, Predicate && classPredicate)
 
 	if (classPredicate (c)) return c;
 
-	throw Failure::Error::T (Message::unexpectedCharacter (c));
+	throw Failure::SyntaxError::T (Message::unexpectedCharacter (c));
 }
 
 void
