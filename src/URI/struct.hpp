@@ -1,5 +1,7 @@
 struct T
 {
+	T () = default;
+
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
 	T (const std::string & uri_string);
