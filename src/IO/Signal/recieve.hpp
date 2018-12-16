@@ -21,7 +21,7 @@ T::recieve ()
 		case EINVAL:
 		case EIO:
 		default:
-			throw Failure::Error::T (
+			throw Failure::ResourceError::T (
 			    message_prefix + "read: " + strerror (errno) + "\n");
 		}
 	}

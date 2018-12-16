@@ -26,7 +26,7 @@ T::read (char * buffer, size_t count)
 			case EIO:
 			case EISDIR:
 			default:
-				throw Failure::Error::T (
+				throw Failure::ResourceError::T (
 				    message_prefix + "read: " + strerror (errno) + "\n");
 			}
 		}

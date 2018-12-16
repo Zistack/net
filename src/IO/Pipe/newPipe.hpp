@@ -7,7 +7,7 @@ T::newPipe ()
 
 	if (pipe (file_descriptor) == -1)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "pipe: " + strerror (errno) + "\n");
 	}
 
@@ -20,7 +20,7 @@ T::newPipe ()
 		        F_SETFL,
 		        fcntl (read_file_descriptor, F_GETFL) | O_NONBLOCK) == -1)
 		{
-			throw Failure::Error::T (
+			throw Failure::ResourceError::T (
 			    message_prefix + "fcntl: " + strerror (errno) + "\n");
 		}
 
@@ -28,11 +28,11 @@ T::newPipe ()
 		        F_SETFL,
 		        fcntl (write_file_descriptor, F_GETFL) | O_NONBLOCK) == -1)
 		{
-			throw Failure::Error::T (
+			throw Failure::ResourceError::T (
 			    message_prefix + "fcntl: " + strerror (errno) + "\n");
 		}
 	}
-	catch (Failure::Error::T)
+	catch (Failure::ResourceError::T)
 	{
 		close (read_file_descriptor);
 		close (write_file_descriptor);

@@ -29,7 +29,7 @@ T::write (const char * buffer, size_t count)
 			case EPERM:
 			case EPIPE:
 			default:
-				throw Failure::Error::T (
+				throw Failure::ResourceError::T (
 				    message_prefix + "write: " + strerror (errno) + "\n");
 			}
 		}

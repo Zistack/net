@@ -9,7 +9,7 @@ T::newTempFile (const std::string & pattern)
 
 	if (file_descriptor == -1)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "mkstemp: " + strerror (errno) + "\n");
 	}
 

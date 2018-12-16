@@ -34,7 +34,7 @@ T::newFile (const std::string & filename, const std::string & mode)
 
 	if (file_descriptor == -1)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "open: " + strerror (errno) + "\n");
 	}
 

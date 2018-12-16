@@ -7,7 +7,7 @@ T::send ()
 
 	if (write (this->file_descriptor, &event, sizeof (event)) == -1)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "write: " + strerror (errno) + "\n");
 	}
 }

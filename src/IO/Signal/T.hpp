@@ -6,7 +6,7 @@ T::T ()
 
 	if (this->file_descriptor == -1)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "eventfd: " + strerror (errno) + "\n");
 	}
 }
