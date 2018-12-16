@@ -1,8 +1,8 @@
 template <Case::T c
-#ifndef IO_UTIL_NIBBLE_TO_HEX
-#define IO_UTIL_NIBBLE_TO_HEX
+#ifndef IO_Util_nibbleToHex_hpp
+#define IO_Util_nibbleToHex_hpp
     = Case::UPPER
-#endif /* IO_UTIL_NIBBLE_TO_HEX */
+#endif /* IO_Util_nibbleToHex_hpp */
     >
 char
 nibbleToHex (char n)

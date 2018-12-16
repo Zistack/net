@@ -4,7 +4,7 @@ unexpectedCharacter (char c)
 	std::string message = "Unexpected character: ";
 
 	if (Class::control (c))
-		message += Util::charToHex (c);
+		message += Util::toHex (c);
 	else
 		message += c;
 
@@ -25,7 +25,7 @@ unexpectedCharacter (char c, char e)
 	std::string expected;
 
 	if (Class::control (e))
-		expected = Util::charToHex (e);
+		expected = Util::toHex (e);
 	else
 		expected = {e};
 
@@ -39,7 +39,7 @@ unexpectedCharacter (char16_t c)
 
 	if (Class::control (c) || !Class::basicMultilingualPlane (c))
 	{
-		message += Util::charToHex (c);
+		message += Util::toHex (c);
 	}
 	else
 		message += Util::runeToUTF8CodePoint ((char32_t) c);
@@ -62,7 +62,7 @@ unexpectedCharacter (char16_t c, char16_t e)
 
 	if (Class::control (e) || !Class::basicMultilingualPlane (e))
 	{
-		expected += Util::charToHex (e);
+		expected += Util::toHex (e);
 	}
 	else
 		expected += Util::runeToUTF8CodePoint ((char32_t) e);
@@ -78,7 +78,7 @@ unexpectedCharacter (char32_t c)
 	if (Class::control (c) ||
 	    !(Class::basicMultilingualPlane (c) || Class::supplementaryPlane (c)))
 	{
-		message += Util::charToHex (c);
+		message += Util::toHex (c);
 	}
 	else
 		message += Util::runeToUTF8CodePoint (c);
@@ -102,7 +102,7 @@ unexpectedCharacter (char32_t c, char32_t e)
 	if (Class::control (e) ||
 	    !(Class::basicMultilingualPlane (e) || Class::supplementaryPlane (e)))
 	{
-		expected += Util::charToHex (e);
+		expected += Util::toHex (e);
 	}
 	else
 		expected += Util::runeToUTF8CodePoint (e);
