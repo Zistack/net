@@ -10,6 +10,12 @@ struct T : Entity::T
 	IO::Interface::ByteBlock::T &
 	asBlocking () override;
 
+	void
+	reset () override;
+
+	off_t
+	size () const override;
+
 	~T () override = default;
 
 	private:

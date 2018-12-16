@@ -1,5 +1,5 @@
 void
-T::filter (IO::Interface::InputStream::T & input_stream,
+T::recode (IO::Interface::InputStream::T & input_stream,
     IO::Interface::OutputStream::T & output_stream)
 {
 	char buffer[this->chunk_size];
@@ -19,7 +19,8 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 		{
 		}
 
-		Rule::putHex (i, output_stream);
+		IO::Rule::putHex (i, output_stream);
+
 		// We don't produce extensions.
 		output_stream.print ("\r\n");
 

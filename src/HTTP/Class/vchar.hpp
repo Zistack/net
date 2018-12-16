@@ -1,6 +1,6 @@
 bool
 vchar (char c)
 {
-	unsigned char u = c;
-	return (u >= 0x21) && (u <= 0x7E);
+	unsigned char uc = (unsigned char) c;
+	return (uc >= 0x21) && (uc <= 0x7E);
 }

@@ -14,7 +14,10 @@ struct T
 	writeTo (const NullableString::T & transfer_encoding_spec,
 	    IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope);
+	    Failure::CancelScope::T & cancel_scope) const;
+
+	void
+	check () const;
 
 	~T () = default;
 
@@ -22,14 +25,15 @@ struct T
 	void
 	getRequestLine (IO::Interface::PeekableInputStream::T & input_stream);
 
-	void
-	putRequestLine (IO::Interface::OutputStream::T & output_stream);
+	std::string
+	requestLineToString () const;
 
 	std::string method;
-	UTI::T uri;
+	URI::T uri;
 	std::string version;
 
 	HeaderMap::T headers;
 
 	std::unique_ptr<Entity::T> entity;
+	std::exception_ptr e_ptr;
 };

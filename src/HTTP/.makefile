@@ -1,4 +1,4 @@
-HTTP-moddepends =
+HTTP-moddepends = URI Failure IO FIFOProtocol
 HTTP-CFLAGS =
 HTTP-LFLAGS =
 

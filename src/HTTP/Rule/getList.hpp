@@ -1,10 +1,8 @@
 template <class Element,
-    Element (IO::Interface::PeekableInputStream::T &) parseElement>
+    Element (parseElement) (IO::Interface::PeekableInputStream::T &)>
 std::list<Element>
 getList (IO::Interface::PeekableInputStream::T & input_stream)
 {
-	const std::string message_prefix = "HTTP::Rule::getList\n";
-
 	std::list<Element> elements;
 
 	try
@@ -37,9 +35,5 @@ getList (IO::Interface::PeekableInputStream::T & input_stream)
 	catch (IO::EOF::T)
 	{
 		return elements;
-	}
-	catch (Failure::Error::T & e)
-	{
-		throw e.set (message_prefix + e.what ());
 	}
 }

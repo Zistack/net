@@ -11,9 +11,10 @@ getChunkExtension (IO::Interface::PeekableInputStream::T & input_stream)
 			field_value = getQuotedString (input_stream);
 		}
 		else
+		{
 			field_value = getToken (input_stream);
+		}
 	}
-}
 
-return {field_name, field_value};
+	return {field_name, field_value};
 }

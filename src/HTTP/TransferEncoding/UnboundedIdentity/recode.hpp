@@ -1,7 +1,6 @@
 void
-T::filter (
-    IO::Interface::InputStream::T & input_stream,
-    IO::Interface::OutputStream::T & output_stream,
+T::recode (IO::Interface::InputStream::T & input_stream,
+    IO::Interface::OutputStream::T & output_stream)
 {
 	const size_t BUF_SIZE = 1024;
 
@@ -22,6 +21,6 @@ T::filter (
 		{
 		}
 
-		if (bytes_read) output_stream->write (buffer, bytes_read);
+		if (bytes) output_stream.write (buffer, bytes);
 	}
 }

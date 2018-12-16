@@ -1,6 +1,5 @@
 void
 T::setUnboundedIdentity ()
 {
-	this->stages = std::list ({Stage::T (
-	    std::unique_ptr<TransferEncoding::T> (new UnboundedIdentity::T ()))});
+	this->stages = {std::unique_ptr<Stage::T> (new UnboundedIdentity::T ())};
 }

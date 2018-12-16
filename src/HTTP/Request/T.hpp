@@ -2,9 +2,7 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream,
     IO::CancelSignal::T & input_cancel_signal,
     Failure::CancelScope::T & cancel_scope)
 {
-	const std::string message_prefix = "HTTP::Request::T::T\n";
-
-	IO::PeekableInputStream::T input_stream (input_stream);
+	IO::PeekableInputStream::T input_stream (blocking_input_stream);
 
 	try
 	{
@@ -20,12 +18,12 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream,
 		}
 
 		// That number needs to be configurable.
-		this->entity = headersToEntity<true> (this->headers, 4096);
+		this->entity = Util::headersToEntity<true> (this->headers, 4096);
 
 		if (this->entity)
 		{
 			TransferEncoding::Decoder::T decoder;
-			headersToDecoder (this->headers, decoder);
+			Util::headersToDecoder<true> (this->headers, decoder);
 
 			decoder.decode (
 			    input_stream, input_cancel_signal, *entity, cancel_scope);
@@ -34,9 +32,29 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream,
 		this->headers.remove ("Content-Length");
 		this->headers.remove ("Transfer-Encoding");
 	}
-	catch (Failure::Error::T & e)
+	catch (const Failure::ResourceError::T & e)
 	{
-		throw e.set (message_prefix + e.what ());
+		this->e_ptr = std::make_exception_ptr (CodeError::T (500, e.what ()));
+	}
+	catch (const Failure::EncodingError::T & e)
+	{
+		this->e_ptr = std::make_exception_ptr (CodeError::T (400, e.what ()));
+	}
+	catch (const Failure::SyntaxError::T & e)
+	{
+		this->e_ptr = std::make_exception_ptr (CodeError::T (400, e.what ()));
+	}
+	catch (const Failure::SemanticError::T & e)
+	{
+		this->e_ptr = std::make_exception_ptr (CodeError::T (400, e.what ()));
+	}
+	catch (const Failure::ImplementationError::T & e)
+	{
+		this->e_ptr = std::make_exception_ptr (CodeError::T (501, e.what ()));
+	}
+	catch (const Failure::Error::T & e)
+	{
+		this->e_ptr = std::make_exception_ptr (CodeError::T (500, e.what ()));
 	}
 }
 

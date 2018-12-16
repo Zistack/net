@@ -3,8 +3,8 @@ T::addFirstStage (const Specification::T & specification)
 {
 	if (specification.identifier == "chunked")
 	{
-		this->addStage (
-		    std::unique_ptr<TransferEncoding::T> (new Chunked::Decode::T ()));
+		this->Pipeline::T::addStage (
+		    std::move (std::make_unique<Chunked::Decode::T> ()));
 	}
 	else
 	{

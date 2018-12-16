@@ -6,7 +6,7 @@ struct T
 
 	template <class Iterable,
 	    typename = typename std::enable_if<
-	        std::is_convertible<decltype (*declval<Iterable> ().begin ()),
+	        std::is_convertible<decltype (*std::declval<Iterable> ().begin ()),
 	            std::pair<std::string, std::string>>::value>::type>
 	T (const Iterable & iterable);
 
@@ -26,7 +26,7 @@ struct T
 	remove (const std::string & field_name);
 
 	void
-	writeTo (IO::Interface::OutputStream::T & output_stream);
+	writeTo (IO::Interface::OutputStream::T & output_stream) const;
 
 	~T () = default;
 

@@ -1,5 +1,5 @@
 void
-T::filter (IO::Interface::InputStream::T & input_stream,
+T::recode (IO::Interface::InputStream::T & input_stream,
     IO::CancelSignal::T * input_cancel_signal,
     IO::Interface::OutputStream::T & output_stream,
     IO::CancelSignal::T * output_cancel_signal,
@@ -7,8 +7,7 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 {
 	if (this->stages.size () == 1)
 	{
-		std::unique_ptr<TransferEncoding::T> stage =
-		    std::move (stages.front ());
+		std::unique_ptr<Stage::T> stage = std::move (stages.front ());
 		stages.pop_front ();
 
 		Failure::CancelScope::Bind::T input_cancel_binding;
@@ -16,26 +15,22 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 
 		if (input_cancel_signal)
 		{
-			input_cancel_binding =
-			    Failure::CancelScope::Bind::T input_cancel_binding (
-			        cancel_scope, *input_cancel_signal);
+			input_cancel_binding = Failure::CancelScope::Bind::T (
+			    cancel_scope, *input_cancel_signal);
 		}
 
 		if (output_cancel_signal)
 		{
-			output_cancel_binding =
-			    Failure::CancelScope::Bind::T output_cancel_binding (
-			        cancel_scope, *output_cancel_binding);
+			output_cancel_binding = Failure::CancelScope::Bind::T (
+			    cancel_scope, *output_cancel_signal);
 		}
 
-		stage.filter (input_stream, output_stream);
+		stage->recode (input_stream, output_stream);
 	}
 	else
 	{
-		std::unique_ptr<TransferEncoding::T> first_stage =
-		    std::move (stages.front ());
-		std::unique_ptr<TransferEncoding::T> last_stage =
-		    std::move (stages.back ());
+		std::unique_ptr<Stage::T> first_stage = std::move (stages.front ());
+		std::unique_ptr<Stage::T> last_stage = std::move (stages.back ());
 		stages.pop_front ();
 		stages.pop_back ();
 
@@ -60,11 +55,11 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 			    [next_pipe,
 			        &input_stream,
 			        &input_cancel_signal (*input_cancel_signal),
-			        &stage (*stage)]() {
+			        &first_stage (*first_stage)]() {
 				    IO::Blocking::OutputStream::T output_stream (
 				        next_pipe->outputStream (), input_cancel_signal);
 
-				    stage.filter (input_stream, output_stream);
+				    first_stage.recode (input_stream, output_stream);
 
 				    next_pipe->shutdown ();
 			    },
@@ -78,7 +73,7 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 
 				std::unique_ptr<IO::CancelSignal::T> stage_cancel_signal (
 				    new IO::CancelSignal::T ());
-				Failure::CancelScope::T * stage_cancel_signal_ptr =
+				IO::CancelSignal::T * stage_cancel_signal_ptr =
 				    stage_cancel_signal.get ();
 
 				nursery.add (
@@ -92,13 +87,13 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 					    IO::Blocking::OutputStream::T output_stream (
 					        next_pipe->outputStream (), *stage_cancel_signal);
 
-					    stage.filter (input_stream, output_stream);
+					    stage.recode (input_stream, output_stream);
 
 					    next_pipe->shutdown ();
 				    },
-				    stage_cancel_signal_ptr)
+				    stage_cancel_signal_ptr);
 
-				    previous_pipe = next_pipe;
+				previous_pipe = next_pipe;
 			}
 
 			next_pipe = nullptr;
@@ -112,14 +107,14 @@ T::filter (IO::Interface::InputStream::T & input_stream,
 			}
 
 			nursery.run (
-			    [last_pipe,
+			    [previous_pipe,
 			        &output_stream,
 			        &output_cancel_signal (*output_cancel_signal),
-			        &stage (*stage)]() {
+			        &last_stage (*last_stage)]() {
 				    IO::Blocking::InputStream::T input_stream (
 				        previous_pipe->inputStream (), output_cancel_signal);
 
-				    stage.filter (input_stream, output_stream);
+				    last_stage.recode (input_stream, output_stream);
 			    },
 			    output_cancel_signal);
 		}

@@ -5,7 +5,6 @@ T::T (const std::shared_ptr<IO::Interface::NonblockingByteBlock::T> &
 }
 
 T::T (std::shared_ptr<IO::Interface::NonblockingByteBlock::T> && byte_block) :
-    byte_block (std::
-                    : move (byte_block))
+    byte_block (std::move (byte_block))
 {
 }

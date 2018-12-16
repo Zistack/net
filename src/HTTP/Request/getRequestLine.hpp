@@ -5,7 +5,7 @@ T::getRequestLine (IO::Interface::PeekableInputStream::T & input_stream)
 
 	IO::Util::expect (input_stream, ' ');
 
-	this->uri = UTI::T (input_stream);
+	this->uri = URI::T (input_stream);
 
 	IO::Util::expect (input_stream, ' ');
 

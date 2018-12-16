@@ -6,7 +6,7 @@ T::decode (IO::Interface::InputStream::T & input_stream,
 {
 	if (entity.isBlocking ())
 	{
-		this->filter (input_stream,
+		this->recode (input_stream,
 		    &input_cancel_signal,
 		    entity.asBlocking ().outputStream (),
 		    nullptr,
@@ -16,9 +16,9 @@ T::decode (IO::Interface::InputStream::T & input_stream,
 	{
 		IO::CancelSignal::T output_cancel_signal;
 		IO::Blocking::OutputStream::T output_stream (
-		    entity.asNonblocking ().outputStream, output_cancel_signal);
+		    entity.asNonblocking ().outputStream (), output_cancel_signal);
 
-		this->filter (input_stream,
+		this->recode (input_stream,
 		    &input_cancel_signal,
 		    output_stream,
 		    &output_cancel_signal,

@@ -1,4 +1,4 @@
-struct T
+struct T : Pipeline::T
 {
 	T () = default;
 

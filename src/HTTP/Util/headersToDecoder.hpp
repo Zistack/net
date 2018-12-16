@@ -1,3 +1,4 @@
+template <bool is_request>
 void
 headersToDecoder (const HeaderMap::T & headers,
     TransferEncoding::Decoder::T & decoder)
@@ -6,7 +7,9 @@ headersToDecoder (const HeaderMap::T & headers,
 	{
 		if (headers.contains ("Content-Length"))
 		{
-			// Bad shit.
+			throw Failure::SemanticError::T (
+			    "Cannot specify both Transfer-Encoding and Content-Length "
+			    "headers\n");
 		}
 
 		Header::TransferEncoding::T transfer_encoding (
@@ -14,33 +17,36 @@ headersToDecoder (const HeaderMap::T & headers,
 
 		if (transfer_encoding.specifications.empty ())
 		{
-			// WTF?  Bad shit.
+			throw Failure::SemanticError::T (
+			    "Expected nonempty transfer encoding specification\n");
 		}
 
-		TransferEncding::Specification::T last_specification =
+		TransferEncoding::Specification::T last_specification =
 		    transfer_encoding.specifications.back ();
 		transfer_encoding.specifications.pop_back ();
 
 		if (last_specification.identifier != "chunked")
 		{
-			if (request)
+			if (is_request)
 			{
-				// Bad shit.
+				throw Failure::SemanticError::T (
+				    "The last transfer encoding must be 'chunked'");
 			}
 			else
 			{
 				// Everything is fine, but we read until the connection is
-				// closed.
+				// closed.  This is how the pipeline works usually, so we don't
+				// need to do anthing.
 			}
 		}
 
 		decoder.addFirstStage (last_specification);
 
 		for (auto rit = transfer_encoding.specifications.rbegin ();
-		     rit != transfer_encoding.rend ();
+		     rit != transfer_encoding.specifications.rend ();
 		     ++rit)
 		{
-			TransferEncoding::Speficiation::T & specification = *rit;
+			TransferEncoding::Specification::T & specification = *rit;
 			decoder.addStage (specification);
 		}
 	}

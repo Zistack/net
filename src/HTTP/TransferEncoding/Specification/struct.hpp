@@ -4,8 +4,6 @@ struct T
 
 	~T () = default;
 
-	private:
 	std::string identifier;
-
 	std::unordered_map<std::string, NullableString::T> options;
 };

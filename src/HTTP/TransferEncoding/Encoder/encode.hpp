@@ -6,7 +6,7 @@ T::encode (Entity::T & entity,
 {
 	if (entity.isBlocking ())
 	{
-		this->filter (entity.asBlocking ().inputStream (),
+		this->recode (entity.asBlocking ().inputStream (),
 		    nullptr,
 		    output_stream,
 		    &output_cancel_signal,
@@ -18,7 +18,7 @@ T::encode (Entity::T & entity,
 		IO::Blocking::InputStream::T input_stream (
 		    entity.asNonblocking ().inputStream (), input_cancel_signal);
 
-		this->filter (input_stream,
+		this->recode (input_stream,
 		    &input_cancel_signal,
 		    output_stream,
 		    &output_cancel_signal,

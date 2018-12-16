@@ -1,5 +1,5 @@
 void
-T::writeTo (IO::Interface::OutputStream::T & output_stream)
+T::writeTo (IO::Interface::OutputStream::T & output_stream) const
 {
 	for (const auto & [field_name, field_value] : this->map)
 	{

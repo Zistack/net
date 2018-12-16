@@ -4,9 +4,9 @@ struct T
 	    IO::CancelSignal::T & input_cancel_signal,
 	    Failure::CancelScope::T & cancel_scope);
 
-	T (uint64_t,
-	    const URI::T & uri,
-	    const std::string & version,
+	T (const std::string & version,
+	    uint64_t status_code,
+	    const std::string & reason_phrase,
 	    const HeaderMap::T & headers,
 	    std::unique_ptr<Entity::T> && entity);
 
@@ -14,17 +14,20 @@ struct T
 	writeTo (const NullableString::T & transfer_encoding_spec,
 	    IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope);
+	    Failure::CancelScope::T & cancel_scope) const;
 
 	~T () = default;
 
 	private:
 	void
-	getStatusLine (IO::Interface::InputStream::T & input_stream);
+	getStatusLine (IO::Interface::PeekableInputStream::T & input_stream);
 
-	uint64_t status_code;
-	URI::T uri;
+	std::string
+	statusLineToString () const;
+
 	std::string version;
+	uint64_t status_code;
+	std::string reason_phrase;
 
 	HeaderMap::T headers;
 

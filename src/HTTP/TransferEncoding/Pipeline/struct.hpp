@@ -9,7 +9,7 @@ struct T
 	setUnboundedIdentity ();
 
 	void
-	filter (IO::Interface::InputStream::T & input_stream,
+	recode (IO::Interface::InputStream::T & input_stream,
 	    IO::CancelSignal::T * input_cancel_signal,
 	    IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T * output_cancel_signal,
@@ -19,8 +19,8 @@ struct T
 
 	protected:
 	void
-	addStage (std::unique_ptr<TransferEncoding::T> && transfer_encoding);
+	addStage (std::unique_ptr<Stage::T> && stage);
 
 	private:
-	std::list<std::unique_ptr<TransferEncoding::T>> stages;
+	std::list<std::unique_ptr<Stage::T>> stages;
 };

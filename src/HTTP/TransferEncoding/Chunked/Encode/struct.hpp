@@ -1,9 +1,9 @@
-struct T : TransferEncoding::T
+struct T : Stage::T
 {
 	T (size_t chunk_size);
 
 	void
-	filter (IO::Interface::InputStream::T & input_stream,
+	recode (IO::Interface::InputStream::T & input_stream,
 	    IO::Interface::OutputStream::T & output_stream) override;
 
 	~T () = default;

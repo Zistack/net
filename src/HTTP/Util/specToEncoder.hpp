@@ -25,6 +25,6 @@ specToEncoder (const Entity::T & entity,
 	}
 	else
 	{
-		encoder.setBoundedIdentity (entity.size ());
+		encoder.setBoundedIdentity ((size_t) entity.size ());
 	}
 }

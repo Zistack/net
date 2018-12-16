@@ -1,8 +1,8 @@
-HeaderMap
+HeaderMap::T
 specToHeaders (const Entity::T & entity,
     const NullableString::T & transfer_encoding_spec)
 {
-	HeaderMap headers;
+	HeaderMap::T headers;
 
 	if (transfer_encoding_spec)
 	{

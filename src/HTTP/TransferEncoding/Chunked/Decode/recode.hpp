@@ -1,12 +1,12 @@
 void
-T::filter (IO::Interface::InputStream::T & blocking_input_stream,
+T::recode (IO::Interface::InputStream::T & blocking_input_stream,
     IO::Interface::OutputStream::T & output_stream)
 {
 	IO::PeekableInputStream::T input_stream (blocking_input_stream);
 
 	while (true)
 	{
-		uint64_t chunk_size = Rule::getHex (input_stream);
+		uint64_t chunk_size = IO::Rule::getHex (input_stream);
 
 		while (IO::Util::test (input_stream, ';'))
 		{
@@ -19,9 +19,10 @@ T::filter (IO::Interface::InputStream::T & blocking_input_stream,
 
 		if (!chunk_size) break;
 
-		BoundedIdentity::T (chunk_size) (input_stream, output_stream)
+		BoundedIdentity::T chunk_transfer (chunk_size);
+		chunk_transfer.recode (input_stream, output_stream);
 
-		    IO::Util::expect (input_stream, "\r\n");
+		IO::Util::expect (input_stream, "\r\n");
 	}
 
 	// We discard trailers, because we don't understand any.

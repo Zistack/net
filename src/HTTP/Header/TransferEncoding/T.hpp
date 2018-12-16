@@ -7,15 +7,10 @@ T::T (const std::string & field_value)
 
 	auto parseSpecification =
 	    [](IO::Interface::PeekableInputStream::T & input_stream) {
-		    return Specification::T (input_stream);
+		    return HTTP::TransferEncoding::Specification::T (input_stream);
 	    };
 
-	this->specifications =
-	    Rule::getList<Specification::T, parseSpecification> (input_stream);
-
-	if (!input_stream.eof ())
-	{
-		throw Failure::Error::T (message_prefix +
-		    IO::Message::unexpectedCharacter (input_stream.peek ()));
-	}
+	this->specifications = IO::Util::consume (input_stream,
+	    Rule::getList<HTTP::TransferEncoding::Specification::T,
+	        parseSpecification>);
 }

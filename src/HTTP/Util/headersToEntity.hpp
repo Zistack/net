@@ -1,7 +1,6 @@
 template <bool is_request>
 std::unique_ptr<Entity::T>
-headersToEntity (const HeaderMap & transfer_encoding_spec,
-    size_t temp_file_threshhold)
+headersToEntity (const HeaderMap::T & headers, size_t temp_file_threshhold)
 {
 	if (headers.contains ("Transfer-Encoding"))
 	{
@@ -11,7 +10,7 @@ headersToEntity (const HeaderMap & transfer_encoding_spec,
 		}
 
 		return std::make_unique<NonblockingEntity::T> (
-		    {new IO::TempFile::T ()});
+		    std::make_unique<IO::TempFile::T> ());
 	}
 	else
 	{
@@ -23,12 +22,12 @@ headersToEntity (const HeaderMap & transfer_encoding_spec,
 			if (content_length < temp_file_threshhold)
 			{
 				return std::make_unique<BlockingEntity::T> (
-				    {new IO::String::T ()});
+				    std::make_unique<IO::String::T> ());
 			}
 			else
 			{
 				return std::make_unique<NonblockingEntity::T> (
-				    {new IO::TempFile::T ()});
+				    std::make_unique<IO::TempFile::T> ());
 			}
 		}
 		else if (is_request)
@@ -38,7 +37,7 @@ headersToEntity (const HeaderMap & transfer_encoding_spec,
 		else
 		{
 			return std::make_unique<NonblockingEntity::T> (
-			    {new IO::TempFile::T ()});
+			    std::make_unique<IO::TempFile::T> ());
 		}
 	}
 }
