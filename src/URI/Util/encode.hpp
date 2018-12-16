@@ -2,7 +2,7 @@ std::string
 encode (char c)
 {
 	std::string encoded = {'%'};
-	encoded.append (IO::Util::charToHex (c));
+	encoded.append (IO::Util::toHex (c));
 	return encoded;
 }
 
