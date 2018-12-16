@@ -15,9 +15,17 @@ test (IO::Interface::PeekableInputStream::T & input_stream, char e)
 	return c == e;
 }
 
+template <class Predicate,
+    typename
+#ifndef IO_Util_test_hpp_2
+#define IO_Util_test_hpp_2
+    = typename std::enable_if<
+        std::is_invocable_r<bool, Predicate, char>::value>::type
+#endif /* IO_Util_test_hpp_2 */
+    >
 bool
 test (IO::Interface::PeekableInputStream::T & input_stream,
-    std::function<bool(char c)> classPredicate)
+    Predicate && classPredicate)
 {
 	char c;
 
