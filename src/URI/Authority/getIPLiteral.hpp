@@ -1,5 +1,5 @@
 std::unique_ptr<Authority::IPv6Address::T>
-getIPLiteral (IO::Interface::PeekableInputStream::T & input_stream)
+T::getIPLiteral (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	IO::Util::expect (input_stream, '[');
 

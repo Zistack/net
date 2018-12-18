@@ -10,7 +10,7 @@ struct T : Host::T
 	std::unique_ptr<Host::T>
 	clone () const override;
 
-	~T () = default;
+	~T () override = default;
 
 	private:
 	std::string registered_name;

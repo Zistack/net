@@ -1,5 +1,5 @@
 std::unique_ptr<Host::T>
-getHost (IO::Interface::PeekableInputStream::T & input_stream)
+T::getHost (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	if (IO::Util::test (input_stream, '['))
 	{

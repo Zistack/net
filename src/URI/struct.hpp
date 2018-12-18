@@ -15,7 +15,7 @@ struct T
 	std::string
 	toString () const;
 
-	~T ();
+	~T () = default;
 
 	private:
 	void
