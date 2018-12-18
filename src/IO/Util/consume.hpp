@@ -3,7 +3,7 @@ decltype (std::declval<Rule> () (
     std::declval<IO::Interface::PeekableInputStream::T &> ()))
 consume (const std::string & input_string, Rule && rule)
 {
-	std::string::size_type pointer;
+	std::string::size_type pointer = 0;
 	String::PeekableInputStream::T input_stream (input_string, pointer);
 
 	return consume (input_stream, std::forward<Rule> (rule));
