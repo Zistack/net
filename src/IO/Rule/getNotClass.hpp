@@ -5,7 +5,9 @@ getNotClass (Interface::PeekableInputStream::T & input_stream,
 {
 	std::string string;
 
-	while (!Util::test (input_stream, std::forward<Predicate> (classPredicate)))
+	while (
+	    !Util::test (input_stream, std::forward<Predicate> (classPredicate)) &&
+	    !input_stream.eof ())
 	{
 		string.push_back (input_stream.get ());
 	}
