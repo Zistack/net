@@ -72,7 +72,7 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 				    throw Failure::Error::T ("Operation cancelled\n");
 			    }
 		    },
-		    [&response_delay]() { response_delay.cancel (); });
+		    &response_delay);
 	}
 	catch (Failure::Error::T & e)
 	{

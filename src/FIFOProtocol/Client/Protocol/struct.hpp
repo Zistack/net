@@ -25,12 +25,12 @@ struct T : IO::Interface::Protocol::T
 	writeRequest (const RequestType & request,
 	    IO::Blocking::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope) = 0;
+	    Failure::CancelScope::T & output_cancel_scope) = 0;
 
 	virtual ResponseType
 	readResponse (IO::Blocking::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope) = 0;
+	    Failure::CancelScope::T & output_cancel_scope) = 0;
 
 	private:
 	void

@@ -5,9 +5,9 @@ T<RequestType, ResponseType>::prime (
     IO::Interface::NonblockingOutputStream::T & output_stream)
 {
 	this->input_stream = std::make_unique<IO::Blocking::InputStream::T> (
-	    input_stream, this->input_timeout_signal);
+	    input_stream, this->input_cancel_signal);
 	this->output_stream = std::make_unique<IO::Blocking::OutputStream::T> (
-	    output_stream, this->output_timeout_signal);
+	    output_stream, this->output_cancel_signal);
 
 	this->nursery =
 	    std::make_unique<Thread::Nursery::T> (this->exception_store);

@@ -20,7 +20,7 @@ struct T : IO::Interface::Protocol::T
 	virtual RequestType
 	readRequest (IO::Blocking::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope) = 0;
+	    Failure::CancelScope::T & input_cancel_scope) = 0;
 
 	virtual ResponseType
 	map (const RequestType & request) = 0;
@@ -29,7 +29,7 @@ struct T : IO::Interface::Protocol::T
 	writeResponse (const ResponseType & response,
 	    IO::Blocking::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope) = 0;
+	    Failure::CancelScope::T & output_cancel_scope) = 0;
 
 	// Given members
 

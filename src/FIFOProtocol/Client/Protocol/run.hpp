@@ -19,7 +19,7 @@ T<RequestType, ResponseType>::run ()
 			        this->shutdown_signal,
 			        [this, &input_stream]() { this->event (input_stream); });
 		    },
-		    [this]() { this->stop (); });
+		    &this->shutdown_signal);
 	}
 
 	std::unique_ptr<IO::Blocking::InputStream::T> input_stream (
