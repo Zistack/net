@@ -1,17 +1,11 @@
 struct T : Cancellable::T
 {
-	T () = default;
+	T ();
 
 	T (const T & other) = delete;
 
 	T &
 	operator= (const T & other) = delete;
-
-	template <class Function, class... Arguments>
-	void
-	run (Function && f,
-	    Arguments &&... arguments,
-	    Cancellable::T & cancellable);
 
 	void
 	cancel () override;
