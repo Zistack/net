@@ -9,7 +9,7 @@ struct T
 	Delay::T<Element>
 	pop ();
 
-	Optional::T<Delay::T<Element>>
+	std::optional<Delay::T<Element>>
 	tryPop ();
 
 	~T () = default;

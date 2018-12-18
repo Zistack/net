@@ -1,5 +1,5 @@
 template <class Element>
-struct T
+struct T : Failure::Cancellable::T
 {
 	T ();
 
@@ -13,7 +13,7 @@ struct T
 	get ();
 
 	void
-	cancel ();
+	cancel () override;
 
 	~T () = default;
 

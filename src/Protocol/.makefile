@@ -1,4 +1,4 @@
-Protocol-moddepends = Failure IO Shutdown Scope Optional
+Protocol-moddepends = Failure IO Shutdown Scope
 Protocol-CFLAGS =
 Protocol-LFLAGS =
 
