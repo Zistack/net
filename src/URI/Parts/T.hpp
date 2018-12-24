@@ -39,6 +39,7 @@ T::T (IO::Interface::PeekableInputStream::T & input_stream)
 
 	if (IO::Util::test (input_stream, '#'))
 	{
+		input_stream.get ();
 		this->fragment = getFragmentPart (input_stream);
 	}
 }
