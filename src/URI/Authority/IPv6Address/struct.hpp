@@ -2,6 +2,8 @@ struct T : Host::T
 {
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
+	T (const std::string & address_string);
+
 	T (const std::array<uint16_t, 8> & hexadecitets);
 
 	std::string
@@ -13,6 +15,9 @@ struct T : Host::T
 	~T () override = default;
 
 	private:
+	void
+	init (IO::Interface::PeekableInputStream::T & input_stream);
+
 	static std::vector<uint16_t>
 	getHead (IO::Interface::PeekableInputStream::T & input_stream);
 

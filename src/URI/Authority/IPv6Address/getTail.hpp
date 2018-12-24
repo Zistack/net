@@ -9,6 +9,8 @@ T::getTail (IO::Interface::PeekableInputStream::T & input_stream)
 
 		if (IO::Util::test (input_stream, ':'))
 		{
+			input_stream.get ();
+
 			if (chunk.size () == 0)
 			{
 				throw Failure::SyntaxError::T (
@@ -25,11 +27,16 @@ T::getTail (IO::Interface::PeekableInputStream::T & input_stream)
 		}
 		else if (IO::Util::test (input_stream, '.'))
 		{
+			if (chunk.size () == 0)
+			{
+				throw Failure::SyntaxError::T ("Expected numeric value\n");
+			}
+
 			uint64_t first = IO::Util::toNum (chunk);
 			if (first > 255)
 			{
 				throw Failure::SyntaxError::T (
-				    "IPv4 octet must be less than 256");
+				    "IPv4 octet must be less than 256\n");
 			}
 
 			input_stream.get ();
@@ -39,7 +46,7 @@ T::getTail (IO::Interface::PeekableInputStream::T & input_stream)
 			if (second > 255)
 			{
 				throw Failure::SyntaxError::T (
-				    "IPv4 octet must be less than 256");
+				    "IPv4 octet must be less than 256\n");
 			}
 
 			IO::Util::expect (input_stream, '.');
@@ -48,7 +55,7 @@ T::getTail (IO::Interface::PeekableInputStream::T & input_stream)
 			if (third > 255)
 			{
 				throw Failure::SyntaxError::T (
-				    "IPv4 octet must be less than 256");
+				    "IPv4 octet must be less than 256\n");
 			}
 
 			IO::Util::expect (input_stream, '.');
@@ -57,16 +64,31 @@ T::getTail (IO::Interface::PeekableInputStream::T & input_stream)
 			if (fourth > 255)
 			{
 				throw Failure::SyntaxError::T (
-				    "IPv4 octet must be less than 256");
+				    "IPv4 octet must be less than 256\n");
 			}
 
-			tail.push_back ((uint16_t) ((first << 16) | second));
-			tail.push_back ((uint16_t) ((third << 16) | fourth));
+			tail.push_back ((uint16_t) ((first << 8) | second));
+			tail.push_back ((uint16_t) ((third << 8) | fourth));
 
 			return tail;
 		}
 		else
 		{
+			if (chunk.size () == 0)
+			{
+				if (tail.size () == 0) return tail;
+
+				throw Failure::SyntaxError::T (
+				    "A hexadecitet must contain at least 1 digit\n");
+			}
+			else if (chunk.size () > 4)
+			{
+				throw Failure::SyntaxError::T (
+				    "A hexadecitet may only contain up to 4 digits\n");
+			}
+
+			tail.push_back ((uint16_t) std::stoul (chunk, NULL, 16));
+
 			return tail;
 		}
 	}

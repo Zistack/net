@@ -18,5 +18,7 @@ T::hexadecitetToString (uint16_t hexadecitet)
 		}
 	}
 
+	if (leading) hexadecitet_string.push_back ('0');
+
 	return hexadecitet_string;
 }

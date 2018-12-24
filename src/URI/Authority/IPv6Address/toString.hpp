@@ -1,8 +1,8 @@
 std::string
 T::toString () const
 {
-	size_t max_position;
-	size_t max_size;
+	size_t max_position = 0;
+	size_t max_size = 0;
 
 	size_t current_position = 0;
 	size_t current_size = 0;

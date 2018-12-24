@@ -16,7 +16,6 @@ T::getHost (IO::Interface::PeekableInputStream::T & input_stream)
 	}
 	else
 	{
-		throw Failure::SyntaxError::T (
-		    IO::Message::unexpectedCharacter (input_stream.peek ()));
+		throw Failure::SyntaxError::T ("Expected valid host\n");
 	}
 }

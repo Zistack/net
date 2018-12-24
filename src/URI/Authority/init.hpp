@@ -5,7 +5,9 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 
 	if (IO::Util::test (input_stream, '@'))
 	{
-		this->user_info = IO::Util::consume (input_stream, getUserInfo);
+		input_stream.get ();
+
+		this->user_info = IO::Util::consume (first_part, getUserInfo);
 
 		this->initHostAndPort (input_stream);
 	}
