@@ -1,6 +1,6 @@
 struct T : Interface::NonblockingByteBlock::T
 {
-	T (const std::string & pattern);
+	T (const std::string & pattern = "IO-TempFile.XXXXXX");
 
 	T (const T & other) = delete;
 
