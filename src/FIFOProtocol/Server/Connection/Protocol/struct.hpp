@@ -49,7 +49,7 @@ struct T : IO::Interface::Protocol::T
 	    Thread::Nursery::T & nursery);
 
 	void
-	computeResponse (RequestType request,
+	computeResponse (const RequestType & request,
 	    ::Protocol::Delay::T<ResponseType> response_delay);
 
 	// Internal members

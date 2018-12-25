@@ -7,7 +7,8 @@ T<RequestType, ResponseType>::output (
 	{
 		while (true)
 		{
-			ResponseType response = this->response_queue.pop ().get ();
+			ResponseType response =
+			    std::move (this->response_queue.pop ().get ());
 
 			try
 			{

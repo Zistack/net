@@ -1,13 +1,13 @@
 template <class RequestType, class ResponseType>
 void
-T<RequestType, ResponseType>::computeResponse (RequestType request,
+T<RequestType, ResponseType>::computeResponse (const RequestType & request,
     ::Protocol::Delay::T<ResponseType> response_delay)
 {
 	ResponseType response;
 
 	try
 	{
-		response = this->map (request);
+		response = std::move (this->map (request));
 	}
 	catch (...)
 	{
@@ -15,5 +15,5 @@ T<RequestType, ResponseType>::computeResponse (RequestType request,
 		throw;
 	}
 
-	response_delay.set (response);
+	response_delay.set (std::move (response));
 }

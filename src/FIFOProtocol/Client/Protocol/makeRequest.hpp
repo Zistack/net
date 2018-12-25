@@ -65,7 +65,7 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 
 			    try
 			    {
-				    response = response_delay.get ();
+				    response = std::move (response_delay.get ());
 			    }
 			    catch (Failure::CancelException::T)
 			    {

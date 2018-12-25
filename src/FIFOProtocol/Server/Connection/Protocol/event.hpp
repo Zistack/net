@@ -12,8 +12,8 @@ T<RequestType, ResponseType>::event (
 			Failure::CancelScope::T input_cancel_scope;
 			Thread::Timer::T input_timer (this->input_timeout,
 			    [&input_cancel_scope]() { input_cancel_scope.cancel (); });
-			request = this->readRequest (
-			    input_stream, this->input_cancel_signal, input_cancel_scope);
+			request = std::move (this->readRequest (
+			    input_stream, this->input_cancel_signal, input_cancel_scope));
 		}
 		this->input_cancel_signal.clear ();
 	}
@@ -33,7 +33,7 @@ T<RequestType, ResponseType>::event (
 		throw Failure::Error::T ("Response queue is inactive\n");
 	}
 
-	nursery.add ([this, request, response_delay]() {
+	nursery.add ([this, request (std::move (request)), response_delay]() {
 		this->computeResponse (request, response_delay);
 	});
 }
