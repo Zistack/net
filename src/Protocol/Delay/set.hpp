@@ -17,7 +17,7 @@ T<Element>::set (Element && element)
 {
 	try
 	{
-		this->promise->set_value (element);
+		this->promise->set_value (std::move (element));
 	}
 	catch (std::future_error)
 	{
