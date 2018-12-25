@@ -8,6 +8,9 @@ struct T : std::exception
 	const char *
 	what () const noexcept override;
 
+	Response::T
+	toResponse () const noexcept;
+
 	~T () = default;
 
 	private:
