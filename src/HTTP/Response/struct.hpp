@@ -4,7 +4,7 @@ struct T
 
 	T (IO::Interface::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope);
+	    Failure::CancelScope::T & input_cancel_scope);
 
 	T (const std::string & version,
 	    uint64_t status_code,
@@ -16,7 +16,7 @@ struct T
 	writeTo (const NullableString::T & transfer_encoding_spec,
 	    IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & cancel_scope) const;
+	    Failure::CancelScope::T & output_cancel_scope) const;
 
 	~T () = default;
 
