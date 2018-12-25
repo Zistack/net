@@ -1,5 +1,7 @@
 struct T : Interface::ByteBlock::T
 {
+	T ();
+
 	T (const std::string & string);
 
 	T (std::string && string);
