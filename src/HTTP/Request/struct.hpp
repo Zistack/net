@@ -1,5 +1,7 @@
 struct T
 {
+	T () = default;
+
 	T (IO::Interface::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal,
 	    Failure::CancelScope::T & input_cancel_scope);
