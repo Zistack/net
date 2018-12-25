@@ -1,5 +1,6 @@
 void
 T::setBoundedIdentity (size_t size)
 {
-	this->stages = {std::unique_ptr<Stage::T> (new BoundedIdentity::T (size))};
+	this->stages.clear ();
+	this->stages.emplace_back (new BoundedIdentity::T (size));
 }

@@ -1,5 +1,6 @@
 void
 T::setUnboundedIdentity ()
 {
-	this->stages = {std::unique_ptr<Stage::T> (new UnboundedIdentity::T ())};
+	this->stages.clear ();
+	this->stages.emplace_back (new UnboundedIdentity::T ());
 }
