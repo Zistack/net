@@ -31,5 +31,8 @@ struct T
 	~T () = default;
 
 	private:
+	static std::string
+	normalize (std::string string);
+
 	std::unordered_map<std::string, std::string> map;
 };

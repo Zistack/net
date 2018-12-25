@@ -2,8 +2,7 @@ T::T (IO::PeekableInputStream::T & input_stream)
 {
 	while (!IO::Util::test (input_stream, '\r'))
 	{
-		std::string field_name = Rule::getToken (input_stream);
-		for (char & c : field_name) c = (char) std::tolower (c);
+		std::string field_name = normalize (Rule::getToken (input_stream));
 
 		IO::Util::expect (input_stream, ':');
 
@@ -23,7 +22,7 @@ T::T (IO::PeekableInputStream::T & input_stream)
 
 		IO::Util::expect (input_stream, "\r\n");
 
-		this->map.insert ({field_value, field_name});
+		this->map.insert ({field_name, field_value});
 	}
 }
 
