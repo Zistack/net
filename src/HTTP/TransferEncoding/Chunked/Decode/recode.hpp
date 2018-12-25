@@ -27,4 +27,5 @@ T::recode (IO::Interface::InputStream::T & blocking_input_stream,
 
 	// We discard trailers, because we don't understand any.
 	HeaderMap::T trailers (input_stream);
+	IO::Util::expect (input_stream, "\r\n");
 }

@@ -24,12 +24,12 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 		// We don't produce extensions.
 		output_stream.print ("\r\n");
 
-		if (!i) return;
+		if (!i) break;
 
 		output_stream.write (buffer, i);
 		output_stream.print ("\r\n");
-
-		// We don't produce trailers.
-		output_stream.print ("\r\n");
 	}
+
+	// We don't produce trailers.
+	output_stream.print ("\r\n");
 }
