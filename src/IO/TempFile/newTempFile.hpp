@@ -5,6 +5,8 @@ T::newTempFile (const std::string & pattern)
 
 	std::unique_ptr<char[]> name =
 	    std::make_unique<char[]> (pattern.size () + 1);
+	memcpy (name.get (), pattern.data (), pattern.size () + 1);
+
 	int file_descriptor = mkstemp (name.get ());
 
 	if (file_descriptor == -1)
