@@ -12,6 +12,16 @@ struct T
 	    const HeaderMap::T & headers,
 	    std::unique_ptr<Entity::T> && entity);
 
+	T (const T & other) = delete;
+
+	T (T && other) = default;
+
+	T &
+	operator= (const T & other) = delete;
+
+	T &
+	operator= (T && other) = default;
+
 	void
 	writeTo (const NullableString::T & transfer_encoding_spec,
 	    IO::Interface::OutputStream::T & output_stream,
