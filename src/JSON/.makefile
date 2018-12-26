@@ -1,4 +1,4 @@
-JSON-moddepends = Failure IO
+JSON-moddepends = Failure IO NullableString
 JSON-CFLAGS =
 JSON-LFLAGS =
 

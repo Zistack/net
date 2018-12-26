@@ -29,8 +29,7 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 
 	mantissa:
 
-		this->mantissa =
-		    std::make_unique<std::string> (Rule::getMantissa (input_stream));
+		this->mantissa = Rule::getMantissa (input_stream);
 
 		if (input_stream.eof ()) return;
 
@@ -46,8 +45,7 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 
 	exponent:
 
-		this->exponent =
-		    std::make_unique<std::string> (Rule::getExponent (input_stream));
+		this->exponent = Rule::getExponent (input_stream);
 
 		return;
 	}
