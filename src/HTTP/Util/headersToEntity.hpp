@@ -6,7 +6,9 @@ headersToEntity (const HeaderMap::T & headers, size_t temp_file_threshhold)
 	{
 		if (headers.contains ("Content-Length"))
 		{
-			// Bad shit.
+			throw Failure::SemanticError::T (
+			    "Cannot specify both Transfer-Encoding and Content-Length "
+			    "headers\n");
 		}
 
 		return std::make_unique<NonblockingEntity::T> (
