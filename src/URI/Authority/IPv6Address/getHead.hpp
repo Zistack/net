@@ -36,7 +36,7 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 				throw Failure::SyntaxError::T ("Expected numeric value\n");
 			}
 
-			uint64_t first = IO::Util::toNum (chunk);
+			uint64_t first = IO::Util::toUInt (chunk);
 			if (first > 255)
 			{
 				throw Failure::SyntaxError::T (

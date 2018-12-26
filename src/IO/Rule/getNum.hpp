@@ -6,5 +6,5 @@ getNum (Interface::PeekableInputStream::T & input_stream)
 	if (num_string.empty ())
 		throw Failure::SyntaxError::T ("Expected numeric value\n");
 
-	return Util::toNum (num_string);
+	return Util::toUInt (num_string);
 }

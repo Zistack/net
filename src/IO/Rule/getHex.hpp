@@ -8,5 +8,5 @@ getHex (Interface::PeekableInputStream::T & input_stream)
 		throw Failure::SyntaxError::T ("Expected hexadecimal value\n");
 	}
 
-	return Util::toNum (hex_string, 16);
+	return Util::toUInt (hex_string, 16);
 }

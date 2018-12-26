@@ -1,11 +1,11 @@
 uint64_t
-toNum (const std::string & string)
+toUInt (const std::string & string)
 {
-	return toNum (string, 10);
+	return toUInt (string, 10);
 }
 
 uint64_t
-toNum (const std::string & string, int base)
+toUInt (const std::string & string, int base)
 {
 	try
 	{
