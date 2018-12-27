@@ -38,7 +38,8 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 				    throw Failure::Error::T ("Response queue is inactive\n");
 			    }
 
-			    Thread::Timer::T round_trip_timer (this->round_trip_timeout,
+			    Thread::Timer::T round_trip_timer (
+			        this->config.round_trip_timeout,
 			        [&response_delay]() { response_delay.cancel (); });
 
 			    try
@@ -46,7 +47,8 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 				    {
 					    Failure::CancelScope::T output_cancel_scope;
 					    Thread::Timer::T output_timer (
-					        this->output_timeout, [&output_cancel_scope]() {
+					        this->config.output_timeout,
+					        [&output_cancel_scope]() {
 						        output_cancel_scope.cancel ();
 					        });
 					    this->writeRequest (request,

@@ -10,7 +10,7 @@ T<RequestType, ResponseType>::event (
 	{
 		{
 			Failure::CancelScope::T input_cancel_scope;
-			Thread::Timer::T input_timer (this->input_timeout,
+			Thread::Timer::T input_timer (this->config.input_timeout,
 			    [&input_cancel_scope]() { input_cancel_scope.cancel (); });
 			request = std::move (this->readRequest (
 			    input_stream, this->input_cancel_signal, input_cancel_scope));

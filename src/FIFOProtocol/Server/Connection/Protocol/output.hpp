@@ -15,7 +15,7 @@ T<RequestType, ResponseType>::output (
 				{
 					Failure::CancelScope::T output_cancel_scope;
 					Thread::Timer::T output_timer (
-					    this->output_timeout, [&output_cancel_scope]() {
+					    this->config.output_timeout, [&output_cancel_scope]() {
 						    output_cancel_scope.cancel ();
 					    });
 					this->writeResponse (response,

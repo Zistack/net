@@ -1,5 +1,6 @@
 #include <Failure.hpp>
 #include <IO.hpp>
+#include <JSON.hpp>
 #include <Protocol.hpp>
 #include <Scope.hpp>
 #include <Shutdown.hpp>

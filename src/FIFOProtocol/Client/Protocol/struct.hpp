@@ -1,9 +1,7 @@
 template <class RequestType, class ResponseType>
 struct T : IO::Interface::Protocol::T
 {
-	T (std::chrono::milliseconds input_timeout,
-	    std::chrono::milliseconds output_timeout,
-	    std::chrono::milliseconds round_trip_timeout);
+	T (const Config::T & config);
 
 	void
 	prime (IO::Interface::NonblockingInputStream::T & input_stream,
@@ -38,9 +36,7 @@ struct T : IO::Interface::Protocol::T
 
 	// Given members
 
-	std::chrono::milliseconds input_timeout;
-	std::chrono::milliseconds output_timeout;
-	std::chrono::milliseconds round_trip_timeout;
+	Config::T config;
 
 	// Internal members
 
