@@ -1,5 +1,6 @@
 void
-T::writeTo (const NullableString::T & transfer_encoding_spec,
+T::writeTo (
+    const TransferEncoding::Encoder::Config::T & transfer_encoding_config,
     IO::Interface::OutputStream::T & output_stream,
     IO::CancelSignal::T & output_cancel_signal,
     Failure::CancelScope::T & cancel_scope) const
@@ -14,7 +15,7 @@ T::writeTo (const NullableString::T & transfer_encoding_spec,
 
 		if (this->entity)
 		{
-			Util::specToHeaders (*this->entity, transfer_encoding_spec)
+			Util::specToHeaders (*this->entity, transfer_encoding_config)
 			    .writeTo (output_stream);
 		}
 
@@ -25,8 +26,8 @@ T::writeTo (const NullableString::T & transfer_encoding_spec,
 	{
 		this->entity->reset ();
 
-		TransferEncoding::Encoder::T encoder;
-		Util::specToEncoder (*this->entity, transfer_encoding_spec, encoder);
+		TransferEncoding::Encoder::T encoder (
+		    transfer_encoding_config, (size_t) this->entity->size ());
 
 		encoder.encode (
 		    *entity, output_stream, output_cancel_signal, cancel_scope);

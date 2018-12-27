@@ -1,12 +1,13 @@
 HeaderMap::T
 specToHeaders (const Entity::T & entity,
-    const NullableString::T & transfer_encoding_spec)
+    const TransferEncoding::Encoder::Config::T & transfer_encoding_config)
 {
 	HeaderMap::T headers;
 
-	if (transfer_encoding_spec)
+	if (transfer_encoding_config.transfer_encoding)
 	{
-		headers.insert ("Transfer-Encoding", transfer_encoding_spec);
+		headers.insert (
+		    "Transfer-Encoding", transfer_encoding_config.transfer_encoding);
 	}
 	else
 	{

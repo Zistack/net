@@ -1,6 +1,6 @@
 struct T : Pipeline::T
 {
-	T () = default;
+	T (const Config::T & config, size_t entity_size);
 
 	void
 	addStage (const Specification::T & specification);
@@ -15,4 +15,7 @@ struct T : Pipeline::T
 	    Failure::CancelScope::T & cancel_scope);
 
 	~T () = default;
+
+	private:
+	Config::T config;
 };

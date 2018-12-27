@@ -23,7 +23,8 @@ struct T
 	operator= (T && other) = default;
 
 	void
-	writeTo (const NullableString::T & transfer_encoding_spec,
+	writeTo (
+	    const TransferEncoding::Encoder::Config::T & transfer_encoding_config,
 	    IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
 	    Failure::CancelScope::T & output_cancel_scope) const;

@@ -1,11 +1,9 @@
-void
-specToEncoder (const Entity::T & entity,
-    const NullableString::T & transfer_encoding_spec,
-    TransferEncoding::Encoder::T & encoder)
+T::T (const Config::T & config, size_t entity_size) : config (config)
 {
-	if (transfer_encoding_spec)
+	if (this->config.transfer_encoding)
 	{
-		Header::TransferEncoding::T transfer_encoding (transfer_encoding_spec);
+		Header::TransferEncoding::T transfer_encoding (
+		    this->config.transfer_encoding);
 
 		// We're going to assume that the specification is both nonempty and
 		// terminated with the 'chunked' encoding.  If it is not, then we're
@@ -18,13 +16,13 @@ specToEncoder (const Entity::T & entity,
 		for (TransferEncoding::Specification::T & specification :
 		    transfer_encoding.specifications)
 		{
-			encoder.addStage (specification);
+			this->addStage (specification);
 		}
 
-		encoder.addLastStage (last_specification);
+		this->addLastStage (last_specification);
 	}
 	else
 	{
-		encoder.setBoundedIdentity ((size_t) entity.size ());
+		this->setBoundedIdentity (entity_size);
 	}
 }
