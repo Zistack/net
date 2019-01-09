@@ -7,16 +7,10 @@ T<RequestType, ResponseType>::input (
 	::Protocol::eventLoop (this->exception_store,
 	    input_stream,
 	    this->shutdown_signal,
-	    [this, &input_stream, &nursery]() {
-		    try
-		    {
-			    this->event (input_stream, nursery);
-		    }
-		    catch (IO::EOF::T)
-		    {
-			    throw;
-		    }
-	    });
+	    &T::event,
+	    this,
+	    input_stream,
+	    nursery);
 
 	this->exception_store.poll ();
 }

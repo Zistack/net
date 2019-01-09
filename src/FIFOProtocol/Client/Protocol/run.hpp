@@ -17,7 +17,9 @@ T<RequestType, ResponseType>::run ()
 			    ::Protocol::eventLoop (exception_store,
 			        input_stream,
 			        this->shutdown_signal,
-			        [this, &input_stream]() { this->event (input_stream); });
+			        &T::event,
+			        this,
+			        input_stream);
 		    },
 		    &this->shutdown_signal);
 	}
