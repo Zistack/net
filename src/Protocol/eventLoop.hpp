@@ -1,8 +1,10 @@
+template <class Function, class... Arguments>
 void
 eventLoop (Failure::ExceptionStore::T & exception_store,
     IO::Interface::Watchable::T & watchable,
     IO::Interface::Watchable::T & shutdown_signal,
-    std::function<void(void)> event)
+    Function && event,
+    Arguments &&... arguments)
 {
 	exception_store.tryStore ([&]() {
 		while (true)
@@ -18,7 +20,7 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
 
 			try
 			{
-				event ();
+				event (std::forward<Arguments> (arguments)...);
 			}
 			catch (IO::EOF::T)
 			{
