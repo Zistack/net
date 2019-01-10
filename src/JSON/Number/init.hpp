@@ -53,7 +53,7 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
-	catch (IO::EOF::T e)
+	catch (Failure::EndOfResource::T e)
 	{
 		throw Failure::Error::T (
 		    message_prefix + IO::Message::unexpectedEOF ());

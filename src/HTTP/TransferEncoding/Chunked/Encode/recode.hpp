@@ -15,7 +15,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 				buffer[i] = input_stream.get ();
 			}
 		}
-		catch (IO::EOF::T)
+		catch (Failure::EndOfResource::T)
 		{
 		}
 

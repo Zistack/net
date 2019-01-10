@@ -36,7 +36,7 @@ getBase (IO::Interface::PeekableInputStream::T & input_stream)
 
 				return base;
 			}
-			catch (const IO::EOF::T & e)
+			catch (const Failure::EndOfResource::T & e)
 			{
 				return base;
 			}
@@ -56,7 +56,7 @@ getBase (IO::Interface::PeekableInputStream::T & input_stream)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
-	catch (const IO::EOF::T & e)
+	catch (const Failure::EndOfResource::T & e)
 	{
 		throw Failure::Error::T (
 		    message_prefix + IO::Message::unexpectedEOF ());

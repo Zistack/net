@@ -5,7 +5,7 @@ T::eof ()
 	{
 		this->peek ();
 	}
-	catch (EOF::T)
+	catch (Failure::EndOfResource::T)
 	{
 		return true;
 	}

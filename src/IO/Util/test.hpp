@@ -7,7 +7,7 @@ test (IO::Interface::PeekableInputStream::T & input_stream, char e)
 	{
 		c = input_stream.peek ();
 	}
-	catch (EOF::T)
+	catch (Failure::EndOfResource::T)
 	{
 		return false;
 	}
@@ -33,7 +33,7 @@ test (IO::Interface::PeekableInputStream::T & input_stream,
 	{
 		c = input_stream.peek ();
 	}
-	catch (EOF::T)
+	catch (Failure::EndOfResource::T)
 	{
 		return false;
 	}

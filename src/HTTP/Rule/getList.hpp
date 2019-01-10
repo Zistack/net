@@ -32,7 +32,7 @@ getList (IO::Interface::PeekableInputStream::T & input_stream)
 				return elements;
 		}
 	}
-	catch (IO::EOF::T)
+	catch (Failure::EndOfResource::T)
 	{
 		return elements;
 	}

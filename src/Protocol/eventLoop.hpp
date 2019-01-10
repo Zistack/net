@@ -22,7 +22,7 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
 			{
 				event (std::forward<Arguments> (arguments)...);
 			}
-			catch (IO::EOF::T)
+			catch (Failure::EndOfResource::T)
 			{
 				break;
 			}

@@ -23,7 +23,7 @@ getCodePoint (IO::Interface::InputStream::T & input_stream)
 	{
 		throw e.set (message_prefix + e.what ());
 	}
-	catch (const IO::EOF::T & e)
+	catch (const Failure::EndOfResource::T & e)
 	{
 		throw Failure::Error::T (
 		    message_prefix + IO::Message::unexpectedEOF ());

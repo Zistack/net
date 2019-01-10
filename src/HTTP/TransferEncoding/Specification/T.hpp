@@ -37,7 +37,7 @@ T::T (IO::Interface::PeekableInputStream::T & input_stream)
 			Util::skipWhitespace (input_stream);
 		}
 	}
-	catch (IO::EOF::T)
+	catch (Failure::EndOfResource::T)
 	{
 		throw Failure::SyntaxError::T (IO::Message::unexpectedEOF ());
 	}

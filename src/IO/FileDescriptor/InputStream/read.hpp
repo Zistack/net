@@ -8,7 +8,7 @@ T::read (char * buffer, size_t count)
 	{
 		ssize_t size = ::read (this->file_descriptor, buffer, count);
 
-		if (size == 0) throw EOF::T ();
+		if (size == 0) throw Failure::EndOfResource::T ();
 
 		if (size == -1)
 		{

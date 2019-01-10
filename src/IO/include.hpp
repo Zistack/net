@@ -16,5 +16,3 @@
 
 #include <Failure.hpp>
 #include <Thread.hpp>
-
-#undef EOF

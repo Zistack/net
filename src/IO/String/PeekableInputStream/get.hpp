@@ -8,5 +8,7 @@ T::get ()
 		return c;
 	}
 	else
-		throw EOF::T ();
+	{
+		throw Failure::EndOfResource::T ();
+	}
 }

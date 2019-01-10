@@ -23,7 +23,7 @@ T::read (char * buffer, size_t count, IO::Interface::Watchable::T & signal)
 				    "Failed to read from TLS context: " +
 				    tls_error (this->tls_context.get ()) + "\n");
 			case 0:
-				throw IO::EOF::T ();
+				throw Failure::EndOfResource::T ();
 			}
 		}
 		else
