@@ -8,12 +8,12 @@ T<Element>::pop ()
 	{
 		if (!this->elements.empty ())
 		{
-			Element element = elements.front ();
+			Element element = std::move (elements.front ());
 			this->elements.pop_front ();
 			return element;
 		}
 
-		if (this->closed) throw Failure::CancelException::T ();
+		if (this->closed) throw Failure::EndOfResource::T ();
 
 		this->c.wait (lock);
 	}

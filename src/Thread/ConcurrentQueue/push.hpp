@@ -4,7 +4,7 @@ T<Element>::push (const Element & element)
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 
-	if (this->closed) throw Failure::CancelException::T ();
+	if (this->closed) throw Failure::EndOfResource::T ();
 
 	this->elements.push_back (element);
 
@@ -17,7 +17,7 @@ T<Element>::push (Element && element)
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 
-	if (this->closed) throw Failure::CancelException::T ();
+	if (this->closed) throw Failure::EndOfResource::T ();
 
 	this->elements.push_back (std::move (element));
 

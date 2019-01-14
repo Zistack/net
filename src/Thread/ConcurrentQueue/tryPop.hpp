@@ -6,7 +6,7 @@ T<Element>::tryPop ()
 
 	if (!this->elements.empty ())
 	{
-		Element element = elements.front ();
+		Element element = std::move (elements.front ());
 		this->elements.pop_front ();
 		return element;
 	}
