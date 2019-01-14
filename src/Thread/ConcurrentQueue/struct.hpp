@@ -21,6 +21,9 @@ struct T
 	void
 	close ();
 
+	void
+	flush ();
+
 	~T () = default;
 
 	private:
