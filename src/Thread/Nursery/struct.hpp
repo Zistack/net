@@ -14,19 +14,22 @@ struct T : Failure::Cancellable::T
 	T &
 	operator= (T && other) = delete;
 
-	template <class Function>
+	template <class Function, class... Arguments>
 	void
 	add (Function && function,
+	    Arguments &&... arguments,
 	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
 
-	template <class Function>
+	template <class Function, class... Arguments>
 	void
 	run (Function && function,
+	    Arguments &&... arguments,
 	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
 
-	template <class Function>
+	template <class Function, class... Arguments>
 	void
 	call (Function && function,
+	    Arguments &&... arguments,
 	    Failure::Cancellable::T * cancellable = nullptr);
 
 	void
@@ -35,10 +38,15 @@ struct T : Failure::Cancellable::T
 	~T () noexcept (false);
 
 	private:
-	template <class Function>
+	template <class Function, class... Arguments>
 	bool
 	start (Function && function,
+	    Arguments &&... arguments,
 	    Failure::Cancellable::T * cancellable) noexcept;
+
+	template <class Function, class... Arguments>
+	void
+	execute (Function && function, Arguments &&... arguments) noexcept;
 
 	void
 	finish () noexcept;

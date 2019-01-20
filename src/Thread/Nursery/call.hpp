@@ -1,6 +1,8 @@
-template <class Function>
+template <class Function, class... Arguments>
 void
-T::call (Function && function, Failure::Cancellable::T * cancellable)
+T::call (Function && function,
+    Arguments &&... arguments,
+    Failure::Cancellable::T * cancellable)
 {
 	const std::string message_prefix = "Thread::Nursery::T::call\n";
 
@@ -12,7 +14,7 @@ T::call (Function && function, Failure::Cancellable::T * cancellable)
 
 		try
 		{
-			function ();
+			function (std::forward<Arguments> (arguments)...);
 		}
 		catch (...)
 		{

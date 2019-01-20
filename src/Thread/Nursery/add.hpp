@@ -1,12 +1,12 @@
-template <class Function>
+template <class Function, class... Arguments>
 void
-T::add (Function && function, Failure::Cancellable::T * cancellable) noexcept
+T::add (Function && function,
+    Arguments &&... arguments,
+    Failure::Cancellable::T * cancellable) noexcept
 {
-	this->start (
-	    [this, function (std::forward<Function> (function))]() mutable {
-		    bool first_fail = this->exception_store.tryStore (function);
-		    this->finish ();
-		    if (first_fail) this->cancel ();
-	    },
+	this->start (&T::execute,
+	    this,
+	    std::forward<Function> (function),
+	    std::forward<Arguments> (arguments)...,
 	    cancellable);
 }

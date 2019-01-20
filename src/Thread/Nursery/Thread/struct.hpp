@@ -1,9 +1,12 @@
 struct T
 {
 	template <class Function,
+	    class... Arguments,
 	    typename = typename std::enable_if<!std::is_same<std::nullptr_t,
 	        typename std::decay<Function>::type>::value>::type>
-	T (Function && function, Failure::Cancellable::T * cancellable)
+	T (Function && function,
+	    Arguments &&... arguments,
+	    Failure::Cancellable::T * cancellable)
 	noexcept;
 
 	T (std::nullptr_t, Failure::Cancellable::T * cancellable) noexcept;

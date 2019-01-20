@@ -1,7 +1,10 @@
-template <class Function, typename>
-T::T (Function && function, Failure::Cancellable::T * cancellable) noexcept :
+template <class Function, class... Arguments, typename>
+T::T (Function && function,
+    Arguments &&... arguments,
+    Failure::Cancellable::T * cancellable) noexcept :
     cancellable (cancellable),
-    thread (std::forward<Function> (function))
+    thread (std::forward<Function> (function),
+        std::forward<Arguments> (arguments)...)
 {
 }
 
