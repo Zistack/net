@@ -1,8 +1,9 @@
-template <class Rep, class Period>
+template <class Rep, class Period, class Callback, class... CallbackArgs>
 void
 T::run (T * timer,
     std::chrono::duration<Rep, Period> timeout,
-    std::function<void(void)> callback)
+    Callback && callback,
+    CallbackArgs &&... callback_args)
 {
 	auto now = std::chrono::steady_clock::now ();
 	auto timeout_point = now + timeout;
@@ -13,5 +14,5 @@ T::run (T * timer,
 		timer->c.wait_until (lock, timeout_point);
 	}
 
-	if (!timer->stop) callback ();
+	if (!timer->stop) callback (std::forward<CallbackArgs> (callback_args)...);
 }
