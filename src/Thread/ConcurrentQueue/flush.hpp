@@ -1,7 +1,8 @@
+template <class Element>
 void
-T::flush ()
+T<Element>::flush ()
 {
-	std::unique_lock <decltype (this -> m)> lock (this -> m);
+	std::unique_lock<decltype (this->m)> lock (this->m);
 
-	this -> elements . clear ();
+	this->elements.clear ();
 }
