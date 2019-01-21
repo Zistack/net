@@ -46,8 +46,8 @@ struct T : IO::Interface::Protocol::T
 	::Protocol::DelayQueue::T<ResponseType> response_queue;
 	Shutdown::Signal::T shutdown_signal;
 
-	Thread::SleepLock::T sleep_lock;
-	Status::Bit::T<Thread::SleepLock::T> status_bit;
+	Thread::SleepMutex::T status_mutex;
+	Status::Bit::T<Thread::SleepMutex::T> status_bit;
 
 	Failure::ExceptionStore::T exception_store;
 
