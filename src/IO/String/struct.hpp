@@ -6,6 +6,10 @@ struct T : Interface::ByteBlock::T
 
 	T (std::string && string);
 
+	operator std::string ();
+
+	operator const std::string & ();
+
 	void
 	reset () override;
 
