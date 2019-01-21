@@ -5,6 +5,8 @@ T::peek ()
 	{
 		return this->string[this->pointer];
 	}
-
-	throw Failure::EndOfResource::T ();
+	else
+	{
+		throw Failure::EndOfResource::T ();
+	}
 }
