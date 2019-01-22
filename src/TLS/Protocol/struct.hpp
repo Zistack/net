@@ -47,7 +47,7 @@ struct T : IO::Interface::Protocol::T
 	char input_buffer[BUF_SIZE];
 	char output_buffer[BUF_SIZE];
 
-	Thread::SleepLock::T context_lock;
+	Thread::SleepMutex::T context_mutex;
 	bool spurious_read;
 
 	Shutdown::Signal::T input_shutdown_signal;

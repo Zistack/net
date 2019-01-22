@@ -51,7 +51,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 				input_cancel_signal = first_stage_cancel_signal.get ();
 			}
 
-			nursery.add (
+			nursery.add (input_cancel_signal,
 			    [next_pipe,
 			        &input_stream,
 			        &input_cancel_signal (*input_cancel_signal),
@@ -62,8 +62,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 				    first_stage.recode (input_stream, output_stream);
 
 				    next_pipe->shutdown ();
-			    },
-			    input_cancel_signal);
+			    });
 
 			std::shared_ptr<IO::Pipe::T> previous_pipe = next_pipe;
 
@@ -73,10 +72,10 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 
 				std::unique_ptr<IO::CancelSignal::T> stage_cancel_signal (
 				    new IO::CancelSignal::T ());
-				IO::CancelSignal::T * stage_cancel_signal_ptr =
-				    stage_cancel_signal.get ();
+				IO::CancelSignal::T & stage_cancel_signal_ref =
+				    *stage_cancel_signal;
 
-				nursery.add (
+				nursery.add (stage_cancel_signal_ref,
 				    [previous_pipe,
 				        next_pipe,
 				        stage_cancel_signal (std::move (stage_cancel_signal)),
@@ -90,8 +89,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 					    stage.recode (input_stream, output_stream);
 
 					    next_pipe->shutdown ();
-				    },
-				    stage_cancel_signal_ptr);
+				    });
 
 				previous_pipe = next_pipe;
 			}
@@ -106,7 +104,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 				output_cancel_signal = last_stage_cancel_signal.get ();
 			}
 
-			nursery.run (
+			nursery.run (output_cancel_signal,
 			    [previous_pipe,
 			        &output_stream,
 			        &output_cancel_signal (*output_cancel_signal),
@@ -115,8 +113,7 @@ T::recode (IO::Interface::InputStream::T & input_stream,
 				        previous_pipe->inputStream (), output_cancel_signal);
 
 				    last_stage.recode (input_stream, output_stream);
-			    },
-			    output_cancel_signal);
+			    });
 		}
 
 		exception_store.poll ();

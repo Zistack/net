@@ -33,7 +33,7 @@ T::run ()
 
 		Thread::Nursery::T nursery (this->exception_store);
 
-		nursery.add (
+		nursery.add (this->input_shutdown_signal,
 		    [this,
 		        &input_stream,
 		        &context (*context),
@@ -44,23 +44,20 @@ T::run ()
 			        input_buffer,
 			        output_stream_to_protocol);
 			    socket_to_protocol.shutdown ();
-		    },
-		    &this->input_shutdown_signal);
+		    });
 
-		nursery.add (
-		    [this, &context (*context), &input_stream_from_protocol]() {
-			    this->output (
-			        input_stream_from_protocol, output_buffer, context);
-		    },
-		    &this->output_shutdown_signal);
+		nursery.add (this->output_shutdown_signal,
+		    &T::output,
+		    this,
+		    input_stream_from_protocol,
+		    this->output_buffer,
+		    *context);
 
-		nursery.run (
-		    [this]() {
-			    this->protocol.run ();
-			    this->input_shutdown_signal.cancel ();
-			    this->output_shutdown_signal.cancel ();
-		    },
-		    &this->protocol);
+		nursery.run (this->protocol, [this]() {
+			this->protocol.run ();
+			this->input_shutdown_signal.cancel ();
+			this->output_shutdown_signal.cancel ();
+		});
 	}
 
 	// This should probably be done in the destructor of the context object.

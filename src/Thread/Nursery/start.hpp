@@ -1,8 +1,8 @@
 template <class Function, class... Arguments>
 bool
-T::start (Function && function,
-    Arguments &&... arguments,
-    Failure::Cancellable::T * cancellable) noexcept
+T::start (Failure::Cancellable::T * cancellable,
+    Function && function,
+    Arguments &&... arguments) noexcept
 {
 	std::unique_lock<decltype (this->m)> lock (this->m);
 

@@ -14,23 +14,80 @@ struct T : Failure::Cancellable::T
 	T &
 	operator= (T && other) = delete;
 
-	template <class Function, class... Arguments>
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	add (Function && function,
-	    Arguments &&... arguments,
-	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
+	add (Failure::Cancellable::T & cancellable,
+	    Function && function,
+	    Arguments &&... arguments) noexcept;
 
-	template <class Function, class... Arguments>
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	run (Function && function,
-	    Arguments &&... arguments,
-	    Failure::Cancellable::T * cancellable = nullptr) noexcept;
+	add (Function && function, Arguments &&... arguments) noexcept;
 
-	template <class Function, class... Arguments>
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	call (Function && function,
-	    Arguments &&... arguments,
-	    Failure::Cancellable::T * cancellable = nullptr);
+	add (Failure::Cancellable::T * cancellable,
+	    Function && function,
+	    Arguments &&... arguments) noexcept;
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	run (Failure::Cancellable::T & cancellable,
+	    Function && function,
+	    Arguments &&... arguments) noexcept;
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	run (Function && function, Arguments &&... arguments) noexcept;
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	run (Failure::Cancellable::T * cancellable,
+	    Function && function,
+	    Arguments &&... arguments) noexcept;
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	call (Failure::Cancellable::T & cancellable,
+	    Function && function,
+	    Arguments &&... arguments);
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	call (Function && function, Arguments &&... arguments);
+
+	template <class Function,
+	    class... Arguments,
+	    typename = typename std::enable_if<
+	        std::is_invocable<Function, Arguments...>::value>::type>
+	void
+	call (Failure::Cancellable::T * cancellable,
+	    Function && function,
+	    Arguments &&... arguments);
 
 	void
 	cancel () noexcept override;
@@ -40,9 +97,9 @@ struct T : Failure::Cancellable::T
 	private:
 	template <class Function, class... Arguments>
 	bool
-	start (Function && function,
-	    Arguments &&... arguments,
-	    Failure::Cancellable::T * cancellable) noexcept;
+	start (Failure::Cancellable::T * cancellable,
+	    Function && function,
+	    Arguments &&... arguments) noexcept;
 
 	template <class Function, class... Arguments>
 	void

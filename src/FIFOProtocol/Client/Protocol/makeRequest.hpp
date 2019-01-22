@@ -25,7 +25,7 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 
 	try
 	{
-		this->nursery->call (
+		this->nursery->call (response_delay,
 		    [this, &request, &lock, &response_delay, &response]() {
 			    try
 			    {
@@ -73,8 +73,7 @@ T<RequestType, ResponseType>::makeRequest (const RequestType & request)
 			    {
 				    throw Failure::Error::T ("Operation cancelled\n");
 			    }
-		    },
-		    &response_delay);
+		    });
 	}
 	catch (Failure::Error::T & e)
 	{

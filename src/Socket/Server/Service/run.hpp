@@ -9,12 +9,11 @@ T::run ()
 
 		Thread::Nursery::T nursery (this->exception_store);
 
-		nursery.run (
+		nursery.run (*this,
 		    [this, &nursery]() {
 			    this->listen (nursery);
 			    nursery.cancel ();
-		    },
-		    this);
+		    });
 	}
 
 	try

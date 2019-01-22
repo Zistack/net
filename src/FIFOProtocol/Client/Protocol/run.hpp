@@ -12,16 +12,14 @@ T<RequestType, ResponseType>::run ()
 		Scope::T<decltype (this->status_bit)> status_bit_scope (
 		    std::move (this->status_bit_scope));
 
-		nursery->run (
-		    [this, &input_stream (*this->input_stream)]() {
-			    ::Protocol::eventLoop (exception_store,
-			        input_stream,
-			        this->shutdown_signal,
-			        &T::event,
-			        this,
-			        input_stream);
-		    },
-		    &this->shutdown_signal);
+		nursery->run (this->shutdown_signal,
+		    ::Protocol::eventLoop,
+		    exception_store,
+		    *this->input_stream,
+		    this->shutdown_signal,
+		    &T::event,
+		    this,
+		    *this->input_stream);
 	}
 
 	std::unique_ptr<IO::Blocking::InputStream::T> input_stream (

@@ -12,8 +12,8 @@ T::input (IO::Interface::NonblockingInputStream::T & input_stream,
 	    input_stream,
 	    this->input_shutdown_signal,
 	    [this, &context, input_buffer, &output_stream_to_protocol]() {
-		    std::unique_lock<decltype (this->context_lock)> lock (
-		        this->context_lock);
+		    std::unique_lock<decltype (this->context_mutex)> context_lock (
+		        this->context_mutex);
 
 		    if (this->spurious_read)
 		    {
@@ -30,7 +30,7 @@ T::input (IO::Interface::NonblockingInputStream::T & input_stream,
 				    size_t num_bytes = context.read (
 				        input_buffer, T::BUF_SIZE, this->input_timeout_signal);
 
-				    lock.unlock ();
+				    context_lock.unlock ();
 
 				    output_stream_to_protocol.write (input_buffer, num_bytes);
 			    }

@@ -13,17 +13,14 @@ T<RequestType, ResponseType>::run ()
 
 		Thread::Nursery::T nursery (this->exception_store);
 
-		nursery.add (
+		nursery.add (this->shutdown_signal,
 		    [this,
 		        &input_stream (*input_stream),
 		        response_queue_scope (std::move (this->response_queue_scope)),
 		        shutdown_signal_scope (std::move (this->shutdown_signal_scope)),
-		        &nursery]() mutable { this->input (input_stream, nursery); },
-		    &this->shutdown_signal);
+		        &nursery]() mutable { this->input (input_stream, nursery); });
 
-		nursery.run ([this, &output_stream (*output_stream)]() {
-			this->output (output_stream);
-		});
+		nursery.run (&T::output, *output_stream);
 	}
 
 	try

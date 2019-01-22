@@ -20,8 +20,8 @@ T::output (IO::FileDescriptor::InputStream::T & input_stream_from_protocol,
 				    size_t num_bytes = input_stream_from_protocol.read (
 				        output_buffer, T::BUF_SIZE);
 
-				    std::unique_lock<decltype (this->context_lock)> lock (
-				        this->context_lock);
+				    std::unique_lock<decltype (this->context_mutex)>
+				        context_lock (this->context_mutex);
 
 				    this->spurious_read = context.write (
 				        output_buffer, num_bytes, this->output_timeout_signal);

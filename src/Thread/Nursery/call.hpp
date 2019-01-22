@@ -1,12 +1,32 @@
-template <class Function, class... Arguments>
+template <class Function, class... Arguments, typename>
 void
-T::call (Function && function,
-    Arguments &&... arguments,
-    Failure::Cancellable::T * cancellable)
+T::call (Failure::Cancellable::T & cancellable,
+    Function && function,
+    Arguments &&... arguments)
+{
+	this->call (&cancellable,
+	    std::forward<Function> (function),
+	    std::forward<Arguments> (arguments)...);
+}
+
+template <class Function, class... Arguments, typename>
+void
+T::call (Function && function, Arguments &&... arguments)
+{
+	this->call (nullptr,
+	    std::forward<Function> (function),
+	    std::forward<Arguments> (arguments)...);
+}
+
+template <class Function, class... Arguments, typename>
+void
+T::call (Failure::Cancellable::T * cancellable,
+    Function && function,
+    Arguments &&... arguments)
 {
 	const std::string message_prefix = "Thread::Nursery::T::call\n";
 
-	if (this->start (nullptr, cancellable))
+	if (this->start (cancellable, nullptr))
 	{
 		bool first_fail = false;
 
