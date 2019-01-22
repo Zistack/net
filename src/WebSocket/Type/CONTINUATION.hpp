@@ -1,0 +1,1 @@
+const T CONTINUATION = 0x0;
