@@ -13,4 +13,6 @@
 #include <IO.hpp>
 #include <JSON.hpp>
 #include <NullableString.hpp>
-#include <Socket.hpp>
+#include <Protocol.hpp>
+#include <Shutdown.hpp>
+#include <SuppressingScope.hpp>

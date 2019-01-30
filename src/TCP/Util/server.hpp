@@ -1,7 +1,7 @@
 int
-T::newSocket (const Config::T & config)
+server (const char * hostname, const char * port)
 {
-	std::string message_prefix = "TCP::Server::Socket::T::newSocket\n";
+	std::string message_prefix = "Failed to create TCP server:\n";
 
 	struct addrinfo hints;
 
@@ -14,45 +14,43 @@ T::newSocket (const Config::T & config)
 
 	struct addrinfo * results;
 
-	int err = getaddrinfo (config.hostname, config.port, &hints, &results);
+	int err = getaddrinfo (hostname, port, &hints, &results);
 
 	if (err)
 	{
-		throw Failure::Error::T (
+		throw Failure::ResourceError::T (
 		    message_prefix + "getaddrinfo: " + gai_strerror (err) + "\n");
 	}
 
-	int file_descriptor;
+	int server_socket;
 
 	struct addrinfo * p;
 	for (p = results; p != nullptr; p = p->ai_next)
 	{
-		file_descriptor = socket (
+		server_socket = socket (
 		    p->ai_family, p->ai_socktype | SOCK_NONBLOCK, p->ai_protocol);
 
-		if (file_descriptor == -1)
+		if (server_socket == -1)
 		{
 			// We might want to report this someday.
 			continue;
 		}
 
 		int yes = 1;
-		if (setsockopt (file_descriptor,
-		        SOL_SOCKET,
-		        SO_REUSEADDR,
-		        &yes,
-		        sizeof (yes)) == -1)
+		if (setsockopt (
+		        server_socket, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof (yes)) ==
+		    -1)
 		{
 			std::string message =
 			    message_prefix + "setsockopt: " + strerror (errno) + "\n";
 			freeaddrinfo (results);
-			close (file_descriptor);
-			throw Failure::Error::T (message);
+			close (server_socket);
+			throw Failure::ResourceError::T (message);
 		}
 
-		if (bind (file_descriptor, p->ai_addr, p->ai_addrlen) == -1)
+		if (bind (server_socket, p->ai_addr, p->ai_addrlen) == -1)
 		{
-			close (file_descriptor);
+			close (server_socket);
 			// We might want to report this someday.
 			continue;
 		}
@@ -64,16 +62,17 @@ T::newSocket (const Config::T & config)
 
 	if (!p)
 	{
-		throw Failure::Error::T (message_prefix + "No valid addresses\n");
+		throw Failure::ResourceError::T (
+		    message_prefix + "No valid addresses\n");
 	}
 
-	if (listen (file_descriptor, SOMAXCONN) == -1)
+	if (listen (server_socket, SOMAXCONN) == -1)
 	{
 		std::string message =
 		    message_prefix + "listen: " + strerror (errno) + "\n";
-		close (file_descriptor);
-		throw Failure::Error::T (message);
+		close (server_socket);
+		throw Failure::ResourceError::T (message);
 	}
 
-	return file_descriptor;
+	return server_socket;
 }

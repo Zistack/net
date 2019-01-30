@@ -1,4 +1,4 @@
-struct T : IO::Interface::Server::Socket::T
+struct T : IO::Interface::Watchable::T
 {
 	T (const Config::T & config);
 
@@ -10,8 +10,8 @@ struct T : IO::Interface::Server::Socket::T
 	T &
 	operator= (T && other) = delete;
 
-	std::unique_ptr<IO::Interface::Socket::T>
-	accept () override;
+	std::unique_ptr<Connection::Socket::T>
+	accept ();
 
 	IO::Interface::Watchable::Events::T
 	events () const override;
@@ -19,11 +19,8 @@ struct T : IO::Interface::Server::Socket::T
 	int
 	fileDescriptor () const override;
 
-	~T () override;
+	~T ();
 
 	private:
-	static int
-	newSocket (const Config::T & config);
-
 	int file_descriptor;
 };

@@ -1,12 +1,19 @@
-struct T : ::Socket::Client::Service::T
+struct T : Failure::Cancellable::T
 {
-	T (IO::Interface::Protocol::T & client_protocol, const Config::T & config);
+	T (IO::Interface::Protocol::T & protocol, const Config::T & config);
 
-	~T () override = default;
+	void
+	prime ();
+
+	void
+	run ();
+
+	void
+	cancel () override;
+
+	~T () = default;
 
 	private:
-	std::unique_ptr<IO::Interface::Socket::T>
-	newSocket () override;
-
+	IO::Interface::Protocol::T & protocol;
 	Config::T config;
 };

@@ -1,1 +1,4 @@
-T::T (const Config::T & config) : file_descriptor (newSocket (config)) {}
+T::T (const Config::T & config) :
+    file_descriptor (Util::server (config.hostname, config.port))
+{
+}

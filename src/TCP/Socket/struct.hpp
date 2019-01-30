@@ -1,4 +1,4 @@
-struct T : IO::Interface::Socket::T
+struct T
 {
 	protected:
 	T (int file_descriptor);
@@ -13,11 +13,11 @@ struct T : IO::Interface::Socket::T
 	operator= (T && other) = delete;
 
 	IO::FileDescriptor::InputStream::T &
-	inputStream () override;
+	inputStream ();
 	IO::FileDescriptor::OutputStream::T &
-	outputStream () override;
+	outputStream ();
 
-	virtual ~T () override;
+	~T ();
 
 	private:
 	int file_descriptor;
