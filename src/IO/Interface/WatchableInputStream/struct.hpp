@@ -1,4 +1,4 @@
-struct T : Watchable::T, InputStream::T
+struct T : Watchable::T, InputStream::T, Failure::Cancellable::T
 {
 	virtual Watchable::Events::T
 	events () const override = 0;
@@ -8,4 +8,7 @@ struct T : Watchable::T, InputStream::T
 
 	virtual char
 	get () override = 0;
+
+	virtual void
+	cancel () override = 0;
 };
