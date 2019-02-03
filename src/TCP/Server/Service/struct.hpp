@@ -33,5 +33,5 @@ struct T : Failure::Cancellable::T
 
 	// Transient members
 
-	SuppressingScope::T<Shutdown::Signal::T> shutdown_signal_scope;
+	SuppressingScope::T<Shutdown::Signal::T> shutdown_scope;
 };

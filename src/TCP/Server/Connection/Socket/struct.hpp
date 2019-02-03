@@ -1,6 +1,9 @@
 struct T : TCP::Socket::T
 {
-	T (Server::Socket::T & server_socket);
-
 	~T () = default;
+
+	private:
+	T (int connection_socket);
+
+	friend class Server::Socket::T;
 };
