@@ -14,4 +14,5 @@
 #include <Protocol.hpp>
 #include <Shutdown.hpp>
 #include <SuppressingScope.hpp>
+#include <TCP.hpp>
 #include <Thread.hpp>

@@ -34,5 +34,5 @@ struct T
 	private:
 	std::unique_ptr<struct tls_config, Functor::T<tls_config_free>> tls_config;
 
-	friend ConfigurableContext::T;
+	friend ConfigurableSocket::T;
 };
