@@ -1,5 +1,5 @@
 bool
-test (IO::Interface::PeekableInputStream::T & input_stream, char e)
+test (Interface::PeekableInputStream::T & input_stream, char e)
 {
 	char c;
 
@@ -24,7 +24,7 @@ template <class Predicate,
 #endif /* IO_Util_test_hpp_2 */
     >
 bool
-test (IO::Interface::PeekableInputStream::T & input_stream,
+test (Interface::PeekableInputStream::T & input_stream,
     Predicate && classPredicate)
 {
 	char c;

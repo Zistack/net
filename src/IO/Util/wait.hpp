@@ -1,7 +1,7 @@
 void
 wait (Interface::Watchable::T & stream, Interface::Watchable::T & cancel_signal)
 {
-	const std::string message_prefix = "IO::Util::wait\n";
+	const std::string message_prefix = "Failed to wait for resource:\n";
 
 	struct pollfd fds[2] = {{.fd = stream.fileDescriptor (),
 	                            .events = stream.events (),
@@ -30,7 +30,7 @@ wait (Interface::Watchable::T & stream, Interface::Watchable::T & cancel_signal)
 void
 wait (Interface::Watchable::T & stream)
 {
-	const std::string message_prefix = "IO::Util::wait\n";
+	const std::string message_prefix = "Failed to wait for resource:\n";
 
 	struct pollfd fds[1] = {{.fd = stream.fileDescriptor (),
 	    .events = stream.events (),
