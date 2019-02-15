@@ -18,11 +18,11 @@ justify (const std::string & text, size_t columns)
 
 		if (current_line.empty ())
 			current_line.append (word);
-		else if (current_line.size () + 1 + word.size () < columns))
-			{
-				current_line.push_back (' ');
-				current_line.append (word);
-			}
+		else if (current_line.size () + 1 + word.size () < columns)
+		{
+			current_line.push_back (' ');
+			current_line.append (word);
+		}
 		else
 		{
 			lines.push_back (current_line);
