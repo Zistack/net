@@ -1,25 +1,22 @@
 struct T : MemberType::T
 {
-	using ValueType = std::string;
+	using ValueType = Value::T;
 
-	T () = default;
+	std::unique_ptr<MemberType::T>
+	clone () const override;
 
-	T (ValueType value);
-
-	void
-	readFrom (IO::Interface::PeekableInputStream::T & input_stream) override;
-
-	void
-	set (ValueType value);
-
-	ValueType
-	get () const;
+	std::unique_ptr<MemberValue::T>
+	readFrom (
+	    IO::Interface::PeekableInputStream::T & input_stream) const override;
 
 	void
-	writeTo (IO::Interface::OutputStream::T & output_stream) const override;
+	writeTo (const MemberValue::T & member,
+	    IO::Interface::OutputStream::T & output_stream,
+	    size_t indentation) const override;
 
-	~T () = default;
+	std::unique_ptr<ValueType>
+	set (const ValueType::InterfaceType & value) const;
 
-	private:
-	std::string value;
+	const ValueType::InterfaceType &
+	get (const ValueType & value) const;
 };

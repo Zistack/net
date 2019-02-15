@@ -1,19 +1,23 @@
 struct T
 {
+	template <typename MemberType>
 	T (std::string identifier,
-	    MemberType::Spec::T member_type,
 	    std::string description,
 	    bool optional,
-	    std::unique_ptr<MemberType> && default_value = nullptr);
+	    std::optional<typename MemberType::ValueType::InterfaceType>
+	        default_value = std::nullopt);
 
 	void
-	printHelp (IO::Interface::OutputStream::T & output_stream);
+	printHelp (IO::Interface::OutputStream::T & output_stream,
+	    size_t columns,
+	    size_t tabwidth,
+	    size_t indentation) const;
 
 	~T () = default;
 
 	std::string identifier;
-	MemberType::Spec::T member_type;
 	std::string description;
 	bool optional;
-	std::unique_ptr<MemberType::T> default_value;
+	std::unique_ptr<MemberType::T> type;
+	std::unique_ptr<MemberValue::T> default_value;
 };

@@ -9,24 +9,15 @@ struct T
 	template <typename Iterable,
 	    typename = typename std::enable_if<
 	        IsProperIterableType<Iterable>::value>::type>
-	T (const Iterable && members);
-
-	template <typename Iterable,
-	    typename = typename std::enable_if<
-	        IsProperIterableType<Iterable>::value>::type>
 	T (Iterable && members);
 
-	bool
-	contains (const std::string & identifer) const;
-
-	const MemberSpec::T &
-	at (const std::string & identifier) const;
-
 	void
-	printHelp (IO::Interface::OutputStream::T & output_stream);
+	printHelp (IO::Interface::OutputStream::T & output_stream,
+	    size_t columns,
+	    size_t tabwidth,
+	    size_t indentation) const;
 
 	~T () = default;
 
 	std::set<MemberSpec::T> members;
-	std::unordered_map<std::string, const MemberSpec::T &> member_map;
 };

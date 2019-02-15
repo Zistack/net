@@ -1,7 +1,7 @@
-struct T : MemberType::T
+struct T // : MemberType::T
 {
 	// For templates
-	using ValueType = T;
+	using InterfaceType = T;
 
 	// For convenience
 	template <typename Type>
@@ -10,47 +10,40 @@ struct T : MemberType::T
 	T (const SectionSpec::T & spec);
 
 	void
-	readFrom (IO::Interface::PeekableInputStream::T & input_stream) override;
+	readFrom (IO::Interface::PeekableInputStream::T & input_stream);
 
 	// For templates
 	void
-	set (const ValueType & value);
+	set (const InterfaceType & value);
 
 	// For convenience
-	template <typename Type,
-	    typename = typename std::enable_if<IsMemberType<Type>::value>::type>
+	template <typename MemberType,
+	    typename =
+	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
 	void
-	set (std::string identifier, std::optional<Type::ValueType> value);
+	set (std::string identifier,
+	    std::optional<typename MemberType::ValueType::InterfaceType> value);
 
 	void
-	validate ();
+	validate () const;
 
 	// For templates
-	const ValueType &
-	get ();
+	const InterfaceType &
+	get () const;
 
 	// For convenience
-	template <typename Type,
-	    typename = typename std::enable_if<IsMemberType<Type>::value>::type>
-	std::optional<Type::ValueType>
-	get (std::string identifier);
+	template <typename MemberType,
+	    typename =
+	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
+	std::optional<typename MemberType::MemberValue::InterfaceType>
+	get (std::string identifier) const;
 
 	void
-	writeTo (IO::Interface::OutputStream::T & output_stream) const override;
+	writeTo (IO::Interface::OutputStream::T & output_stream,
+	    size_t indentation) const;
 
 	~T () = default;
 
 	private:
-	// Helpers for convenience methods
-
-	void
-	set (const std::string identifier,
-	    std::unique_ptr<MemberType::T> && member);
-
-	const Member::T *
-	get (const std::string identifier);
-
-	// Members
-
-	std::unordered_map<std::string, Member::T> members;
+	std::map<std::string, Member::T> members;
 };
