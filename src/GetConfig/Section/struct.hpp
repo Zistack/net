@@ -1,22 +1,18 @@
-struct T // : MemberType::T
+struct T : MemberValue::T
 {
-	// For templates
 	using InterfaceType = T;
 
-	// For convenience
 	template <typename Type>
 	using IsMemberType = std::is_base_of<MemberType::T, Type>;
 
 	T (const SectionSpec::T & spec);
 
+	std::unique_ptr<MemberValue::T>
+	clone () const override;
+
 	void
 	readFrom (IO::Interface::PeekableInputStream::T & input_stream);
 
-	// For templates
-	void
-	set (const InterfaceType & value);
-
-	// For convenience
 	template <typename MemberType,
 	    typename =
 	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
@@ -27,16 +23,14 @@ struct T // : MemberType::T
 	void
 	validate () const;
 
-	// For templates
-	const InterfaceType &
-	get () const;
-
-	// For convenience
 	template <typename MemberType,
 	    typename =
 	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
 	std::optional<typename MemberType::MemberValue::InterfaceType>
 	get (std::string identifier) const;
+
+	const InterfaceType &
+	get () const;
 
 	void
 	writeTo (IO::Interface::OutputStream::T & output_stream,

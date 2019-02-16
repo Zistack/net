@@ -9,11 +9,12 @@ struct T
 	readFrom (IO::Interface::PeekableInputStream::T & input_stream) const = 0;
 
 	virtual void
-	writeTo (const MemberValue::T &,
+	writeTo (const MemberValue::T & value,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const = 0;
 
-	// std::unique_ptr <ValueType> set (ValueType::InterfaceType value) const;
+	// std::unique_ptr <ValueType> set (const ValueType::InterfaceType & value)
+	// const;
 
-	// ValueType::InterfaceType get (ValueType) const;
+	// const ValueType::InterfaceType & get (const ValueType & value) const;
 };

@@ -1,9 +1,3 @@
-const T::InterfaceType &
-T::get () const
-{
-	return *this;
-}
-
 template <typename MemberType, typename>
 std::optional<typename MemberType::MemberValue::InterfaceType>
 T::get (std::string identifier) const
@@ -25,4 +19,10 @@ T::get (std::string identifier) const
 	{
 		return std::nullopt;
 	}
+}
+
+const T::InterfaceType &
+T::get () const
+{
+	return *this;
 }

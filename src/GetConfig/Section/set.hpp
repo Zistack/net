@@ -1,9 +1,3 @@
-void
-T::set (const InterfaceType & value)
-{
-	*this = value;
-}
-
 template <typename MemberType, typename>
 void
 T::set (std::string identifier,
