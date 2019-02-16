@@ -11,17 +11,11 @@ struct T
 	const char *
 	cString () const;
 
-	operator const char * () const;
-
 	std::string &
 	stdString ();
 
-	operator std::string & ();
-
 	const std::string &
 	stdString () const;
-
-	operator const std::string & () const;
 
 	bool
 	hasValue () const;
