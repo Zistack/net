@@ -1,16 +1,16 @@
-struct T : MemberType::T
+struct T : Member::T
 {
 	using ValueType = Value::T;
 
-	std::unique_ptr<MemberType::T>
+	std::unique_ptr<Member::T>
 	clone () const override;
 
-	std::unique_ptr<MemberValue::T>
+	std::unique_ptr<Member::Value::T>
 	readFrom (
 	    IO::Interface::PeekableInputStream::T & input_stream) const override;
 
 	void
-	writeTo (const MemberValue::T & member,
+	writeTo (const Member::Value::T & member,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const override;
 

@@ -1,6 +1,6 @@
 T::T (bool optional,
-    const std::unique_ptr<MemberType::T> & type,
-    const std::unique_ptr<MemberValue::T> & value) :
+    const std::unique_ptr<GetConfig::Member::T> & type,
+    const std::unique_ptr<GetConfig::Member::Value::T> & value) :
     optional (optional),
     type (type->clone ()),
     value (value ? value->clone () : nullptr)

@@ -1,43 +1,29 @@
-struct T : MemberValue::T
+struct T : Member::T
 {
-	using InterfaceType = T;
+	using ValueType = Value::T;
 
-	template <typename Type>
-	using IsMemberType = std::is_base_of<MemberType::T, Type>;
+	T (const Spec::T & spec);
 
-	T (const SectionSpec::T & spec);
-
-	std::unique_ptr<MemberValue::T>
+	std::unique_ptr<Member::T>
 	clone () const override;
 
-	void
-	readFrom (IO::Interface::PeekableInputStream::T & input_stream);
-
-	template <typename MemberType,
-	    typename =
-	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
-	void
-	set (std::string identifier,
-	    std::optional<typename MemberType::ValueType::InterfaceType> value);
+	std::unique_ptr<Member::Value::T>
+	readFrom (
+	    IO::Interface::PeekableInputStream::T & input_stream) const override;
 
 	void
-	validate () const;
+	writeTo (const Member::Value::T & value,
+	    IO::Interface::OutputStream::T & output_stream,
+	    size_t indentation) const override;
 
-	template <typename MemberType,
-	    typename =
-	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
-	std::optional<typename MemberType::MemberValue::InterfaceType>
-	get (std::string identifier) const;
+	std::unique_ptr<ValueType>
+	set (const ValueType::InterfaceType & value) const;
 
-	const InterfaceType &
-	get () const;
-
-	void
-	writeTo (IO::Interface::OutputStream::T & output_stream,
-	    size_t indentation) const;
+	const ValueType::InterfaceType &
+	get (const ValueType & value) const;
 
 	~T () = default;
 
 	private:
-	std::map<std::string, Member::T> members;
+	const Spec::T & spec;
 };

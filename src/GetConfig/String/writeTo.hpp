@@ -1,5 +1,5 @@
 void
-T::writeTo (const MemberValue::T & member,
+T::writeTo (const Member::Value::T & member,
     IO::Interface::OutputStream::T & output_stream,
     size_t indentation) const
 {

@@ -5,11 +5,11 @@ struct T
 	virtual std::unique_ptr<T>
 	clone () const = 0;
 
-	virtual std::unique_ptr<MemberValue::T>
+	virtual std::unique_ptr<Value::T>
 	readFrom (IO::Interface::PeekableInputStream::T & input_stream) const = 0;
 
 	virtual void
-	writeTo (const MemberValue::T & value,
+	writeTo (const Value::T & value,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const = 0;
 

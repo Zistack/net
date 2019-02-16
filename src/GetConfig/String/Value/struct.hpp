@@ -1,4 +1,4 @@
-struct T : MemberValue::T
+struct T : Member::Value::T
 {
 	using InterfaceType = std::string;
 
@@ -6,7 +6,7 @@ struct T : MemberValue::T
 
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
-	std::unique_ptr<MemberValue::T>
+	std::unique_ptr<Member::Value::T>
 	clone () const override;
 
 	const InterfaceType &
