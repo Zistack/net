@@ -1,4 +1,9 @@
-T::T (std::initializer_list<OptionSpec::T> options) : options (options)
+T::T (std::string usage_suffix,
+    std::string description,
+    std::initializer_list<OptionSpec::T> options) :
+    usage_suffix (usage_suffix),
+    description (description),
+    options (options)
 {
 	for (const OptionSpec::T & option : this->options)
 	{

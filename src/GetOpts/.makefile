@@ -1,4 +1,4 @@
-GetOpts-moddepends = Failure
+GetOpts-moddepends = Failure IO
 GetOpts-CFLAGS =
 GetOpts-LFLAGS =
 
