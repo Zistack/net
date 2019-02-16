@@ -1,4 +1,4 @@
-T::T (const std::string & value) : value (value) {}
+T::T (const InterfaceType & value) : value (value) {}
 
 T::T (IO::Interface::PeekableInputStream::T & input_stream)
 {

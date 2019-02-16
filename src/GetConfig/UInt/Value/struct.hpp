@@ -1,6 +1,6 @@
 struct T : Member::Value::T
 {
-	using InterfaceType = std::string;
+	using InterfaceType = uint64_t;
 
 	T (const InterfaceType & value);
 
@@ -19,5 +19,5 @@ struct T : Member::Value::T
 	~T () = default;
 
 	private:
-	std::string value;
+	uint64_t value;
 };
