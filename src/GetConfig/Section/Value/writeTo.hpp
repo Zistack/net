@@ -6,7 +6,7 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream,
 
 	for (auto [identifier, member] : this->members)
 	{
-		Util::indent (output_stream, indentation + 1);
+		IO::Util::indent (output_stream, indentation + 1);
 
 		if (member.value)
 		{
@@ -25,6 +25,6 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream,
 		output_stream.put ('\n');
 	}
 
-	Util::indent (output_stream, indentation);
+	IO::Util::indent (output_stream, indentation);
 	output_stream.put ('}');
 }

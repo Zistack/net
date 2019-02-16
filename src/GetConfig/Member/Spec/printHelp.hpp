@@ -7,7 +7,7 @@ T::printHelp (IO::Interface::OutputStream::T & output_stream,
 	for (std::string line : IO::Util::justify (
 	         this->description, columns - tabwidth * indentation - 2))
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 		output_stream.print ("# ");
 		output_stream.print (line);
 		output_stream.put ('\n');
@@ -15,7 +15,7 @@ T::printHelp (IO::Interface::OutputStream::T & output_stream,
 
 	if (this->default_value)
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 		output_stream.print ("set ");
 		output_stream.print (this->identifier);
 		output_stream.put (' ');
@@ -24,7 +24,7 @@ T::printHelp (IO::Interface::OutputStream::T & output_stream,
 	}
 	else
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 		output_stream.print ("unset ");
 		output_stream.print (this->identifier);
 		output_stream.put ('\n');

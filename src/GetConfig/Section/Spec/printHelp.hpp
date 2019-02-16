@@ -11,6 +11,6 @@ T::printHelp (IO::Interface::OutputStream::T & output_stream,
 		member.printHelp (output_stream, columns, tabwidth, indentation + 1);
 	}
 
-	Util::indent (output_stream, indentation);
+	IO::Util::indent (output_stream, indentation);
 	output_stream.put ('}');
 }
