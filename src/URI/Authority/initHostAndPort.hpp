@@ -7,6 +7,6 @@ T::initHostAndPort (IO::Interface::PeekableInputStream::T & input_stream)
 	{
 		input_stream.get ();
 
-		this->port = IO::Rule::getNum (input_stream);
+		this->port = IO::Rule::getUInt (input_stream);
 	}
 }

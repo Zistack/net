@@ -45,7 +45,7 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 
 			input_stream.get ();
 
-			uint64_t second = IO::Rule::getNum (input_stream);
+			uint64_t second = IO::Rule::getUInt (input_stream);
 
 			if (second > 255)
 			{
@@ -54,7 +54,7 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 			}
 
 			IO::Util::expect (input_stream, '.');
-			uint64_t third = IO::Rule::getNum (input_stream);
+			uint64_t third = IO::Rule::getUInt (input_stream);
 
 			if (third > 255)
 			{
@@ -63,7 +63,7 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 			}
 
 			IO::Util::expect (input_stream, '.');
-			uint64_t fourth = IO::Rule::getNum (input_stream);
+			uint64_t fourth = IO::Rule::getUInt (input_stream);
 
 			if (fourth > 255)
 			{

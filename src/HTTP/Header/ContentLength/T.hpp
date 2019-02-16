@@ -5,5 +5,5 @@ T::T (const std::string & field_value)
 	IO::Interface::PeekableInputStream::T & input_stream =
 	    content_length_streams.peekableInputStream ();
 
-	this->content_length = IO::Util::consume (input_stream, IO::Rule::getNum);
+	this->content_length = IO::Util::consume (input_stream, IO::Rule::getUInt);
 }
