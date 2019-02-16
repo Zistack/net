@@ -9,6 +9,9 @@ struct T
 	readFrom (IO::Interface::PeekableInputStream::T & input_stream) const = 0;
 
 	virtual void
+	validate (const Value::T & value) const = 0;
+
+	virtual void
 	writeTo (const Value::T & value,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const = 0;

@@ -8,5 +8,7 @@ T::validate () const
 			throw Failure::SemanticError::T (
 			    "Member '" + identifier + "' requires a value\n");
 		}
+
+		member.type->validate (*member.value);
 	}
 }

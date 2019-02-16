@@ -12,6 +12,9 @@ struct T : Member::T
 	    IO::Interface::PeekableInputStream::T & input_stream) const override;
 
 	void
+	validate (const Member::Value::T & value) const override;
+
+	void
 	writeTo (const Member::Value::T & value,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const override;
