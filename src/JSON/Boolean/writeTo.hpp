@@ -5,7 +5,7 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 
 	try
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 		if (this->b)
 			output_stream.print ("true");
 		else

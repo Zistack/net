@@ -5,7 +5,7 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 
 	try
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 		output_stream.print (this->base);
 		if (mantissa) output_stream.print ("." + (std::string) this->mantissa);
 		if (exponent) output_stream.print ("E" + (std::string) this->exponent);

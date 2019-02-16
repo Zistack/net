@@ -1,7 +1,7 @@
 void
 T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 {
-	Util::indent (output_stream, indentation);
+	IO::Util::indent (output_stream, indentation);
 	output_stream.put ('{');
 
 	auto it = this->members.begin ();
@@ -20,6 +20,6 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 
 	output_stream.put ('\n');
 
-	Util::indent (output_stream, indentation);
+	IO::Util::indent (output_stream, indentation);
 	output_stream.put ('}');
 }

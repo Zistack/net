@@ -5,7 +5,7 @@ T::writeTo (IO::Interface::OutputStream::T & output_stream, size_t indentation)
 
 	try
 	{
-		Util::indent (output_stream, indentation);
+		IO::Util::indent (output_stream, indentation);
 
 		output_stream.put ('"');
 
