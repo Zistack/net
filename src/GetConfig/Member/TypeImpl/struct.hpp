@@ -21,4 +21,8 @@ struct T : Type::T
 
 	const typename ValueType::InterfaceType &
 	get (const ValueType & value) const;
+
+	static ValueType
+	readFromFile (const std::string & filename,
+	    std::chrono::milliseconds timeout);
 };
