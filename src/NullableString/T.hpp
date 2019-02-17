@@ -6,3 +6,5 @@ T::T (const char * string)
 }
 
 T::T (const std::string & string) : string (string) {}
+
+T::T (const std::optional<std::string> & string) : string (string) {}

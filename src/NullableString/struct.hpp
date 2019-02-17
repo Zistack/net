@@ -3,6 +3,7 @@ struct T
 	T ();
 	T (const char * string);
 	T (const std::string & string);
+	T (const std::optional<std::string> & string);
 	T (const T & other) = default;
 
 	T &
@@ -16,6 +17,12 @@ struct T
 
 	const std::string &
 	stdString () const;
+
+	std::optional<std::string> &
+	optional ();
+
+	const std::optional<std::string> &
+	optional () const;
 
 	bool
 	hasValue () const;
@@ -33,6 +40,12 @@ struct T
 
 	T &
 	operator= (const std::string & string);
+
+	void
+	set (const std::optional<std::string> & string);
+
+	T &
+	operator= (const std::optional<std::string> & string);
 
 	private:
 	std::optional<std::string> string;
