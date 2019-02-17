@@ -1,6 +1,6 @@
 struct T : IO::Interface::Watchable::T
 {
-	T (const Config::T & config);
+	T (const Config::Value::T & config);
 
 	T (const T & other) = delete;
 	T (T && other) = delete;

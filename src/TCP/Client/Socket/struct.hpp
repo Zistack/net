@@ -1,6 +1,6 @@
 struct T : TCP::Socket::T
 {
-	T (const Config::T & config);
+	T (const Config::Value::T & config);
 
 	~T () = default;
 };

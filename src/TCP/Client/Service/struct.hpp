@@ -1,6 +1,6 @@
 struct T : Failure::Cancellable::T
 {
-	T (IO::Interface::Protocol::T & protocol, const Config::T & config);
+	T (IO::Interface::Protocol::T & protocol, const Config::Value::T & config);
 
 	void
 	prime ();
@@ -15,5 +15,5 @@ struct T : Failure::Cancellable::T
 
 	private:
 	IO::Interface::Protocol::T & protocol;
-	Config::T config;
+	Config::Value::T config;
 };

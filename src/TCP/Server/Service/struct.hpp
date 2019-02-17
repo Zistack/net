@@ -1,7 +1,7 @@
 struct T : Failure::Cancellable::T
 {
 	T (IO::Interface::Server::Protocol::T & server_protocol,
-	    const Config::T & config);
+	    const Config::Value::T & config);
 
 	void
 	prime ();
@@ -24,7 +24,7 @@ struct T : Failure::Cancellable::T
 	// Given members
 
 	IO::Interface::Server::Protocol::T & server_protocol;
-	Config::T config;
+	Config::Value::T config;
 
 	// Internal members
 

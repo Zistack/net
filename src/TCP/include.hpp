@@ -10,8 +10,8 @@
 #include <string.h>
 
 #include <Failure.hpp>
+#include <GetConfig.hpp>
 #include <IO.hpp>
-#include <JSON.hpp>
 #include <NullableString.hpp>
 #include <Protocol.hpp>
 #include <Shutdown.hpp>
