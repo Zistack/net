@@ -1,15 +1,6 @@
 struct T
 {
-	template <typename Iterable>
-	using IsProperIterableType =
-	    typename std::is_convertible<decltype (
-	                                     *std::declval<Iterable> ().begin ()),
-	        Member::Spec::T>;
-
-	template <typename Iterable,
-	    typename = typename std::enable_if<
-	        IsProperIterableType<Iterable>::value>::type>
-	T (Iterable && members);
+	T (std::initializer_list<Member::Spec::T> members);
 
 	void
 	printHelp (IO::Interface::OutputStream::T & output_stream,

@@ -1,6 +1,8 @@
-template <typename TypeType, typename ValueType>
+template <typename TypeType, typename VT>
 struct T : Type::T
 {
+	using ValueType = VT;
+
 	std::unique_ptr<Type::T>
 	clone () const override;
 

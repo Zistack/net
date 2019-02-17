@@ -1,6 +1,6 @@
 template <typename ValueType, const Spec::T & spec>
 template <typename MemberType, typename>
-std::optional<typename MemberType::MemberValue::InterfaceType>
+std::optional<typename MemberType::ValueType::InterfaceType>
 T<ValueType, spec>::get (const std::string & identifier) const
 {
 	if (!this->members.count (identifier))

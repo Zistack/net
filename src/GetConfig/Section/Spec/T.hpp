@@ -1,4 +1,4 @@
-template <typename Iterable, typename>
-T::T (Iterable && members) : members (members.begin (), members.end ())
+T::T (std::initializer_list<Member::Spec::T> members) :
+    members (members.begin (), members.end ())
 {
 }

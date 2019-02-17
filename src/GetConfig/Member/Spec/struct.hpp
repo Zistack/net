@@ -4,8 +4,11 @@ struct T
 	T (std::string identifier,
 	    std::string description,
 	    bool optional,
+	    const MemberType & type,
 	    std::optional<typename MemberType::ValueType::InterfaceType>
 	        default_value = std::nullopt);
+
+	T (const T & other);
 
 	void
 	printHelp (IO::Interface::OutputStream::T & output_stream,

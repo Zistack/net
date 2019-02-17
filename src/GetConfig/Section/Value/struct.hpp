@@ -6,6 +6,8 @@ struct T : GetConfig::Member::ValueImpl::T<ValueType>
 	template <typename Type>
 	using IsMemberType = std::is_base_of<GetConfig::Member::Type::T, Type>;
 
+	T () = default;
+
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
 	void
@@ -24,7 +26,7 @@ struct T : GetConfig::Member::ValueImpl::T<ValueType>
 	template <typename MemberType,
 	    typename =
 	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
-	std::optional<typename MemberType::MemberValue::InterfaceType>
+	std::optional<typename MemberType::ValueType::InterfaceType>
 	get (const std::string & identifier) const;
 
 	const InterfaceType &
