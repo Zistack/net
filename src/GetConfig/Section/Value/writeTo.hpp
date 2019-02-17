@@ -1,5 +1,6 @@
+template <typename ValueType, const Spec::T & spec>
 void
-T::writeTo (IO::Interface::OutputStream::T & output_stream,
+T<ValueType, spec>::writeTo (IO::Interface::OutputStream::T & output_stream,
     size_t indentation) const
 {
 	output_stream.print ("{\n");

@@ -1,5 +1,5 @@
-T::T (const Spec::T & spec,
-    IO::Interface::PeekableInputStream::T & input_stream)
+template <typename ValueType, const Spec::T & spec>
+T<ValueType, spec>::T (IO::Interface::PeekableInputStream::T & input_stream)
 {
 	for (const GetConfig::Member::Spec::T & member_spec : spec.members)
 	{

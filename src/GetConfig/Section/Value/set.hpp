@@ -1,6 +1,7 @@
+template <typename ValueType, const Spec::T & spec>
 template <typename MemberType, typename>
 void
-T::set (std::string identifier,
+T<ValueType, spec>::set (const std::string & identifier,
     std::optional<typename MemberType::ValueType::InterfaceType> value)
 {
 	if (!this->members.count (identifier))

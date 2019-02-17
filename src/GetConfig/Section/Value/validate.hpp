@@ -1,5 +1,6 @@
+template <typename ValueType, const Spec::T & spec>
 void
-T::validate () const
+T<ValueType, spec>::validate () const
 {
 	for (auto [identifier, member] : this->members)
 	{

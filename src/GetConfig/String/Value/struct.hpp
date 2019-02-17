@@ -1,4 +1,4 @@
-struct T : Member::Value::T
+struct T : Member::ValueImpl::T<T>
 {
 	using InterfaceType = std::string;
 
@@ -6,8 +6,8 @@ struct T : Member::Value::T
 
 	T (IO::Interface::PeekableInputStream::T & input_stream);
 
-	std::unique_ptr<Member::Value::T>
-	clone () const override;
+	void
+	validate () const;
 
 	const InterfaceType &
 	get () const;

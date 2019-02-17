@@ -1,7 +1,7 @@
 struct T
 {
 	T (bool optional,
-	    const std::unique_ptr<GetConfig::Member::T> & type,
+	    const std::unique_ptr<GetConfig::Member::Type::T> & type,
 	    const std::unique_ptr<GetConfig::Member::Value::T> & value);
 
 	T (const T & other);
@@ -17,6 +17,6 @@ struct T
 	~T () = default;
 
 	bool optional;
-	std::unique_ptr<GetConfig::Member::T> type;
+	std::unique_ptr<GetConfig::Member::Type::T> type;
 	std::unique_ptr<GetConfig::Member::Value::T> value;
 };

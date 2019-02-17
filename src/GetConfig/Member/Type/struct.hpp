@@ -1,7 +1,5 @@
 struct T
 {
-	// using ValueType = Value::T;
-
 	virtual std::unique_ptr<T>
 	clone () const = 0;
 
@@ -15,9 +13,4 @@ struct T
 	writeTo (const Value::T & value,
 	    IO::Interface::OutputStream::T & output_stream,
 	    size_t indentation) const = 0;
-
-	// std::unique_ptr <ValueType> set (const ValueType::InterfaceType & value)
-	// const;
-
-	// const ValueType::InterfaceType & get (const ValueType & value) const;
 };

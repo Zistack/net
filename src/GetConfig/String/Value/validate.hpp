@@ -1,0 +1,4 @@
+void
+T::validate () const
+{
+}

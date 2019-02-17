@@ -1,5 +1,5 @@
 T::T (bool optional,
-    const std::unique_ptr<GetConfig::Member::T> & type,
+    const std::unique_ptr<GetConfig::Member::Type::T> & type,
     const std::unique_ptr<GetConfig::Member::Value::T> & value) :
     optional (optional),
     type (type->clone ()),

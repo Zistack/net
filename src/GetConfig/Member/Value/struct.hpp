@@ -9,6 +9,8 @@ struct T
 	virtual std::unique_ptr<T>
 	clone () const = 0;
 
+	// void validate () const;
+
 	// const InterfaceType & get () const;
 
 	// void writeTo (IO::Interface::OutputStream::T & output_stream, size_t

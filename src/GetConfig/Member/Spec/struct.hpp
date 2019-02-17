@@ -18,6 +18,6 @@ struct T
 	std::string identifier;
 	std::string description;
 	bool optional;
-	std::unique_ptr<Member::T> type;
+	std::unique_ptr<Type::T> type;
 	std::unique_ptr<Value::T> default_value;
 };

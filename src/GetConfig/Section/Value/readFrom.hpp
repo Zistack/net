@@ -1,5 +1,7 @@
+template <typename ValueType, const Spec::T & spec>
 void
-T::readFrom (IO::Interface::PeekableInputStream::T & input_stream)
+T<ValueType, spec>::readFrom (
+    IO::Interface::PeekableInputStream::T & input_stream)
 {
 	try
 	{

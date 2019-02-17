@@ -1,15 +1,12 @@
-struct T : GetConfig::Member::Value::T
+template <typename ValueType, const Spec::T & spec>
+struct T : GetConfig::Member::ValueImpl::T<ValueType>
 {
 	using InterfaceType = T;
 
 	template <typename Type>
-	using IsMemberType = std::is_base_of<GetConfig::Member::T, Type>;
+	using IsMemberType = std::is_base_of<GetConfig::Member::Type::T, Type>;
 
-	T (const Spec::T & spec,
-	    IO::Interface::PeekableInputStream::T & input_stream);
-
-	std::unique_ptr<GetConfig::Member::Value::T>
-	clone () const override;
+	T (IO::Interface::PeekableInputStream::T & input_stream);
 
 	void
 	readFrom (IO::Interface::PeekableInputStream::T & input_stream);
@@ -18,7 +15,7 @@ struct T : GetConfig::Member::Value::T
 	    typename =
 	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
 	void
-	set (std::string identifier,
+	set (const std::string & identifier,
 	    std::optional<typename MemberType::ValueType::InterfaceType> value);
 
 	void
@@ -28,7 +25,7 @@ struct T : GetConfig::Member::Value::T
 	    typename =
 	        typename std::enable_if<IsMemberType<MemberType>::value>::type>
 	std::optional<typename MemberType::MemberValue::InterfaceType>
-	get (std::string identifier) const;
+	get (const std::string & identifier) const;
 
 	const InterfaceType &
 	get () const;
