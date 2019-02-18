@@ -1,7 +1,5 @@
 struct T : GetConfig::Section::Value::T<T, Spec::T::value>
 {
-	T (const NullableString::T & hostname, const NullableString::T & port);
-
 	using GetConfig::Section::Value::T<T, Spec::T::value>::T;
 
 	NullableString::T
