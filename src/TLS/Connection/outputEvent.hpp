@@ -1,5 +1,5 @@
 void
-T::outputEvent (IO::Interface::InputStream::T & input_stream,
+T::outputEvent (IO::Interface::NonblockingInputStream::T & input_stream,
     char * output_buffer,
     ConnectionSocket::T & socket,
     IO::CancelSignal::T & output_timeout_signal)
@@ -11,8 +11,11 @@ T::outputEvent (IO::Interface::InputStream::T & input_stream,
 			    &IO::CancelSignal::T::cancel,
 			    &output_timeout_signal);
 
-			size_t num_bytes =
-			    input_stream.read (output_buffer, this->buffer_size);
+			size_t num_bytes;
+
+			while (!(num_bytes =
+			             input_stream.read (output_buffer, this->buffer_size)))
+				;
 
 			std::unique_lock<decltype (this->socket_mutex)> socket_lock (
 			    this->socket_mutex);
@@ -22,7 +25,7 @@ T::outputEvent (IO::Interface::InputStream::T & input_stream,
 		}
 		output_timeout_signal.clear ();
 	}
-	catch (Failure::CancelExcaption::T)
+	catch (Failure::CancelException::T)
 	{
 		throw Failure::ResourceError::T (
 		    "Transfer from protocol to socket timed out\n");

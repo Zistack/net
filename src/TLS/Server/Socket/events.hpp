@@ -1,5 +1,5 @@
 IO::Interface::Watchable::Events::T
-T::events ()
+T::events () const
 {
 	return POLLIN;
 }

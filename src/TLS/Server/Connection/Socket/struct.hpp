@@ -1,6 +1,6 @@
 struct T : TLS::ConnectionSocket::T
 {
-	T (std::pair<int, struct tls *> p);
+	T (int tcp_socket, struct tls * connection_context);
 
 	~T () = default;
 };

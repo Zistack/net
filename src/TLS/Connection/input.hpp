@@ -15,7 +15,8 @@ T::input (ConnectionSocket::T & socket,
 	    this->input_shutdown_signal,
 	    &T::inputEvent,
 	    this,
-	    socket input_buffer,
+	    socket,
+	    (char *) input_buffer,
 	    output_stream,
 	    input_timeout_signal);
 

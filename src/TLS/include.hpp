@@ -5,6 +5,7 @@
 
 #include <condition_variable>
 #include <mutex>
+#include <tuple>
 #include <utility>
 
 #include <Failure.hpp>

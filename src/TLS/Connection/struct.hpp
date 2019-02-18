@@ -38,7 +38,7 @@ struct T : Failure::Cancellable::T
 	    ConnectionSocket::T & socket);
 
 	void
-	outputEvent (IO::Interface::InputStream::T & input_stream,
+	outputEvent (IO::Interface::NonblockingInputStream::T & input_stream,
 	    char * output_buffer,
 	    ConnectionSocket::T & socket,
 	    IO::CancelSignal::T & output_timeout_signal);

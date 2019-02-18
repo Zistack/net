@@ -3,5 +3,3 @@ T::T (int tcp_socket, struct tls * tls_context) :
     tls_context (tls_context)
 {
 }
-
-T::T (std::pair<int, struct tls *> p) : T (p.first, p.second) {}

@@ -1,5 +1,5 @@
 int
-T::fileDescriptor ()
+T::fileDescriptor () const
 {
 	return this->tcp_socket;
 }

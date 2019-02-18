@@ -6,10 +6,10 @@ T::handshake (IO::Interface::Watchable::T & cancel_signal)
 		switch (tls_handshake (this->tls_context.get ()))
 		{
 		case TLS_WANT_POLLIN:
-			IO::Util::wait (this->input_stream, signal);
+			IO::Util::wait (this->input_stream, cancel_signal);
 			continue;
 		case TLS_WANT_POLLOUT:
-			IO::Util::wait (this->output_stream, signal);
+			IO::Util::wait (this->output_stream, cancel_signal);
 			continue;
 		default:
 		case -1:

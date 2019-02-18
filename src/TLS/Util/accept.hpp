@@ -1,9 +1,9 @@
 std::pair<int, struct tls *>
-T::accept (int server_socket, struct tls * server_context)
+accept (int server_socket, struct tls * server_context)
 {
 	struct tls * connection_context = nullptr;
 
-	int connetion_socket = TCP::Util::accept (server_socket);
+	int connection_socket = TCP::Util::accept (server_socket);
 
 	if (tls_accept_socket (
 	        server_context, &connection_context, connection_socket))

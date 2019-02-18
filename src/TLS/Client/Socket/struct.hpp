@@ -1,6 +1,6 @@
-struct T : TLS::ConfigurableSocket::T, TLS::ConnectionSocket::T
+struct T : TLS::ConnectionSocket::T
 {
-	T (const Config::T & config);
+	T (const Config::Value::T & config);
 
 	T (const T & other) = delete;
 	T (T && other) = delete;
@@ -11,4 +11,8 @@ struct T : TLS::ConfigurableSocket::T, TLS::ConnectionSocket::T
 	operator= (T && other) = delete;
 
 	~T () = default;
+
+	private:
+	T (int tcp_socket, struct tls * client_context);
+	T (std::pair<int, struct tls *> p);
 };

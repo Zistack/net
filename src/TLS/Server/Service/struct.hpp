@@ -2,7 +2,7 @@ struct T : Failure::Cancellable::T
 {
 	T (IO::Interface::Server::Protocol::T & server_protocol,
 	    std::chrono::milliseconds timeout,
-	    Config::T & config);
+	    Config::Value::T & config);
 
 	void
 	prime ();
@@ -26,7 +26,7 @@ struct T : Failure::Cancellable::T
 
 	IO::Interface::Server::Protocol::T & server_protocol;
 	std::chrono::milliseconds timeout;
-	Config::T & config;
+	Config::Value::T & config;
 
 	// Internal members
 

@@ -1,18 +1,16 @@
-struct T : virtual Context::T
+struct T : Socket::T
 {
-	// We have to be able to watch for input and output separately, even though
-	// we've got all of one file descriptor.
-	T ();
+	T (int tcp_socket, struct tls * tls_context);
 
 	T (const T & other) = delete;
 
-	T (const T && other) = delete;
+	T (T && other) = delete;
 
 	T &
 	operator= (const T & other) = delete;
 
 	T &
-	operator= (const T && other) = delete;
+	operator= (T && other) = delete;
 
 	void
 	handshake (IO::Interface::Watchable::T & cancel_signal);
@@ -33,6 +31,7 @@ struct T : virtual Context::T
 	virtual ~T () = default;
 
 	protected:
-	IO::Interface::NonblockingInputStream::T & input_stream;
-	IO::Interface::NonblockingOutputStream::T & output_stream;
+	IO::FileDescriptor::InputStream::T input_stream;
+	IO::FileDescriptor::OutputStream::T output_stream;
+	friend struct Connection::T;
 };

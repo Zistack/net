@@ -2,7 +2,7 @@ void
 T::run ()
 {
 	{
-		SuppressingScope<Shutdown::Signal::T> shutdown_scope (
+		SuppressingScope::T<Shutdown::Signal::T> shutdown_scope (
 		    std::move (this->shutdown_scope));
 
 		Thread::Nursery::T nursery (this->exception_store);

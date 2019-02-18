@@ -5,7 +5,7 @@ T::inputEvent (ConnectionSocket::T & socket,
     IO::CancelSignal::T & input_timeout_signal)
 {
 	std::unique_lock<decltype (this->socket_mutex)> socket_lock (
-	    this->socket_lock);
+	    this->socket_mutex);
 
 	if (this->spurious_read)
 	{
@@ -20,7 +20,7 @@ T::inputEvent (ConnectionSocket::T & socket,
 			    &IO::CancelSignal::T::cancel,
 			    &input_timeout_signal);
 			size_t num_bytes = socket.read (
-			    input_buffer, this->buffer_size, this->input_timeout_signal);
+			    input_buffer, this->buffer_size, input_timeout_signal);
 
 			socket_lock.unlock ();
 

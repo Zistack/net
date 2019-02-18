@@ -1,5 +1,5 @@
 void
-T::run (ConnectionSocket & socket)
+T::run (ConnectionSocket::T & socket)
 {
 	IO::CancelSignal::T timeout_signal;
 
@@ -26,7 +26,7 @@ T::run (ConnectionSocket & socket)
 		SuppressingScope::T<Shutdown::Signal::T> input_scope (
 		    this->input_shutdown_signal, exception_store);
 		SuppressingScope::T<Shutdown::Signal::T> output_scope (
-		    this->output_shutdown_singal, exception_store);
+		    this->output_shutdown_signal, exception_store);
 
 		Thread::Nursery::T nursery (exception_store);
 
