@@ -1,7 +1,7 @@
 template <typename ValueType, const Spec::T & spec>
 struct T : GetConfig::Member::ValueImpl::T<ValueType>
 {
-	using InterfaceType = T;
+	using InterfaceType = ValueType;
 
 	template <typename Type>
 	using IsMemberType = std::is_base_of<GetConfig::Member::Type::T, Type>;
