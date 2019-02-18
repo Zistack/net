@@ -1,9 +1,9 @@
 const GetConfig::Section::Spec::T T::value = {
-    {"Hostname",
+    {T::HOSTNAME,
         "The hostname of the service.",
         true,
         GetConfig::String::Type::T ()},
-    {"Port",
+    {T::PORT,
         "Port or name of registered protocol being used.",
         true,
         GetConfig::String::Type::T ()}};
