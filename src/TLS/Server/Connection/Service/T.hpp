@@ -1,5 +1,5 @@
 T::T (IO::Interface::Protocol::T & connection_protocol,
-    std::chrono::milliseconds timeout) :
-    TLS::Connection::T (connection_protocol, timeout)
+    const TLS::Connection::Config::Value::T & connection_config) :
+    TLS::Connection::T (connection_protocol, connection_config)
 {
 }

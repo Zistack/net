@@ -1,7 +1,6 @@
 struct T : Failure::Cancellable::T
 {
-	T (IO::Interface::Protocol::T & protocol,
-	    std::chrono::milliseconds timeout);
+	T (IO::Interface::Protocol::T & protocol, const Config::Value::T & config);
 
 	void
 	prime ();

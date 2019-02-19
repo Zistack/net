@@ -1,7 +1,7 @@
 struct T : TLS::Connection::T
 {
 	T (IO::Interface::Protocol::T & connection_protocol,
-	    std::chrono::milliseconds timeout);
+	    const TLS::Connection::Config::Value::T & connection_config);
 
 	~T () = default;
 };

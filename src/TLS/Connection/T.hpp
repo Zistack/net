@@ -1,8 +1,7 @@
-T::T (IO::Interface::Protocol::T & protocol,
-    std::chrono::milliseconds timeout) :
+T::T (IO::Interface::Protocol::T & protocol, const Config::Value::T & config) :
     protocol (protocol),
-    timeout (timeout),
-    buffer_size (1024),
+    timeout (config.getTimeout ()),
+    buffer_size (config.getBufferSize ()),
     spurious_read (false)
 {
 }

@@ -1,17 +1,23 @@
 const GetConfig::Section::Spec::T T::value = {
     {T::TCP_CONFIG,
-        "Configuration for the underlying TCP connection",
+        "Configuration for the underlying TCP connection.",
         false,
         TCP::Config::Type::T ()},
     {T::CA_PATH,
-        "Path to directory containing trusted root certificates",
+        "Path to directory containing trusted root certificates.",
         false,
         GetConfig::String::Type::T ()},
     {T::SERVER_NAME,
-        "Name that this service identifies as",
+        "Name that this service identifies as.",
         false,
         GetConfig::String::Type::T ()},
     {T::IDENTITY,
-        "The keypair that the client uses for client authentication",
+        "The keypair that the client uses for client authentication.",
         true,
-        KeyPair::Type::T ()}};
+        KeyPair::Type::T ()},
+    {T::CONNECTION_CONFIG,
+        "The settings for the bridge between the TLS protocol and the protocol "
+        "on top.",
+        false,
+        Connection::Config::Type::T (),
+        Connection::Config::Value::T ()}};

@@ -1,7 +1,6 @@
 struct T : Failure::Cancellable::T
 {
 	T (IO::Interface::Server::Protocol::T & server_protocol,
-	    std::chrono::milliseconds timeout,
 	    Config::Value::T & config);
 
 	void
@@ -25,7 +24,6 @@ struct T : Failure::Cancellable::T
 	// Given members
 
 	IO::Interface::Server::Protocol::T & server_protocol;
-	std::chrono::milliseconds timeout;
 	Config::Value::T & config;
 
 	// Internal members

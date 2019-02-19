@@ -26,6 +26,13 @@ struct T : GetConfig::Section::Value::T<T, Spec::T::value>
 	std::optional<KeyPair::Value::T>
 	getIdentity () const;
 
+	void
+	setConnectionConfig (
+	    const Connection::Config::Value::T & connection_config);
+
+	Connection::Config::Value::T
+	getConnectionConfig () const;
+
 	std::unique_ptr<struct tls_config, Functor::T<tls_config_free>>
 	makeTLSConfig () const;
 };

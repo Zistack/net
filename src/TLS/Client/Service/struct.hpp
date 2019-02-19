@@ -1,8 +1,6 @@
 struct T : TLS::Connection::T
 {
-	T (IO::Interface::Protocol::T & client_protcol,
-	    std::chrono::milliseconds timeout,
-	    Config::Value::T & config);
+	T (IO::Interface::Protocol::T & client_protcol, Config::Value::T & config);
 
 	void
 	run ();

@@ -6,7 +6,7 @@ T::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
 
 	std::unique_ptr<Connection::Service::T> connection_service =
 	    std::make_unique<Connection::Service::T> (
-	        *connection_protocol, this->timeout);
+	        *connection_protocol, this->config.getConnectionConfig ());
 
 	connection_service->prime ();
 
