@@ -1,6 +1,7 @@
-template <class RequestType, class ResponseType>
+template <typename RequestType, typename ResponseType>
 void
 T<RequestType, ResponseType>::cancel ()
 {
-	this->shutdown_signal.cancel ();
+	this->input.cancel ();
+	this->output.cancel ();
 }
