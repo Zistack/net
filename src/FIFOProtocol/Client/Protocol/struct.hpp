@@ -39,6 +39,6 @@ struct T : IO::Interface::Protocol::T
 
 	std::mutex mutex;
 
-	Input::T<ResponseType> input;
-	Output::T<RequestType> output;
+	Input::T<RequestType, ResponseType> input;
+	Output::T<RequestType, ResponseType> output;
 };

@@ -1,4 +1,4 @@
-template <typename RequestType>
+template <typename RequestType, typename ResponseType>
 struct T : Failure::Cancellable::T
 {
 	T (std::chrono::milliseconds output_timeout);
@@ -7,7 +7,8 @@ struct T : Failure::Cancellable::T
 	prime ();
 
 	void
-	run (IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream);
+	run (Protocol::T<RequestType, ResponseType> & protocol,
+	    IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream);
 
 	void
 	cancel () override;

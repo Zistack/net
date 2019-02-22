@@ -8,13 +8,15 @@ T<RequestType, ResponseType>::run (
 		Thread::Nursery::T nursery;
 
 		nursery.add (this->input,
-		    &Input::T<ResponseType>::run,
+		    &Input::T<RequestType, ResponseType>::run,
 		    &this->input,
+		    *this,
 		    input_stream);
 
 		nursery.run (this->output,
-		    &Output::T<RequestType>::run,
+		    &Output::T<RequestType, ResponseType>::run,
 		    &this->output,
+		    *this,
 		    output_stream);
 	}
 }

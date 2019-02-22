@@ -1,6 +1,8 @@
-template <typename ResponseType>
+template <typename RequestType, typename ResponseType>
 void
-T<ResponseType>::event (IO::Blocking::InputStream::T & input_stream,
+T<RequestType, ResponseType>::event (
+    Protocol::T<RequestType, ResponseType> & protocol,
+    IO::Blocking::InputStream::T & input_stream,
     IO::CancelSignal::T & input_cancel_signal)
 {
 	::Protocol::Delay::T<ResponseType> response_delay =
@@ -13,7 +15,7 @@ T<ResponseType>::event (IO::Blocking::InputStream::T & input_stream,
 			Thread::Timer::T input_timer (this->input_timeout,
 			    &Failure::CancelScope::T::cancel,
 			    &input_cancel_scope);
-			response_delay.value ().set (std::move (this->readResponse (
+			response_delay.value ().set (std::move (protocol.readResponse (
 			    input_stream, input_cancel_signal, input_cancel_scope)));
 		}
 		this->input_cancel_signal.clear ();

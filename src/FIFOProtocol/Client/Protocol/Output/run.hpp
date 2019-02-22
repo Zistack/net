@@ -1,6 +1,7 @@
-template <typename RequestType>
+template <typename RequestType, typename ResponseType>
 void
-T<RequestType>::run (
+T<RequestType, ResponseType>::run (
+    Protocol::T<RequestType, ResponseType> & protocol,
     IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream)
 {
 	IO::CancelSignal::T output_cancel_signal;
@@ -20,7 +21,7 @@ T<RequestType>::run (
 					Thread::Timer::T (this->output_timeout,
 					    &Failure::CancelScope::T::cancel,
 					    &output_cancel_scope);
-					writeRequest (request,
+					protocol.writeRequest (request,
 					    output_stream,
 					    output_cancel_signal,
 					    output_cancel_scope);

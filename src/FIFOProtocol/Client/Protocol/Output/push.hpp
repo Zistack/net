@@ -1,6 +1,6 @@
-template <typename RequestType>
+template <typename RequestType, typename ResponseType>
 void
-T<RequestType>::push (const RequestType & request)
+T<RequestType, ResponseType>::push (const RequestType & request)
 {
 	try
 	{

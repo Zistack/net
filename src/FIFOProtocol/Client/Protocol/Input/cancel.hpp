@@ -1,6 +1,6 @@
-template <typename ResponseType>
+template <typename RequestType, typename ResponseType>
 void
-T<ResponseType>::cancel ()
+T<RequestType, ResponseType>::cancel ()
 {
 	this->response_queue.close ();
 	this->response_queue.flush ();

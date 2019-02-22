@@ -1,4 +1,4 @@
-template <typename ResponseType>
+template <typename RequestType, typename ResponseType>
 struct T : Failure::Cancellable::T
 {
 	T (std::chrono::milliseconds input_timeout);
@@ -7,7 +7,8 @@ struct T : Failure::Cancellable::T
 	prime ();
 
 	void
-	run (IO::Interface::NonblockingInputStream::T & nonblocking_input_stream);
+	run (Protocol::T<RequestType, ResponseType> & protocol,
+	    IO::Interface::NonblockingInputStream::T & nonblocking_input_stream);
 
 	void
 	cancel () override;
@@ -19,7 +20,8 @@ struct T : Failure::Cancellable::T
 
 	private:
 	void
-	event (IO::Blocking::InputStream::T & input_stream,
+	event (Protocol::T<RequestType, ResponseType> & protocol,
+	    IO::Blocking::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal);
 
 	std::chrono::milliseconds input_timeout;

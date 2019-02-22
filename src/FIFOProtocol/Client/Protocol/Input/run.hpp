@@ -1,6 +1,7 @@
-template <typename ResponseType>
+template <typename RequestType, typename ResponseType>
 void
-T<ResponseType>::run (
+T<RequestType, ResponseType>::run (
+    Protocol::T<RequestType, ResponseType> & protocol,
     IO::Interface::NonblockingInputStream::T & nonblocking_input_stream)
 {
 	SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope (
@@ -15,6 +16,7 @@ T<ResponseType>::run (
 	    this->input_shutdown_signal,
 	    &T::event,
 	    this,
+	    protocol,
 	    input_stream,
 	    input_cancel_signal);
 

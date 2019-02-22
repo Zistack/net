@@ -1,6 +1,6 @@
-template <typename RequestType>
+template <typename RequestType, typename ResponseType>
 void
-T<RequestType>::prime ()
+T<RequestType, ResponseType>::prime ()
 {
 	this->request_queue.open ();
 }
