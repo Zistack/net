@@ -1,4 +1,6 @@
-template <class RequestType, class ResponseType>
-T<RequestType, ResponseType>::T (const Config::T & config) : config (config)
+template <typename RequestType, typename ResponseType>
+T<RequestType, ResponseType>::T (const Config::Value::T & config) :
+    input (config.getInputTimeout ()),
+    output (config.getOutputTimeout ())
 {
 }

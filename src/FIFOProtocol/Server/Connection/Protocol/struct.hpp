@@ -1,14 +1,14 @@
-template <class RequestType, class ResponseType>
+template <typename RequestType, typename ResponseType>
 struct T : IO::Interface::Protocol::T
 {
-	T (const Config::T & config);
+	T (const Config::Value::T & config);
 
 	void
-	prime (IO::Interface::NonblockingInputStream::T & input_stream,
+	prime () override;
+
+	void
+	run (IO::Interface::NonblockingInputStream::T & input_stream,
 	    IO::Interface::NonblockingOutputStream::T & output_stream) override;
-
-	void
-	run () override;
 
 	void
 	cancel () override;
@@ -30,41 +30,10 @@ struct T : IO::Interface::Protocol::T
 	    IO::CancelSignal::T & output_cancel_signal,
 	    Failure::CancelScope::T & output_cancel_scope) = 0;
 
-	// Given members
-
-	const Config::T & config;
-
 	private:
-	void
-	input (IO::Blocking::InputStream::T & input_stream,
-	    Thread::Nursery::T & nursery);
+	std::chrono::milliseconds input_timeout;
+	std::chrono::milliseconds output_timeout;
 
-	void
-	output (IO::Blocking::OutputStream::T & output_stream);
-
-	void
-	event (IO::Blocking::InputStream::T & input_stream,
-	    Thread::Nursery::T & nursery);
-
-	void
-	computeResponse (const RequestType & request,
-	    ::Protocol::Delay::T<ResponseType> response_delay);
-
-	// Internal members
-
-	IO::CancelSignal::T input_cancel_signal;
-	IO::CancelSignal::T output_cancel_signal;
-
-	::Protocol::DelayQueue::T<ResponseType> response_queue;
-	Shutdown::Signal::T shutdown_signal;
-
-	Failure::ExceptionStore::T exception_store;
-
-	// Transient members
-
-	std::unique_ptr<IO::Blocking::InputStream::T> input_stream;
-	std::unique_ptr<IO::Blocking::OutputStream::T> output_stream;
-
-	Scope::T<decltype (response_queue)> response_queue_scope;
-	SuppressingScope::T<decltype (shutdown_signal)> shutdown_signal_scope;
+	Input::T<RequestType, ResponseType> input;
+	Output::T<RequestType, ResponseType> output;
 };
