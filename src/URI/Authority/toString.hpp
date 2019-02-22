@@ -5,7 +5,7 @@ T::toString () const
 
 	if (this->user_info)
 	{
-		authority_string.append (Util::encode ((std::string) this->user_info));
+		authority_string.append (Util::encode (this->user_info.stdString ()));
 		authority_string.push_back ('@');
 	}
 
