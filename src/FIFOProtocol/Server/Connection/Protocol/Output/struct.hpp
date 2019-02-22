@@ -23,4 +23,6 @@ struct T : Failure::Cancellable::T
 
 	Thread::ConcurrentQueue::T<::Protocol::Delay::T<ResponseType>>
 	    response_queue;
+
+	Scope::T<decltype (response_queue)> response_scope;
 };

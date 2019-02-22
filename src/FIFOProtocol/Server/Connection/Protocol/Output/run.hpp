@@ -4,6 +4,9 @@ T<RequestType, ResponseType>::run (
     Protocol::T<RequestType, ResponseType> & protocol,
     IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream)
 {
+	Scope::T<decltype (this->response_queue)> response_scope (
+	    std::move (this->response_scope));
+
 	IO::CancelSignal::T output_cancel_signal;
 	IO::Blocking::OutputStream::T output_stream (
 	    nonblocking_output_stream, output_cancel_signal);

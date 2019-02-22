@@ -23,4 +23,6 @@ struct T : Failure::Cancellable::T
 
 	Thread::ConcurrentQueue::T<std::reference_wrapper<const RequestType>>
 	    request_queue;
+
+	Scope::T<decltype (request_queue)> request_scope;
 };
