@@ -1,12 +1,12 @@
 struct T : Pipeline::T
 {
-	T (const Config::T & config, size_t entity_size);
+	T (const Config::Value::T & config, size_t entity_size);
 
 	void
 	addStage (const Specification::T & specification);
 
 	void
-	addLastStage (const Specification::T & specification);
+	addLastStage (const Specification::T & specification, size_t chunk_size);
 
 	void
 	encode (Entity::T & entity,
@@ -15,7 +15,4 @@ struct T : Pipeline::T
 	    Failure::CancelScope::T & cancel_scope);
 
 	~T () = default;
-
-	private:
-	Config::T config;
 };
