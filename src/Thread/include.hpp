@@ -11,3 +11,4 @@
 #include <unordered_set>
 
 #include <Failure.hpp>
+#include <Scope.hpp>

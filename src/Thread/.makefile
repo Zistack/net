@@ -1,4 +1,4 @@
-Thread-moddepends = Failure
+Thread-moddepends = Failure Scope
 Thread-CFLAGS =
 Thread-LFLAGS = -lpthread
 

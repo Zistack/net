@@ -1,4 +1,4 @@
-template <class Element>
+template <typename Element>
 void
 T<Element>::push (const Element & element)
 {
@@ -11,7 +11,7 @@ T<Element>::push (const Element & element)
 	this->c.notify_one ();
 }
 
-template <class Element>
+template <typename Element>
 void
 T<Element>::push (Element && element)
 {

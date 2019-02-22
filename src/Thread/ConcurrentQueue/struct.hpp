@@ -1,5 +1,5 @@
-template <class Element>
-struct T
+template <typename Element>
+struct T : Failure::Cancellable::T
 {
 	T ();
 
@@ -16,6 +16,12 @@ struct T
 	tryPop ();
 
 	void
+	cancel () override;
+
+	~T () = default;
+
+	private:
+	void
 	open ();
 
 	void
@@ -24,11 +30,10 @@ struct T
 	void
 	flush ();
 
-	~T () = default;
-
-	private:
 	std::mutex m;
 	std::condition_variable c;
 	bool closed;
 	std::list<Element> elements;
+
+	friend struct Scope::T<T>;
 };

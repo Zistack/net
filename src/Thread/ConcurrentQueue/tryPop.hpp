@@ -1,4 +1,4 @@
-template <class Element>
+template <typename Element>
 std::optional<Element>
 T<Element>::tryPop ()
 {

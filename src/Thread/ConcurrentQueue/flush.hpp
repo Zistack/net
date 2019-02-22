@@ -1,4 +1,4 @@
-template <class Element>
+template <typename Element>
 void
 T<Element>::flush ()
 {
