@@ -1,6 +1,6 @@
-struct T : GetConfig::Section::Value::T <T, Spec::T::value>
+struct T : GetConfig::Section::Value::T<T, Spec::T::value>
 {
-	using GetConfig::Section::Value::T <T, Spec::T::value>::T;
+	using GetConfig::Section::Value::T<T, Spec::T::value>::T;
 
 	void
 	setTransferEncoding (const NullableString::T & transfer_encoding);

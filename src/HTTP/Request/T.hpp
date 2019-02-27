@@ -1,6 +1,7 @@
 T::T (IO::Interface::InputStream::T & blocking_input_stream,
     IO::CancelSignal::T & input_cancel_signal,
-    Failure::CancelScope::T & cancel_scope)
+    Failure::CancelScope::T & cancel_scope,
+    uint64_t temp_file_threshhold)
 {
 	IO::PeekableInputStream::T input_stream (blocking_input_stream);
 
@@ -17,8 +18,8 @@ T::T (IO::Interface::InputStream::T & blocking_input_stream,
 			IO::Util::expect (input_stream, "\r\n");
 		}
 
-		// That number needs to be configurable.
-		this->entity = Util::headersToEntity<true> (this->headers, 4096);
+		this->entity =
+		    Util::headersToEntity<true> (this->headers, temp_file_threshhold);
 
 		if (this->entity)
 		{

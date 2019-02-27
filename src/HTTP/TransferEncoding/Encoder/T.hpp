@@ -4,7 +4,8 @@ T::T (const Config::Value::T & config, size_t entity_size)
 
 	if (transfer_encoding_string)
 	{
-		Header::TransferEncoding::T transfer_encoding (transfer_encoding_string);
+		Header::TransferEncoding::T transfer_encoding (
+		    transfer_encoding_string.stdString ());
 
 		// We're going to assume that the specification is both nonempty and
 		// terminated with the 'chunked' encoding.  If it is not, then we're

@@ -1,4 +1,4 @@
-T::T (const Config::T & config, Responder::T & responder) :
+T::T (const Config::Value::T & config, Responder::T & responder) :
     config (config),
     responder (responder)
 {

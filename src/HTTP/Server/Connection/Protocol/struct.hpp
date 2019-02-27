@@ -1,7 +1,7 @@
 struct T
     : FIFOProtocol::Server::Connection::Protocol::T<Request::T, Response::T>
 {
-	T (const Config::T & config, Responder::T & responder);
+	T (const Config::Value::T & config, Responder::T & responder);
 
 	~T () override = default;
 
@@ -20,6 +20,8 @@ struct T
 	    IO::CancelSignal::T & output_cancel_signal,
 	    Failure::CancelScope::T & output_cancel_scope) override;
 
-	const TransferEncoding::Encoder::Config::T & transfer_encoding_config;
+	const TransferEncoding::Encoder::Config::Value::T transfer_encoding_config;
+	uint64_t temp_file_threshhold;
+
 	Responder::T & responder;
 };

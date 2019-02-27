@@ -4,7 +4,8 @@ T::writeResponse (const Response::T & response,
     IO::CancelSignal::T & output_cancel_signal,
     Failure::CancelScope::T & output_cancel_scope)
 {
-	// That nullptr should be configurable.
-	response.writeTo (
-	    nullptr, output_stream, output_cancel_signal, output_cancel_scope);
+	response.writeTo (output_stream,
+	    output_cancel_signal,
+	    output_cancel_scope,
+	    this->transfer_encoding_config);
 }

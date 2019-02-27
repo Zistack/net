@@ -10,6 +10,6 @@
 
 #include <FIFOProtocol.hpp>
 #include <Failure.hpp>
+#include <GetConfig.hpp>
 #include <IO.hpp>
-#include <JSON.hpp>
 #include <URI.hpp>

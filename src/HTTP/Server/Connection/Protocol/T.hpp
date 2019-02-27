@@ -1,7 +1,8 @@
-T::T (const Config::T & config, Responder::T & responder) :
+T::T (const Config::Value::T & config, Responder::T & responder) :
     FIFOProtocol::Server::Connection::Protocol::T<Request::T, Response::T> (
-        config.server_config),
-    transfer_encoding_config (config.transfer_encoding_config),
+        config.getFIFOProtocolConfig ()),
+    transfer_encoding_config (config.getTransferEncodingConfig ()),
+    temp_file_threshhold (config.getTempFileThreshhold ()),
     responder (responder)
 {
 }

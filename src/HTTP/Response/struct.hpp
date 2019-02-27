@@ -4,7 +4,8 @@ struct T
 
 	T (IO::Interface::InputStream::T & input_stream,
 	    IO::CancelSignal::T & input_cancel_signal,
-	    Failure::CancelScope::T & input_cancel_scope);
+	    Failure::CancelScope::T & input_cancel_scope,
+	    uint64_t temp_file_threshhold);
 
 	T (const std::string & version,
 	    uint64_t status_code,
@@ -23,11 +24,11 @@ struct T
 	operator= (T && other) = default;
 
 	void
-	writeTo (
-	    const TransferEncoding::Encoder::Config::T & transfer_encoding_config,
-	    IO::Interface::OutputStream::T & output_stream,
+	writeTo (IO::Interface::OutputStream::T & output_stream,
 	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & output_cancel_scope) const;
+	    Failure::CancelScope::T & output_cancel_scope,
+	    const TransferEncoding::Encoder::Config::Value::T &
+	        transfer_encoding_config) const;
 
 	~T () = default;
 

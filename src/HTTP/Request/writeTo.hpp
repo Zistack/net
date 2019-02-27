@@ -1,9 +1,9 @@
 void
-T::writeTo (
-    const TransferEncoding::Encoder::Config::T & transfer_encoding_config,
-    IO::Interface::OutputStream::T & output_stream,
+T::writeTo (IO::Interface::OutputStream::T & output_stream,
     IO::CancelSignal::T & output_cancel_signal,
-    Failure::CancelScope::T & cancel_scope) const
+    Failure::CancelScope::T & cancel_scope,
+    const TransferEncoding::Encoder::Config::Value::T &
+        transfer_encoding_config) const
 {
 	{
 		Failure::CancelScope::Bind::T output_cancel_binding (
