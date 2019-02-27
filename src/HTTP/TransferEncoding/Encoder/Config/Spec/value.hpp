@@ -9,4 +9,4 @@ const GetConfig::Section::Spec::T T::value = {
         "encoding.",
         false,
         GetConfig::UInt::Type::T (),
-        2048}};
+        4096}};

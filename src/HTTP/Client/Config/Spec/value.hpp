@@ -16,4 +16,4 @@ const GetConfig::Section::Spec::T T::value = {
         "buffer on the heap.",
         false,
         GetConfig::UInt::Type::T (),
-        4096}};
+        16384}};
