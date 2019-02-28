@@ -19,6 +19,15 @@ struct T
 	    uint64_t payload_length,
 	    std::array<uint8_t, 4> masking_key);
 
+	bool
+	isControl () const;
+
+	bool
+	isMessage () const;
+
+	void
+	validate (bool partial_message) const;
+
 	void
 	writeTo (IO::Interface::OutputStream::T & output_stream) const;
 

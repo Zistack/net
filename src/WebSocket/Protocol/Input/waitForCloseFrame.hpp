@@ -2,7 +2,6 @@ void
 T::waitForCloseFrame (IO::Blocking::InputStream::T & input_stream,
     IO::CancelSignal::T & input_timeout_signal)
 {
-	Shutdown::Signal::T close_frame_timeout_signal;
 	Shutdown::Signal::T wait_shutdown_signal;
 
 	SuppressingScope::T wait_scope (

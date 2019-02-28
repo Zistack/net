@@ -4,6 +4,8 @@ T::run ()
 	Shutdown::Signal::T input_shutdown_signal;
 	Failure::CancelScope::T output_cancel_scope;
 
+	// We might need a scope for the shutdown signal.
+
 	{
 		this->nursery->add (
 		    input_shutdown_signal, &T::input, this, input_shutdown_signal);

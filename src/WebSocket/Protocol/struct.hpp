@@ -1,13 +1,13 @@
 struct T : IO::Interface::Protocol::T
 {
-	T (/* A proper confing object, eventually. */);
+	T (const Config::Value::T & config);
 
 	void
-	prime (IO::Interface::NonblockingInputStream::T & input_stream,
+	prime () override;
+
+	void
+	run (IO::Interface::NonblockingInputStream::T & input_stream,
 	    IO::Interface::NonblockingOutputStream::T & output_stream) override;
-
-	void
-	run () override;
 
 	void
 	cancel () override;
@@ -68,15 +68,23 @@ struct T : IO::Interface::Protocol::T
 	std::unique_ptr<HTTP::Entity::T>
 	pickEntity (bool final_frame, uint64_t payload_length);
 
-	// Members
+	// Given members
+
+	std::chrono::milliseconds input_timeout;
+	std::chrono::milliseconds output_timeout;
+	std::chrono::milliseconds close_timeout;
+
+	uint64_t chunk_size;
+	uint64_t temp_file_threshhold;
+
+	// Internal members
 
 	Failure::ExceptionStore::T exception_store;
 
+	// This shouldn't be a thing.  I don't like moving nurseries around like 
+	// this.  That said, it technically works?
 	std::mutex nursery_mutex;
 	std::unique_ptr<Thread::Nursery::T> nursery;
-
-	IO::Interface::NonblockingInputStream::T * nonblocking_input_stream;
-	IO::Interface::NonblockingOutputStream::T * nonblocking_output_stream;
 
 	// Input state
 
@@ -95,13 +103,4 @@ struct T : IO::Interface::Protocol::T
 	// Interface
 
 	Dispatcher::T & dispatcher;
-
-	// Config, which will be replaced by a proper config type eventually.
-
-	std::chrono::milliseconds input_timeout;
-	std::chrono::milliseconds output_timeout;
-	std::chrono::milliseconds close_timeout;
-
-	uint64_t chunk_size;
-	uint64_t tmp_file_threshhold;
 };

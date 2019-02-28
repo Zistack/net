@@ -8,7 +8,7 @@ T::pickEntity (bool final_frame, uint64_t payload_length)
 	}
 	else
 	{
-		if (payload_length > this->tmp_file_threshhold)
+		if (payload_length > this->temp_file_threshhold)
 		{
 			return std::make_unique<HTTP::Entity::T> (
 			    std::make_unique<IO::TempFile::T> ());
