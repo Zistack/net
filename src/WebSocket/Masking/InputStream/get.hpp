@@ -1,7 +1,7 @@
 char
 T::get ()
 {
-	char c = input_stream . get () ^ masking_key [i];
+	char c = input_stream.get () ^ masking_key[i];
 
 	i = (i + 1) % 4;
 

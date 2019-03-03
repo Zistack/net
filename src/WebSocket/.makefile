@@ -1,4 +1,4 @@
-WebSocket-moddepends = IO Failure SuppressingScope Thread HTTP Protocol
+WebSocket-moddepends = IO Failure SuppressingScope Thread HTTP Protocol Status Scope GetConfig
 WebSocket-CFLAGS =
 WebSocket-LFLAGS =
 

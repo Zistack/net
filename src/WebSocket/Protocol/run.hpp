@@ -1,31 +1,17 @@
 void
-T::run ()
+T::run (IO::Interface::NonblockingInputStream::T & input_stream,
+    IO::Interface::NonblockingOutputStream::T & output_stream)
 {
-	Shutdown::Signal::T input_shutdown_signal;
-	Failure::CancelScope::T output_cancel_scope;
-
-	// We might need a scope for the shutdown signal.
+	Failure::ExceptionStore::T exception_store;
 
 	{
-		this->nursery->add (
-		    input_shutdown_signal, &T::input, this, input_shutdown_signal);
+		Thread::Nursery::T nursery (exception_store);
 
-		this->nursery->run (
-		    output_cancel_scope, &T::output, this, output_cancel_scope);
+		nursery.add (this->input, &Input::T::run, &this->input, input_stream);
 
-		std::unique_lock<decltype (this->nursery_mutex)> nursery_lock (
-		    this->nursery_mutex);
-		std::unique_ptr<Thread::Nursery::T> nursery (std::move (this->nursery));
+		nursery.run (
+		    this->output, &Output::T::run, &this->output, output_stream);
 	}
 
-	{
-		std::unique_lock<decltype (close_mutex)> close_lock (this->close_mutex);
-		this->status_code = 0;
-		this->reason.reset ();
-	}
-
-	this->nonblocking_input_stream = nullptr;
-	this->nonblocking_output_stream = nullptr;
-
-	this->exception_store.pop ();
+	exception_store.poll ();
 }

@@ -1,6 +1,6 @@
-struct T : GetConfig::Section::Value::T <T, Spec::T::value>
+struct T : GetConfig::Section::Value::T<T, Spec::T::value>
 {
-	using GetConfig::Section::Value::T <T, Spec::T::value>::T;
+	using GetConfig::Section::Value::T<T, Spec::T::value>::T;
 
 	void
 	setInputTimeout (std::chrono::milliseconds input_timeout);
@@ -27,7 +27,7 @@ struct T : GetConfig::Section::Value::T <T, Spec::T::value>
 	getChunkSize () const;
 
 	void
-	setTempFileThreshhold (uint64_t temp_file_threshhold)
+	setTempFileThreshhold (uint64_t temp_file_threshhold);
 
 	uint64_t
 	getTempFileThreshhold () const;

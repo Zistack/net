@@ -1,3 +1,10 @@
-T::T (const Config::Value::T & config) : input_timeout (config.getInputTimeout ()), output_timeout (config.getOutputTimeout ()), close_timeout (config.getCloseTimeout ()), chunk_size (config.getChunkSize ()), temp_file_threshhold (config.getTempFileThreshhold ())
+T::T (const Config::Value::T & config, Dispatcher::T & dispatcher) :
+    input (config.getInputTimeout (),
+        config.getCloseTimeout (),
+        config.getTempFileThreshhold (),
+        this->output,
+        dispatcher,
+        *this),
+    output (config.getOutputTimeout (), config.getChunkSize ())
 {
 }

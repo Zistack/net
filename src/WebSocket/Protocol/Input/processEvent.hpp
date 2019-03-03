@@ -1,5 +1,5 @@
 void
-T::processEvent (IO::Blocking::InputStream::T & input_stream,
+T::processEvent (IO::Interface::InputStream::T & input_stream,
     IO::CancelSignal::T & input_timeout_signal)
 {
 	try
@@ -13,39 +13,41 @@ T::processEvent (IO::Blocking::InputStream::T & input_stream,
 
 			try
 			{
-				frame_header . validate (this -> message);
+				frame_header.validate ((bool) this->message);
 			}
 			catch (const Failure::SemanticError::T & e)
 			{
-				this -> exception_store . store (std::current_exception ());
+				this->exception_store.store (std::current_exception ());
 
-				this -> cancel ();
-				output -> cancel (CloseMessage::T (1002, e.what ()));
+				this->cancel ();
+				output.cancel (CloseMessage::T (1002, e.what ()));
 
-				Util::discard (input_stream, frame_header . payload_length);
+				Util::discard (input_stream, frame_header.payload_length);
 
 				return;
 			}
 
 			if (frame_header.opcode == Type::PING)
 			{
-				this -> ping (frame_header, input_stream);
+				this->readPing (frame_header, input_stream);
 			}
 			else if (frame_header.opcode == Type::PONG)
 			{
-				this -> pong (frame_header, input_stream);
+				this->readPong (frame_header, input_stream);
 			}
 			else if (frame_header.isMessage ())
 			{
-				this -> message (frame_header, input_stream, input_timeout_signal);
+				this->readMessage (
+				    frame_header, input_stream, input_timeout_signal);
 			}
 			else if (frame_header.opcode == Type::CONTINUATION)
 			{
-				this -> continuation (frame_header, input_stream, input_timeout_signal);
+				this->readContinuation (
+				    frame_header, input_stream, input_timeout_signal);
 			}
 			else if (frame_header.opcode == Type::CLOSE)
 			{
-				this -> close (frame_header, input_stream);
+				this->readClose (frame_header, input_stream);
 			}
 		}
 		input_timeout_signal.clear ();

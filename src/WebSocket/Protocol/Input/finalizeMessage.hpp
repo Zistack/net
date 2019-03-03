@@ -1,9 +1,9 @@
 void
 T::finalizeMessage (const FrameHeader::T & frame_header)
 {
-	this -> message -> finish ();
+	this->message->finish ();
 
-	this -> dispatcher . dispatch (this -> protocol, *this -> message);
+	this->dispatcher.dispatch (this->protocol, *this->message);
 
-	this -> message = nullptr;
+	this->message = nullptr;
 }

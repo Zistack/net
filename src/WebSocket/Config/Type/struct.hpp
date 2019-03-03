@@ -1,3 +1,3 @@
-struct T : GetConfig::Section::Type::T <T, Value::T>
+struct T : GetConfig::Section::Type::T<T, Value::T>
 {
 };

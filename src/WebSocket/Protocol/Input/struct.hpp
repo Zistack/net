@@ -1,6 +1,11 @@
 struct T : Failure::Cancellable::T
 {
-	T (std::chrono::milliseconds input_timeout, std::chrono::milliseconds close_timeout, uint64_t temp_file_threshhold, Output::T & output, Dispatcher::T & dispatcher);
+	T (std::chrono::milliseconds input_timeout,
+	    std::chrono::milliseconds close_timeout,
+	    uint64_t temp_file_threshhold,
+	    Output::T & output,
+	    Dispatcher::T & dispatcher,
+	    Protocol::T & protocol);
 
 	void
 	prime ();
@@ -14,35 +19,45 @@ struct T : Failure::Cancellable::T
 	~T () = default;
 
 	private:
+	void
+	processFrames (IO::Blocking::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	processFrames (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	processEvent (IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	processEvent (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	waitForCloseFrame (IO::Blocking::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	waitForCloseFrame (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	waitEvent (IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	waitEvent (IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	readPing (const FrameHeader::T & frame_header,
+	    IO::Interface::InputStream::T & input_stream);
 
 	void
-	ping (const FrameHeader::T & frame_header, IO::Interface::InputStream::T & input_stream);
+	readPong (const FrameHeader::T & frame_header,
+	    IO::Interface::InputStream::T & input_stream);
 
 	void
-	pong (const FrameHeader::T & frame_header, IO::Interface::InputStream::T & input_stream);
+	readMessage (const FrameHeader::T & frame_header,
+	    IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	message (const FrameHeader::T & frame_header, IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	readContinuation (const FrameHeader::T & frame_header,
+	    IO::Interface::InputStream::T & input_stream,
+	    IO::CancelSignal::T & input_timeout_signal);
 
 	void
-	continuation (const FrameHeader::T & frame_header, IO::Interface::InputStream::T & input_stream, IO::CancelSignal::T & input_timeout_signal);
+	readClose (const FrameHeader::T & frame_header,
+	    IO::Interface::InputStream::T & input_stream);
 
-	void
-	close (const FrameHeader::T & frame_header, IO::Interface::InputStream::T & input_stream);
-
-	std::unique_ptr <HTTP::Entity::T>
+	std::unique_ptr<HTTP::Entity::T>
 	pickEntity (bool final_frame, uint64_t payload_length);
 
 	void
@@ -57,6 +72,7 @@ struct T : Failure::Cancellable::T
 
 	Output::T & output;
 	Dispatcher::T & dispatcher;
+	Protocol::T & protocol;
 
 	// Internal members
 
@@ -66,9 +82,9 @@ struct T : Failure::Cancellable::T
 
 	std::unique_ptr<Message::T> message;
 
-	std::optional <CloseMessage::T> close_message;
+	std::optional<CloseMessage::T> close_message;
 
-	// Transient members;
+	// Transient members
 
-	SuppressingScope::T <Shutdown::Signal::T> input_shutdown_scope;
+	SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope;
 };

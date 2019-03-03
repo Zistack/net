@@ -2,7 +2,7 @@ struct T
 {
 	T (Masking::InputStream::T & input_stream, uint64_t length);
 
-	T (uint16_t status_code = 1005, const NullableString::T & reason = nullptr);
+	T (uint16_t status_code = 1000, const NullableString::T & reason = nullptr);
 
 	uint64_t
 	length () const;

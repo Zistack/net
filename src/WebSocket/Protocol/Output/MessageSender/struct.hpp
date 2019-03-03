@@ -1,8 +1,8 @@
 struct T : Failure::Cancellable::T
 {
-	T (Thread::SleepMutex::T & output_mutex,
-	    std::chrono::milliseconds output_timeout,
-	    uint64_t chunk_size);
+	T (std::chrono::milliseconds output_timeout,
+	    uint64_t chunk_size,
+	    Thread::SleepMutex::T & output_mutex);
 
 	void
 	prime ();
@@ -21,15 +21,29 @@ struct T : Failure::Cancellable::T
 
 	private:
 	void
-	sendFrame (const FrameHeader::T & frame_header,
+	writeMessage (Message::T & message,
+	    IO::Interface::OutputStream::T & output_stream,
+	    IO::CancelSignal::T & output_timeout_signal);
+
+	void
+	writeFrame (const FrameHeader::T & frame_header,
 	    Message::T & message,
 	    IO::Interface::OutputStream::T & ouput_stream,
 	    IO::CancelSignal::T & output_timeout_signal);
 
+	// Given members
+
+	std::chrono::milliseconds output_timeout;
+
+	uint64_t chunk_size;
+
 	Thread::SleepMutex::T & output_mutex;
+
+	// Internal members
 
 	Thread::ConcurrentQueue::T<std::unique_ptr<Message::T>> output_queue;
 
-	std::chrono::milliseconds output_timeout;
-	uint64_t chunk_size;
+	// Transient members
+
+	Scope::T<decltype (output_queue)> output_scope;
 };

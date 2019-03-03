@@ -1,7 +1,8 @@
 void
 T::run (IO::Interface::NonblockingInputStream::T & nonblocking_input_stream)
 {
-	SuppressingScope::T <Shutdown::Signal::T> shutdown_scope (std::move (this -> shutdown_scope));
+	SuppressingScope::T input_shutdown_scope (
+	    std::move (this->input_shutdown_scope));
 
 	IO::CancelSignal::T input_timeout_signal;
 	IO::Blocking::InputStream::T input_stream (
@@ -9,18 +10,17 @@ T::run (IO::Interface::NonblockingInputStream::T & nonblocking_input_stream)
 
 	try
 	{
-		this->processFrames (
-		    input_stream, input_timeout_signal);
+		this->processFrames (input_stream, input_timeout_signal);
 
-		if (! this -> close_message)
+		if (!this->close_message)
 		{
 			this->waitForCloseFrame (input_stream, input_timeout_signal);
 		}
 	}
 	catch (...)
 	{
-		this -> exception_store . store (std::current_exception ());
+		this->exception_store.store (std::current_exception ());
 	}
 
-	this -> exception_store . pop ();
+	this->exception_store.pop ();
 }
