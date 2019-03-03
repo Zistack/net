@@ -35,9 +35,9 @@ T::T (uint16_t status_code, const NullableString::T & reason) :
     status_code (status_code),
     reason (reason)
 {
-	if (reason && (reason . size () > (125 - sizeof (this -> status_code))))
+	if (reason && (reason.size () > (125 - sizeof (this->status_code))))
 	{
-		this -> status_code = 1008;
-		this -> reason . reset ();
+		this->status_code = 1008;
+		this->reason = nullptr;
 	}
 }
