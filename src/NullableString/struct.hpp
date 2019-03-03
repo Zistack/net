@@ -27,6 +27,9 @@ struct T
 	bool
 	hasValue () const;
 
+	std::string::size_type
+	size () const;
+
 	operator bool () const;
 
 	void
