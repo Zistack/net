@@ -2,5 +2,5 @@ void
 T::shutdown ()
 {
 	close (this->write_file_descriptor);
-	this->is_shutdown = true;
+	this->write_file_descriptor = -1;
 }
