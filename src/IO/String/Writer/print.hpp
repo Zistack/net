@@ -1,7 +1,7 @@
 void
 T::print (const std::string & string)
 {
-	this->string.insert (this->pointer, string);
+	this->string.replace (this->pointer, string.size (), string);
 
 	this->pointer += string.size ();
 }
