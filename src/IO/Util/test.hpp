@@ -1,5 +1,6 @@
+template <typename PeekableInputStream>
 bool
-test (Interface::PeekableInputStream::T & input_stream, char e)
+test (PeekableInputStream && input_stream, char e)
 {
 	char c;
 
@@ -15,7 +16,8 @@ test (Interface::PeekableInputStream::T & input_stream, char e)
 	return c == e;
 }
 
-template <class Predicate,
+template <typename PeekableInputStream,
+    typename Predicate,
     typename
 #ifndef IO_Util_test_hpp_2
 #define IO_Util_test_hpp_2
@@ -24,8 +26,7 @@ template <class Predicate,
 #endif /* IO_Util_test_hpp_2 */
     >
 bool
-test (Interface::PeekableInputStream::T & input_stream,
-    Predicate && classPredicate)
+test (PeekableInputStream && input_stream, Predicate && classPredicate)
 {
 	char c;
 
