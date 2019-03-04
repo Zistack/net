@@ -1,17 +1,7 @@
-struct T : Interface::WatchableOutputStream::T
+template <typename NonblockingOutputStream>
+struct T : Interface::WatchableOutputStream::T, Failure::Cancellable::T
 {
-	T (Interface::NonblockingOutputStream::T & output_stream,
-	    Interface::Watchable::T & cancel_signal);
-
-	T (const T & other) = delete;
-
-	T (T && other) = delete;
-
-	T &
-	operator= (const T & other) = delete;
-
-	T &
-	operator= (T && other) = delete;
+	T (NonblockingOutputStream output_stream);
 
 	void
 	put (char c) override;
@@ -25,9 +15,35 @@ struct T : Interface::WatchableOutputStream::T
 	int
 	fileDescriptor () const override;
 
+	void
+	cancel () override;
+
+	void
+	clear ();
+
 	~T () = default;
 
 	private:
-	Interface::NonblockingOutputStream::T & output_stream;
-	Interface::Watchable::T & cancel_signal;
+	void
+	flush ();
+
+	void
+	send (const char * buffer, size_t count);
+
+	void
+	open ();
+
+	void
+	close ();
+
+	NonblockingOutputStream output_stream;
+	CancelSignal::T cancel_signal;
+
+	static const size_t BUFFER_SIZE = 4096;
+
+	size_t next;
+
+	char buffer[BUFFER_SIZE];
+
+	friend struct Scope::T<T>;
 };

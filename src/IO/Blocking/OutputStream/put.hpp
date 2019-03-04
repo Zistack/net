@@ -1,8 +1,12 @@
+template <typename NonblockingOutputStream>
 void
-T::put (char c)
+T<NonblockingOutputStream>::put (char c)
 {
-	while (!this->output_stream.write (&c, 1))
+	this->buffer[this->next] = c;
+	++this->next;
+
+	if (this->next == T::BUFFER_SIZE)
 	{
-		Util::wait (this->output_stream, this->cancel_signal);
+		this->flush ();
 	}
 }

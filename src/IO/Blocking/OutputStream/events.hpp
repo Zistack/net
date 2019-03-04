@@ -1,5 +1,6 @@
+template <typename NonblockingOutputStream>
 Interface::Watchable::Events::T
-T::events () const
+T<NonblockingOutputStream>::events () const
 {
 	return this->output_stream.events ();
 }

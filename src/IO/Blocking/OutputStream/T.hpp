@@ -1,6 +1,6 @@
-T::T (Interface::NonblockingOutputStream::T & output_stream,
-    Interface::Watchable::T & cancel_signal) :
+template <typename NonblockingOutputStream>
+T<NonblockingOutputStream>::T (NonblockingOutputStream output_stream) :
     output_stream (output_stream),
-    cancel_signal (cancel_signal)
+    next (0)
 {
 }

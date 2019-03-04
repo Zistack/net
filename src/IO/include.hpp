@@ -15,4 +15,5 @@
 #include <string>
 
 #include <Failure.hpp>
+#include <Scope.hpp>
 #include <Thread.hpp>

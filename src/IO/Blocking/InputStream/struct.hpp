@@ -1,17 +1,7 @@
-struct T : Interface::WatchableInputStream::T
+template <typename NonblockingInputStream>
+struct T : Interface::WatchableInputStream::T, Failure::Cancellable::T
 {
-	T (Interface::NonblockingInputStream::T & input_stream,
-	    Interface::Watchable::T & cancel_signal);
-
-	T (const T & other) = delete;
-
-	T (T && other) = delete;
-
-	T &
-	operator= (const T & other) = delete;
-
-	T &
-	operator= (T && other) = delete;
+	T (NonblockingInputStream input_stream);
 
 	char
 	get () override;
@@ -22,14 +12,23 @@ struct T : Interface::WatchableInputStream::T
 	int
 	fileDescriptor () const override;
 
+	void
+	cancel () override;
+
+	void
+	clear ();
+
 	~T () = default;
 
 	private:
-	Interface::NonblockingInputStream::T & input_stream;
-	Interface::Watchable::T & cancel_signal;
+	NonblockingInputStream input_stream;
 
-	static const size_t BUF_SIZE = 1024;
-	size_t start;
+	CancelSignal::T cancel_signal;
+
+	size_t begin;
 	size_t end;
-	char buffer[BUF_SIZE];
+
+	static const size_t BUFFER_SIZE = 4096;
+
+	char buffer[BUFFER_SIZE];
 };

@@ -1,5 +1,6 @@
+template <typename NonblockingInputStream>
 int
-T::fileDescriptor () const
+T<NonblockingInputStream>::fileDescriptor () const
 {
 	return this->input_stream.fileDescriptor ();
 }

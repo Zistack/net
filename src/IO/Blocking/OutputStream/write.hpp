@@ -1,14 +1,16 @@
+template <typename NonblockingOutputStream>
 void
-T::write (const char * buffer, size_t count)
+T<NonblockingOutputStream>::write (const char * buffer, size_t count)
 {
-	while (true)
+	if (this->next + count >= T::BUFFER_SIZE)
 	{
-		size_t size = this->output_stream.write (buffer, count);
-		buffer += size;
-		count -= size;
+		this->flush ();
 
-		if (!count) return;
-
-		Util::wait (this->output_stream, this->cancel_signal);
+		this->send (buffer, count);
+	}
+	else
+	{
+		memcpy (this->buffer + this->next, buffer, count);
+		this->next += count;
 	}
 }

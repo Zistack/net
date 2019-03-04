@@ -1,4 +1,4 @@
-IO-moddepends = Failure Thread
+IO-moddepends = Failure Thread Scope
 IO-CFLAGS =
 IO-LFLAGS =
 
