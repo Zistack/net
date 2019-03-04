@@ -1,5 +1,5 @@
 template <typename Rule>
-typename std::invoke_result<Rule, String::Reader::T>::type
+auto
 consume (const std::string & string, Rule && rule)
 {
 	String::Reader::T input_stream (string);
@@ -16,7 +16,7 @@ template <typename InputStream,
         typename std::invoke_result<Rule, InputStream>::type>::value>::type
 #endif /* IO_Util_consume_hpp_2 */
     >
-typename std::invoke_result<Rule, InputStream>::type
+auto
 consume (InputStream && input_stream, Rule && rule)
 {
 	auto result = rule (std::forward<InputStream> (input_stream));
