@@ -1,6 +1,6 @@
 struct T : Interface::OutputStream::T
 {
-	T (std::string & string, std::string::size_type & pointer);
+	T (std::string & string);
 
 	void
 	put (char c) override;
@@ -8,7 +8,12 @@ struct T : Interface::OutputStream::T
 	void
 	write (const char * buffer, size_t count) override;
 
+	void
+	print (const std::string & string);
+
+	~T () = default;
+
 	private:
 	std::string & string;
-	std::string::size_type & pointer;
+	std::string::size_type pointer;
 };
