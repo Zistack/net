@@ -4,7 +4,7 @@ struct T
 	put (char c) = 0;
 
 	void
-	print (std::string message);
+	print (const std::string & message);
 
 	virtual void
 	write (const char * buffer, size_t count) = 0;
