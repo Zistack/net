@@ -1,3 +1,5 @@
+T::T () : file_descriptor (-1) {}
+
 T::T (const std::string & filename, const std::string & mode)
 {
 	const std::string message_prefix = "Failed to open file\n";

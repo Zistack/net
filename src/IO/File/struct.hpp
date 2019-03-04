@@ -1,5 +1,7 @@
 struct T
 {
+	T ();
+
 	T (const std::string & filename, const std::string & mode);
 
 	T (const T & other) = delete;
@@ -11,6 +13,8 @@ struct T
 
 	T &
 	operator= (T && other);
+
+	operator bool () const;
 
 	off_t
 	size () const;
