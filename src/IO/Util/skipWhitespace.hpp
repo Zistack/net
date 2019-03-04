@@ -1,5 +1,8 @@
+template <typename PeekableInputStream>
 void
-skipWhitespace (Interface::PeekableInputStream::T & input_stream)
+skipWhitespace (PeekableInputStream && input_stream)
 {
-	while (test (input_stream, Class::whitespace)) input_stream.get ();
+	while (test (
+	    std::forward<PeekableInputStream> (input_stream), Class::whitespace))
+		input_stream.get ();
 }
