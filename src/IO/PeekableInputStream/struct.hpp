@@ -1,6 +1,7 @@
+template <typename InputStream>
 struct T : Interface::PeekableInputStream::T
 {
-	T (Interface::InputStream::T & input_stream);
+	T (InputStream input_stream);
 
 	char
 	get () override;
@@ -10,7 +11,8 @@ struct T : Interface::PeekableInputStream::T
 
 	~T () = default;
 
-	Interface::InputStream::T & input_stream;
+	private:
+	InputStream input_stream;
 
 	char peek_char;
 	bool peekable;

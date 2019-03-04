@@ -1,5 +1,6 @@
+template <typename InputStream>
 char
-T::get ()
+T<InputStream>::get ()
 {
 	if (this->peekable)
 	{
