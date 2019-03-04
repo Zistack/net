@@ -1,5 +1,6 @@
+template <typename Stream, typename CancelSignal>
 void
-wait (Interface::Watchable::T & stream, Interface::Watchable::T & cancel_signal)
+wait (Stream && stream, CancelSignal && cancel_signal)
 {
 	const std::string message_prefix = "Failed to wait for resource:\n";
 
@@ -27,8 +28,9 @@ wait (Interface::Watchable::T & stream, Interface::Watchable::T & cancel_signal)
 	if (fds[1].revents) throw Failure::CancelException::T ();
 }
 
+template <typename Stream>
 void
-wait (Interface::Watchable::T & stream)
+wait (Stream && stream)
 {
 	const std::string message_prefix = "Failed to wait for resource:\n";
 
