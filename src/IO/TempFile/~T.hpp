@@ -1,5 +1,8 @@
 T::~T ()
 {
-	close (this->file_descriptor);
-	unlink (this->name.get ());
+	if (this->file_descriptor != -1)
+	{
+		close (this->file_descriptor);
+		unlink (this->name.get ());
+	}
 }

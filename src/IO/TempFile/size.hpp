@@ -1,7 +1,7 @@
 off_t
-T::size ()
+T::size () const
 {
-	const std::string message_prefix = "IO::TempFile::T::size\n";
+	const std::string message_prefix = "Failed to stat temporary file\n";
 
 	struct stat file_status;
 
