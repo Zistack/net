@@ -1,38 +1,28 @@
-struct T : Interface::NonblockingByteBlock::T
+struct T
 {
 	T (const std::string & filename, const std::string & mode);
 
 	T (const T & other) = delete;
 
-	T (T && other) = delete;
+	T (T && other);
 
 	T &
 	operator= (const T & other) = delete;
 
 	T &
-	operator= (T && other) = delete;
-
-	void
-	reset () override;
+	operator= (T && other);
 
 	off_t
-	size () override;
+	size () const;
 
-	FileDescriptor::InputStream::T &
-	inputStream () override;
+	FileDescriptor::Reader::T
+	reader () const;
 
-	FileDescriptor::OutputStream::T &
-	outputStream () override;
+	FileDescriptor::Writer::T
+	writer () const;
 
-	~T () override;
+	~T ();
 
 	private:
-	private:
-	static int
-	newFile (const std::string & filename, const std::string & mode);
-
 	int file_descriptor;
-
-	FileDescriptor::InputStream::T input_stream;
-	FileDescriptor::OutputStream::T output_stream;
 };

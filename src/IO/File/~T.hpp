@@ -1,4 +1,4 @@
 T::~T ()
 {
-	close (this->file_descriptor);
+	if (this->file_descriptor != -1) close (this->file_descriptor);
 }
