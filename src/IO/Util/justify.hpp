@@ -1,8 +1,7 @@
 std::list<std::string>
 justify (const std::string & text, size_t columns)
 {
-	std::string::size_type pointer = 0;
-	String::PeekableInputStream::T input_stream (text, pointer);
+	String::Reader::T input_stream (text);
 
 	std::list<std::string> lines;
 
