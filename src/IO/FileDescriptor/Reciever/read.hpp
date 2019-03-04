@@ -1,9 +1,6 @@
 size_t
 T::read (char * buffer, size_t count)
 {
-	const std::string message_prefix =
-	    "IO::FileDescriptor::InputStream::T::read\n";
-
 	while (true)
 	{
 		ssize_t size = ::read (this->file_descriptor, buffer, count);
@@ -20,14 +17,9 @@ T::read (char * buffer, size_t count)
 #endif
 			case EINTR:
 				return 0;
-			case EBADF:
-			case EFAULT:
-			case EINVAL:
-			case EIO:
-			case EISDIR:
 			default:
 				throw Failure::ResourceError::T (
-				    message_prefix + "read: " + strerror (errno) + "\n");
+				    std::string ("read: ") + strerror (errno) + "\n");
 			}
 		}
 
