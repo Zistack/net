@@ -3,7 +3,9 @@
 #include <chrono>
 #include <condition_variable>
 #include <functional>
+#include <future>
 #include <list>
+#include <memory>
 #include <mutex>
 #include <optional>
 #include <thread>
