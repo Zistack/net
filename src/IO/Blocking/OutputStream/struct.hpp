@@ -1,19 +1,22 @@
 template <typename NonblockingOutputStream>
-struct T : Interface::WatchableOutputStream::T, Failure::Cancellable::T
+struct T : Failure::Cancellable::T
 {
 	T (NonblockingOutputStream output_stream);
 
 	void
-	put (char c) override;
+	put (char c);
 
 	void
-	write (const char * buffer, size_t count) override;
+	write (const char * buffer, size_t count);
+
+	void
+	print (const std::string & string);
 
 	Interface::Watchable::Events::T
-	events () const override;
+	events () const;
 
 	int
-	fileDescriptor () const override;
+	fileDescriptor () const;
 
 	void
 	cancel () override;
