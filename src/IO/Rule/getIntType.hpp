@@ -1,6 +1,6 @@
-template <class IntType>
+template <typename InputStream, typename IntType>
 IntType
-getIntType (IO::Interface::InputStream::T & input_stream)
+getIntType (InputStream && input_stream)
 {
 	IntType integer = 0;
 

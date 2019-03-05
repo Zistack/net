@@ -1,12 +1,11 @@
-template <class Predicate>
+template <typename InputStream, typename Predicate>
 std::string
-getNotClass (Interface::PeekableInputStream::T & input_stream,
-    Predicate && classPredicate)
+getNotClass (InputStream && input_stream, Predicate && classPredicate)
 {
 	std::string string;
 
-	while (
-	    !Util::test (input_stream, std::forward<Predicate> (classPredicate)) &&
+	while (!Util::test (std::forward<InputStream> (input_stream),
+	           std::forward<Predicate> (classPredicate)) &&
 	    !input_stream.eof ())
 	{
 		string.push_back (input_stream.get ());

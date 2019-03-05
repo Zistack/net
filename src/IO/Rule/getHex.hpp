@@ -1,7 +1,9 @@
+template <typename InputStream>
 uint64_t
-getHex (Interface::PeekableInputStream::T & input_stream)
+getHex (InputStream && input_stream)
 {
-	std::string hex_string = getClass (input_stream, Class::hex);
+	std::string hex_string =
+	    getClass (std::forward<InputStream> (input_stream), Class::hex);
 
 	if (hex_string.empty ())
 	{

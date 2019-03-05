@@ -1,6 +1,6 @@
-template <class IntType>
+template <typename IntType, typename OutputStream>
 void
-putIntType (IntType integer, IO::Interface::OutputStream::T & output_stream)
+putIntType (IntType integer, OutputStream && output_stream)
 {
 	char buffer[sizeof (IntType)];
 

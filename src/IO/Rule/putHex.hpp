@@ -1,4 +1,5 @@
-template <class Number,
+template <typename Number,
+    typename OutputStream,
     typename
 #ifndef IO_Rule_putHex_hpp
 #define IO_Rule_putHex_hpp
@@ -6,7 +7,7 @@ template <class Number,
 #endif /* IO_Util_toHex_hpp */
     >
 void
-putHex (Number num, Interface::OutputStream::T & output_stream)
+putHex (Number num, OutputStream && output_stream)
 {
-	output_stream.print (Util::toHex (num));
+	output_stream.print (Util::toHex (std::forward<Number> (num)));
 }
