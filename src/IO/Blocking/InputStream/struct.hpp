@@ -1,16 +1,22 @@
 template <typename NonblockingInputStream>
-struct T : Interface::WatchableInputStream::T, Failure::Cancellable::T
+struct T : Failure::Cancellable::T
 {
 	T (NonblockingInputStream input_stream);
 
-	char
-	get () override;
-
 	Interface::Watchable::Events::T
-	events () const override;
+	events () const;
 
 	int
-	fileDescriptor () const override;
+	fileDescriptor () const;
+
+	char
+	get ();
+
+	char
+	peek ();
+
+	bool
+	eof ();
 
 	void
 	cancel () override;
@@ -21,6 +27,9 @@ struct T : Interface::WatchableInputStream::T, Failure::Cancellable::T
 	~T () = default;
 
 	private:
+	void
+	refill ();
+
 	NonblockingInputStream input_stream;
 
 	CancelSignal::T cancel_signal;
@@ -30,5 +39,7 @@ struct T : Interface::WatchableInputStream::T, Failure::Cancellable::T
 
 	static const size_t BUFFER_SIZE = 4096;
 
-	char buffer[BUFFER_SIZE];
+	std::unique_ptr<char[]> buffer;
+
+	bool eof_bit;
 };
