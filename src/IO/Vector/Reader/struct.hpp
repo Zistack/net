@@ -1,12 +1,12 @@
-struct T : Interface::PeekableInputStream::T
+struct T
 {
 	T (const std::vector<uint8_t> & vector);
 
 	char
-	get () override;
+	get ();
 
 	char
-	peek () override;
+	peek ();
 
 	bool
 	eof () const;

@@ -1,12 +1,15 @@
-struct T : Interface::OutputStream::T
+struct T
 {
 	T (std::vector<uint8_t> & vector);
 
 	void
-	put (char c) override;
+	put (char c);
 
 	void
-	write (const char * buffer, size_t count) override;
+	write (const char * buffer, size_t count);
+
+	void
+	print (const std::string & string);
 
 	~T () = default;
 
