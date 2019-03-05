@@ -1,8 +1,11 @@
-template <class Function, class... Arguments>
+template <typename Watchable,
+    typename ShutdownSignal,
+    typename Function,
+    typename... Arguments>
 void
 eventLoop (Failure::ExceptionStore::T & exception_store,
-    IO::Interface::Watchable::T & watchable,
-    IO::Interface::Watchable::T & shutdown_signal,
+    Watchable && watchable,
+    ShutdownSignal && shutdown_signal,
     Function && event,
     Arguments &&... arguments)
 {
@@ -11,7 +14,8 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
 		{
 			try
 			{
-				IO::Util::wait (watchable, shutdown_signal);
+				IO::Util::wait (std::forward<Watchable> (watchable),
+				    std::forward<ShutdownSignal> (shutdown_signal));
 			}
 			catch (Failure::CancelException::T)
 			{
