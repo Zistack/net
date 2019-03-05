@@ -42,11 +42,11 @@ struct T : Failure::Cancellable::T
 	NonblockingOutputStream output_stream;
 	CancelSignal::T cancel_signal;
 
-	static const size_t BUFFER_SIZE = 4096;
-
 	size_t next;
 
-	char buffer[BUFFER_SIZE];
+	static const size_t BUFFER_SIZE = 4096;
+
+	std::unique_ptr<char[]> buffer;
 
 	friend struct Scope::T<T>;
 };
