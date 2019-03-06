@@ -1,4 +1,0 @@
-void
-T::validate () const
-{
-}

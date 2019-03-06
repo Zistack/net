@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-getIdentifier (IO::Interface::PeekableInputStream::T & input_stream)
+getIdentifier (InputStream && input_stream)
 {
-	return IO::Rule::getClass (input_stream, Class::identifier);
+	return IO::Rule::getClass (
+	    std::forward<InputStream> (input_stream), Class::identifier);
 }

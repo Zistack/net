@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-getOp (IO::Interface::PeekableInputStream::T & input_stream)
+getOp (InputStream && input_stream)
 {
-	return IO::Rule::getClass (input_stream, IO::Class::alpha);
+	return IO::Rule::getClass (
+	    std::forward<InputStream> (input_stream), IO::Class::alpha);
 }

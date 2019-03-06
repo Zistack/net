@@ -1,6 +1,6 @@
+template <typename OutputStream>
 void
-putIdentifier (const std::string & identifier,
-    IO::Interface::OutputStream::T & output_stream)
+putIdentifier (const std::string & identifier, OutputStream && output_stream)
 {
 	output_stream.print (identifier);
 }
