@@ -1,10 +1,10 @@
-template <class Callable>
+template <typename Function, typename... Arguments>
 bool
-T::tryStore (Callable && f)
+T::tryStore (Function && function, Arguments &&... arguments)
 {
 	try
 	{
-		f ();
+		function (std::forward<Arguments> (arguments)...);
 	}
 	catch (...)
 	{
