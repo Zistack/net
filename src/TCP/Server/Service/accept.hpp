@@ -14,8 +14,10 @@ T<Protocol>::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
 	        connection_socket (std::move (connection_socket))]() {
 		    try
 		    {
-			    connection_protocol->run (connection_socket->reciever (),
-			        connection_socket->sender ());
+			    connection_protocol->run (IO::Blocking::InputStream::T (
+			                                  connection_socket->reciever ()),
+			        IO::Blocking::OutputStream::T (
+			            connection_socket->sender ()));
 		    }
 		    catch (...)
 		    {

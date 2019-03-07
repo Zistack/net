@@ -4,5 +4,7 @@ T<Protocol>::run ()
 {
 	Socket::T client_socket (this->config);
 
-	this->protocol.run (client_socket.reciever (), client_socket.sender ());
+	this->protocol.run (
+	    IO::Blocking::InputStream::T (client_socket.reciever ()),
+	    IO::Blocking::OutputStream::T (client_socket.sender ()));
 }
