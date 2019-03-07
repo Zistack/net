@@ -1,11 +1,11 @@
-template <const std::string & identifier,
-    typename ValueType,
-    const std::string & description,
+template <typename ValueType,
     bool optional,
+    const std::string & identifier,
+    const std::string & description,
     std::optional<ValueType> default_value>
-typename T<identifier, ValueType, description, optional, default_value>::
+typename T<ValueType, optional, identifier, description, default_value>::
     ValueInterfaceType
-    T<identifier, ValueType, description, optional, default_value>::get () const
+    T<ValueType, optional, identifier, description, default_value>::get () const
 {
 	if constexpr (optional)
 	{

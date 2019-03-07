@@ -2,14 +2,14 @@ template <const std::string & query, typename... MemberTypes>
 struct T;
 
 template <const std::string & query,
-    const std::string & identifier,
     typename ValueType,
-    const std::string & description,
     bool optional,
+    const std::string & identifier,
+    const std::string & description,
     std::optional<ValueType> default_value,
     typename... RemainingMemberTypes>
 struct T<query,
-    Member::T<identifier, ValueType, description, optional, default_value>,
+    Member::T<ValueType, optional, identifier, description, default_value>,
     RemainingMemberTypes...>
 {
 	static constexpr const bool value =

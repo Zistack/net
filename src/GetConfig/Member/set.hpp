@@ -1,10 +1,10 @@
-template <const std::string & identifier,
-    typename ValueType,
-    const std::string & description,
+template <typename ValueType,
     bool optional,
+    const std::string & identifier,
+    const std::string & description,
     std::optional<ValueType> default_value>
 void
-T<identifier, ValueType, description, optional, default_value>::set (
+T<ValueType, optional, identifier, description, default_value>::set (
     const ValueInterfaceType & value)
 {
 	if constexpr (optional)
@@ -24,13 +24,13 @@ T<identifier, ValueType, description, optional, default_value>::set (
 	}
 }
 
-template <const std::string & identifier,
-    typename ValueType,
-    const std::string & description,
+template <typename ValueType,
     bool optional,
+    const std::string & identifier,
+    const std::string & description,
     std::optional<ValueType> default_value>
 void
-T<identifier, ValueType, description, optional, default_value>::set (
+T<ValueType, optional, identifier, description, default_value>::set (
     ValueInterfaceType && value)
 {
 	if constexpr (optional)

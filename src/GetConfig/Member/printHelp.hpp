@@ -1,11 +1,11 @@
-template <const std::string & identifier,
-    typename ValueType,
-    const std::string & description,
+template <typename ValueType,
     bool optional,
+    const std::string & identifier,
+    const std::string & description,
     std::optional<ValueType> default_value>
 template <typename OutputStream>
 void
-T<identifier, ValueType, description, optional, default_value>::printHelp (
+T<ValueType, optional, identifier, description, default_value>::printHelp (
     OutputStream && output_stream,
     size_t columns,
     size_t tabwidth,
