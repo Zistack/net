@@ -21,23 +21,13 @@ struct T<
 
 	T () = default;
 
-	template <const std::string & identifier,
-	    typename =
-	        typename std::enable_if<&identifier == &member_identifier>::type>
-	typename MemberType::ValueInterfaceType
+	template <const std::string & identifier>
+	auto
 	get () const;
 
-	template <const std::string & identifier,
-	    typename =
-	        typename std::enable_if<&identifier == &member_identifier>::type>
+	template <const std::string & identifier, typename Value>
 	void
-	set (const typename MemberType::ValueInterfaceType & value);
-
-	template <const std::string & identifier,
-	    typename =
-	        typename std::enable_if<&identifier == &member_identifier>::type>
-	void
-	set (typename MemberType::ValueInterfaceType && value);
+	set (Value && value);
 
 	~T () = default;
 
@@ -71,6 +61,14 @@ template <>
 struct T<>
 {
 	T () = default;
+
+	template <const std::string & identifier>
+	void
+	get () const;
+
+	template <const std::string & identifier, typename Value>
+	void
+	set (Value && value);
 
 	~T () = default;
 

@@ -4,20 +4,28 @@ template <typename ValueType,
     const std::string & description,
     const std::optional<ValueType> & default_value,
     typename... RemainingMemberTypes>
-template <const std::string & identifier, typename>
-typename Member::T<ValueType,
+template <const std::string & identifier>
+/*typename Member::T<ValueType,
     optional,
     member_identifier,
     description,
-    default_value>::ValueInterfaceType
+    default_value>::ValueInterfaceType*/
+auto
 T<Member::T<ValueType, optional, member_identifier, description, default_value>,
     RemainingMemberTypes...>::get () const
 {
-	if (!this->value)
+	if constexpr (&identifier == &member_identifier)
 	{
-		throw Failure::SemanticError::T (
-		    "Member '" + identifier + "' does not have a value\n");
+		return this->member.get ();
 	}
+	else
+	{
+		return this->T<RemainingMemberTypes...>::template get<identifier> ();
+	}
+}
 
-	return this->member.get ();
+template <const std::string & identifier>
+void
+T<>::get () const
+{
 }
