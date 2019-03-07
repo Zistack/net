@@ -2,10 +2,10 @@ template <typename ValueType,
     bool optional,
     const std::string & identifier,
     const std::string & description,
-    std::optional<ValueType> default_value
+    const std::optional<ValueType> & default_value
 #ifndef GetConfig_Member_struct_hpp
 #define GetConfig_Member_struct_hpp
-    = std::nullopt
+    = NullOpt::T<ValueType>::value
 #endif /* GetConfig_Member_struct_hpp */
     >
 struct T

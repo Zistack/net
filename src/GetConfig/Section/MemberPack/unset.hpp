@@ -2,7 +2,7 @@ template <typename ValueType,
     bool optional,
     const std::string & member_identifier,
     const std::string & description,
-    std::optional<ValueType> default_value,
+    const std::optional<ValueType> & default_value,
     typename... RemainingMemberTypes>
 void
 T<Member::T<ValueType, optional, member_identifier, description, default_value>,

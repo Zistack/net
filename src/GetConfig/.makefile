@@ -1,4 +1,4 @@
-GetConfig-moddepends = Failure IO
+GetConfig-moddepends = Failure IO NullOpt
 GetConfig-CFLAGS =
 GetConfig-LFLAGS =
 

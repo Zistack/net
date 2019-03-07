@@ -5,7 +5,7 @@ template <typename ValueType,
     bool optional,
     const std::string & member_identifier,
     const std::string & description,
-    std::optional<ValueType> default_value,
+    const std::optional<ValueType> & default_value,
     typename... RemainingMemberTypes>
 struct T<
     Member::
@@ -23,19 +23,19 @@ struct T<
 
 	template <const std::string & identifier,
 	    typename =
-	        typename std::enable_if<identifier == member_identifier>::type>
+	        typename std::enable_if<&identifier == &member_identifier>::type>
 	typename MemberType::ValueInterfaceType
 	get () const;
 
 	template <const std::string & identifier,
 	    typename =
-	        typename std::enable_if<identifier == member_identifier>::type>
+	        typename std::enable_if<&identifier == &member_identifier>::type>
 	void
 	set (const typename MemberType::ValueInterfaceType & value);
 
 	template <const std::string & identifier,
 	    typename =
-	        typename std::enable_if<identifier == member_identifier>::type>
+	        typename std::enable_if<&identifier == &member_identifier>::type>
 	void
 	set (typename MemberType::ValueInterfaceType && value);
 

@@ -2,7 +2,7 @@ template <typename ValueType,
     bool optional,
     const std::string & identifier,
     const std::string & description,
-    std::optional<ValueType> default_value>
+    const std::optional<ValueType> & default_value>
 void
 T<ValueType, optional, identifier, description, default_value>::validate ()
     const
