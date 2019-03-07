@@ -1,6 +1,7 @@
+template <typename Protocol>
 struct T : Failure::Cancellable::T
 {
-	T (IO::Interface::Protocol::T & protocol, const Config::Value::T & config);
+	T (Protocol protocol, const Config::T & config);
 
 	void
 	prime ();
@@ -14,6 +15,9 @@ struct T : Failure::Cancellable::T
 	~T () = default;
 
 	private:
-	IO::Interface::Protocol::T & protocol;
-	Config::Value::T config;
+	Protocol protocol;
+	Config::T config;
 };
+
+template <typename Protocol>
+T (Protocol && protocol, const Config::T & config)->T<Protocol>;

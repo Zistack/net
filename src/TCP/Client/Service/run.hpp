@@ -1,8 +1,8 @@
+template <typename Protocol>
 void
-T::run ()
+T<Protocol>::run ()
 {
 	Socket::T client_socket (this->config);
 
-	this->protocol.run (
-	    client_socket.inputStream (), client_socket.outputStream ());
+	this->protocol.run (client_socket.reciever (), client_socket.sender ());
 }

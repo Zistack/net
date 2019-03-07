@@ -1,5 +1,6 @@
+template <typename Protocol>
 void
-T::cancel ()
+T<Protocol>::cancel ()
 {
 	this->shutdown_signal.cancel ();
 }

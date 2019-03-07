@@ -1,4 +1,5 @@
-T::T (IO::Interface::Protocol::T & protocol, const Config::Value::T & config) :
+template <typename Protocol>
+T<Protocol>::T (Protocol protocol, const Config::T & config) :
     protocol (protocol),
     config (config)
 {

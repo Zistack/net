@@ -1,6 +1,6 @@
-struct T : GetConfig::Section::Value::T<T, Spec::T::value>
+struct T : Spec::T
 {
-	using GetConfig::Section::Value::T<T, Spec::T::value>::T;
+	using Spec::T::T;
 
 	NullableString::T
 	getHostname () const;

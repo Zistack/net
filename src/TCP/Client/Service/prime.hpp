@@ -1,5 +1,6 @@
+template <typename Protocol>
 void
-T::prime ()
+T<Protocol>::prime ()
 {
 	this->protocol.prime ();
 }

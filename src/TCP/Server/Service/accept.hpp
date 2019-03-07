@@ -1,8 +1,8 @@
+template <typename Protocol>
 void
-T::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
+T<Protocol>::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
 {
-	std::unique_ptr<IO::Interface::Protocol::T> connection_protocol =
-	    this->server_protocol.make ();
+	auto connection_protocol = this->server_protocol.make ();
 
 	connection_protocol->prime ();
 
@@ -14,8 +14,8 @@ T::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
 	        connection_socket (std::move (connection_socket))]() {
 		    try
 		    {
-			    connection_protocol->run (connection_socket->inputStream (),
-			        connection_socket->outputStream ());
+			    connection_protocol->run (connection_socket->reciever (),
+			        connection_socket->sender ());
 		    }
 		    catch (...)
 		    {
