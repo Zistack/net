@@ -43,3 +43,6 @@ struct T : Failure::Cancellable::T
 
 	bool eof_bit;
 };
+
+template <typename NonblockingInputStream>
+T (NonblockingInputStream && input_stream)->T<NonblockingInputStream>;

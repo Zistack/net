@@ -50,3 +50,6 @@ struct T : Failure::Cancellable::T
 
 	friend struct Scope::T<T>;
 };
+
+template <typename NonblockingOutputStream>
+T (NonblockingOutputStream && output_stream)->T<NonblockingOutputStream>;
