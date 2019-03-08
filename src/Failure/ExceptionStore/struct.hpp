@@ -8,9 +8,9 @@ struct T
 	bool
 	store (std::exception_ptr e);
 
-	template <class Callable>
+	template <typename Function, typename... Arguments>
 	bool
-	tryStore (Callable && f);
+	tryStore (Function && function, Arguments &&... arguments);
 
 	operator bool () const;
 
