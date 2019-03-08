@@ -11,11 +11,16 @@ T<NonblockingInputStream>::refill ()
 	{
 		while (true)
 		{
-			this->end = this->input_stream.read (this->buffer, T::BUFFER_SIZE);
-			if (this->end) break;
+			size_t size =
+			    this->input_stream.read (this->buffer, T::BUFFER_SIZE);
+			if (size)
+			{
+				this->begin = 0;
+				this->end = size;
+				return;
+			}
 			Util::wait (this->input_stream, this->cancel_signal);
 		}
-		this->begin = 0;
 	}
 	catch (Failure::EndOfResource::T)
 	{

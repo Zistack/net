@@ -2,7 +2,7 @@ template <typename NonblockingOutputStream>
 void
 T<NonblockingOutputStream>::write (const char * buffer, size_t count)
 {
-	if (this->next + count >= T::BUFFER_SIZE)
+	if (this->next + count >= BUFFER_SIZE)
 	{
 		this->flush ();
 

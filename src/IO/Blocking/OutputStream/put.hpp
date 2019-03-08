@@ -5,7 +5,7 @@ T<NonblockingOutputStream>::put (char c)
 	this->buffer[this->next] = c;
 	++this->next;
 
-	if (this->next == T::BUFFER_SIZE)
+	if (this->next == BUFFER_SIZE)
 	{
 		this->flush ();
 	}

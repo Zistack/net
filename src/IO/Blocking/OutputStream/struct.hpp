@@ -3,6 +3,12 @@ struct T : Failure::Cancellable::T
 {
 	T (NonblockingOutputStream output_stream);
 
+	Interface::Watchable::Events::T
+	events () const;
+
+	int
+	fileDescriptor () const;
+
 	void
 	put (char c);
 
@@ -11,12 +17,6 @@ struct T : Failure::Cancellable::T
 
 	void
 	print (const std::string & string);
-
-	Interface::Watchable::Events::T
-	events () const;
-
-	int
-	fileDescriptor () const;
 
 	void
 	cancel () override;
