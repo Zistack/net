@@ -1,6 +1,6 @@
-template <typename Protocol>
+template <typename ServerProtocol>
 void
-T<Protocol>::prime ()
+T<ServerProtocol>::prime ()
 {
 	this->shutdown_scope =
 	    SuppressingScope::T<decltype (this->shutdown_signal)> (

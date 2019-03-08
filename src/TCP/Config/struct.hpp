@@ -1,5 +1,7 @@
 struct T : Spec::T
 {
+	using InterfaceType = T;
+
 	using Spec::T::T;
 
 	NullableString::T

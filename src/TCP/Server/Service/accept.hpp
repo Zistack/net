@@ -1,6 +1,7 @@
-template <typename Protocol>
+template <typename ServerProtocol>
 void
-T<Protocol>::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
+T<ServerProtocol>::accept (Socket::T & server_socket,
+    Thread::Nursery::T & nursery)
 {
 	auto connection_protocol = this->server_protocol.make ();
 
@@ -14,10 +15,12 @@ T<Protocol>::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
 	        connection_socket (std::move (connection_socket))]() {
 		    try
 		    {
-			    connection_protocol->run (IO::Blocking::InputStream::T (
-			                                  connection_socket->reciever ()),
-			        IO::Blocking::OutputStream::T (
-			            connection_socket->sender ()));
+			    IO::Blocking::InputStream::T input_stream (
+			        connection_socket->reciever ());
+			    IO::Blocking::OutputStream::T output_stream (
+			        connection_socket->sender ());
+
+			    connection_protocol->run (input_stream, output_stream);
 		    }
 		    catch (...)
 		    {

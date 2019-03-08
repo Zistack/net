@@ -1,7 +1,7 @@
-template <typename Protocol>
+template <typename ServerProtocol>
 struct T : Failure::Cancellable::T
 {
-	T (Protocol server_protocol, const Config::T & config);
+	T (ServerProtocol server_protocol, const Config::T & config);
 
 	void
 	prime ();
@@ -23,7 +23,7 @@ struct T : Failure::Cancellable::T
 
 	// Given members
 
-	Protocol server_protocol;
+	ServerProtocol server_protocol;
 	Config::T config;
 
 	// Internal members
@@ -36,5 +36,6 @@ struct T : Failure::Cancellable::T
 	SuppressingScope::T<Shutdown::Signal::T> shutdown_scope;
 };
 
-template <typename Protocol>
-T (Protocol && protocol, const Config::T & config)->T<Protocol>;
+template <typename ServerProtocol>
+T (ServerProtocol && server_protocol, const Config::T & config)
+    ->T<ServerProtocol>;
