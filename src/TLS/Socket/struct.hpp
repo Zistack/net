@@ -1,16 +1,13 @@
 struct T
 {
+	T ();
+
 	T (int tcp_socket, struct tls * tls_context);
 
-	T (const T & other) = delete;
-
-	T (T && other) = default;
+	T (T && other);
 
 	T &
-	operator= (const T & other) = delete;
-
-	T &
-	operator= (T && other) = default;
+	operator= (T && other);
 
 	virtual ~T ();
 

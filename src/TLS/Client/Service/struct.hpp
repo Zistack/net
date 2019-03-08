@@ -1,12 +1,23 @@
-struct T : TLS::Connection::T
+template <typename Protocol>
+struct T
 {
-	T (IO::Interface::Protocol::T & client_protcol, Config::Value::T & config);
+	T (Protocol client_protcol, Config::T & config);
+
+	void
+	prime ();
 
 	void
 	run ();
 
+	void
+	cancel ();
+
 	~T () = default;
 
 	private:
-	Config::Value::T & config;
+	Protocol protocol;
+	Config::T & config;
 };
+
+template <typename Protocol>
+T (Protocol && protocol, Config::T & config)->T<Protocol>;

@@ -11,8 +11,8 @@
 #include <Failure.hpp>
 #include <Functor.hpp>
 #include <IO.hpp>
-#include <JSON.hpp>
 #include <Protocol.hpp>
+#include <Scope.hpp>
 #include <Shutdown.hpp>
 #include <SuppressingScope.hpp>
 #include <TCP.hpp>

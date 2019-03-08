@@ -1,5 +1,6 @@
+template <typename ServerProtocol>
 void
-T::run ()
+T<ServerProtocol>::run ()
 {
 	{
 		SuppressingScope::T<Shutdown::Signal::T> shutdown_scope (

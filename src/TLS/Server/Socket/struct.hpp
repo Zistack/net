@@ -1,14 +1,6 @@
 struct T : TLS::Socket::T, IO::Interface::Watchable::T
 {
-	T (const Config::Value::T & config);
-
-	T (const T & other) = delete;
-	T (T && other) = delete;
-
-	T &
-	operator= (const T & other) = delete;
-	T &
-	operator= (T && other) = delete;
+	T (const Config::T & config);
 
 	std::unique_ptr<Connection::Socket::T>
 	accept ();

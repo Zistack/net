@@ -1,15 +1,18 @@
+template <typename CancelSignal>
 void
-T::close (IO::Interface::Watchable::T & cancel_signal)
+T::close (CancelSignal && cancel_signal)
 {
 	while (true)
 	{
 		switch (tls_close (this->tls_context.get ()))
 		{
 		case TLS_WANT_POLLIN:
-			IO::Util::wait (this->input_stream, cancel_signal);
+			IO::Util::wait (
+			    this->input (), std::forward<CancelSignal> (cancel_signal));
 			continue;
 		case TLS_WANT_POLLOUT:
-			IO::Util::wait (this->output_stream, cancel_signal);
+			IO::Util::wait (
+			    this->output (), std::forward<CancelSignal> (cancel_signal));
 			continue;
 		default:
 		case -1:

@@ -1,5 +1,6 @@
-T::T (IO::Interface::Protocol::T & protocol, Config::Value::T & config) :
-    TLS::Connection::T (protocol, config.getConnectionConfig ()),
+template <typename Protocol>
+T<Protocol>::T (Protocol protocol, Config::T & config) :
+    protocol (protocol),
     config (config)
 {
 }

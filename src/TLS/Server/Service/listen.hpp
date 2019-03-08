@@ -1,5 +1,6 @@
+template <typename ServerProtocol>
 void
-T::listen (Thread::Nursery::T & nursery)
+T<ServerProtocol>::listen (Thread::Nursery::T & nursery)
 {
 	Failure::ExceptionStore::T exception_store;
 

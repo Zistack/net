@@ -2,36 +2,32 @@ struct T : Socket::T
 {
 	T (int tcp_socket, struct tls * tls_context);
 
-	T (const T & other) = delete;
-
-	T (T && other) = delete;
-
-	T &
-	operator= (const T & other) = delete;
-
-	T &
-	operator= (T && other) = delete;
-
+	template <typename CancelSignal>
 	void
-	handshake (IO::Interface::Watchable::T & cancel_signal);
+	handshake (CancelSignal && cancel_signal);
 
-	size_t
-	read (char * buffer,
-	    size_t count,
-	    IO::Interface::Watchable::T & cancel_signal);
+	Reciever::T
+	reciever ();
 
-	bool
-	write (char * buffer,
-	    size_t count,
-	    IO::Interface::Watchable::T & cancel_signal);
+	Sender::T
+	sender ();
 
+	template <typename CancelSignal>
 	void
-	close (IO::Interface::Watchable::T & cancel_signal);
+	close (CancelSignal && cancel_signal);
 
 	virtual ~T () = default;
 
 	protected:
-	IO::FileDescriptor::InputStream::T input_stream;
-	IO::FileDescriptor::OutputStream::T output_stream;
-	friend struct Connection::T;
+	T (std::pair<int, struct tls *> p);
+
+	Thread::SleepMutex::T socket_mutex;
+	bool spurious_read;
+
+	private:
+	Input::T
+	input () const;
+
+	Output::T
+	output () const;
 };
