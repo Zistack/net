@@ -1,6 +1,8 @@
-template <typename RequestType, typename ResponseType>
-T<RequestType, ResponseType>::T (const Config::Value::T & config) :
-    input (config.getInputTimeout ()),
-    output (config.getOutputTimeout ())
+template <typename Request, typename Response, typename Interface>
+template <typename... Arguments>
+T<Request, Response, Interface>::T (Arguments &&... arguments) :
+    interface (std::forward<Arguments> (arguments)...),
+    input (this->interface, this->output),
+    output (this->interface)
 {
 }

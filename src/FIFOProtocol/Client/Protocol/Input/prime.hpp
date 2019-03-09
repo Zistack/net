@@ -1,6 +1,6 @@
-template <typename RequestType, typename ResponseType>
+template <typename Response, typename Interface>
 void
-T<RequestType, ResponseType>::prime ()
+T<Response, Interface>::prime ()
 {
 	this->input_shutdown_scope =
 	    std::move (SuppressingScope::T<Shutdown::Signal::T> (

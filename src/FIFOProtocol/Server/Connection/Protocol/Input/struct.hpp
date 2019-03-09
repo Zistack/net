@@ -1,14 +1,14 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Response, typename Interface>
 struct T : Failure::Cancellable::T
 {
-	T (std::chrono::milliseconds input_timeout);
+	T (Interface & interface, Output::T<Response, Interface> & output);
 
 	void
 	prime ();
 
+	template <typename InputStream>
 	void
-	run (Protocol::T<RequestType, ResponseType> & protocol,
-	    IO::Interface::NonblockingInputStream::T & nonblocking_input_stream);
+	run (InputStream && input_stream);
 
 	void
 	cancel () override;
@@ -16,21 +16,25 @@ struct T : Failure::Cancellable::T
 	~T () = default;
 
 	private:
+	template <typename InputStream>
 	void
-	event (Protocol::T<RequestType, ResponseType> & protocol,
-	    IO::Blocking::InputStream::T & input_stream,
-	    IO::CancelSignal::T & input_cancel_signal,
-	    Thread::Nursery::T & nursery);
+	event (InputStream && input_stream, Thread::Nursery::T & nursery);
 
 	void
-	respond (Protocol::T<RequestType, ResponseType> & protocol,
-	    const RequestType & request,
-	    ::Protocol::Delay::T<ResponseType> response_delay);
+	respond (const Request & request,
+	    Thread::Delay::T<Response> response_delay);
 
-	std::chrono::milliseconds input_timeout;
+	// Given members
+
+	Interface & interface;
+	Output::T<Response, Interface> & output;
+
+	// Internal members
 
 	Failure::ExceptionStore::T exception_store;
 	Shutdown::Signal::T input_shutdown_signal;
+
+	// Transient members
 
 	SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope;
 };

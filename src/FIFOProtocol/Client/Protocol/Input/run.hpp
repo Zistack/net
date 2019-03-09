@@ -1,8 +1,7 @@
-template <typename RequestType, typename ResponseType>
+template <typename Response, typename Interface>
+template <typename InputStream>
 void
-T<RequestType, ResponseType>::run (
-    Protocol::T<RequestType, ResponseType> & protocol,
-    IO::Interface::NonblockingInputStream::T & nonblocking_input_stream)
+T<Response, Interface>::run (InputStream && input_stream)
 {
 	{
 		SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope (
@@ -11,18 +10,12 @@ T<RequestType, ResponseType>::run (
 		Scope::T<decltype (this->response_queue)> response_scope (
 		    std::move (this->response_scope));
 
-		IO::CancelSignal::T input_cancel_signal;
-		IO::Blocking::InputStream::T input_stream (
-		    nonblocking_input_stream, input_cancel_signal);
-
 		::Protocol::eventLoop (this->exception_store,
-		    input_stream,
+		    std::forward<InputStream> (input_stream),
 		    this->input_shutdown_signal,
-		    &T::event,
+		    &T::event<InputStream>,
 		    this,
-		    protocol,
-		    input_stream,
-		    input_cancel_signal);
+		    std::forward<InputStream> (input_stream));
 	}
 
 	this->exception_store.pop ();

@@ -1,28 +1,33 @@
-template <typename RequestType, typename ResponseType>
+template <typename Response, typename Interface>
 struct T : Failure::Cancellable::T
 {
-	T (std::chrono::milliseconds output_timeout);
+	T (Interface & interface);
 
 	void
 	prime ();
 
+	template <typename OutputStream>
 	void
-	run (Protocol::T<RequestType, ResponseType> & protocol,
-	    IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream);
+	run (OutputStream && output_stream);
 
 	void
 	cancel () override;
 
 	void
-	push (const ::Protocol::Delay::T<ResponseType> & response_delay);
+	push (const Thread::Delay::T<Response> & response_delay);
 
 	~T () = default;
 
 	private:
-	std::chrono::milliseconds output_timeout;
+	// Given members
 
-	Thread::ConcurrentQueue::T<::Protocol::Delay::T<ResponseType>>
-	    response_queue;
+	Interface & interface;
+
+	// Internal members
+
+	Thread::ConcurrentQueue::T<Thread::Delay::T<Response>> response_queue;
+
+	// Transient members
 
 	Scope::T<decltype (response_queue)> response_scope;
 };

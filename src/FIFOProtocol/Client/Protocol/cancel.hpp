@@ -1,6 +1,6 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Response, typename Interface>
 void
-T<RequestType, ResponseType>::cancel ()
+T<Request, Response, Interface>::cancel ()
 {
 	this->input.cancel ();
 	this->output.cancel ();

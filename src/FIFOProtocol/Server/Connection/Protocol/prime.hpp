@@ -1,6 +1,6 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Response, typename Interface>
 void
-T<RequestType, ResponseType>::prime ()
+T<Request, Response, Interface>::prime ()
 {
 	this->input.prime ();
 	this->output.prime ();

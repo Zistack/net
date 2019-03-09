@@ -1,7 +1,6 @@
-template <typename RequestType, typename ResponseType>
+template <typename Response, typename Interface>
 void
-T<RequestType, ResponseType>::push (
-    const ::Protocol::Delay::T<ResponseType> & response_delay)
+T<Response, Interface>::push (const Thread::Delay::T<Response> & response_delay)
 {
 	try
 	{

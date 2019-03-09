@@ -1,6 +1,6 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Interface>
 void
-T<RequestType, ResponseType>::prime ()
+T<Request, Interface>::prime ()
 {
 	this->request_scope =
 	    Scope::T<decltype (this->request_queue)> (this->request_queue);

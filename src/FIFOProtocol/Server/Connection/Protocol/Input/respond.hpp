@@ -1,21 +1,15 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Response, typename Interface>
 void
-T<RequestType, ResponseType>::respond (
-    Protocol::T<RequestType, ResponseType> & protocol,
-    const RequestType & request,
-    ::Protocol::Delay::T<ResponseType> response_delay)
+T<Request, Response, Interface>::respond (const Request & request,
+    Thread::Delay::T<Response> response_delay)
 {
-	ResponseType response;
-
 	try
 	{
-		response = std::move (protocol.map (request));
+		response_delay.set (std::move (this->interface.map (request)));
 	}
 	catch (...)
 	{
 		response_delay.cancel ();
 		throw;
 	}
-
-	response_delay.set (std::move (response));
 }

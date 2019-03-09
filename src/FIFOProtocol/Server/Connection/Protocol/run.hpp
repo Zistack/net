@@ -1,8 +1,8 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Response, typename Interface>
+template <typename InputStream, typename OutputStream>
 void
-T<RequestType, ResponseType>::run (
-    IO::Interface::NonblockingInputStream::T & input_stream,
-    IO::Interface::NonblockingOutputStream::T & output_stream)
+T<Request, Response, Interface>::run (InputStream && input_stream,
+    OutputStream && output_stream)
 {
 	Failure::ExceptionStore::T exception_store;
 
@@ -10,16 +10,16 @@ T<RequestType, ResponseType>::run (
 		Thread::Nursery::T nursery (exception_store);
 
 		nursery.add (this->input,
-		    &Input::T<RequestType, ResponseType>::run,
+		    &Input::T<Request, Response, Interface>::template run<InputStream>,
 		    this->input,
 		    *this,
-		    input_stream);
+		    std::forward<InputStream> (input_stream));
 
 		nursery.run (this->output,
-		    &Output::T<RequestType, ResponseType>::run,
+		    &Output::T<Response, Interface>::template run<OutputStream>,
 		    this->output,
 		    *this,
-		    output_stream);
+		    std::forward<OutputStream> (output_stream));
 	}
 
 	exception_store.poll ();

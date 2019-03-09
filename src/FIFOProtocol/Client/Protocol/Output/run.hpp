@@ -1,40 +1,17 @@
-template <typename RequestType, typename ResponseType>
+template <typename Request, typename Interface>
+template <typename OutputStream>
 void
-T<RequestType, ResponseType>::run (
-    Protocol::T<RequestType, ResponseType> & protocol,
-    IO::Interface::NonblockingOutputStream::T & nonblocking_output_stream)
+T<Request, Interface>::run (OutputStream && output_stream)
 {
 	Scope::T<decltype (this->request_queue)> request_scope (
 	    std::move (this->request_scope));
-
-	IO::CancelSignal::T output_cancel_signal;
-	IO::Blocking::OutputStream::T output_stream (
-	    nonblocking_output_stream, output_cancel_signal);
 
 	try
 	{
 		while (true)
 		{
-			const RequestType & request = this->request_queue.pop ();
-
-			try
-			{
-				{
-					Failure::CancelScope::T output_cancel_scope;
-					Thread::Timer::T (this->output_timeout,
-					    &Failure::CancelScope::T::cancel,
-					    &output_cancel_scope);
-					protocol.writeRequest (request,
-					    output_stream,
-					    output_cancel_signal,
-					    output_cancel_scope);
-				}
-				output_cancel_signal.clear ();
-			}
-			catch (Failure::CancelException::T)
-			{
-				throw Failure::ResourceError::T ("Writing request timed out\n");
-			}
+			this->interface.writeRequest (this->request_queue.pop (),
+			    std::forward<OutputStream> (output_stream));
 		}
 	}
 	catch (Failure::EndOfResource::T)

@@ -1,34 +1,23 @@
-template <typename RequestType, typename ResponseType>
-struct T : IO::Interface::Protocol::T
+template <typename Request, typename Response, typename Interface>
+struct T
 {
-	T (const Config::Value::T & config);
+	template <typename... Arguments>
+	T (std::chrono::milliseconds round_trip_timeout, Arguments &&... arguments);
 
 	void
-	prime () override;
+	prime ();
+
+	template <typename InputStream, typename OutputStream>
+	void
+	run (InputStream && input_stream, OutputStream && output_stream);
 
 	void
-	run (IO::Interface::NonblockingInputStream::T & input_stream,
-	    IO::Interface::NonblockingOutputStream::T & output_stream) override;
+	cancel ();
 
-	void
-	cancel () override;
+	Response
+	makeRequest (const Request & request);
 
-	ResponseType
-	makeRequest (const RequestType & request);
-
-	virtual ~T () override = default;
-
-	protected:
-	virtual void
-	writeRequest (const RequestType & request,
-	    IO::Blocking::OutputStream::T & output_stream,
-	    IO::CancelSignal::T & output_cancel_signal,
-	    Failure::CancelScope::T & output_cancel_scope) = 0;
-
-	virtual ResponseType
-	readResponse (IO::Blocking::InputStream::T & input_stream,
-	    IO::CancelSignal::T & input_cancel_signal,
-	    Failure::CancelScope::T & output_cancel_scope) = 0;
+	~T () = default;
 
 	private:
 	// Given members
@@ -37,8 +26,10 @@ struct T : IO::Interface::Protocol::T
 
 	// Internal members
 
-	std::mutex mutex;
+	Interface interface;
 
-	Input::T<RequestType, ResponseType> input;
-	Output::T<RequestType, ResponseType> output;
+	std::mutex queue_mutex;
+
+	Input::T<Response, Interface> input;
+	Output::T<Request, Interface> output;
 };

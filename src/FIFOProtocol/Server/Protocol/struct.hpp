@@ -1,11 +1,16 @@
-template <class RequestType, class ResponseType>
-struct T : IO::Interface::Server::Protocol::T
+template <typename Request,
+    typename Response,
+    typename Interface,
+    typename... Arguments>
+struct T
 {
-	T () = default;
+	T (Arguments... arguments);
+
+	std::unique_ptr<Connection::Protocol::T<Request, Response, Interface>>
+	make ();
 
 	~T () = default;
 
-	protected:
-	virtual std::unique_ptr<IO::Interface::Protocol::T>
-	make () override = 0;
+	private:
+	std::tuple<Arguments...> arguments;
 };

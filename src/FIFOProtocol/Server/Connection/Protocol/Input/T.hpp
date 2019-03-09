@@ -1,5 +1,7 @@
-template <typename RequestType, typename ResponseType>
-T<RequestType, ResponseType>::T (std::chrono::milliseconds input_timeout) :
-    input_timeout (input_timeout)
+template <typename Request, typename Response, typename Interface>
+T<Request, Response, Interface>::T (Interface & interface,
+    Output::T<Response, Interface> & output) :
+    interface (interface),
+    output (output)
 {
 }
