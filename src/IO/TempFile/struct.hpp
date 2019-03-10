@@ -2,7 +2,7 @@ struct T
 {
 	T ();
 
-	T (const std::string & pattern = "IO-TempFile.XXXXXX");
+	T (const std::string & pattern);
 
 	T (const T & other) = delete;
 
