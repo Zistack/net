@@ -1,21 +1,23 @@
+template <typename InputStream>
 void
-T::init (IO::Interface::PeekableInputStream::T & input_stream)
+T::init (InputStream && input_stream)
 {
-	std::string first_part = getFirstPart (input_stream);
+	std::string first_part =
+	    getFirstPart (std::forward<InputStream> (input_stream));
+	IO::String::Reader::T first_part_reader (first_part);
 
-	if (IO::Util::test (input_stream, '@'))
+	if (IO::Util::test (std::forward<InputStream> (input_stream), '@'))
 	{
 		input_stream.get ();
 
-		this->user_info = IO::Util::consume (first_part, getUserInfo);
+		this->user_info = getUserInfo (first_part_reader);
+		IO::Util::expectEOF (first_part_reader);
 
-		this->initHostAndPort (input_stream);
+		this->initHostAndPort (std::forward<InputStream> (input_stream));
 	}
 	else
 	{
-		IO::Util::consume (first_part,
-		    [this](IO::Interface::PeekableInputStream::T & input_stream) {
-			    this->initHostAndPort (input_stream);
-		    });
+		this->initHostAndPort (std::forward<InputStream> (first_part_reader));
+		IO::Util::expectEOF (first_part_reader);
 	}
 }

@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-T::getUserInfo (IO::Interface::PeekableInputStream::T & input_stream)
+T::getUserInfo (InputStream && input_stream)
 {
-	return Rule::getClassDecode (input_stream, Class::uichar);
+	return Rule::getClassDecode (
+	    std::forward<InputStream> (input_stream), Class::uichar);
 }

@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-T::getPathPart (IO::Interface::PeekableInputStream::T & input_stream)
+T::getPathPart (InputStream && input_stream)
 {
-	return IO::Rule::getNotClass (input_stream, Class::thirdDelimiter);
+	return IO::Rule::getNotClass (
+	    std::forward<InputStream> (input_stream), Class::thirdDelimiter);
 }

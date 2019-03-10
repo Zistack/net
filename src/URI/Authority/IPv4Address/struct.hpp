@@ -1,17 +1,27 @@
-struct T : Host::T
+struct T
 {
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	T ();
+
+	template <typename InputStream>
+	T (InputStream && input_stream);
+
+	T (const std::string & address_string);
 
 	T (const std::array<uint8_t, 4> & octets);
 
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream) const;
+
 	std::string
-	toString () const override;
+	toString () const;
 
-	std::unique_ptr<Host::T>
-	clone () const override;
-
-	~T () override = default;
+	~T () = default;
 
 	private:
+	template <typename InputStream>
+	void
+	init (InputStream && input_stream);
+
 	std::array<uint8_t, 4> octets;
 };

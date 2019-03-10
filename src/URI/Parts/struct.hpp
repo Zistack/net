@@ -1,6 +1,7 @@
 struct T
 {
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	T (InputStream && input_stream);
 
 	T (const std::string & path_string);
 
@@ -13,18 +14,27 @@ struct T
 	NullableString::T fragment;
 
 	private:
-	static std::string
-	getFirstPart (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	void
+	init (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getAuthorityPart (IO::Interface::PeekableInputStream::T & input_stream);
+	getFirstPart (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getPathPart (IO::Interface::PeekableInputStream::T & input_stream);
+	getAuthorityPart (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getQueryPart (IO::Interface::PeekableInputStream::T & input_stream);
+	getPathPart (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getFragmentPart (IO::Interface::PeekableInputStream::T & input_stream);
+	getQueryPart (InputStream && input_stream);
+
+	template <typename InputStream>
+	static std::string
+	getFragmentPart (InputStream && input_stream);
 };

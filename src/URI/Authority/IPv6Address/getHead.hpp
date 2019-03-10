@@ -1,19 +1,21 @@
+template <typename InputStream>
 std::vector<uint16_t>
-T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
+T::getHead (InputStream && input_stream)
 {
 	std::vector<uint16_t> head;
 
-	if (IO::Util::test (input_stream, ':'))
+	if (IO::Util::test (std::forward<InputStream> (input_stream), ':'))
 	{
-		IO::Util::expect (input_stream, "::");
+		IO::Util::expect (std::forward<InputStream> (input_stream), "::");
 		return head;
 	}
 
 	while (true)
 	{
-		std::string chunk = IO::Rule::getClass (input_stream, IO::Class::hex);
+		std::string chunk = IO::Rule::getClass (
+		    std::forward<InputStream> (input_stream), IO::Class::hex);
 
-		if (IO::Util::test (input_stream, ':'))
+		if (IO::Util::test (std::forward<InputStream> (input_stream), ':'))
 		{
 			input_stream.get ();
 
@@ -29,7 +31,7 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 
 			head.push_back ((uint16_t) std::stoul (chunk, NULL, 16));
 		}
-		else if (IO::Util::test (input_stream, '.'))
+		else if (IO::Util::test (std::forward<InputStream> (input_stream), '.'))
 		{
 			if (chunk.size () == 0)
 			{
@@ -45,7 +47,8 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 
 			input_stream.get ();
 
-			uint64_t second = IO::Rule::getUInt (input_stream);
+			uint64_t second =
+			    IO::Rule::getUInt (std::forward<InputStream> (input_stream));
 
 			if (second > 255)
 			{
@@ -53,8 +56,9 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 				    "IPv4 octet must be less than 256\n");
 			}
 
-			IO::Util::expect (input_stream, '.');
-			uint64_t third = IO::Rule::getUInt (input_stream);
+			IO::Util::expect (std::forward<InputStream> (input_stream), '.');
+			uint64_t third =
+			    IO::Rule::getUInt (std::forward<InputStream> (input_stream));
 
 			if (third > 255)
 			{
@@ -62,8 +66,9 @@ T::getHead (IO::Interface::PeekableInputStream::T & input_stream)
 				    "IPv4 octet must be less than 256\n");
 			}
 
-			IO::Util::expect (input_stream, '.');
-			uint64_t fourth = IO::Rule::getUInt (input_stream);
+			IO::Util::expect (std::forward<InputStream> (input_stream), '.');
+			uint64_t fourth =
+			    IO::Rule::getUInt (std::forward<InputStream> (input_stream));
 
 			if (fourth > 255)
 			{

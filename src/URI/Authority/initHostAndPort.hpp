@@ -1,12 +1,14 @@
+template <typename InputStream>
 void
-T::initHostAndPort (IO::Interface::PeekableInputStream::T & input_stream)
+T::initHostAndPort (InputStream && input_stream)
 {
-	this->host = std::move (getHost (input_stream));
+	this->host = std::move (getHost (std::forward<InputStream> (input_stream)));
 
-	if (IO::Util::test (input_stream, ':'))
+	if (IO::Util::test (std::forward<InputStream> (input_stream), ':'))
 	{
 		input_stream.get ();
 
-		this->port = IO::Rule::getUInt (input_stream);
+		this->port =
+		    IO::Rule::getUInt (std::forward<InputStream> (input_stream));
 	}
 }

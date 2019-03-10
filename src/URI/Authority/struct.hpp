@@ -1,22 +1,17 @@
 struct T
 {
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	T (InputStream && input_stream);
 
 	T (const std::string & authority_string);
 
 	T (const NullableString::T & user_info,
-	    std::unique_ptr<Host::T> && host,
+	    const Host::T & host,
 	    uint64_t port);
 
-	T (const T & other);
-
-	T (T && other) = default;
-
-	T &
-	operator= (const T & other);
-
-	T &
-	operator= (T && other) = default;
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream) const;
 
 	std::string
 	toString () const;
@@ -24,25 +19,31 @@ struct T
 	~T () = default;
 
 	private:
+	template <typename InputStream>
 	void
-	init (IO::Interface::PeekableInputStream::T & input_stream);
+	init (InputStream && input_stream);
 
+	template <typename InputStream>
 	void
-	initHostAndPort (IO::Interface::PeekableInputStream::T & input_stream);
+	initHostAndPort (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getFirstPart (IO::Interface::PeekableInputStream::T & input_stream);
+	getFirstPart (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::string
-	getUserInfo (IO::Interface::PeekableInputStream::T & input_stream);
+	getUserInfo (InputStream && input_stream);
 
-	static std::unique_ptr<Host::T>
-	getHost (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	static Host::T
+	getHost (InputStream && input_stream);
 
-	static std::unique_ptr<IPv6Address::T>
-	getIPLiteral (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	static IPv6Address::T
+	getIPLiteral (InputStream && input_stream);
 
 	NullableString::T user_info;
-	std::unique_ptr<Host::T> host;
+	Host::T host;
 	std::optional<uint64_t> port;
 };

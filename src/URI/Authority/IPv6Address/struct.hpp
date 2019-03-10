@@ -1,28 +1,35 @@
-struct T : Host::T
+struct T
 {
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	T ();
+
+	template <typename InputStream>
+	T (InputStream && input_stream);
 
 	T (const std::string & address_string);
 
 	T (const std::array<uint16_t, 8> & hexadecitets);
 
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream);
+
 	std::string
-	toString () const override;
+	toString () const;
 
-	std::unique_ptr<Host::T>
-	clone () const override;
-
-	~T () override = default;
+	~T () = default;
 
 	private:
+	template <typename InputStream>
 	void
-	init (IO::Interface::PeekableInputStream::T & input_stream);
+	init (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::vector<uint16_t>
-	getHead (IO::Interface::PeekableInputStream::T & input_stream);
+	getHead (InputStream && input_stream);
 
+	template <typename InputStream>
 	static std::vector<uint16_t>
-	getTail (IO::Interface::PeekableInputStream::T & input_stream);
+	getTail (InputStream && input_stream);
 
 	static std::string
 	hexadecitetToString (uint16_t hexadecitet);

@@ -9,7 +9,7 @@ T::toString () const
 		authority_string.push_back ('@');
 	}
 
-	authority_string.append (this->host->toString ());
+	authority_string.append (Host::toString (this->host));
 
 	if (this->port)
 	{

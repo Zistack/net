@@ -1,7 +1,8 @@
+template <typename InputStream>
 void
-T::init (IO::Interface::PeekableInputStream::T & input_stream)
+T::init (InputStream && input_stream)
 {
-	if (IO::Util::test (input_stream, '/'))
+	if (IO::Util::test (std::forward<InputStream> (input_stream), '/'))
 	{
 		this->absolute = true;
 		input_stream.get ();
@@ -11,17 +12,18 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 		this->absolute = false;
 	}
 
-	std::string segment = Rule::getSegment (input_stream);
+	std::string segment =
+	    Rule::getSegment (std::forward<InputStream> (input_stream));
 
 	if (segment != "." && segment != "..")
 	{
 		this->segments.push_back (segment);
 	}
 
-	while (IO::Util::test (input_stream, '/'))
+	while (IO::Util::test (std::forward<InputStream> (input_stream), '/'))
 	{
 		input_stream.get ();
-		segment = Rule::getSegment (input_stream);
+		segment = Rule::getSegment (std::forward<InputStream> (input_stream));
 
 		if (segment == ".")
 		{

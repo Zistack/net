@@ -1,14 +1,14 @@
-T::T (IO::Interface::PeekableInputStream::T & input_stream)
+template <typename InputStream>
+T::T (InputStream && input_stream)
 {
-	init (input_stream);
+	this->init (std::forward<InputStream> (input_stream));
 }
 
 T::T (const std::string & uri_string)
 {
-	IO::Util::consume (uri_string,
-	    [this](IO::Interface::PeekableInputStream::T & input_stream) {
-		    this->init (input_stream);
-	    });
+	IO::String::Reader::T input_stream (uri_string);
+	this->init (input_stream);
+	IO::Util::expectEOF (input_stream);
 }
 
 T::T (const NullableString::T & scheme,

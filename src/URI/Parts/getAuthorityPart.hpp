@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-T::getAuthorityPart (IO::Interface::PeekableInputStream::T & input_stream)
+T::getAuthorityPart (InputStream && input_stream)
 {
-	return IO::Rule::getNotClass (input_stream, Class::secondDelimiter);
+	return IO::Rule::getNotClass (
+	    std::forward<InputStream> (input_stream), Class::secondDelimiter);
 }

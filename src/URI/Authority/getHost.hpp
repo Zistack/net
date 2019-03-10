@@ -1,18 +1,23 @@
-std::unique_ptr<Host::T>
-T::getHost (IO::Interface::PeekableInputStream::T & input_stream)
+template <typename InputStream>
+Host::T
+T::getHost (InputStream && input_stream)
 {
-	if (IO::Util::test (input_stream, '['))
+	if (IO::Util::test (std::forward<InputStream> (input_stream), '['))
 	{
-		return getIPLiteral (input_stream);
+		return getIPLiteral (std::forward<InputStream> (input_stream));
 	}
-	else if (IO::Util::test (input_stream, IO::Class::digit))
+	else if (IO::Util::test (
+	             std::forward<InputStream> (input_stream), IO::Class::digit))
 	{
-		return std::make_unique<Authority::IPv4Address::T> (input_stream);
+		return Authority::IPv4Address::T (
+		    std::forward<InputStream> (input_stream));
 	}
-	else if (IO::Util::test (input_stream, Class::rnchar) ||
-	    IO::Util::test (input_stream, '%'))
+	else if (IO::Util::test (
+	             std::forward<InputStream> (input_stream), Class::rnchar) ||
+	    IO::Util::test (std::forward<InputStream> (input_stream), '%'))
 	{
-		return std::make_unique<Authority::RegisteredName::T> (input_stream);
+		return Authority::RegisteredName::T (
+		    std::forward<InputStream> (input_stream));
 	}
 	else
 	{

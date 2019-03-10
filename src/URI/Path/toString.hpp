@@ -3,12 +3,12 @@ T::toString () const
 {
 	std::string path_string;
 
-	if (absolute)
+	if (this->absolute)
 	{
 		path_string.push_back ('/');
 	}
 
-	for (std::string segment : this->segments)
+	for (auto && segment : this->segments)
 	{
 		path_string.append (Util::encode (segment));
 		path_string.push_back ('/');

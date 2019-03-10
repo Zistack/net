@@ -1,12 +1,14 @@
+template <typename InputStream>
 void
-T::init (IO::Interface::PeekableInputStream::T & input_stream)
+T::init (InputStream && input_stream)
 {
-	Parts::T parts (input_stream);
+	Parts::T parts (std::forward<InputStream> (input_stream));
 
 	if (parts.scheme)
 	{
-		this->scheme =
-		    IO::Util::consume (parts.scheme.stdString (), Rule::getScheme);
+		IO::String::Reader::T input_stream (parts.scheme.stdString ());
+		this->scheme = Rule::getScheme (input_stream);
+		IO::Util::expectEOF (input_stream);
 	}
 
 	if (parts.authority)
@@ -18,13 +20,15 @@ T::init (IO::Interface::PeekableInputStream::T & input_stream)
 
 	if (parts.query)
 	{
-		this->query =
-		    IO::Util::consume (parts.query.stdString (), Rule::getQuery);
+		IO::String::Reader::T input_stream (parts.query.stdString ());
+		this->query = Rule::getQuery (input_stream);
+		IO::Util::expectEOF (input_stream);
 	}
 
 	if (parts.fragment)
 	{
-		this->fragment =
-		    IO::Util::consume (parts.fragment.stdString (), Rule::getFragment);
+		IO::String::Reader::T input_stream (parts.fragment.stdString ());
+		this->fragment = Rule::getFragment (input_stream);
+		IO::Util::expectEOF (input_stream);
 	}
 }

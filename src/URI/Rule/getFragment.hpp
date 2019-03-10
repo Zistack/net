@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-getFragment (IO::Interface::PeekableInputStream::T & input_stream)
+getFragment (InputStream && input_stream)
 {
-	return getClassDecode (input_stream, Class::fchar);
+	return getClassDecode (
+	    std::forward<InputStream> (input_stream), Class::fchar);
 }

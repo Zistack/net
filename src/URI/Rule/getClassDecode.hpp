@@ -1,17 +1,18 @@
-template <class Predicate>
+template <typename InputStream, typename Predicate>
 std::string
-getClassDecode (IO::Interface::PeekableInputStream::T & input_stream,
-    Predicate && classPredicate)
+getClassDecode (InputStream && input_stream, Predicate && classPredicate)
 {
 	std::string string;
 
 	while (true)
 	{
-		if (IO::Util::test (input_stream, '%'))
+		if (IO::Util::test (std::forward<InputStream> (input_stream), '%'))
 		{
-			string.push_back (getEncoded (input_stream));
+			string.push_back (
+			    getEncoded (std::forward<InputStream> (input_stream)));
 		}
-		else if (IO::Util::test (input_stream, classPredicate))
+		else if (IO::Util::test (
+		             std::forward<InputStream> (input_stream), classPredicate))
 		{
 			string.push_back (input_stream.get ());
 		}

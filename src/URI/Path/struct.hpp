@@ -2,7 +2,8 @@ struct T
 {
 	T ();
 
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	T (InputStream && input_stream);
 
 	T (const std::string & path_string);
 
@@ -12,14 +13,19 @@ struct T
 	            std::string>::value>::type>
 	T (Iterable && iterable, bool absolute = true);
 
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream) const;
+
 	std::string
 	toString () const;
 
 	~T () = default;
 
 	private:
+	template <typename InputStream>
 	void
-	init (IO::Interface::PeekableInputStream::T & input_stream);
+	init (InputStream && input_stream);
 
 	std::list<std::string> segments;
 	bool absolute;

@@ -1,5 +1,6 @@
+template <typename InputStream>
 std::string
-T::getFragmentPart (IO::Interface::PeekableInputStream::T & input_stream)
+T::getFragmentPart (InputStream && input_stream)
 {
 	std::string fragment_part;
 

@@ -1,16 +1,16 @@
 T::T () : absolute (true) {}
 
-T::T (IO::Interface::PeekableInputStream::T & input_stream)
+template <typename InputStream>
+T::T (InputStream && input_stream)
 {
-	init (input_stream);
+	this->init (std::forward<InputStream> (input_stream));
 }
 
 T::T (const std::string & path_string)
 {
-	IO::Util::consume (path_string,
-	    [this](IO::Interface::PeekableInputStream::T & input_stream) {
-		    this->init (input_stream);
-	    });
+	IO::String::Reader::T input_stream (path_string);
+	this->init (input_stream);
+	IO::Util::expectEOF (input_stream);
 }
 
 template <class Iterable, typename>

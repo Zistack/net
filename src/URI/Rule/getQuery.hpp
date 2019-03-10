@@ -1,5 +1,7 @@
+template <typename InputStream>
 std::string
-getQuery (IO::Interface::PeekableInputStream::T & input_stream)
+getQuery (InputStream && input_stream)
 {
-	return getClassDecode (input_stream, Class::qchar);
+	return getClassDecode (
+	    std::forward<InputStream> (input_stream), Class::qchar);
 }

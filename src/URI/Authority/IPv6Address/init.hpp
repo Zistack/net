@@ -1,11 +1,14 @@
+template <typename InputStream>
 void
-T::init (IO::Interface::PeekableInputStream::T & input_stream)
+T::init (InputStream && input_stream)
 {
-	std::vector<uint16_t> head = getHead (input_stream);
+	std::vector<uint16_t> head =
+	    getHead (std::forward<InputStream> (input_stream));
 
 	if (head.size () < 7)
 	{
-		std::vector<uint16_t> tail = getTail (input_stream);
+		std::vector<uint16_t> tail =
+		    getTail (std::forward<InputStream> (input_stream));
 
 		if (head.size () + tail.size () > 7)
 		{

@@ -1,28 +1,21 @@
-T::T (IO::Interface::PeekableInputStream::T & input_stream)
+template <typename InputStream>
+T::T (InputStream && input_stream)
 {
-	init (input_stream);
+	this->init (std::forward<InputStream> (input_stream));
 }
 
 T::T (const std::string & authority_string)
 {
-	IO::Util::consume (authority_string,
-	    [this](IO::Interface::PeekableInputStream::T & input_stream) {
-		    this->init (input_stream);
-	    });
+	IO::String::Reader::T input_stream (authority_string);
+	this->init (input_stream);
+	IO::Util::expectEOF (input_stream);
 }
 
 T::T (const NullableString::T & user_info,
-    std::unique_ptr<Host::T> && host,
+    const Host::T & host,
     uint64_t port) :
     user_info (user_info),
-    host (std::move (host)),
+    host (host),
     port (port)
-{
-}
-
-T::T (const T & other) :
-    user_info (other.user_info),
-    host (other.host->clone ()),
-    port (other.port)
 {
 }

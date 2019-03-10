@@ -2,7 +2,8 @@ struct T
 {
 	T () = default;
 
-	T (IO::Interface::PeekableInputStream::T & input_stream);
+	template <typename InputStream>
+	T (InputStream && input_stream);
 
 	T (const std::string & uri_string);
 
@@ -12,14 +13,19 @@ struct T
 	    const NullableString::T & query,
 	    const NullableString::T & fragment);
 
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream);
+
 	std::string
 	toString () const;
 
 	~T () = default;
 
 	private:
+	template <typename InputStream>
 	void
-	init (IO::Interface::PeekableInputStream::T & input_stream);
+	init (InputStream && input_stream);
 
 	NullableString::T scheme;
 	std::optional<Authority::T> authority;
