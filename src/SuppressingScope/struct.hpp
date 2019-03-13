@@ -1,9 +1,12 @@
-template <class Scopable>
+template <typename Scopable>
 struct T
 {
 	T ();
 
-	T (Scopable & scopable, Failure::ExceptionStore::T & exception_store);
+	template <typename... Arguments>
+	T (Scopable & scopable,
+	    Arguments &&... arguments,
+	    Failure::ExceptionStore::T & exception_store);
 
 	T (const T & other) = delete;
 

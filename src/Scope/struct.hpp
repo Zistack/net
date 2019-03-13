@@ -1,9 +1,10 @@
-template <class Scopable>
+template <typename Scopable>
 struct T
 {
 	T ();
 
-	T (Scopable & scopable);
+	template <typename... Arguments>
+	T (Scopable & scopable, Arguments &&... arguments);
 
 	T (const T & other) = delete;
 

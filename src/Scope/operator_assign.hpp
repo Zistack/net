@@ -1,4 +1,4 @@
-template <class Scopable>
+template <typename Scopable>
 T<Scopable> &
 T<Scopable>::operator= (T && other)
 {

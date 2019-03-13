@@ -1,15 +1,17 @@
-template <class Scopable>
+template <typename Scopable>
 T<Scopable>::T () : scopable (nullptr)
 {
 }
 
-template <class Scopable>
-T<Scopable>::T (Scopable & scopable) : scopable (&scopable)
+template <typename Scopable>
+template <typename... Arguments>
+T<Scopable>::T (Scopable & scopable, Arguments &&... arguments) :
+    scopable (&scopable)
 {
-	scopable.open ();
+	scopable.open (std::forward<Arguments> (arguments)...);
 }
 
-template <class Scopable>
+template <typename Scopable>
 T<Scopable>::T (T && other) : scopable (other.scopable)
 {
 	other.scopable = nullptr;

@@ -1,4 +1,4 @@
-Scope-moddepends = Failure
+Scope-moddepends =
 Scope-CFLAGS =
 Scope-LFLAGS =
 
