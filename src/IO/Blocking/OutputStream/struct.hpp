@@ -1,13 +1,19 @@
 template <typename NonblockingOutputStream>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T (NonblockingOutputStream output_stream);
 
-	Interface::Watchable::Events::T
+	Watchable::Events::T
 	events () const;
 
 	int
 	fileDescriptor () const;
+
+	void
+	cancel ();
+
+	void
+	clear ();
 
 	void
 	put (char c);
@@ -17,12 +23,6 @@ struct T : Failure::Cancellable::T
 
 	void
 	print (const std::string & string);
-
-	void
-	cancel () override;
-
-	void
-	clear ();
 
 	~T () = default;
 
@@ -49,6 +49,11 @@ struct T : Failure::Cancellable::T
 	std::unique_ptr<char[]> buffer;
 
 	friend struct Scope::T<T>;
+
+	static_assert (TypeTraits::IsWatchable::T<T>::value);
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
+	static_assert (TypeTraits::IsClearable::T<T>::value);
+	static_assert (TypeTraits::IsOutputStream::T<T>::value);
 };
 
 template <typename NonblockingOutputStream>

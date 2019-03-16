@@ -1,17 +1,21 @@
-struct T : Interface::NonblockingInputStream::T
+struct T
 {
 	T (int file_descriptor);
 
-	size_t
-	read (char * buffer, size_t count) override;
-
-	Interface::Watchable::Events::T
-	events () const override;
+	Watchable::Events::T
+	events () const;
 
 	int
-	fileDescriptor () const override;
+	fileDescriptor () const;
+
+	size_t
+	read (char * buffer, size_t count);
 
 	~T () = default;
 
+	private:
 	int file_descriptor;
+
+	static_assert (TypeTraits::IsWatchable::T<T>::value);
+	static_assert (TypeTraits::IsNonblockingInputStream::T<T>::value);
 };

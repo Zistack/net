@@ -1,4 +1,4 @@
-struct T : Interface::Watchable::T
+struct T
 {
 	T ();
 
@@ -12,19 +12,21 @@ struct T : Interface::Watchable::T
 	T &
 	operator= (T && other) = delete;
 
+	Watchable::Events::T
+	events () const;
+
+	int
+	fileDescriptor () const;
+
 	void
 	send ();
 
 	bool
 	recieve ();
 
-	Interface::Watchable::Events::T
-	events () const override;
-
-	int
-	fileDescriptor () const override;
-
 	~T ();
 
 	int file_descriptor;
+
+	static_assert (TypeTraits::IsWatchable::T<T>::value);
 };

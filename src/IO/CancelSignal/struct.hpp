@@ -1,15 +1,15 @@
-struct T : Interface::Watchable::T, Failure::Cancellable::T
+struct T
 {
 	T ();
 
-	Interface::Watchable::Events::T
-	events () const override;
+	Watchable::Events::T
+	events () const;
 
 	int
-	fileDescriptor () const override;
+	fileDescriptor () const;
 
 	void
-	cancel () override;
+	cancel ();
 
 	void
 	clear ();
@@ -19,4 +19,8 @@ struct T : Interface::Watchable::T, Failure::Cancellable::T
 	private:
 	std::atomic<bool> cancelled;
 	Signal::T signal;
+
+	static_assert (TypeTraits::IsWatchable::T<T>::value);
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
+	static_assert (TypeTraits::IsClearable::T<T>::value);
 };

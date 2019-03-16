@@ -9,13 +9,24 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
     Function && event,
     Arguments &&... arguments)
 {
-	exception_store.tryStore ([&]() {
+	try
+	{
 		while (true)
 		{
 			try
 			{
+				if constexpr (TypeTraits::IsBuffered::T<Watchable>::value)
+				{
+					if (watchable.isReady ()) break;
+				}
+
 				IO::Util::wait (std::forward<Watchable> (watchable),
 				    std::forward<ShutdownSignal> (shutdown_signal));
+
+				if constexpr (TypeTraits::IsSpurious::T<Watchable>::value)
+				{
+					if (watchable.spurious ()) continue;
+				}
 			}
 			catch (Failure::CancelException::T)
 			{
@@ -31,5 +42,9 @@ eventLoop (Failure::ExceptionStore::T & exception_store,
 				break;
 			}
 		}
-	});
+	}
+	catch (...)
+	{
+		exception_store.store (std::current_exception ());
+	}
 }

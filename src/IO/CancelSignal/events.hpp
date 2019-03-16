@@ -1,4 +1,4 @@
-Interface::Watchable::Events::T
+Watchable::Events::T
 T::events () const
 {
 	return this->signal.events ();

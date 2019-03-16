@@ -16,4 +16,6 @@ struct T
 	private:
 	std::vector<uint8_t> & vector;
 	std::vector<uint8_t>::size_type pointer;
+
+	static_assert (TypeTraits::IsOutputStream::T<T>::value);
 };

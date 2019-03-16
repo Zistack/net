@@ -1,13 +1,22 @@
 template <typename NonblockingInputStream>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T (NonblockingInputStream input_stream);
 
-	Interface::Watchable::Events::T
+	Watchable::Events::T
 	events () const;
 
 	int
 	fileDescriptor () const;
+
+	void
+	cancel ();
+
+	void
+	clear ();
+
+	bool
+	isReady () const;
 
 	char
 	get ();
@@ -17,12 +26,6 @@ struct T : Failure::Cancellable::T
 
 	bool
 	eof ();
-
-	void
-	cancel () override;
-
-	void
-	clear ();
 
 	~T () = default;
 
@@ -42,6 +45,12 @@ struct T : Failure::Cancellable::T
 	std::unique_ptr<char[]> buffer;
 
 	bool eof_bit;
+
+	static_assert (TypeTraits::IsWatchable::T<T>::value);
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
+	static_assert (TypeTraits::IsClearable::T<T>::value);
+	static_assert (TypeTraits::IsBuffered::T<T>::value);
+	static_assert (TypeTraits::IsInputStream::T<T>::value);
 };
 
 template <typename NonblockingInputStream>

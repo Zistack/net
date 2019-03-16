@@ -16,4 +16,6 @@ struct T
 	private:
 	std::string & string;
 	std::string::size_type pointer;
+
+	static_assert (TypeTraits::IsOutputStream::T<T>::value);
 };
