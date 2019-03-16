@@ -1,9 +1,8 @@
-template <typename Cancellable>
+template <typename... Cancellables>
 void
-T<Cancellable>::close ()
+T<Cancellables...>::close ()
 {
-	while (this->cancellable.atomic_load ())
-	{
-		std::this_thread::yield ();
-	}
+	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
+
+	this->cancellable = nullptr;
 }

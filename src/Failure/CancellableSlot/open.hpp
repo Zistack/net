@@ -1,13 +1,14 @@
+template <typename... Cancellables>
 template <typename Cancellable>
 void
-T<Cancellable>::open (Cancellable & cancellable)
+T<Cancellables...>::open (Cancellable & cancellable)
 {
-	this->cancellable.atomic_store (&cancellable);
-	bool cancelled = this->cancelled.atomic_load ();
+	std::unique_lock<decltype (this->mutex)> lock (this->mutex);
 
-	if (cancelled)
+	this->cancellable = cancellable;
+
+	if (this->cancelled)
 	{
-		cancellable.cancel ();
-		cancellable.atomic_store (nullptr);
+		this->callCancellable ();
 	}
 }

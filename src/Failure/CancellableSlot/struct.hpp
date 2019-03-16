@@ -1,4 +1,4 @@
-template <typename Cancellable>
+template <typename... Cancellables>
 struct T
 {
 	T ();
@@ -9,14 +9,22 @@ struct T
 	~T () = default;
 
 	private:
+	template <typename Cancellable>
 	void
 	open (Cancellable & cancellable);
 
 	void
 	close ();
 
-	std::atomic<bool> cancelled;
-	std::atomic<Cancellable *> cancellable;
+	void
+	cancelCancellable ();
+
+	std::mutex mutex;
+
+	bool cancelled;
+	std::variant<std::nullptr_t, Cancellables &...> cancellable;
 
 	friend struct Scope::T<T>;
+
+	static_assert (TypeTraits::IsCancellable::T<T>::value);
 };

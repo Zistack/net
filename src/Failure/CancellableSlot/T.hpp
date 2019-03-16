@@ -1,4 +1,4 @@
-template <typename Cancellable>
-T<Cancellable>::T () : cancelled (false), cancellable (nullptr)
+template <typename... Cancellables>
+T<Cancellables...>::T () : cancelled (false), cancellable (nullptr)
 {
 }
