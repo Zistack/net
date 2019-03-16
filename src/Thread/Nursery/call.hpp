@@ -1,6 +1,9 @@
-template <class Function, class... Arguments, typename>
+template <typename Cancellable,
+    typename Function,
+    typename... Arguments,
+    typename>
 void
-T::call (Failure::Cancellable::T & cancellable,
+T::call (Cancellable & cancellable,
     Function && function,
     Arguments &&... arguments)
 {
@@ -9,7 +12,7 @@ T::call (Failure::Cancellable::T & cancellable,
 	    std::forward<Arguments> (arguments)...);
 }
 
-template <class Function, class... Arguments, typename>
+template <typename Function, typename... Arguments, typename>
 void
 T::call (Function && function, Arguments &&... arguments)
 {
@@ -18,9 +21,12 @@ T::call (Function && function, Arguments &&... arguments)
 	    std::forward<Arguments> (arguments)...);
 }
 
-template <class Function, class... Arguments, typename>
+template <typename Cancellable,
+    typename Function,
+    typename... Arguments,
+    typename>
 void
-T::call (Failure::Cancellable::T * cancellable,
+T::call (Cancellable * cancellable,
     Function && function,
     Arguments &&... arguments)
 {

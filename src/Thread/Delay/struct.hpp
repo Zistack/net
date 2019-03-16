@@ -1,5 +1,5 @@
 template <class Element>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T ();
 
@@ -13,9 +13,11 @@ struct T : Failure::Cancellable::T
 	get ();
 
 	void
-	cancel () override;
+	cancel ();
 
 	~T () = default;
 
 	std::shared_ptr<std::promise<Element>> promise;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

@@ -1,15 +1,10 @@
 struct T
 {
-	template <class Function,
-	    class... Arguments,
-	    typename = typename std::enable_if<!std::is_same<std::nullptr_t,
-	        typename std::decay<Function>::type>::value>::type>
+	template <typename Function, typename... Arguments, typename Cancellable>
 	T (Function && function,
 	    Arguments &&... arguments,
-	    Failure::Cancellable::T * cancellable)
+	    Cancellable * cancellable)
 	noexcept;
-
-	T (std::nullptr_t, Failure::Cancellable::T * cancellable) noexcept;
 
 	T (const T & other) = delete;
 
@@ -33,7 +28,10 @@ struct T
 	~T ();
 
 	private:
-	Failure::Cancellable::T * cancellable;
+	void * cancellable;
+	void (*cancel_cancellable) (void *);
 
 	std::thread thread;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

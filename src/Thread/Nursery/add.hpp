@@ -1,6 +1,9 @@
-template <class Function, class... Arguments, typename>
+template <typename Cancellable,
+    typename Function,
+    typename... Arguments,
+    typename>
 void
-T::add (Failure::Cancellable::T & cancellable,
+T::add (Cancellable & cancellable,
     Function && function,
     Arguments &&... arguments) noexcept
 {
@@ -9,7 +12,7 @@ T::add (Failure::Cancellable::T & cancellable,
 	    std::forward<Arguments> (arguments)...);
 }
 
-template <class Function, class... Arguments, typename>
+template <typename Function, typename... Arguments, typename>
 void
 T::add (Function && function, Arguments &&... arguments) noexcept
 {
@@ -18,9 +21,12 @@ T::add (Function && function, Arguments &&... arguments) noexcept
 	    std::forward<Arguments> (arguments)...);
 }
 
-template <class Function, class... Arguments, typename>
+template <typename Cancellable,
+    typename Function,
+    typename... Arguments,
+    typename>
 void
-T::add (Failure::Cancellable::T * cancellable,
+T::add (Cancellable * cancellable,
     Function && function,
     Arguments &&... arguments) noexcept
 {

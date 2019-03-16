@@ -1,6 +1,6 @@
-template <class Function, class... Arguments>
+template <typename Cancellable, typename Function, typename... Arguments>
 bool
-T::start (Failure::Cancellable::T * cancellable,
+T::start (Cancellable * cancellable,
     Function && function,
     Arguments &&... arguments) noexcept
 {

@@ -1,5 +1,5 @@
 template <typename Element>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T ();
 
@@ -16,7 +16,7 @@ struct T : Failure::Cancellable::T
 	tryPop ();
 
 	void
-	cancel () override;
+	cancel ();
 
 	~T () = default;
 
@@ -36,4 +36,6 @@ struct T : Failure::Cancellable::T
 	std::list<Element> elements;
 
 	friend struct Scope::T<T>;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

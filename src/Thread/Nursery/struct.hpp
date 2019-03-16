@@ -1,4 +1,4 @@
-struct T : Failure::Cancellable::T
+struct T
 {
 	T () noexcept;
 
@@ -14,94 +14,100 @@ struct T : Failure::Cancellable::T
 	T &
 	operator= (T && other) = delete;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	add (Failure::Cancellable::T & cancellable,
+	add (Cancellable & cancellable,
 	    Function && function,
 	    Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
 	add (Function && function, Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	add (Failure::Cancellable::T * cancellable,
+	add (Cancellable * cancellable,
 	    Function && function,
 	    Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	run (Failure::Cancellable::T & cancellable,
+	run (Cancellable & cancellable,
 	    Function && function,
 	    Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
 	run (Function && function, Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	run (Failure::Cancellable::T * cancellable,
+	run (Cancellable * cancellable,
 	    Function && function,
 	    Arguments &&... arguments) noexcept;
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	call (Failure::Cancellable::T & cancellable,
+	call (Cancellable & cancellable,
 	    Function && function,
 	    Arguments &&... arguments);
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
 	call (Function && function, Arguments &&... arguments);
 
-	template <class Function,
-	    class... Arguments,
+	template <typename Cancellable,
+	    typename Function,
+	    typename... Arguments,
 	    typename = typename std::enable_if<
 	        std::is_invocable<Function, Arguments...>::value>::type>
 	void
-	call (Failure::Cancellable::T * cancellable,
+	call (Cancellable * cancellable,
 	    Function && function,
 	    Arguments &&... arguments);
 
 	void
-	cancel () noexcept override;
+	cancel () noexcept;
 
 	~T () noexcept (false);
 
 	private:
-	template <class Function, class... Arguments>
+	template <typename Cancellable, typename Function, typename... Arguments>
 	bool
-	start (Failure::Cancellable::T * cancellable,
+	start (Cancellable * cancellable,
 	    Function && function,
 	    Arguments &&... arguments) noexcept;
 
-	template <class Function, class... Arguments>
+	template <typename Function, typename... Arguments>
 	void
 	execute (Function && function, Arguments &&... arguments) noexcept;
 
@@ -119,4 +125,6 @@ struct T : Failure::Cancellable::T
 
 	std::unique_ptr<Failure::ExceptionStore::T> internal_store;
 	Failure::ExceptionStore::T & exception_store;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };
