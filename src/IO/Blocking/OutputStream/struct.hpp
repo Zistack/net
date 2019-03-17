@@ -54,6 +54,7 @@ struct T
 	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 	static_assert (TypeTraits::IsClearable::T<T>::value);
 	static_assert (TypeTraits::IsOutputStream::T<T>::value);
+	static_assert (TypeTraits::IsBuffered::T<T>::value);
 };
 
 template <typename NonblockingOutputStream>
