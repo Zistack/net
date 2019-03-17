@@ -1,5 +1,5 @@
 template <typename Request, typename Response, typename Interface>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T (Interface & interface, Output::T<Response, Interface> & output);
 
@@ -11,7 +11,7 @@ struct T : Failure::Cancellable::T
 	run (InputStream && input_stream);
 
 	void
-	cancel () override;
+	cancel ();
 
 	~T () = default;
 
@@ -37,4 +37,6 @@ struct T : Failure::Cancellable::T
 	// Transient members
 
 	SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

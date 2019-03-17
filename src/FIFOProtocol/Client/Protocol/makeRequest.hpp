@@ -16,7 +16,7 @@ T<Request, Response, Interface>::makeRequest (const Request & request)
 	try
 	{
 		Thread::Timer::T (this->round_trip_timeout,
-		    &::Protocol::Delay::T<Response>::cancel,
+		    Thread::Delay::T<Response>::cancel,
 		    &response_delay);
 		return this->response_delay.get ();
 	}

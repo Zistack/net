@@ -1,4 +1,4 @@
-FIFOProtocol-moddepends = IO Thread Failure Shutdown Protocol Scope SuppressingScope GetConfig
+FIFOProtocol-moddepends = IO Thread Failure Shutdown Scope SuppressingScope GetConfig
 FIFOProtocol-CFLAGS =
 FIFOProtocol-LFLAGS =
 

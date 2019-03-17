@@ -10,7 +10,7 @@ T<Response, Interface>::run (InputStream && input_stream)
 		Scope::T<decltype (this->response_queue)> response_scope (
 		    std::move (this->response_scope));
 
-		::Protocol::eventLoop (this->exception_store,
+		IO::Util::eventLoop (this->exception_store,
 		    std::forward<InputStream> (input_stream),
 		    this->input_shutdown_signal,
 		    &T::event<InputStream>,

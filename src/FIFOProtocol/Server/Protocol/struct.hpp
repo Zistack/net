@@ -13,4 +13,6 @@ struct T
 
 	private:
 	std::tuple<Arguments...> arguments;
+
+	static_assert (IO::TypeTraits::IsServerProtocol::T<T>::value);
 };

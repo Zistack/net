@@ -38,4 +38,6 @@ struct T
 
 	SuppressingScope::T<Shutdown::Signal::T> input_shutdown_scope;
 	Scope::T<decltype (response_queue)> response_scope;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

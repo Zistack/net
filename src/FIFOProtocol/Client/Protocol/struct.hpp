@@ -32,4 +32,6 @@ struct T
 
 	Input::T<Response, Interface> input;
 	Output::T<Request, Interface> output;
+
+	static_assert (IO::TypeTraits::IsProtocol::T<T>::value);
 };

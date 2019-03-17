@@ -1,5 +1,5 @@
 template <typename Response, typename Interface>
-struct T : Failure::Cancellable::T
+struct T
 {
 	T (Interface & interface);
 
@@ -11,7 +11,7 @@ struct T : Failure::Cancellable::T
 	run (OutputStream && output_stream);
 
 	void
-	cancel () override;
+	cancel ();
 
 	void
 	push (const Thread::Delay::T<Response> & response_delay);
@@ -30,4 +30,6 @@ struct T : Failure::Cancellable::T
 	// Transient members
 
 	Scope::T<decltype (response_queue)> response_scope;
+
+	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
 };

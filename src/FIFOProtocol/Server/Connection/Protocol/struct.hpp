@@ -21,4 +21,6 @@ struct T
 
 	Input::T<Request, Response, Interface> input;
 	Output::T<Response, Interface> output;
+
+	static_assert (IO::TypeTraits::IsProtocol::T<T>::value);
 };

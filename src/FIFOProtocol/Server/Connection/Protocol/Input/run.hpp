@@ -9,7 +9,7 @@ T<Request, Response, Interface>::run (InputStream && input_stream)
 
 		Thread::Nursery::T nursery (this->exception_store);
 
-		::Protocol::eventLoop (this->exception_store,
+		IO::Util::eventLoop (this->exception_store,
 		    std::forward<InputStream> (input_stream),
 		    this->input_shutdown_signal,
 		    &T::event<InputStream>,
