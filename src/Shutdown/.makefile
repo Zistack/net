@@ -1,4 +1,4 @@
-Shutdown-moddepends = IO Scope SuppressingScope
+Shutdown-moddepends = IO Scope SuppressingScope Failure
 Shutdown-CFLAGS =
 Shutdown-LFLAGS =
 
