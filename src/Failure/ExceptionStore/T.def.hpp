@@ -1,0 +1,3 @@
+T::T () : exception (nullptr)
+{
+}

@@ -13,11 +13,10 @@ Failure-header-files-and-directories ::= \
 		$(Failure-path)/%,$\
 		$(shell \
 			cd $(Failure-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(Failure-path))
 
 Failure-header-files ::= $(filter %.hpp, $(Failure-header-files-and-directories))
 Failure-directories ::= $(filter-out %.hpp, $(Failure-header-files-and-directories))

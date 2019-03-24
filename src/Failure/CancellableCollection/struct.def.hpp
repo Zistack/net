@@ -12,6 +12,6 @@ struct T
 	~T () = default;
 
 	private:
-	std::unique_ptr<Cancellable *[]> cancellables;
+	std::unique_ptr <Cancellable * []> cancellables;
 	size_t next;
 };
