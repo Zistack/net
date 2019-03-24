@@ -13,11 +13,10 @@ Scope-header-files-and-directories ::= \
 		$(Scope-path)/%,$\
 		$(shell \
 			cd $(Scope-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(Scope-path))
 
 Scope-header-files ::= $(filter %.hpp, $(Scope-header-files-and-directories))
 Scope-directories ::= $(filter-out %.hpp, $(Scope-header-files-and-directories))

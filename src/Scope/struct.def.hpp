@@ -3,8 +3,8 @@ struct T
 {
 	T ();
 
-	template <typename... Arguments>
-	T (Scopable & scopable, Arguments &&... arguments);
+	template <typename ... Arguments>
+	T (Scopable & scopable, Arguments && ... arguments);
 
 	T (const T & other) = delete;
 
