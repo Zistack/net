@@ -1,64 +1,108 @@
-SuppressingScope-moddepends =
-SuppressingScope-CFLAGS =
-SuppressingScope-LFLAGS =
+# User-configurable options
 
-SuppressingScope-moddepends-CFLAGS = $(foreach mod, $(SuppressingScope-moddepends), $($(mod)-export-CFLAGS))
-SuppressingScope-moddepends-LFLAGS = $(foreach mod, $(SuppressingScope-moddepends), $($(mod)-export-LFLAGS))
+SuppressingScope-CFLAGS ::=
+SuppressingScope-LFLAGS ::=
 
-SuppressingScope-export-CFLAGS = $(SuppressingScope-CFLAGS) $(SuppressingScope-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(SuppressingScope-LFLAGS) $(SuppressingScope-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-SuppressingScope-path = $(srcdir)/SuppressingScope
-SuppressingScope-files = $(shell find $(SuppressingScope-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-SuppressingScope-include-files = $(SuppressingScope-files:$(srcdir)/%=$(incdir)/%)
-SuppressingScope-install-files = $(SuppressingScope-files:$(srcdir)/%=/usr/include/%)
-SuppressingScope-directories = $(shell find $(SuppressingScope-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-SuppressingScope-format-files = $(SuppressingScope-files:$(srcdir)/%=$(SuppressingScope-path)/.build/%.format)
-SuppressingScope-install-moddepends = $(SuppressingScope-moddepends:%=%-install)
+SuppressingScope-path ::= $(net-src-dir)/SuppressingScope
 
-SuppressingScope : $(incdir)/SuppressingScope.hpp $(SuppressingScope-include-files)
-	touch SuppressingScope
+SuppressingScope-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(SuppressingScope-path)/%,$\
+		$(shell \
+			cd $(SuppressingScope-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(SuppressingScope-path))
+
+SuppressingScope-header-files ::= $(filter %.hpp, $(SuppressingScope-header-files-and-directories))
+SuppressingScope-directories ::= $(filter-out %.hpp, $(SuppressingScope-header-files-and-directories))
+
+SuppressingScope-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(SuppressingScope-path)/include.hpp)
+
+SuppressingScope-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(SuppressingScope-dependency-candidates)$\
+)
+
+SuppressingScope-dependency-targets ::= $(foreach \
+	SuppressingScope-dependency,$\
+	$(SuppressingScope-dependencies),$\
+	$($(SuppressingScope-dependency)-target)$\
+)
+
+SuppressingScope-dependency-install-targets ::= $(foreach \
+	SuppressingScope-dependency,$\
+	$(SuppressingScope-dependencies),$\
+	$($(SuppressingScope-dependency)-install-target)$\
+)
+
+SuppressingScope-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+SuppressingScope-inc-dir-flags ::= $(SuppressingScope-inc-dirs:%=-I %)
+SuppressingScope-include-flags ::= -I $(net-src-dir) $(SuppressingScope-inc-dir-flags)
+
+SuppressingScope-top-file ::= $(SuppressingScope-path)/.build/SuppressingScope.hpp
+SuppressingScope-build-file ::= $(SuppressingScope-path)/.build/SuppressingScope.hpp.gch
+
+SuppressingScope-include-file ::= $(net-inc-dir)/SuppressingScope.hpp
+SuppressingScope-include-path ::= $(net-inc-dir)/SuppressingScope
+SuppressingScope-include-files ::= \
+	$(SuppressingScope-header-files:$(SuppressingScope-path)/%=$(SuppressingScope-include-path)/%)
+SuppressingScope-include-directories ::= \
+	$(SuppressingScope-directories:$(SuppressingScope-path)/%=$(SuppressingScope-include-path)/%)
+
+SuppressingScope-target ::= $(SuppressingScope-include-files) $(SuppressingScope-include-file)
+
+SuppressingScope-install-file ::= $(net-header-install-dir)/SuppressingScope.hpp
+SuppressingScope-install-path ::= $(net-header-install-dir)/SuppressingScope
+SuppressingScope-install-files ::= \
+	$(SuppressingScope-header-files:$(SuppressingScope-path)/%=$(SuppressingScope-install-path)/%)
+SuppressingScope-install-directories ::= \
+	$(SuppressingScope-directories:$(SuppressingScope-path)/%=$(SuppressingScope-install-path)/%)
+
+SuppressingScope-install-target ::= $(SuppressingScope-install-files) $(SuppressingScope-install-file)
+
+.PHONY : SuppressingScope
+SuppressingScope : $(SuppressingScope-target)
 
 .PHONY : SuppressingScope-clean
 SuppressingScope-clean :
+	rm -rf $(SuppressingScope-include-file)
 	rm -rf $(SuppressingScope-include-files)
-	rm -rf $(incdir)/SuppressingScope
-	rm -rf $(incdir)/SuppressingScope.hpp
-	rm -rf $(SuppressingScope-format-files)
-	rm -rf $(SuppressingScope-path)/.build/SuppressingScope
-	rm -rf $(SuppressingScope-path)/.build/SuppressingScope.hpp
-	rm -rf $(SuppressingScope-path)/.build/SuppressingScope.hpp.gch
-	rm -rf SuppressingScope
+	rm -rf $(SuppressingScope-include-directories)
+	rm -rf $(SuppressingScope-build-file)
+	rm -rf $(SuppressingScope-top-file)
 
 .PHONY : SuppressingScope-install
-SuppressingScope-install : /usr/include/SuppressingScope.hpp $(SuppressingScope-install-files)
+SuppressingScope-install : $(SuppressingScope-install-target)
 
 .PHONY : SuppressingScope-uninstall
 SuppressingScope-uninstall :
-	rm -rf /usr/include/SuppressingScope.hpp
-	rm -rf /usr/include/SuppressingScope
+	rm -rf $(SuppressingScope-install-file)
+	rm -rf $(SuppressingScope-install-files)
+	rm -rf $(SuppressingScope-install-directories)
 
-.PHONY : SuppressingScope-format
-SuppressingScope-format : $(SuppressingScope-format-files)
+$(SuppressingScope-top-file) : $(SuppressingScope-header-files) $(SuppressingScope-directories)
+	cliide header-include-file $(SuppressingScope-path) > $(@)
 
-$(incdir)/SuppressingScope.hpp : $(SuppressingScope-path)/.build/SuppressingScope.hpp $(SuppressingScope-path)/.build/SuppressingScope.hpp.gch
-	cp $(<) $(@)
+$(SuppressingScope-build-file) : $(SuppressingScope-top-file) $(SuppressingScope-header-files) $(SuppressingScope-dependency-targets)
+	$(net-CPP) $(SuppressingScope-include-flags) $(net-CFLAGS) $(SuppressingScope-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/SuppressingScope/%.hpp : $(SuppressingScope-path)/%.hpp $(SuppressingScope-path)/.build/SuppressingScope.hpp.gch
+$(SuppressingScope-include-path)/%.hpp : $(SuppressingScope-path)/%.hpp $(SuppressingScope-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(SuppressingScope-path)/.build/SuppressingScope.hpp.gch : $(SuppressingScope-path)/.build/SuppressingScope.hpp $(SuppressingScope-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(SuppressingScope-CFLAGS) $(SuppressingScope-moddepends-CFLAGS) -c -o $(@) $(<)
+$(SuppressingScope-include-file) : $(SuppressingScope-top-file) $(SuppressingScope-build-file)
+	cp $(<) $(@)
 
-$(SuppressingScope-path)/.build/SuppressingScope.hpp : $(SuppressingScope-format-files) $(SuppressingScope-directories)
-	./gen-hdr.sh $(srcdir) SuppressingScope | clang-format > $(@)
-
-$(SuppressingScope-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(SuppressingScope-install-path)/%.hpp : $(SuppressingScope-include-path)/%.hpp $(SuppressingScope-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(SuppressingScope-install-moddepends)
-	mkdir -p $(dir $(@))
+$(SuppressingScope-install-file) : $(SuppressingScope-include-file)
 	cp $(<) $(@)

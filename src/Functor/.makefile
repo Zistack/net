@@ -1,64 +1,108 @@
-Functor-moddepends =
-Functor-CFLAGS =
-Functor-LFLAGS =
+# User-configurable options
 
-Functor-moddepends-CFLAGS = $(foreach mod, $(Functor-moddepends), $($(mod)-export-CFLAGS))
-Functor-moddepends-LFLAGS = $(foreach mod, $(Functor-moddepends), $($(mod)-export-LFLAGS))
+Functor-CFLAGS ::=
+Functor-LFLAGS ::=
 
-Functor-export-CFLAGS = $(Functor-CFLAGS) $(Functor-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(Functor-LFLAGS) $(Functor-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-Functor-path = $(srcdir)/Functor
-Functor-files = $(shell find $(Functor-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-Functor-include-files = $(Functor-files:$(srcdir)/%=$(incdir)/%)
-Functor-install-files = $(Functor-files:$(srcdir)/%=/usr/include/%)
-Functor-directories = $(shell find $(Functor-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-Functor-format-files = $(Functor-files:$(srcdir)/%=$(Functor-path)/.build/%.format)
-Functor-install-moddepends = $(Functor-moddepends:%=%-install)
+Functor-path ::= $(net-src-dir)/Functor
 
-Functor : $(incdir)/Functor.hpp $(Functor-include-files)
-	touch Functor
+Functor-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(Functor-path)/%,$\
+		$(shell \
+			cd $(Functor-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(Functor-path))
+
+Functor-header-files ::= $(filter %.hpp, $(Functor-header-files-and-directories))
+Functor-directories ::= $(filter-out %.hpp, $(Functor-header-files-and-directories))
+
+Functor-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Functor-path)/include.hpp)
+
+Functor-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Functor-dependency-candidates)$\
+)
+
+Functor-dependency-targets ::= $(foreach \
+	Functor-dependency,$\
+	$(Functor-dependencies),$\
+	$($(Functor-dependency)-target)$\
+)
+
+Functor-dependency-install-targets ::= $(foreach \
+	Functor-dependency,$\
+	$(Functor-dependencies),$\
+	$($(Functor-dependency)-install-target)$\
+)
+
+Functor-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Functor-inc-dir-flags ::= $(Functor-inc-dirs:%=-I %)
+Functor-include-flags ::= -I $(net-src-dir) $(Functor-inc-dir-flags)
+
+Functor-top-file ::= $(Functor-path)/.build/Functor.hpp
+Functor-build-file ::= $(Functor-path)/.build/Functor.hpp.gch
+
+Functor-include-file ::= $(net-inc-dir)/Functor.hpp
+Functor-include-path ::= $(net-inc-dir)/Functor
+Functor-include-files ::= \
+	$(Functor-header-files:$(Functor-path)/%=$(Functor-include-path)/%)
+Functor-include-directories ::= \
+	$(Functor-directories:$(Functor-path)/%=$(Functor-include-path)/%)
+
+Functor-target ::= $(Functor-include-files) $(Functor-include-file)
+
+Functor-install-file ::= $(net-header-install-dir)/Functor.hpp
+Functor-install-path ::= $(net-header-install-dir)/Functor
+Functor-install-files ::= \
+	$(Functor-header-files:$(Functor-path)/%=$(Functor-install-path)/%)
+Functor-install-directories ::= \
+	$(Functor-directories:$(Functor-path)/%=$(Functor-install-path)/%)
+
+Functor-install-target ::= $(Functor-install-files) $(Functor-install-file)
+
+.PHONY : Functor
+Functor : $(Functor-target)
 
 .PHONY : Functor-clean
 Functor-clean :
+	rm -rf $(Functor-include-file)
 	rm -rf $(Functor-include-files)
-	rm -rf $(incdir)/Functor
-	rm -rf $(incdir)/Functor.hpp
-	rm -rf $(Functor-format-files)
-	rm -rf $(Functor-path)/.build/Functor
-	rm -rf $(Functor-path)/.build/Functor.hpp
-	rm -rf $(Functor-path)/.build/Functor.hpp.gch
-	rm -rf Functor
+	rm -rf $(Functor-include-directories)
+	rm -rf $(Functor-build-file)
+	rm -rf $(Functor-top-file)
 
 .PHONY : Functor-install
-Functor-install : /usr/include/Functor.hpp $(Functor-install-files)
+Functor-install : $(Functor-install-target)
 
 .PHONY : Functor-uninstall
 Functor-uninstall :
-	rm -rf /usr/include/Functor.hpp
-	rm -rf /usr/include/Functor
+	rm -rf $(Functor-install-file)
+	rm -rf $(Functor-install-files)
+	rm -rf $(Functor-install-directories)
 
-.PHONY : Functor-format
-Functor-format : $(Functor-format-files)
+$(Functor-top-file) : $(Functor-header-files) $(Functor-directories)
+	cliide header-include-file $(Functor-path) > $(@)
 
-$(incdir)/Functor.hpp : $(Functor-path)/.build/Functor.hpp $(Functor-path)/.build/Functor.hpp.gch
-	cp $(<) $(@)
+$(Functor-build-file) : $(Functor-top-file) $(Functor-header-files) $(Functor-dependency-targets)
+	$(net-CPP) $(Functor-include-flags) $(net-CFLAGS) $(Functor-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/Functor/%.hpp : $(Functor-path)/%.hpp $(Functor-path)/.build/Functor.hpp.gch
+$(Functor-include-path)/%.hpp : $(Functor-path)/%.hpp $(Functor-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Functor-path)/.build/Functor.hpp.gch : $(Functor-path)/.build/Functor.hpp $(Functor-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Functor-CFLAGS) $(Functor-moddepends-CFLAGS) -c -o $(@) $(<)
+$(Functor-include-file) : $(Functor-top-file) $(Functor-build-file)
+	cp $(<) $(@)
 
-$(Functor-path)/.build/Functor.hpp : $(Functor-format-files) $(Functor-directories)
-	./gen-hdr.sh $(srcdir) Functor | clang-format > $(@)
-
-$(Functor-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(Functor-install-path)/%.hpp : $(Functor-include-path)/%.hpp $(Functor-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(Functor-install-moddepends)
-	mkdir -p $(dir $(@))
+$(Functor-install-file) : $(Functor-include-file)
 	cp $(<) $(@)

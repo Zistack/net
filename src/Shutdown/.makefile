@@ -1,64 +1,108 @@
-Shutdown-moddepends = IO Scope SuppressingScope Failure
-Shutdown-CFLAGS =
-Shutdown-LFLAGS =
+# User-configurable options
 
-Shutdown-moddepends-CFLAGS = $(foreach mod, $(Shutdown-moddepends), $($(mod)-export-CFLAGS))
-Shutdown-moddepends-LFLAGS = $(foreach mod, $(Shutdown-moddepends), $($(mod)-export-LFLAGS))
+Shutdown-CFLAGS ::=
+Shutdown-LFLAGS ::=
 
-Shutdown-export-CFLAGS = $(Shutdown-CFLAGS) $(Shutdown-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(Shutdown-LFLAGS) $(Shutdown-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-Shutdown-path = $(srcdir)/Shutdown
-Shutdown-files = $(shell find $(Shutdown-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-Shutdown-include-files = $(Shutdown-files:$(srcdir)/%=$(incdir)/%)
-Shutdown-install-files = $(Shutdown-files:$(srcdir)/%=/usr/include/%)
-Shutdown-directories = $(shell find $(Shutdown-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-Shutdown-format-files = $(Shutdown-files:$(srcdir)/%=$(Shutdown-path)/.build/%.format)
-Shutdown-install-moddepends = $(Shutdown-moddepends:%=%-install)
+Shutdown-path ::= $(net-src-dir)/Shutdown
 
-Shutdown : $(incdir)/Shutdown.hpp $(Shutdown-include-files)
-	touch Shutdown
+Shutdown-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(Shutdown-path)/%,$\
+		$(shell \
+			cd $(Shutdown-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(Shutdown-path))
+
+Shutdown-header-files ::= $(filter %.hpp, $(Shutdown-header-files-and-directories))
+Shutdown-directories ::= $(filter-out %.hpp, $(Shutdown-header-files-and-directories))
+
+Shutdown-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Shutdown-path)/include.hpp)
+
+Shutdown-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Shutdown-dependency-candidates)$\
+)
+
+Shutdown-dependency-targets ::= $(foreach \
+	Shutdown-dependency,$\
+	$(Shutdown-dependencies),$\
+	$($(Shutdown-dependency)-target)$\
+)
+
+Shutdown-dependency-install-targets ::= $(foreach \
+	Shutdown-dependency,$\
+	$(Shutdown-dependencies),$\
+	$($(Shutdown-dependency)-install-target)$\
+)
+
+Shutdown-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Shutdown-inc-dir-flags ::= $(Shutdown-inc-dirs:%=-I %)
+Shutdown-include-flags ::= -I $(net-src-dir) $(Shutdown-inc-dir-flags)
+
+Shutdown-top-file ::= $(Shutdown-path)/.build/Shutdown.hpp
+Shutdown-build-file ::= $(Shutdown-path)/.build/Shutdown.hpp.gch
+
+Shutdown-include-file ::= $(net-inc-dir)/Shutdown.hpp
+Shutdown-include-path ::= $(net-inc-dir)/Shutdown
+Shutdown-include-files ::= \
+	$(Shutdown-header-files:$(Shutdown-path)/%=$(Shutdown-include-path)/%)
+Shutdown-include-directories ::= \
+	$(Shutdown-directories:$(Shutdown-path)/%=$(Shutdown-include-path)/%)
+
+Shutdown-target ::= $(Shutdown-include-files) $(Shutdown-include-file)
+
+Shutdown-install-file ::= $(net-header-install-dir)/Shutdown.hpp
+Shutdown-install-path ::= $(net-header-install-dir)/Shutdown
+Shutdown-install-files ::= \
+	$(Shutdown-header-files:$(Shutdown-path)/%=$(Shutdown-install-path)/%)
+Shutdown-install-directories ::= \
+	$(Shutdown-directories:$(Shutdown-path)/%=$(Shutdown-install-path)/%)
+
+Shutdown-install-target ::= $(Shutdown-install-files) $(Shutdown-install-file)
+
+.PHONY : Shutdown
+Shutdown : $(Shutdown-target)
 
 .PHONY : Shutdown-clean
 Shutdown-clean :
+	rm -rf $(Shutdown-include-file)
 	rm -rf $(Shutdown-include-files)
-	rm -rf $(incdir)/Shutdown
-	rm -rf $(incdir)/Shutdown.hpp
-	rm -rf $(Shutdown-format-files)
-	rm -rf $(Shutdown-path)/.build/Shutdown
-	rm -rf $(Shutdown-path)/.build/Shutdown.hpp
-	rm -rf $(Shutdown-path)/.build/Shutdown.hpp.gch
-	rm -rf Shutdown
+	rm -rf $(Shutdown-include-directories)
+	rm -rf $(Shutdown-build-file)
+	rm -rf $(Shutdown-top-file)
 
 .PHONY : Shutdown-install
-Shutdown-install : /usr/include/Shutdown.hpp $(Shutdown-install-files)
+Shutdown-install : $(Shutdown-install-target)
 
 .PHONY : Shutdown-uninstall
 Shutdown-uninstall :
-	rm -rf /usr/include/Shutdown.hpp
-	rm -rf /usr/include/Shutdown
+	rm -rf $(Shutdown-install-file)
+	rm -rf $(Shutdown-install-files)
+	rm -rf $(Shutdown-install-directories)
 
-.PHONY : Shutdown-format
-Shutdown-format : $(Shutdown-format-files)
+$(Shutdown-top-file) : $(Shutdown-header-files) $(Shutdown-directories)
+	cliide header-include-file $(Shutdown-path) > $(@)
 
-$(incdir)/Shutdown.hpp : $(Shutdown-path)/.build/Shutdown.hpp $(Shutdown-path)/.build/Shutdown.hpp.gch
-	cp $(<) $(@)
+$(Shutdown-build-file) : $(Shutdown-top-file) $(Shutdown-header-files) $(Shutdown-dependency-targets)
+	$(net-CPP) $(Shutdown-include-flags) $(net-CFLAGS) $(Shutdown-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/Shutdown/%.hpp : $(Shutdown-path)/%.hpp $(Shutdown-path)/.build/Shutdown.hpp.gch
+$(Shutdown-include-path)/%.hpp : $(Shutdown-path)/%.hpp $(Shutdown-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Shutdown-path)/.build/Shutdown.hpp.gch : $(Shutdown-path)/.build/Shutdown.hpp $(Shutdown-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Shutdown-CFLAGS) $(Shutdown-moddepends-CFLAGS) -c -o $(@) $(<)
+$(Shutdown-include-file) : $(Shutdown-top-file) $(Shutdown-build-file)
+	cp $(<) $(@)
 
-$(Shutdown-path)/.build/Shutdown.hpp : $(Shutdown-format-files) $(Shutdown-directories)
-	./gen-hdr.sh $(srcdir) Shutdown | clang-format > $(@)
-
-$(Shutdown-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(Shutdown-install-path)/%.hpp : $(Shutdown-include-path)/%.hpp $(Shutdown-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(Shutdown-install-moddepends)
-	mkdir -p $(dir $(@))
+$(Shutdown-install-file) : $(Shutdown-include-file)
 	cp $(<) $(@)

@@ -1,6 +1,4 @@
 *
 !.gitignore
 !Makefile
-!format.sh
-!gen-bin.sh
-!gen-hdr.sh
+!.makefile-includes

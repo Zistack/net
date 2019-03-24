@@ -1,64 +1,108 @@
-TCP-moddepends = Failure IO GetConfig NullableString Protocol Shutdown SuppressingScope
-TCP-CFLAGS =
-TCP-LFLAGS =
+# User-configurable options
 
-TCP-moddepends-CFLAGS = $(foreach mod, $(TCP-moddepends), $($(mod)-export-CFLAGS))
-TCP-moddepends-LFLAGS = $(foreach mod, $(TCP-moddepends), $($(mod)-export-LFLAGS))
+TCP-CFLAGS ::=
+TCP-LFLAGS ::=
 
-TCP-export-CFLAGS = $(TCP-CFLAGS) $(TCP-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(TCP-LFLAGS) $(TCP-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-TCP-path = $(srcdir)/TCP
-TCP-files = $(shell find $(TCP-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-TCP-include-files = $(TCP-files:$(srcdir)/%=$(incdir)/%)
-TCP-install-files = $(TCP-files:$(srcdir)/%=/usr/include/%)
-TCP-directories = $(shell find $(TCP-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-TCP-format-files = $(TCP-files:$(srcdir)/%=$(TCP-path)/.build/%.format)
-TCP-install-moddepends = $(TCP-moddepends:%=%-install)
+TCP-path ::= $(net-src-dir)/TCP
 
-TCP : $(incdir)/TCP.hpp $(TCP-include-files)
-	touch TCP
+TCP-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(TCP-path)/%,$\
+		$(shell \
+			cd $(TCP-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(TCP-path))
+
+TCP-header-files ::= $(filter %.hpp, $(TCP-header-files-and-directories))
+TCP-directories ::= $(filter-out %.hpp, $(TCP-header-files-and-directories))
+
+TCP-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TCP-path)/include.hpp)
+
+TCP-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(TCP-dependency-candidates)$\
+)
+
+TCP-dependency-targets ::= $(foreach \
+	TCP-dependency,$\
+	$(TCP-dependencies),$\
+	$($(TCP-dependency)-target)$\
+)
+
+TCP-dependency-install-targets ::= $(foreach \
+	TCP-dependency,$\
+	$(TCP-dependencies),$\
+	$($(TCP-dependency)-install-target)$\
+)
+
+TCP-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+TCP-inc-dir-flags ::= $(TCP-inc-dirs:%=-I %)
+TCP-include-flags ::= -I $(net-src-dir) $(TCP-inc-dir-flags)
+
+TCP-top-file ::= $(TCP-path)/.build/TCP.hpp
+TCP-build-file ::= $(TCP-path)/.build/TCP.hpp.gch
+
+TCP-include-file ::= $(net-inc-dir)/TCP.hpp
+TCP-include-path ::= $(net-inc-dir)/TCP
+TCP-include-files ::= \
+	$(TCP-header-files:$(TCP-path)/%=$(TCP-include-path)/%)
+TCP-include-directories ::= \
+	$(TCP-directories:$(TCP-path)/%=$(TCP-include-path)/%)
+
+TCP-target ::= $(TCP-include-files) $(TCP-include-file)
+
+TCP-install-file ::= $(net-header-install-dir)/TCP.hpp
+TCP-install-path ::= $(net-header-install-dir)/TCP
+TCP-install-files ::= \
+	$(TCP-header-files:$(TCP-path)/%=$(TCP-install-path)/%)
+TCP-install-directories ::= \
+	$(TCP-directories:$(TCP-path)/%=$(TCP-install-path)/%)
+
+TCP-install-target ::= $(TCP-install-files) $(TCP-install-file)
+
+.PHONY : TCP
+TCP : $(TCP-target)
 
 .PHONY : TCP-clean
 TCP-clean :
+	rm -rf $(TCP-include-file)
 	rm -rf $(TCP-include-files)
-	rm -rf $(incdir)/TCP
-	rm -rf $(incdir)/TCP.hpp
-	rm -rf $(TCP-format-files)
-	rm -rf $(TCP-path)/.build/TCP
-	rm -rf $(TCP-path)/.build/TCP.hpp
-	rm -rf $(TCP-path)/.build/TCP.hpp.gch
-	rm -rf TCP
+	rm -rf $(TCP-include-directories)
+	rm -rf $(TCP-build-file)
+	rm -rf $(TCP-top-file)
 
 .PHONY : TCP-install
-TCP-install : /usr/include/TCP.hpp $(TCP-install-files)
+TCP-install : $(TCP-install-target)
 
 .PHONY : TCP-uninstall
 TCP-uninstall :
-	rm -rf /usr/include/TCP.hpp
-	rm -rf /usr/include/TCP
+	rm -rf $(TCP-install-file)
+	rm -rf $(TCP-install-files)
+	rm -rf $(TCP-install-directories)
 
-.PHONY : TCP-format
-TCP-format : $(TCP-format-files)
+$(TCP-top-file) : $(TCP-header-files) $(TCP-directories)
+	cliide header-include-file $(TCP-path) > $(@)
 
-$(incdir)/TCP.hpp : $(TCP-path)/.build/TCP.hpp $(TCP-path)/.build/TCP.hpp.gch
-	cp $(<) $(@)
+$(TCP-build-file) : $(TCP-top-file) $(TCP-header-files) $(TCP-dependency-targets)
+	$(net-CPP) $(TCP-include-flags) $(net-CFLAGS) $(TCP-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/TCP/%.hpp : $(TCP-path)/%.hpp $(TCP-path)/.build/TCP.hpp.gch
+$(TCP-include-path)/%.hpp : $(TCP-path)/%.hpp $(TCP-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(TCP-path)/.build/TCP.hpp.gch : $(TCP-path)/.build/TCP.hpp $(TCP-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(TCP-CFLAGS) $(TCP-moddepends-CFLAGS) -c -o $(@) $(<)
+$(TCP-include-file) : $(TCP-top-file) $(TCP-build-file)
+	cp $(<) $(@)
 
-$(TCP-path)/.build/TCP.hpp : $(TCP-format-files) $(TCP-directories)
-	./gen-hdr.sh $(srcdir) TCP | clang-format > $(@)
-
-$(TCP-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(TCP-install-path)/%.hpp : $(TCP-include-path)/%.hpp $(TCP-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(TCP-install-moddepends)
-	mkdir -p $(dir $(@))
+$(TCP-install-file) : $(TCP-include-file)
 	cp $(<) $(@)

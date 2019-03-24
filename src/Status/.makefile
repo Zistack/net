@@ -1,64 +1,108 @@
-Status-moddepends = Thread Scope
-Status-CFLAGS =
-Status-LFLAGS =
+# User-configurable options
 
-Status-moddepends-CFLAGS = $(foreach mod, $(Status-moddepends), $($(mod)-export-CFLAGS))
-Status-moddepends-LFLAGS = $(foreach mod, $(Status-moddepends), $($(mod)-export-LFLAGS))
+Status-CFLAGS ::=
+Status-LFLAGS ::=
 
-Status-export-CFLAGS = $(Status-CFLAGS) $(Status-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(Status-LFLAGS) $(Status-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-Status-path = $(srcdir)/Status
-Status-files = $(shell find $(Status-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-Status-include-files = $(Status-files:$(srcdir)/%=$(incdir)/%)
-Status-install-files = $(Status-files:$(srcdir)/%=/usr/include/%)
-Status-directories = $(shell find $(Status-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-Status-format-files = $(Status-files:$(srcdir)/%=$(Status-path)/.build/%.format)
-Status-install-moddepends = $(Status-moddepends:%=%-install)
+Status-path ::= $(net-src-dir)/Status
 
-Status : $(incdir)/Status.hpp $(Status-include-files)
-	touch Status
+Status-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(Status-path)/%,$\
+		$(shell \
+			cd $(Status-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(Status-path))
+
+Status-header-files ::= $(filter %.hpp, $(Status-header-files-and-directories))
+Status-directories ::= $(filter-out %.hpp, $(Status-header-files-and-directories))
+
+Status-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Status-path)/include.hpp)
+
+Status-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Status-dependency-candidates)$\
+)
+
+Status-dependency-targets ::= $(foreach \
+	Status-dependency,$\
+	$(Status-dependencies),$\
+	$($(Status-dependency)-target)$\
+)
+
+Status-dependency-install-targets ::= $(foreach \
+	Status-dependency,$\
+	$(Status-dependencies),$\
+	$($(Status-dependency)-install-target)$\
+)
+
+Status-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Status-inc-dir-flags ::= $(Status-inc-dirs:%=-I %)
+Status-include-flags ::= -I $(net-src-dir) $(Status-inc-dir-flags)
+
+Status-top-file ::= $(Status-path)/.build/Status.hpp
+Status-build-file ::= $(Status-path)/.build/Status.hpp.gch
+
+Status-include-file ::= $(net-inc-dir)/Status.hpp
+Status-include-path ::= $(net-inc-dir)/Status
+Status-include-files ::= \
+	$(Status-header-files:$(Status-path)/%=$(Status-include-path)/%)
+Status-include-directories ::= \
+	$(Status-directories:$(Status-path)/%=$(Status-include-path)/%)
+
+Status-target ::= $(Status-include-files) $(Status-include-file)
+
+Status-install-file ::= $(net-header-install-dir)/Status.hpp
+Status-install-path ::= $(net-header-install-dir)/Status
+Status-install-files ::= \
+	$(Status-header-files:$(Status-path)/%=$(Status-install-path)/%)
+Status-install-directories ::= \
+	$(Status-directories:$(Status-path)/%=$(Status-install-path)/%)
+
+Status-install-target ::= $(Status-install-files) $(Status-install-file)
+
+.PHONY : Status
+Status : $(Status-target)
 
 .PHONY : Status-clean
 Status-clean :
+	rm -rf $(Status-include-file)
 	rm -rf $(Status-include-files)
-	rm -rf $(incdir)/Status
-	rm -rf $(incdir)/Status.hpp
-	rm -rf $(Status-format-files)
-	rm -rf $(Status-path)/.build/Status
-	rm -rf $(Status-path)/.build/Status.hpp
-	rm -rf $(Status-path)/.build/Status.hpp.gch
-	rm -rf Status
+	rm -rf $(Status-include-directories)
+	rm -rf $(Status-build-file)
+	rm -rf $(Status-top-file)
 
 .PHONY : Status-install
-Status-install : /usr/include/Status.hpp $(Status-install-files)
+Status-install : $(Status-install-target)
 
 .PHONY : Status-uninstall
 Status-uninstall :
-	rm -rf /usr/include/Status.hpp
-	rm -rf /usr/include/Status
+	rm -rf $(Status-install-file)
+	rm -rf $(Status-install-files)
+	rm -rf $(Status-install-directories)
 
-.PHONY : Status-format
-Status-format : $(Status-format-files)
+$(Status-top-file) : $(Status-header-files) $(Status-directories)
+	cliide header-include-file $(Status-path) > $(@)
 
-$(incdir)/Status.hpp : $(Status-path)/.build/Status.hpp $(Status-path)/.build/Status.hpp.gch
-	cp $(<) $(@)
+$(Status-build-file) : $(Status-top-file) $(Status-header-files) $(Status-dependency-targets)
+	$(net-CPP) $(Status-include-flags) $(net-CFLAGS) $(Status-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/Status/%.hpp : $(Status-path)/%.hpp $(Status-path)/.build/Status.hpp.gch
+$(Status-include-path)/%.hpp : $(Status-path)/%.hpp $(Status-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Status-path)/.build/Status.hpp.gch : $(Status-path)/.build/Status.hpp $(Status-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Status-CFLAGS) $(Status-moddepends-CFLAGS) -c -o $(@) $(<)
+$(Status-include-file) : $(Status-top-file) $(Status-build-file)
+	cp $(<) $(@)
 
-$(Status-path)/.build/Status.hpp : $(Status-format-files) $(Status-directories)
-	./gen-hdr.sh $(srcdir) Status | clang-format > $(@)
-
-$(Status-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(Status-install-path)/%.hpp : $(Status-include-path)/%.hpp $(Status-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(Status-install-moddepends)
-	mkdir -p $(dir $(@))
+$(Status-install-file) : $(Status-include-file)
 	cp $(<) $(@)

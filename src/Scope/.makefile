@@ -1,64 +1,108 @@
-Scope-moddepends =
-Scope-CFLAGS =
-Scope-LFLAGS =
+# User-configurable options
 
-Scope-moddepends-CFLAGS = $(foreach mod, $(Scope-moddepends), $($(mod)-export-CFLAGS))
-Scope-moddepends-LFLAGS = $(foreach mod, $(Scope-moddepends), $($(mod)-export-LFLAGS))
+Scope-CFLAGS ::=
+Scope-LFLAGS ::=
 
-Scope-export-CFLAGS = $(Scope-CFLAGS) $(Scope-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(Scope-LFLAGS) $(Scope-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-Scope-path = $(srcdir)/Scope
-Scope-files = $(shell find $(Scope-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-Scope-include-files = $(Scope-files:$(srcdir)/%=$(incdir)/%)
-Scope-install-files = $(Scope-files:$(srcdir)/%=/usr/include/%)
-Scope-directories = $(shell find $(Scope-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-Scope-format-files = $(Scope-files:$(srcdir)/%=$(Scope-path)/.build/%.format)
-Scope-install-moddepends = $(Scope-moddepends:%=%-install)
+Scope-path ::= $(net-src-dir)/Scope
 
-Scope : $(incdir)/Scope.hpp $(Scope-include-files)
-	touch Scope
+Scope-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(Scope-path)/%,$\
+		$(shell \
+			cd $(Scope-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(Scope-path))
+
+Scope-header-files ::= $(filter %.hpp, $(Scope-header-files-and-directories))
+Scope-directories ::= $(filter-out %.hpp, $(Scope-header-files-and-directories))
+
+Scope-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Scope-path)/include.hpp)
+
+Scope-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Scope-dependency-candidates)$\
+)
+
+Scope-dependency-targets ::= $(foreach \
+	Scope-dependency,$\
+	$(Scope-dependencies),$\
+	$($(Scope-dependency)-target)$\
+)
+
+Scope-dependency-install-targets ::= $(foreach \
+	Scope-dependency,$\
+	$(Scope-dependencies),$\
+	$($(Scope-dependency)-install-target)$\
+)
+
+Scope-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Scope-inc-dir-flags ::= $(Scope-inc-dirs:%=-I %)
+Scope-include-flags ::= -I $(net-src-dir) $(Scope-inc-dir-flags)
+
+Scope-top-file ::= $(Scope-path)/.build/Scope.hpp
+Scope-build-file ::= $(Scope-path)/.build/Scope.hpp.gch
+
+Scope-include-file ::= $(net-inc-dir)/Scope.hpp
+Scope-include-path ::= $(net-inc-dir)/Scope
+Scope-include-files ::= \
+	$(Scope-header-files:$(Scope-path)/%=$(Scope-include-path)/%)
+Scope-include-directories ::= \
+	$(Scope-directories:$(Scope-path)/%=$(Scope-include-path)/%)
+
+Scope-target ::= $(Scope-include-files) $(Scope-include-file)
+
+Scope-install-file ::= $(net-header-install-dir)/Scope.hpp
+Scope-install-path ::= $(net-header-install-dir)/Scope
+Scope-install-files ::= \
+	$(Scope-header-files:$(Scope-path)/%=$(Scope-install-path)/%)
+Scope-install-directories ::= \
+	$(Scope-directories:$(Scope-path)/%=$(Scope-install-path)/%)
+
+Scope-install-target ::= $(Scope-install-files) $(Scope-install-file)
+
+.PHONY : Scope
+Scope : $(Scope-target)
 
 .PHONY : Scope-clean
 Scope-clean :
+	rm -rf $(Scope-include-file)
 	rm -rf $(Scope-include-files)
-	rm -rf $(incdir)/Scope
-	rm -rf $(incdir)/Scope.hpp
-	rm -rf $(Scope-format-files)
-	rm -rf $(Scope-path)/.build/Scope
-	rm -rf $(Scope-path)/.build/Scope.hpp
-	rm -rf $(Scope-path)/.build/Scope.hpp.gch
-	rm -rf Scope
+	rm -rf $(Scope-include-directories)
+	rm -rf $(Scope-build-file)
+	rm -rf $(Scope-top-file)
 
 .PHONY : Scope-install
-Scope-install : /usr/include/Scope.hpp $(Scope-install-files)
+Scope-install : $(Scope-install-target)
 
 .PHONY : Scope-uninstall
 Scope-uninstall :
-	rm -rf /usr/include/Scope.hpp
-	rm -rf /usr/include/Scope
+	rm -rf $(Scope-install-file)
+	rm -rf $(Scope-install-files)
+	rm -rf $(Scope-install-directories)
 
-.PHONY : Scope-format
-Scope-format : $(Scope-format-files)
+$(Scope-top-file) : $(Scope-header-files) $(Scope-directories)
+	cliide header-include-file $(Scope-path) > $(@)
 
-$(incdir)/Scope.hpp : $(Scope-path)/.build/Scope.hpp $(Scope-path)/.build/Scope.hpp.gch
-	cp $(<) $(@)
+$(Scope-build-file) : $(Scope-top-file) $(Scope-header-files) $(Scope-dependency-targets)
+	$(net-CPP) $(Scope-include-flags) $(net-CFLAGS) $(Scope-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/Scope/%.hpp : $(Scope-path)/%.hpp $(Scope-path)/.build/Scope.hpp.gch
+$(Scope-include-path)/%.hpp : $(Scope-path)/%.hpp $(Scope-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Scope-path)/.build/Scope.hpp.gch : $(Scope-path)/.build/Scope.hpp $(Scope-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Scope-CFLAGS) $(Scope-moddepends-CFLAGS) -c -o $(@) $(<)
+$(Scope-include-file) : $(Scope-top-file) $(Scope-build-file)
+	cp $(<) $(@)
 
-$(Scope-path)/.build/Scope.hpp : $(Scope-format-files) $(Scope-directories)
-	./gen-hdr.sh $(srcdir) Scope | clang-format > $(@)
-
-$(Scope-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(Scope-install-path)/%.hpp : $(Scope-include-path)/%.hpp $(Scope-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(Scope-install-moddepends)
-	mkdir -p $(dir $(@))
+$(Scope-install-file) : $(Scope-include-file)
 	cp $(<) $(@)

@@ -1,64 +1,108 @@
-TLS-moddepends = Failure IO NullableString Thread Shutdown Protocol Functor SuppressingScope TCP Scope
-TLS-CFLAGS =
-TLS-LFLAGS = -ltls -lssl -lcrypto
+# User-configurable options
 
-TLS-moddepends-CFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-CFLAGS))
-TLS-moddepends-LFLAGS = $(foreach mod, $(TLS-moddepends), $($(mod)-export-LFLAGS))
+TLS-CFLAGS ::=
+TLS-LFLAGS ::=
 
-TLS-export-CFLAGS = $(TLS-CFLAGS) $(TLS-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(TLS-LFLAGS) $(TLS-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-TLS-path = $(srcdir)/TLS
-TLS-files = $(shell find $(TLS-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-TLS-include-files = $(TLS-files:$(srcdir)/%=$(incdir)/%)
-TLS-install-files = $(TLS-files:$(srcdir)/%=/usr/include/%)
-TLS-directories = $(shell find $(TLS-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-TLS-format-files = $(TLS-files:$(srcdir)/%=$(TLS-path)/.build/%.format)
-TLS-install-moddepends = $(TLS-moddepends:%=%-install)
+TLS-path ::= $(net-src-dir)/TLS
 
-TLS : $(incdir)/TLS.hpp $(TLS-include-files)
-	touch TLS
+TLS-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(TLS-path)/%,$\
+		$(shell \
+			cd $(TLS-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(TLS-path))
+
+TLS-header-files ::= $(filter %.hpp, $(TLS-header-files-and-directories))
+TLS-directories ::= $(filter-out %.hpp, $(TLS-header-files-and-directories))
+
+TLS-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TLS-path)/include.hpp)
+
+TLS-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(TLS-dependency-candidates)$\
+)
+
+TLS-dependency-targets ::= $(foreach \
+	TLS-dependency,$\
+	$(TLS-dependencies),$\
+	$($(TLS-dependency)-target)$\
+)
+
+TLS-dependency-install-targets ::= $(foreach \
+	TLS-dependency,$\
+	$(TLS-dependencies),$\
+	$($(TLS-dependency)-install-target)$\
+)
+
+TLS-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+TLS-inc-dir-flags ::= $(TLS-inc-dirs:%=-I %)
+TLS-include-flags ::= -I $(net-src-dir) $(TLS-inc-dir-flags)
+
+TLS-top-file ::= $(TLS-path)/.build/TLS.hpp
+TLS-build-file ::= $(TLS-path)/.build/TLS.hpp.gch
+
+TLS-include-file ::= $(net-inc-dir)/TLS.hpp
+TLS-include-path ::= $(net-inc-dir)/TLS
+TLS-include-files ::= \
+	$(TLS-header-files:$(TLS-path)/%=$(TLS-include-path)/%)
+TLS-include-directories ::= \
+	$(TLS-directories:$(TLS-path)/%=$(TLS-include-path)/%)
+
+TLS-target ::= $(TLS-include-files) $(TLS-include-file)
+
+TLS-install-file ::= $(net-header-install-dir)/TLS.hpp
+TLS-install-path ::= $(net-header-install-dir)/TLS
+TLS-install-files ::= \
+	$(TLS-header-files:$(TLS-path)/%=$(TLS-install-path)/%)
+TLS-install-directories ::= \
+	$(TLS-directories:$(TLS-path)/%=$(TLS-install-path)/%)
+
+TLS-install-target ::= $(TLS-install-files) $(TLS-install-file)
+
+.PHONY : TLS
+TLS : $(TLS-target)
 
 .PHONY : TLS-clean
 TLS-clean :
+	rm -rf $(TLS-include-file)
 	rm -rf $(TLS-include-files)
-	rm -rf $(incdir)/TLS
-	rm -rf $(incdir)/TLS.hpp
-	rm -rf $(TLS-format-files)
-	rm -rf $(TLS-path)/.build/TLS
-	rm -rf $(TLS-path)/.build/TLS.hpp
-	rm -rf $(TLS-path)/.build/TLS.hpp.gch
-	rm -rf TLS
+	rm -rf $(TLS-include-directories)
+	rm -rf $(TLS-build-file)
+	rm -rf $(TLS-top-file)
 
 .PHONY : TLS-install
-TLS-install : /usr/include/TLS.hpp $(TLS-install-files)
+TLS-install : $(TLS-install-target)
 
 .PHONY : TLS-uninstall
 TLS-uninstall :
-	rm -rf /usr/include/TLS.hpp
-	rm -rf /usr/include/TLS
+	rm -rf $(TLS-install-file)
+	rm -rf $(TLS-install-files)
+	rm -rf $(TLS-install-directories)
 
-.PHONY : TLS-format
-TLS-format : $(TLS-format-files)
+$(TLS-top-file) : $(TLS-header-files) $(TLS-directories)
+	cliide header-include-file $(TLS-path) > $(@)
 
-$(incdir)/TLS.hpp : $(TLS-path)/.build/TLS.hpp $(TLS-path)/.build/TLS.hpp.gch
-	cp $(<) $(@)
+$(TLS-build-file) : $(TLS-top-file) $(TLS-header-files) $(TLS-dependency-targets)
+	$(net-CPP) $(TLS-include-flags) $(net-CFLAGS) $(TLS-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/TLS/%.hpp : $(TLS-path)/%.hpp $(TLS-path)/.build/TLS.hpp.gch
+$(TLS-include-path)/%.hpp : $(TLS-path)/%.hpp $(TLS-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(TLS-path)/.build/TLS.hpp.gch : $(TLS-path)/.build/TLS.hpp $(TLS-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(TLS-CFLAGS) $(TLS-moddepends-CFLAGS) -c -o $(@) $(<)
+$(TLS-include-file) : $(TLS-top-file) $(TLS-build-file)
+	cp $(<) $(@)
 
-$(TLS-path)/.build/TLS.hpp : $(TLS-format-files) $(TLS-directories)
-	./gen-hdr.sh $(srcdir) TLS | clang-format > $(@)
-
-$(TLS-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(TLS-install-path)/%.hpp : $(TLS-include-path)/%.hpp $(TLS-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(TLS-install-moddepends)
-	mkdir -p $(dir $(@))
+$(TLS-install-file) : $(TLS-include-file)
 	cp $(<) $(@)

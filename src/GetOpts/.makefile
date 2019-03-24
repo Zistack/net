@@ -1,64 +1,108 @@
-GetOpts-moddepends = Failure IO
-GetOpts-CFLAGS =
-GetOpts-LFLAGS =
+# User-configurable options
 
-GetOpts-moddepends-CFLAGS = $(foreach mod, $(GetOpts-moddepends), $($(mod)-export-CFLAGS))
-GetOpts-moddepends-LFLAGS = $(foreach mod, $(GetOpts-moddepends), $($(mod)-export-LFLAGS))
+GetOpts-CFLAGS ::=
+GetOpts-LFLAGS ::=
 
-GetOpts-export-CFLAGS = $(GetOpts-CFLAGS) $(GetOpts-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(GetOpts-LFLAGS) $(GetOpts-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-GetOpts-path = $(srcdir)/GetOpts
-GetOpts-files = $(shell find $(GetOpts-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-GetOpts-include-files = $(GetOpts-files:$(srcdir)/%=$(incdir)/%)
-GetOpts-install-files = $(GetOpts-files:$(srcdir)/%=/usr/include/%)
-GetOpts-directories = $(shell find $(GetOpts-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-GetOpts-format-files = $(GetOpts-files:$(srcdir)/%=$(GetOpts-path)/.build/%.format)
-GetOpts-install-moddepends = $(GetOpts-moddepends:%=%-install)
+GetOpts-path ::= $(net-src-dir)/GetOpts
 
-GetOpts : $(incdir)/GetOpts.hpp $(GetOpts-include-files)
-	touch GetOpts
+GetOpts-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(GetOpts-path)/%,$\
+		$(shell \
+			cd $(GetOpts-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(GetOpts-path))
+
+GetOpts-header-files ::= $(filter %.hpp, $(GetOpts-header-files-and-directories))
+GetOpts-directories ::= $(filter-out %.hpp, $(GetOpts-header-files-and-directories))
+
+GetOpts-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(GetOpts-path)/include.hpp)
+
+GetOpts-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(GetOpts-dependency-candidates)$\
+)
+
+GetOpts-dependency-targets ::= $(foreach \
+	GetOpts-dependency,$\
+	$(GetOpts-dependencies),$\
+	$($(GetOpts-dependency)-target)$\
+)
+
+GetOpts-dependency-install-targets ::= $(foreach \
+	GetOpts-dependency,$\
+	$(GetOpts-dependencies),$\
+	$($(GetOpts-dependency)-install-target)$\
+)
+
+GetOpts-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+GetOpts-inc-dir-flags ::= $(GetOpts-inc-dirs:%=-I %)
+GetOpts-include-flags ::= -I $(net-src-dir) $(GetOpts-inc-dir-flags)
+
+GetOpts-top-file ::= $(GetOpts-path)/.build/GetOpts.hpp
+GetOpts-build-file ::= $(GetOpts-path)/.build/GetOpts.hpp.gch
+
+GetOpts-include-file ::= $(net-inc-dir)/GetOpts.hpp
+GetOpts-include-path ::= $(net-inc-dir)/GetOpts
+GetOpts-include-files ::= \
+	$(GetOpts-header-files:$(GetOpts-path)/%=$(GetOpts-include-path)/%)
+GetOpts-include-directories ::= \
+	$(GetOpts-directories:$(GetOpts-path)/%=$(GetOpts-include-path)/%)
+
+GetOpts-target ::= $(GetOpts-include-files) $(GetOpts-include-file)
+
+GetOpts-install-file ::= $(net-header-install-dir)/GetOpts.hpp
+GetOpts-install-path ::= $(net-header-install-dir)/GetOpts
+GetOpts-install-files ::= \
+	$(GetOpts-header-files:$(GetOpts-path)/%=$(GetOpts-install-path)/%)
+GetOpts-install-directories ::= \
+	$(GetOpts-directories:$(GetOpts-path)/%=$(GetOpts-install-path)/%)
+
+GetOpts-install-target ::= $(GetOpts-install-files) $(GetOpts-install-file)
+
+.PHONY : GetOpts
+GetOpts : $(GetOpts-target)
 
 .PHONY : GetOpts-clean
 GetOpts-clean :
+	rm -rf $(GetOpts-include-file)
 	rm -rf $(GetOpts-include-files)
-	rm -rf $(incdir)/GetOpts
-	rm -rf $(incdir)/GetOpts.hpp
-	rm -rf $(GetOpts-format-files)
-	rm -rf $(GetOpts-path)/.build/GetOpts
-	rm -rf $(GetOpts-path)/.build/GetOpts.hpp
-	rm -rf $(GetOpts-path)/.build/GetOpts.hpp.gch
-	rm -rf GetOpts
+	rm -rf $(GetOpts-include-directories)
+	rm -rf $(GetOpts-build-file)
+	rm -rf $(GetOpts-top-file)
 
 .PHONY : GetOpts-install
-GetOpts-install : /usr/include/GetOpts.hpp $(GetOpts-install-files)
+GetOpts-install : $(GetOpts-install-target)
 
 .PHONY : GetOpts-uninstall
 GetOpts-uninstall :
-	rm -rf /usr/include/GetOpts.hpp
-	rm -rf /usr/include/GetOpts
+	rm -rf $(GetOpts-install-file)
+	rm -rf $(GetOpts-install-files)
+	rm -rf $(GetOpts-install-directories)
 
-.PHONY : GetOpts-format
-GetOpts-format : $(GetOpts-format-files)
+$(GetOpts-top-file) : $(GetOpts-header-files) $(GetOpts-directories)
+	cliide header-include-file $(GetOpts-path) > $(@)
 
-$(incdir)/GetOpts.hpp : $(GetOpts-path)/.build/GetOpts.hpp $(GetOpts-path)/.build/GetOpts.hpp.gch
-	cp $(<) $(@)
+$(GetOpts-build-file) : $(GetOpts-top-file) $(GetOpts-header-files) $(GetOpts-dependency-targets)
+	$(net-CPP) $(GetOpts-include-flags) $(net-CFLAGS) $(GetOpts-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/GetOpts/%.hpp : $(GetOpts-path)/%.hpp $(GetOpts-path)/.build/GetOpts.hpp.gch
+$(GetOpts-include-path)/%.hpp : $(GetOpts-path)/%.hpp $(GetOpts-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(GetOpts-path)/.build/GetOpts.hpp.gch : $(GetOpts-path)/.build/GetOpts.hpp $(GetOpts-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(GetOpts-CFLAGS) $(GetOpts-moddepends-CFLAGS) -c -o $(@) $(<)
+$(GetOpts-include-file) : $(GetOpts-top-file) $(GetOpts-build-file)
+	cp $(<) $(@)
 
-$(GetOpts-path)/.build/GetOpts.hpp : $(GetOpts-format-files) $(GetOpts-directories)
-	./gen-hdr.sh $(srcdir) GetOpts | clang-format > $(@)
-
-$(GetOpts-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(GetOpts-install-path)/%.hpp : $(GetOpts-include-path)/%.hpp $(GetOpts-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(GetOpts-install-moddepends)
-	mkdir -p $(dir $(@))
+$(GetOpts-install-file) : $(GetOpts-include-file)
 	cp $(<) $(@)

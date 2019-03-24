@@ -1,64 +1,108 @@
-IO-moddepends = Failure Thread Scope
-IO-CFLAGS =
-IO-LFLAGS =
+# User-configurable options
 
-IO-moddepends-CFLAGS = $(foreach mod, $(IO-moddepends), $($(mod)-export-CFLAGS))
-IO-moddepends-LFLAGS = $(foreach mod, $(IO-moddepends), $($(mod)-export-LFLAGS))
+IO-CFLAGS ::=
+IO-LFLAGS ::=
 
-IO-export-CFLAGS = $(IO-CFLAGS) $(IO-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(IO-LFLAGS) $(IO-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-IO-path = $(srcdir)/IO
-IO-files = $(shell find $(IO-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-IO-include-files = $(IO-files:$(srcdir)/%=$(incdir)/%)
-IO-install-files = $(IO-files:$(srcdir)/%=/usr/include/%)
-IO-directories = $(shell find $(IO-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-IO-format-files = $(IO-files:$(srcdir)/%=$(IO-path)/.build/%.format)
-IO-install-moddepends = $(IO-moddepends:%=%-install)
+IO-path ::= $(net-src-dir)/IO
 
-IO : $(incdir)/IO.hpp $(IO-include-files)
-	touch IO
+IO-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(IO-path)/%,$\
+		$(shell \
+			cd $(IO-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(IO-path))
+
+IO-header-files ::= $(filter %.hpp, $(IO-header-files-and-directories))
+IO-directories ::= $(filter-out %.hpp, $(IO-header-files-and-directories))
+
+IO-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(IO-path)/include.hpp)
+
+IO-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(IO-dependency-candidates)$\
+)
+
+IO-dependency-targets ::= $(foreach \
+	IO-dependency,$\
+	$(IO-dependencies),$\
+	$($(IO-dependency)-target)$\
+)
+
+IO-dependency-install-targets ::= $(foreach \
+	IO-dependency,$\
+	$(IO-dependencies),$\
+	$($(IO-dependency)-install-target)$\
+)
+
+IO-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+IO-inc-dir-flags ::= $(IO-inc-dirs:%=-I %)
+IO-include-flags ::= -I $(net-src-dir) $(IO-inc-dir-flags)
+
+IO-top-file ::= $(IO-path)/.build/IO.hpp
+IO-build-file ::= $(IO-path)/.build/IO.hpp.gch
+
+IO-include-file ::= $(net-inc-dir)/IO.hpp
+IO-include-path ::= $(net-inc-dir)/IO
+IO-include-files ::= \
+	$(IO-header-files:$(IO-path)/%=$(IO-include-path)/%)
+IO-include-directories ::= \
+	$(IO-directories:$(IO-path)/%=$(IO-include-path)/%)
+
+IO-target ::= $(IO-include-files) $(IO-include-file)
+
+IO-install-file ::= $(net-header-install-dir)/IO.hpp
+IO-install-path ::= $(net-header-install-dir)/IO
+IO-install-files ::= \
+	$(IO-header-files:$(IO-path)/%=$(IO-install-path)/%)
+IO-install-directories ::= \
+	$(IO-directories:$(IO-path)/%=$(IO-install-path)/%)
+
+IO-install-target ::= $(IO-install-files) $(IO-install-file)
+
+.PHONY : IO
+IO : $(IO-target)
 
 .PHONY : IO-clean
 IO-clean :
+	rm -rf $(IO-include-file)
 	rm -rf $(IO-include-files)
-	rm -rf $(incdir)/IO
-	rm -rf $(incdir)/IO.hpp
-	rm -rf $(IO-format-files)
-	rm -rf $(IO-path)/.build/IO
-	rm -rf $(IO-path)/.build/IO.hpp
-	rm -rf $(IO-path)/.build/IO.hpp.gch
-	rm -rf IO
+	rm -rf $(IO-include-directories)
+	rm -rf $(IO-build-file)
+	rm -rf $(IO-top-file)
 
 .PHONY : IO-install
-IO-install : /usr/include/IO.hpp $(IO-install-files)
+IO-install : $(IO-install-target)
 
 .PHONY : IO-uninstall
 IO-uninstall :
-	rm -rf /usr/include/IO.hpp
-	rm -rf /usr/include/IO
+	rm -rf $(IO-install-file)
+	rm -rf $(IO-install-files)
+	rm -rf $(IO-install-directories)
 
-.PHONY : IO-format
-IO-format : $(IO-format-files)
+$(IO-top-file) : $(IO-header-files) $(IO-directories)
+	cliide header-include-file $(IO-path) > $(@)
 
-$(incdir)/IO.hpp : $(IO-path)/.build/IO.hpp $(IO-path)/.build/IO.hpp.gch
-	cp $(<) $(@)
+$(IO-build-file) : $(IO-top-file) $(IO-header-files) $(IO-dependency-targets)
+	$(net-CPP) $(IO-include-flags) $(net-CFLAGS) $(IO-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/IO/%.hpp : $(IO-path)/%.hpp $(IO-path)/.build/IO.hpp.gch
+$(IO-include-path)/%.hpp : $(IO-path)/%.hpp $(IO-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(IO-path)/.build/IO.hpp.gch : $(IO-path)/.build/IO.hpp $(IO-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(IO-CFLAGS) $(IO-moddepends-CFLAGS) -c -o $(@) $(<)
+$(IO-include-file) : $(IO-top-file) $(IO-build-file)
+	cp $(<) $(@)
 
-$(IO-path)/.build/IO.hpp : $(IO-format-files) $(IO-directories)
-	./gen-hdr.sh $(srcdir) IO | clang-format > $(@)
-
-$(IO-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(IO-install-path)/%.hpp : $(IO-include-path)/%.hpp $(IO-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(IO-install-moddepends)
-	mkdir -p $(dir $(@))
+$(IO-install-file) : $(IO-include-file)
 	cp $(<) $(@)

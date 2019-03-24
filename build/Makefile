@@ -1,10 +1,8 @@
-SHELL = /bin/sh
+# User-configurable options
 
-incdir = ../inc
-srcdir = ../src
-bindir = ../bin
+SHELL ::= /bin/sh
 
-WARNINGS = -Wchar-subscripts -Wcomment -Wformat=2 -Winit-self -Wimplicit \
+net-WARNINGS ::= -Wchar-subscripts -Wcomment -Wformat=2 -Winit-self -Wimplicit \
 -Wignored-qualifiers -Wmain -Wmissing-braces -Wmissing-include-dirs \
 -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused \
 -Wuninitialized -Wstrict-aliasing -Warray-bounds -Wfloat-equal -Wundef \
@@ -12,33 +10,45 @@ WARNINGS = -Wchar-subscripts -Wcomment -Wformat=2 -Winit-self -Wimplicit \
 -Wsign-conversion -Waddress -Wmissing-field-initializers \
 -Wvolatile-register-var -Wno-write-strings -Wsign-promo
 
-CPP = clang++
-CFLAGS = $(WARNINGS) -Werror -pipe -I $(incdir) -std=c++17
-LFLAGS =
+net-CPP ::= clang++
+net-CFLAGS ::= $(net-WARNINGS) -Werror -pipe -std=c++17
+net-LFLAGS ::=
 
-modmkfiles = $(shell find $(srcdir) -type f -name .makefile)
-moddirs = $(modmkfiles:$(srcdir)/%/.makefile=%)
-modules = $(subst /,-,$(moddirs))
-modcleans = $(modules:%=%-clean)
-modinstalls = $(modules:%=%-install)
-moduninstalls = $(modules:%=%-uninstall)
-modformats = $(modules:%=%-format)
+net-header-install-dir ::= /usr/local/include
+net-binary-install-dir ::= /usr/local/bin
+net-library-install-dir ::= /usr/local/lib
 
-include $(modmkfiles)
+# Boilerplate that should not be touched
+
+ifndef net-base-dir
+	net-base-dir ::= $(realpath ..)
+	net-previously-included ::=
+else
+	net-target-prefix ::= net-
+endif
+
+net-inc-dir ::= $(net-base-dir)/inc
+net-src-dir ::= $(net-base-dir)/src
+net-bin-dir ::= $(net-base-dir)/bin
+net-ref-dir ::= $(net-base-dir)/ref
+net-build-dir ::= $(net-base-dir)/build
+
+include $(net-build-dir)/.makefile-includes
+
+net-module-cleans = $(net-modules:%=%-clean)
+net-module-installs = $(net-modules:%=%-install)
+net-module-uninstalls = $(net-modules:%=%-uninstall)
 
 .DEFAULT_GOAL := all
 
 .PHONY : all
-all : $(modules)
+$(net-target-prefix)all : $(net-modules)
 
 .PHONY : clean
-clean : $(modcleans)
+$(net-target-prefix)clean : $(net-module-cleans)
 
 .PHONE : install
-install : $(modinstalls)
+$(net-target-prefix)install : $(net-module-installs)
 
 .PHONY : uninstall
-uninstall : $(moduninstalls)
-
-.PHONY : format
-format : $(modformats)
+$(net-target-prefix)uninstall : $(net-module-uninstalls)

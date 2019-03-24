@@ -1,64 +1,108 @@
-FIFOProtocol-moddepends = IO Thread Failure Shutdown Scope SuppressingScope GetConfig
-FIFOProtocol-CFLAGS =
-FIFOProtocol-LFLAGS =
+# User-configurable options
 
-FIFOProtocol-moddepends-CFLAGS = $(foreach mod, $(FIFOProtocol-moddepends), $($(mod)-export-CFLAGS))
-FIFOProtocol-moddepends-LFLAGS = $(foreach mod, $(FIFOProtocol-moddepends), $($(mod)-export-LFLAGS))
+FIFOProtocol-CFLAGS ::=
+FIFOProtocol-LFLAGS ::=
 
-FIFOProtocol-export-CFLAGS = $(FIFOProtocol-CFLAGS) $(FIFOProtocol-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(FIFOProtocol-LFLAGS) $(FIFOProtocol-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-FIFOProtocol-path = $(srcdir)/FIFOProtocol
-FIFOProtocol-files = $(shell find $(FIFOProtocol-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-FIFOProtocol-include-files = $(FIFOProtocol-files:$(srcdir)/%=$(incdir)/%)
-FIFOProtocol-install-files = $(FIFOProtocol-files:$(srcdir)/%=/usr/include/%)
-FIFOProtocol-directories = $(shell find $(FIFOProtocol-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-FIFOProtocol-format-files = $(FIFOProtocol-files:$(srcdir)/%=$(FIFOProtocol-path)/.build/%.format)
-FIFOProtocol-install-moddepends = $(FIFOProtocol-moddepends:%=%-install)
+FIFOProtocol-path ::= $(net-src-dir)/FIFOProtocol
 
-FIFOProtocol : $(incdir)/FIFOProtocol.hpp $(FIFOProtocol-include-files)
-	touch FIFOProtocol
+FIFOProtocol-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(FIFOProtocol-path)/%,$\
+		$(shell \
+			cd $(FIFOProtocol-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(FIFOProtocol-path))
+
+FIFOProtocol-header-files ::= $(filter %.hpp, $(FIFOProtocol-header-files-and-directories))
+FIFOProtocol-directories ::= $(filter-out %.hpp, $(FIFOProtocol-header-files-and-directories))
+
+FIFOProtocol-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(FIFOProtocol-path)/include.hpp)
+
+FIFOProtocol-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(FIFOProtocol-dependency-candidates)$\
+)
+
+FIFOProtocol-dependency-targets ::= $(foreach \
+	FIFOProtocol-dependency,$\
+	$(FIFOProtocol-dependencies),$\
+	$($(FIFOProtocol-dependency)-target)$\
+)
+
+FIFOProtocol-dependency-install-targets ::= $(foreach \
+	FIFOProtocol-dependency,$\
+	$(FIFOProtocol-dependencies),$\
+	$($(FIFOProtocol-dependency)-install-target)$\
+)
+
+FIFOProtocol-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+FIFOProtocol-inc-dir-flags ::= $(FIFOProtocol-inc-dirs:%=-I %)
+FIFOProtocol-include-flags ::= -I $(net-src-dir) $(FIFOProtocol-inc-dir-flags)
+
+FIFOProtocol-top-file ::= $(FIFOProtocol-path)/.build/FIFOProtocol.hpp
+FIFOProtocol-build-file ::= $(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch
+
+FIFOProtocol-include-file ::= $(net-inc-dir)/FIFOProtocol.hpp
+FIFOProtocol-include-path ::= $(net-inc-dir)/FIFOProtocol
+FIFOProtocol-include-files ::= \
+	$(FIFOProtocol-header-files:$(FIFOProtocol-path)/%=$(FIFOProtocol-include-path)/%)
+FIFOProtocol-include-directories ::= \
+	$(FIFOProtocol-directories:$(FIFOProtocol-path)/%=$(FIFOProtocol-include-path)/%)
+
+FIFOProtocol-target ::= $(FIFOProtocol-include-files) $(FIFOProtocol-include-file)
+
+FIFOProtocol-install-file ::= $(net-header-install-dir)/FIFOProtocol.hpp
+FIFOProtocol-install-path ::= $(net-header-install-dir)/FIFOProtocol
+FIFOProtocol-install-files ::= \
+	$(FIFOProtocol-header-files:$(FIFOProtocol-path)/%=$(FIFOProtocol-install-path)/%)
+FIFOProtocol-install-directories ::= \
+	$(FIFOProtocol-directories:$(FIFOProtocol-path)/%=$(FIFOProtocol-install-path)/%)
+
+FIFOProtocol-install-target ::= $(FIFOProtocol-install-files) $(FIFOProtocol-install-file)
+
+.PHONY : FIFOProtocol
+FIFOProtocol : $(FIFOProtocol-target)
 
 .PHONY : FIFOProtocol-clean
 FIFOProtocol-clean :
+	rm -rf $(FIFOProtocol-include-file)
 	rm -rf $(FIFOProtocol-include-files)
-	rm -rf $(incdir)/FIFOProtocol
-	rm -rf $(incdir)/FIFOProtocol.hpp
-	rm -rf $(FIFOProtocol-format-files)
-	rm -rf $(FIFOProtocol-path)/.build/FIFOProtocol
-	rm -rf $(FIFOProtocol-path)/.build/FIFOProtocol.hpp
-	rm -rf $(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch
-	rm -rf FIFOProtocol
+	rm -rf $(FIFOProtocol-include-directories)
+	rm -rf $(FIFOProtocol-build-file)
+	rm -rf $(FIFOProtocol-top-file)
 
 .PHONY : FIFOProtocol-install
-FIFOProtocol-install : /usr/include/FIFOProtocol.hpp $(FIFOProtocol-install-files)
+FIFOProtocol-install : $(FIFOProtocol-install-target)
 
 .PHONY : FIFOProtocol-uninstall
 FIFOProtocol-uninstall :
-	rm -rf /usr/include/FIFOProtocol.hpp
-	rm -rf /usr/include/FIFOProtocol
+	rm -rf $(FIFOProtocol-install-file)
+	rm -rf $(FIFOProtocol-install-files)
+	rm -rf $(FIFOProtocol-install-directories)
 
-.PHONY : FIFOProtocol-format
-FIFOProtocol-format : $(FIFOProtocol-format-files)
+$(FIFOProtocol-top-file) : $(FIFOProtocol-header-files) $(FIFOProtocol-directories)
+	cliide header-include-file $(FIFOProtocol-path) > $(@)
 
-$(incdir)/FIFOProtocol.hpp : $(FIFOProtocol-path)/.build/FIFOProtocol.hpp $(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch
-	cp $(<) $(@)
+$(FIFOProtocol-build-file) : $(FIFOProtocol-top-file) $(FIFOProtocol-header-files) $(FIFOProtocol-dependency-targets)
+	$(net-CPP) $(FIFOProtocol-include-flags) $(net-CFLAGS) $(FIFOProtocol-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/FIFOProtocol/%.hpp : $(FIFOProtocol-path)/%.hpp $(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch
+$(FIFOProtocol-include-path)/%.hpp : $(FIFOProtocol-path)/%.hpp $(FIFOProtocol-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch : $(FIFOProtocol-path)/.build/FIFOProtocol.hpp $(FIFOProtocol-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(FIFOProtocol-CFLAGS) $(FIFOProtocol-moddepends-CFLAGS) -c -o $(@) $(<)
+$(FIFOProtocol-include-file) : $(FIFOProtocol-top-file) $(FIFOProtocol-build-file)
+	cp $(<) $(@)
 
-$(FIFOProtocol-path)/.build/FIFOProtocol.hpp : $(FIFOProtocol-format-files) $(FIFOProtocol-directories)
-	./gen-hdr.sh $(srcdir) FIFOProtocol | clang-format > $(@)
-
-$(FIFOProtocol-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(FIFOProtocol-install-path)/%.hpp : $(FIFOProtocol-include-path)/%.hpp $(FIFOProtocol-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(FIFOProtocol-install-moddepends)
-	mkdir -p $(dir $(@))
+$(FIFOProtocol-install-file) : $(FIFOProtocol-include-file)
 	cp $(<) $(@)

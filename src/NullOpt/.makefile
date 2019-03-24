@@ -1,64 +1,108 @@
-NullOpt-moddepends =
-NullOpt-CFLAGS =
-NullOpt-LFLAGS =
+# User-configurable options
 
-NullOpt-moddepends-CFLAGS = $(foreach mod, $(NullOpt-moddepends), $($(mod)-export-CFLAGS))
-NullOpt-moddepends-LFLAGS = $(foreach mod, $(NullOpt-moddepends), $($(mod)-export-LFLAGS))
+NullOpt-CFLAGS ::=
+NullOpt-LFLAGS ::=
 
-NullOpt-export-CFLAGS = $(NullOpt-CFLAGS) $(NullOpt-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(NullOpt-LFLAGS) $(NullOpt-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-NullOpt-path = $(srcdir)/NullOpt
-NullOpt-files = $(shell find $(NullOpt-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-NullOpt-include-files = $(NullOpt-files:$(srcdir)/%=$(incdir)/%)
-NullOpt-install-files = $(NullOpt-files:$(srcdir)/%=/usr/include/%)
-NullOpt-directories = $(shell find $(NullOpt-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-NullOpt-format-files = $(NullOpt-files:$(srcdir)/%=$(NullOpt-path)/.build/%.format)
-NullOpt-install-moddepends = $(NullOpt-moddepends:%=%-install)
+NullOpt-path ::= $(net-src-dir)/NullOpt
 
-NullOpt : $(incdir)/NullOpt.hpp $(NullOpt-include-files)
-	touch NullOpt
+NullOpt-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(NullOpt-path)/%,$\
+		$(shell \
+			cd $(NullOpt-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(NullOpt-path))
+
+NullOpt-header-files ::= $(filter %.hpp, $(NullOpt-header-files-and-directories))
+NullOpt-directories ::= $(filter-out %.hpp, $(NullOpt-header-files-and-directories))
+
+NullOpt-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(NullOpt-path)/include.hpp)
+
+NullOpt-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(NullOpt-dependency-candidates)$\
+)
+
+NullOpt-dependency-targets ::= $(foreach \
+	NullOpt-dependency,$\
+	$(NullOpt-dependencies),$\
+	$($(NullOpt-dependency)-target)$\
+)
+
+NullOpt-dependency-install-targets ::= $(foreach \
+	NullOpt-dependency,$\
+	$(NullOpt-dependencies),$\
+	$($(NullOpt-dependency)-install-target)$\
+)
+
+NullOpt-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+NullOpt-inc-dir-flags ::= $(NullOpt-inc-dirs:%=-I %)
+NullOpt-include-flags ::= -I $(net-src-dir) $(NullOpt-inc-dir-flags)
+
+NullOpt-top-file ::= $(NullOpt-path)/.build/NullOpt.hpp
+NullOpt-build-file ::= $(NullOpt-path)/.build/NullOpt.hpp.gch
+
+NullOpt-include-file ::= $(net-inc-dir)/NullOpt.hpp
+NullOpt-include-path ::= $(net-inc-dir)/NullOpt
+NullOpt-include-files ::= \
+	$(NullOpt-header-files:$(NullOpt-path)/%=$(NullOpt-include-path)/%)
+NullOpt-include-directories ::= \
+	$(NullOpt-directories:$(NullOpt-path)/%=$(NullOpt-include-path)/%)
+
+NullOpt-target ::= $(NullOpt-include-files) $(NullOpt-include-file)
+
+NullOpt-install-file ::= $(net-header-install-dir)/NullOpt.hpp
+NullOpt-install-path ::= $(net-header-install-dir)/NullOpt
+NullOpt-install-files ::= \
+	$(NullOpt-header-files:$(NullOpt-path)/%=$(NullOpt-install-path)/%)
+NullOpt-install-directories ::= \
+	$(NullOpt-directories:$(NullOpt-path)/%=$(NullOpt-install-path)/%)
+
+NullOpt-install-target ::= $(NullOpt-install-files) $(NullOpt-install-file)
+
+.PHONY : NullOpt
+NullOpt : $(NullOpt-target)
 
 .PHONY : NullOpt-clean
 NullOpt-clean :
+	rm -rf $(NullOpt-include-file)
 	rm -rf $(NullOpt-include-files)
-	rm -rf $(incdir)/NullOpt
-	rm -rf $(incdir)/NullOpt.hpp
-	rm -rf $(NullOpt-format-files)
-	rm -rf $(NullOpt-path)/.build/NullOpt
-	rm -rf $(NullOpt-path)/.build/NullOpt.hpp
-	rm -rf $(NullOpt-path)/.build/NullOpt.hpp.gch
-	rm -rf NullOpt
+	rm -rf $(NullOpt-include-directories)
+	rm -rf $(NullOpt-build-file)
+	rm -rf $(NullOpt-top-file)
 
 .PHONY : NullOpt-install
-NullOpt-install : /usr/include/NullOpt.hpp $(NullOpt-install-files)
+NullOpt-install : $(NullOpt-install-target)
 
 .PHONY : NullOpt-uninstall
 NullOpt-uninstall :
-	rm -rf /usr/include/NullOpt.hpp
-	rm -rf /usr/include/NullOpt
+	rm -rf $(NullOpt-install-file)
+	rm -rf $(NullOpt-install-files)
+	rm -rf $(NullOpt-install-directories)
 
-.PHONY : NullOpt-format
-NullOpt-format : $(NullOpt-format-files)
+$(NullOpt-top-file) : $(NullOpt-header-files) $(NullOpt-directories)
+	cliide header-include-file $(NullOpt-path) > $(@)
 
-$(incdir)/NullOpt.hpp : $(NullOpt-path)/.build/NullOpt.hpp $(NullOpt-path)/.build/NullOpt.hpp.gch
-	cp $(<) $(@)
+$(NullOpt-build-file) : $(NullOpt-top-file) $(NullOpt-header-files) $(NullOpt-dependency-targets)
+	$(net-CPP) $(NullOpt-include-flags) $(net-CFLAGS) $(NullOpt-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/NullOpt/%.hpp : $(NullOpt-path)/%.hpp $(NullOpt-path)/.build/NullOpt.hpp.gch
+$(NullOpt-include-path)/%.hpp : $(NullOpt-path)/%.hpp $(NullOpt-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(NullOpt-path)/.build/NullOpt.hpp.gch : $(NullOpt-path)/.build/NullOpt.hpp $(NullOpt-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(NullOpt-CFLAGS) $(NullOpt-moddepends-CFLAGS) -c -o $(@) $(<)
+$(NullOpt-include-file) : $(NullOpt-top-file) $(NullOpt-build-file)
+	cp $(<) $(@)
 
-$(NullOpt-path)/.build/NullOpt.hpp : $(NullOpt-format-files) $(NullOpt-directories)
-	./gen-hdr.sh $(srcdir) NullOpt | clang-format > $(@)
-
-$(NullOpt-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(NullOpt-install-path)/%.hpp : $(NullOpt-include-path)/%.hpp $(NullOpt-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(NullOpt-install-moddepends)
-	mkdir -p $(dir $(@))
+$(NullOpt-install-file) : $(NullOpt-include-file)
 	cp $(<) $(@)

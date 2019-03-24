@@ -1,0 +1,87 @@
+# Include project references
+
+## Find all project references
+net-reference-dirs ::= $(shell \
+	find $(net-ref-dir) -mindepth 1 -maxdepth 1 -type l -regex '.*/[^.][^/]*' \
+)
+net-references = $(net-reference-dirs:$(net-ref-dir)/%=%)
+
+## Compute the real directories for these projects
+net-reference-real-dirs ::= $(foreach \
+	net-reference-dir,$\
+	$(net-reference-dirs),$\
+	$(realpath $(net-reference-dir))$\
+)
+
+## Filter out the projects that we have already included
+net-pending-includes ::= $(filter-out \
+	$(net-previously-included),$\
+	$(net-reference-real-dirs)$\
+)
+
+## Define our inclusion function
+define net-include-reference =
+
+### Set the project's base directory
+$(1)-base-dir ::= $(2)
+
+### Tell the project about what we've already included
+$(1)-previously-included ::= $$(sort \
+	$$(net-previously-included)$\
+	$$(net-reference-real-dirs)$\
+)
+
+### Include the project's Makefile
+include $$($(1)-base-dir)/build/Makefile
+
+endef
+
+## Call our inclusion function for all projects that still need to be included
+$(foreach \
+	net-pending-include,$\
+	$(net-pending-includes),$\
+	$(eval \
+		$(call \
+			net-include-reference,$\
+			$(notdir $(net-pending-include)),$\
+			$(net-pending-include)$\
+		)$\
+	)$\
+)
+
+# Compute exported project reference targets
+net-reference-export-targets ::= $(sort \
+	$(foreach \
+		net-reference,$\
+		$(net-references),$\
+		$($(net-reference)-export-targets)$\
+	)$\
+)
+
+# Compute project reference include directories
+net-reference-inc-dirs ::= $(sort \
+	$(foreach \
+		net-reference,$\
+		$(net-references),$\
+		$($(net-reference)-inc-dir)$\
+	)$\
+)
+
+# Include modules
+
+## Find all modules
+net-module-dirs ::= $(shell \
+	find $(net-src-dir) -mindepth 1 -maxdepth 1 -type d -regex '.*/[^.][^/]*'$\
+)
+net-module-makefiles ::= $(net-module-dirs:%=%/.makefile)
+
+## Define modules for toplevel makefile
+net-modules ::= $(net-module-dirs:$(net-src-dir)/%=%)
+
+## Define target exports for modules and referring projects
+net-export-targets ::= \
+	$(net-modules) \
+	$(net-reference-export-targets)
+
+## Include all module makefiles
+include $(net-module-makefiles)

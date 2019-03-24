@@ -1,64 +1,108 @@
-Switch-moddepends = IO
-Switch-CFLAGS =
-Switch-LFLAGS =
+# User-configurable options
 
-Switch-moddepends-CFLAGS = $(foreach mod, $(Switch-moddepends), $($(mod)-export-CFLAGS))
-Switch-moddepends-LFLAGS = $(foreach mod, $(Switch-moddepends), $($(mod)-export-LFLAGS))
+Switch-CFLAGS ::=
+Switch-LFLAGS ::=
 
-Switch-export-CFLAGS = $(Switch-CFLAGS) $(Switch-moddepends-CFLAGS)
-nodname-export-LFLAGS = $(Switch-LFLAGS) $(Switch-moddepends-LFLAGS)
+# Boilerplate that shouldn't be touched
 
-Switch-path = $(srcdir)/Switch
-Switch-files = $(shell find $(Switch-path) -type f -regex '\.\./\([^./][^/]*/\)*[^./][^/]*\.hpp')
-Switch-include-files = $(Switch-files:$(srcdir)/%=$(incdir)/%)
-Switch-install-files = $(Switch-files:$(srcdir)/%=/usr/include/%)
-Switch-directories = $(shell find $(Switch-path) -type d -regex '\.\./\([^./][^/]*/\)*[^./][^/]*')
-Switch-format-files = $(Switch-files:$(srcdir)/%=$(Switch-path)/.build/%.format)
-Switch-install-moddepends = $(Switch-moddepends:%=%-install)
+Switch-path ::= $(net-src-dir)/Switch
 
-Switch : $(incdir)/Switch.hpp $(Switch-include-files)
-	touch Switch
+Switch-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(Switch-path)/%,$\
+		$(shell \
+			cd $(Switch-path); \
+			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\(/[^./][^/]*\)*' \
+		)$\
+	)
+#	$(shell cliide list-files-and-directories $(Switch-path))
+
+Switch-header-files ::= $(filter %.hpp, $(Switch-header-files-and-directories))
+Switch-directories ::= $(filter-out %.hpp, $(Switch-header-files-and-directories))
+
+Switch-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Switch-path)/include.hpp)
+
+Switch-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Switch-dependency-candidates)$\
+)
+
+Switch-dependency-targets ::= $(foreach \
+	Switch-dependency,$\
+	$(Switch-dependencies),$\
+	$($(Switch-dependency)-target)$\
+)
+
+Switch-dependency-install-targets ::= $(foreach \
+	Switch-dependency,$\
+	$(Switch-dependencies),$\
+	$($(Switch-dependency)-install-target)$\
+)
+
+Switch-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Switch-inc-dir-flags ::= $(Switch-inc-dirs:%=-I %)
+Switch-include-flags ::= -I $(net-src-dir) $(Switch-inc-dir-flags)
+
+Switch-top-file ::= $(Switch-path)/.build/Switch.hpp
+Switch-build-file ::= $(Switch-path)/.build/Switch.hpp.gch
+
+Switch-include-file ::= $(net-inc-dir)/Switch.hpp
+Switch-include-path ::= $(net-inc-dir)/Switch
+Switch-include-files ::= \
+	$(Switch-header-files:$(Switch-path)/%=$(Switch-include-path)/%)
+Switch-include-directories ::= \
+	$(Switch-directories:$(Switch-path)/%=$(Switch-include-path)/%)
+
+Switch-target ::= $(Switch-include-files) $(Switch-include-file)
+
+Switch-install-file ::= $(net-header-install-dir)/Switch.hpp
+Switch-install-path ::= $(net-header-install-dir)/Switch
+Switch-install-files ::= \
+	$(Switch-header-files:$(Switch-path)/%=$(Switch-install-path)/%)
+Switch-install-directories ::= \
+	$(Switch-directories:$(Switch-path)/%=$(Switch-install-path)/%)
+
+Switch-install-target ::= $(Switch-install-files) $(Switch-install-file)
+
+.PHONY : Switch
+Switch : $(Switch-target)
 
 .PHONY : Switch-clean
 Switch-clean :
+	rm -rf $(Switch-include-file)
 	rm -rf $(Switch-include-files)
-	rm -rf $(incdir)/Switch
-	rm -rf $(incdir)/Switch.hpp
-	rm -rf $(Switch-format-files)
-	rm -rf $(Switch-path)/.build/Switch
-	rm -rf $(Switch-path)/.build/Switch.hpp
-	rm -rf $(Switch-path)/.build/Switch.hpp.gch
-	rm -rf Switch
+	rm -rf $(Switch-include-directories)
+	rm -rf $(Switch-build-file)
+	rm -rf $(Switch-top-file)
 
 .PHONY : Switch-install
-Switch-install : /usr/include/Switch.hpp $(Switch-install-files)
+Switch-install : $(Switch-install-target)
 
 .PHONY : Switch-uninstall
 Switch-uninstall :
-	rm -rf /usr/include/Switch.hpp
-	rm -rf /usr/include/Switch
+	rm -rf $(Switch-install-file)
+	rm -rf $(Switch-install-files)
+	rm -rf $(Switch-install-directories)
 
-.PHONY : Switch-format
-Switch-format : $(Switch-format-files)
+$(Switch-top-file) : $(Switch-header-files) $(Switch-directories)
+	cliide header-include-file $(Switch-path) > $(@)
 
-$(incdir)/Switch.hpp : $(Switch-path)/.build/Switch.hpp $(Switch-path)/.build/Switch.hpp.gch
-	cp $(<) $(@)
+$(Switch-build-file) : $(Switch-top-file) $(Switch-header-files) $(Switch-dependency-targets)
+	$(net-CPP) $(Switch-include-flags) $(net-CFLAGS) $(Switch-CFLAGS) -c -o $(@) $(<)
 
-$(incdir)/Switch/%.hpp : $(Switch-path)/%.hpp $(Switch-path)/.build/Switch.hpp.gch
+$(Switch-include-path)/%.hpp : $(Switch-path)/%.hpp $(Switch-build-file)
 	mkdir -p $(dir $(@))
 	cp $(<) $(@)
 
-$(Switch-path)/.build/Switch.hpp.gch : $(Switch-path)/.build/Switch.hpp $(Switch-moddepends)
-	$(CPP) -I $(srcdir) $(CFLAGS) $(Switch-CFLAGS) $(Switch-moddepends-CFLAGS) -c -o $(@) $(<)
+$(Switch-include-file) : $(Switch-top-file) $(Switch-build-file)
+	cp $(<) $(@)
 
-$(Switch-path)/.build/Switch.hpp : $(Switch-format-files) $(Switch-directories)
-	./gen-hdr.sh $(srcdir) Switch | clang-format > $(@)
-
-$(Switch-path)/.build/%.format : $(srcdir)/%
-	./format.sh $(<)
+$(Switch-install-path)/%.hpp : $(Switch-include-path)/%.hpp $(Switch-dependency-install-targets)
 	mkdir -p $(dir $(@))
-	touch $(@)
+	cp $(<) $(@)
 
-/usr/include/%.hpp : $(incdir)/%.hpp $(Switch-install-moddepends)
-	mkdir -p $(dir $(@))
+$(Switch-install-file) : $(Switch-include-file)
 	cp $(<) $(@)
