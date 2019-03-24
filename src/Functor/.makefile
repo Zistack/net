@@ -13,11 +13,10 @@ Functor-header-files-and-directories ::= \
 		$(Functor-path)/%,$\
 		$(shell \
 			cd $(Functor-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(Functor-path))
 
 Functor-header-files ::= $(filter %.hpp, $(Functor-header-files-and-directories))
 Functor-directories ::= $(filter-out %.hpp, $(Functor-header-files-and-directories))
