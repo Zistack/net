@@ -13,11 +13,10 @@ SuppressingScope-header-files-and-directories ::= \
 		$(SuppressingScope-path)/%,$\
 		$(shell \
 			cd $(SuppressingScope-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(SuppressingScope-path))
 
 SuppressingScope-header-files ::= $(filter %.hpp, $(SuppressingScope-header-files-and-directories))
 SuppressingScope-directories ::= $(filter-out %.hpp, $(SuppressingScope-header-files-and-directories))
