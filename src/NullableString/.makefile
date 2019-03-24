@@ -13,11 +13,10 @@ NullableString-header-files-and-directories ::= \
 		$(NullableString-path)/%,$\
 		$(shell \
 			cd $(NullableString-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(NullableString-path))
 
 NullableString-header-files ::= $(filter %.hpp, $(NullableString-header-files-and-directories))
 NullableString-directories ::= $(filter-out %.hpp, $(NullableString-header-files-and-directories))

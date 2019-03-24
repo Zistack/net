@@ -3,11 +3,11 @@ struct T
 	T ();
 	T (const char * string);
 	T (const std::string & string);
-	T (const std::optional<std::string> & string);
+	T (const std::optional <std::string> & string);
 	T (const T & other) = default;
 
 	T &
-	operator= (const T & other) = default;
+	operator = (const T & other) = default;
 
 	const char *
 	cString () const;
@@ -18,10 +18,10 @@ struct T
 	const std::string &
 	stdString () const;
 
-	std::optional<std::string> &
+	std::optional <std::string> &
 	optional ();
 
-	const std::optional<std::string> &
+	const std::optional <std::string> &
 	optional () const;
 
 	bool
@@ -36,20 +36,20 @@ struct T
 	set (const char * string);
 
 	T &
-	operator= (const char * string);
+	operator = (const char * string);
 
 	void
 	set (const std::string & string);
 
 	T &
-	operator= (const std::string & string);
+	operator = (const std::string & string);
 
 	void
-	set (const std::optional<std::string> & string);
+	set (const std::optional <std::string> & string);
 
 	T &
-	operator= (const std::optional<std::string> & string);
+	operator = (const std::optional <std::string> & string);
 
 	private:
-	std::optional<std::string> string;
+	std::optional <std::string> string;
 };

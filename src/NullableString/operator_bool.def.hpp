@@ -1,4 +1,4 @@
 T::operator bool () const
 {
-	return this->hasValue ();
+	return this -> hasValue ();
 }
