@@ -14,7 +14,7 @@ struct T
 	void
 	close ();
 
-	friend Scope::T<T>;
+	friend Scope::T <T>;
 
 	// Given members
 

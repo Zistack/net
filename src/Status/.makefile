@@ -13,11 +13,10 @@ Status-header-files-and-directories ::= \
 		$(Status-path)/%,$\
 		$(shell \
 			cd $(Status-path); \
-			find -type f -regex '\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\(/[^./][^/]*\)*' \
+			find . -mindepth 1 -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
 		)$\
 	)
-#	$(shell cliide list-files-and-directories $(Status-path))
 
 Status-header-files ::= $(filter %.hpp, $(Status-header-files-and-directories))
 Status-directories ::= $(filter-out %.hpp, $(Status-header-files-and-directories))
