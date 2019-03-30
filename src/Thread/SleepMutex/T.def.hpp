@@ -1,0 +1,3 @@
+T::T () : locked (false)
+{
+}

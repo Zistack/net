@@ -1,1 +1,0 @@
-T::T () : locked (false) {}
