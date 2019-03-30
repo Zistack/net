@@ -1,0 +1,55 @@
+# User-configurable options
+
+StatusBit-CFLAGS ::=
+StatusBit-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+StatusBit-path ::= $(net-src-dir)/StatusBit
+
+StatusBit-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./StatusBit -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+StatusBit-header-files ::= $(filter %.hpp, $(StatusBit-header-files-and-directories))
+StatusBit-directories ::= $(filter-out %.hpp, $(StatusBit-header-files-and-directories))
+
+StatusBit-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(StatusBit-path)/include.hpp)
+
+StatusBit-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(StatusBit-dependency-candidates)$\
+)
+
+StatusBit-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+StatusBit-inc-dir-flags ::= $(StatusBit-inc-dirs:%=-I %)
+StatusBit-include-flags ::= -I $(net-src-dir) $(StatusBit-inc-dir-flags)
+
+StatusBit-top-file ::= $(StatusBit-path)/.build/StatusBit.hpp
+StatusBit-build-file ::= $(StatusBit-path)/.build/StatusBit.hpp.gch
+
+StatusBit-include-file ::= $(net-inc-dir)/StatusBit.hpp
+StatusBit-include-path ::= $(net-inc-dir)/StatusBit
+StatusBit-include-files ::= \
+	$(StatusBit-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+StatusBit-include-directories ::= \
+	$(StatusBit-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+StatusBit-target ::= $(StatusBit-include-files) $(StatusBit-include-file)
+
+StatusBit-install-file ::= $(net-header-install-dir)/StatusBit.hpp
+StatusBit-install-path ::= $(net-header-install-dir)/StatusBit
+StatusBit-install-files ::= \
+	$(StatusBit-header-files:$(StatusBit-path)/%=$(StatusBit-install-path)/%)
+StatusBit-install-directories ::= \
+	$(StatusBit-directories:$(StatusBit-path)/%=$(StatusBit-install-path)/%)
+
+StatusBit-install-target ::= $(StatusBit-install-files) $(StatusBit-install-file)

@@ -1,0 +1,55 @@
+# User-configurable options
+
+NullableString-CFLAGS ::=
+NullableString-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+NullableString-path ::= $(net-src-dir)/NullableString
+
+NullableString-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./NullableString -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+NullableString-header-files ::= $(filter %.hpp, $(NullableString-header-files-and-directories))
+NullableString-directories ::= $(filter-out %.hpp, $(NullableString-header-files-and-directories))
+
+NullableString-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(NullableString-path)/include.hpp)
+
+NullableString-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(NullableString-dependency-candidates)$\
+)
+
+NullableString-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+NullableString-inc-dir-flags ::= $(NullableString-inc-dirs:%=-I %)
+NullableString-include-flags ::= -I $(net-src-dir) $(NullableString-inc-dir-flags)
+
+NullableString-top-file ::= $(NullableString-path)/.build/NullableString.hpp
+NullableString-build-file ::= $(NullableString-path)/.build/NullableString.hpp.gch
+
+NullableString-include-file ::= $(net-inc-dir)/NullableString.hpp
+NullableString-include-path ::= $(net-inc-dir)/NullableString
+NullableString-include-files ::= \
+	$(NullableString-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+NullableString-include-directories ::= \
+	$(NullableString-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+NullableString-target ::= $(NullableString-include-files) $(NullableString-include-file)
+
+NullableString-install-file ::= $(net-header-install-dir)/NullableString.hpp
+NullableString-install-path ::= $(net-header-install-dir)/NullableString
+NullableString-install-files ::= \
+	$(NullableString-header-files:$(NullableString-path)/%=$(NullableString-install-path)/%)
+NullableString-install-directories ::= \
+	$(NullableString-directories:$(NullableString-path)/%=$(NullableString-install-path)/%)
+
+NullableString-install-target ::= $(NullableString-install-files) $(NullableString-install-file)

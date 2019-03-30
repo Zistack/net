@@ -1,0 +1,55 @@
+# User-configurable options
+
+IO-CFLAGS ::=
+IO-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+IO-path ::= $(net-src-dir)/IO
+
+IO-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./IO -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+IO-header-files ::= $(filter %.hpp, $(IO-header-files-and-directories))
+IO-directories ::= $(filter-out %.hpp, $(IO-header-files-and-directories))
+
+IO-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(IO-path)/include.hpp)
+
+IO-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(IO-dependency-candidates)$\
+)
+
+IO-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+IO-inc-dir-flags ::= $(IO-inc-dirs:%=-I %)
+IO-include-flags ::= -I $(net-src-dir) $(IO-inc-dir-flags)
+
+IO-top-file ::= $(IO-path)/.build/IO.hpp
+IO-build-file ::= $(IO-path)/.build/IO.hpp.gch
+
+IO-include-file ::= $(net-inc-dir)/IO.hpp
+IO-include-path ::= $(net-inc-dir)/IO
+IO-include-files ::= \
+	$(IO-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+IO-include-directories ::= \
+	$(IO-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+IO-target ::= $(IO-include-files) $(IO-include-file)
+
+IO-install-file ::= $(net-header-install-dir)/IO.hpp
+IO-install-path ::= $(net-header-install-dir)/IO
+IO-install-files ::= \
+	$(IO-header-files:$(IO-path)/%=$(IO-install-path)/%)
+IO-install-directories ::= \
+	$(IO-directories:$(IO-path)/%=$(IO-install-path)/%)
+
+IO-install-target ::= $(IO-install-files) $(IO-install-file)

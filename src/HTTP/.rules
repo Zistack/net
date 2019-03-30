@@ -1,0 +1,51 @@
+HTTP-dependency-targets ::= $(foreach \
+	HTTP-dependency,$\
+	$(HTTP-dependencies),$\
+	$($(HTTP-dependency)-target)$\
+)
+
+HTTP-dependency-install-targets ::= $(foreach \
+	HTTP-dependency,$\
+	$(HTTP-dependencies),$\
+	$($(HTTP-dependency)-install-target)$\
+)
+
+.PHONY : HTTP
+HTTP : $(HTTP-target)
+
+.PHONY : HTTP-clean
+HTTP-clean :
+	rm -rf $(HTTP-include-file)
+	rm -rf $(HTTP-include-files)
+	rm -rf $(HTTP-include-directories)
+	rm -rf $(HTTP-build-file)
+	rm -rf $(HTTP-top-file)
+
+.PHONY : HTTP-install
+HTTP-install : $(HTTP-install-target)
+
+.PHONY : HTTP-uninstall
+HTTP-uninstall :
+	rm -rf $(HTTP-install-file)
+	rm -rf $(HTTP-install-files)
+	rm -rf $(HTTP-install-directories)
+
+$(HTTP-top-file) : $(HTTP-header-files) $(HTTP-directories)
+	cliide header-include-file $(HTTP-path) > $(@)
+
+$(HTTP-build-file) : $(HTTP-top-file) $(HTTP-header-files) $(HTTP-dependency-targets)
+	$(net-CPP) $(HTTP-include-flags) $(net-CFLAGS) $(HTTP-CFLAGS) -c -o $(@) $(<)
+
+$(HTTP-include-path)/%.hpp : $(HTTP-path)/%.hpp $(HTTP-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(HTTP-include-file) : $(HTTP-top-file) $(HTTP-build-file)
+	cp $(<) $(@)
+
+$(HTTP-install-path)/%.hpp : $(HTTP-include-path)/%.hpp $(HTTP-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(HTTP-install-file) : $(HTTP-include-file)
+	cp $(<) $(@)

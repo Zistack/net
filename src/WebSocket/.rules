@@ -1,0 +1,51 @@
+WebSocket-dependency-targets ::= $(foreach \
+	WebSocket-dependency,$\
+	$(WebSocket-dependencies),$\
+	$($(WebSocket-dependency)-target)$\
+)
+
+WebSocket-dependency-install-targets ::= $(foreach \
+	WebSocket-dependency,$\
+	$(WebSocket-dependencies),$\
+	$($(WebSocket-dependency)-install-target)$\
+)
+
+.PHONY : WebSocket
+WebSocket : $(WebSocket-target)
+
+.PHONY : WebSocket-clean
+WebSocket-clean :
+	rm -rf $(WebSocket-include-file)
+	rm -rf $(WebSocket-include-files)
+	rm -rf $(WebSocket-include-directories)
+	rm -rf $(WebSocket-build-file)
+	rm -rf $(WebSocket-top-file)
+
+.PHONY : WebSocket-install
+WebSocket-install : $(WebSocket-install-target)
+
+.PHONY : WebSocket-uninstall
+WebSocket-uninstall :
+	rm -rf $(WebSocket-install-file)
+	rm -rf $(WebSocket-install-files)
+	rm -rf $(WebSocket-install-directories)
+
+$(WebSocket-top-file) : $(WebSocket-header-files) $(WebSocket-directories)
+	cliide header-include-file $(WebSocket-path) > $(@)
+
+$(WebSocket-build-file) : $(WebSocket-top-file) $(WebSocket-header-files) $(WebSocket-dependency-targets)
+	$(net-CPP) $(WebSocket-include-flags) $(net-CFLAGS) $(WebSocket-CFLAGS) -c -o $(@) $(<)
+
+$(WebSocket-include-path)/%.hpp : $(WebSocket-path)/%.hpp $(WebSocket-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(WebSocket-include-file) : $(WebSocket-top-file) $(WebSocket-build-file)
+	cp $(<) $(@)
+
+$(WebSocket-install-path)/%.hpp : $(WebSocket-include-path)/%.hpp $(WebSocket-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(WebSocket-install-file) : $(WebSocket-include-file)
+	cp $(<) $(@)

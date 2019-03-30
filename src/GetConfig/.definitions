@@ -1,0 +1,55 @@
+# User-configurable options
+
+GetConfig-CFLAGS ::=
+GetConfig-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+GetConfig-path ::= $(net-src-dir)/GetConfig
+
+GetConfig-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./GetConfig -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+GetConfig-header-files ::= $(filter %.hpp, $(GetConfig-header-files-and-directories))
+GetConfig-directories ::= $(filter-out %.hpp, $(GetConfig-header-files-and-directories))
+
+GetConfig-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(GetConfig-path)/include.hpp)
+
+GetConfig-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(GetConfig-dependency-candidates)$\
+)
+
+GetConfig-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+GetConfig-inc-dir-flags ::= $(GetConfig-inc-dirs:%=-I %)
+GetConfig-include-flags ::= -I $(net-src-dir) $(GetConfig-inc-dir-flags)
+
+GetConfig-top-file ::= $(GetConfig-path)/.build/GetConfig.hpp
+GetConfig-build-file ::= $(GetConfig-path)/.build/GetConfig.hpp.gch
+
+GetConfig-include-file ::= $(net-inc-dir)/GetConfig.hpp
+GetConfig-include-path ::= $(net-inc-dir)/GetConfig
+GetConfig-include-files ::= \
+	$(GetConfig-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+GetConfig-include-directories ::= \
+	$(GetConfig-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+GetConfig-target ::= $(GetConfig-include-files) $(GetConfig-include-file)
+
+GetConfig-install-file ::= $(net-header-install-dir)/GetConfig.hpp
+GetConfig-install-path ::= $(net-header-install-dir)/GetConfig
+GetConfig-install-files ::= \
+	$(GetConfig-header-files:$(GetConfig-path)/%=$(GetConfig-install-path)/%)
+GetConfig-install-directories ::= \
+	$(GetConfig-directories:$(GetConfig-path)/%=$(GetConfig-install-path)/%)
+
+GetConfig-install-target ::= $(GetConfig-install-files) $(GetConfig-install-file)

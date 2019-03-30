@@ -1,0 +1,55 @@
+# User-configurable options
+
+NullOpt-CFLAGS ::=
+NullOpt-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+NullOpt-path ::= $(net-src-dir)/NullOpt
+
+NullOpt-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./NullOpt -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+NullOpt-header-files ::= $(filter %.hpp, $(NullOpt-header-files-and-directories))
+NullOpt-directories ::= $(filter-out %.hpp, $(NullOpt-header-files-and-directories))
+
+NullOpt-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(NullOpt-path)/include.hpp)
+
+NullOpt-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(NullOpt-dependency-candidates)$\
+)
+
+NullOpt-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+NullOpt-inc-dir-flags ::= $(NullOpt-inc-dirs:%=-I %)
+NullOpt-include-flags ::= -I $(net-src-dir) $(NullOpt-inc-dir-flags)
+
+NullOpt-top-file ::= $(NullOpt-path)/.build/NullOpt.hpp
+NullOpt-build-file ::= $(NullOpt-path)/.build/NullOpt.hpp.gch
+
+NullOpt-include-file ::= $(net-inc-dir)/NullOpt.hpp
+NullOpt-include-path ::= $(net-inc-dir)/NullOpt
+NullOpt-include-files ::= \
+	$(NullOpt-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+NullOpt-include-directories ::= \
+	$(NullOpt-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+NullOpt-target ::= $(NullOpt-include-files) $(NullOpt-include-file)
+
+NullOpt-install-file ::= $(net-header-install-dir)/NullOpt.hpp
+NullOpt-install-path ::= $(net-header-install-dir)/NullOpt
+NullOpt-install-files ::= \
+	$(NullOpt-header-files:$(NullOpt-path)/%=$(NullOpt-install-path)/%)
+NullOpt-install-directories ::= \
+	$(NullOpt-directories:$(NullOpt-path)/%=$(NullOpt-install-path)/%)
+
+NullOpt-install-target ::= $(NullOpt-install-files) $(NullOpt-install-file)

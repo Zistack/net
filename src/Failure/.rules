@@ -1,0 +1,51 @@
+Failure-dependency-targets ::= $(foreach \
+	Failure-dependency,$\
+	$(Failure-dependencies),$\
+	$($(Failure-dependency)-target)$\
+)
+
+Failure-dependency-install-targets ::= $(foreach \
+	Failure-dependency,$\
+	$(Failure-dependencies),$\
+	$($(Failure-dependency)-install-target)$\
+)
+
+.PHONY : Failure
+Failure : $(Failure-target)
+
+.PHONY : Failure-clean
+Failure-clean :
+	rm -rf $(Failure-include-file)
+	rm -rf $(Failure-include-files)
+	rm -rf $(Failure-include-directories)
+	rm -rf $(Failure-build-file)
+	rm -rf $(Failure-top-file)
+
+.PHONY : Failure-install
+Failure-install : $(Failure-install-target)
+
+.PHONY : Failure-uninstall
+Failure-uninstall :
+	rm -rf $(Failure-install-file)
+	rm -rf $(Failure-install-files)
+	rm -rf $(Failure-install-directories)
+
+$(Failure-top-file) : $(Failure-header-files) $(Failure-directories)
+	cliide header-include-file $(Failure-path) > $(@)
+
+$(Failure-build-file) : $(Failure-top-file) $(Failure-header-files) $(Failure-dependency-targets)
+	$(net-CPP) $(Failure-include-flags) $(net-CFLAGS) $(Failure-CFLAGS) -c -o $(@) $(<)
+
+$(Failure-include-path)/%.hpp : $(Failure-path)/%.hpp $(Failure-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Failure-include-file) : $(Failure-top-file) $(Failure-build-file)
+	cp $(<) $(@)
+
+$(Failure-install-path)/%.hpp : $(Failure-include-path)/%.hpp $(Failure-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Failure-install-file) : $(Failure-include-file)
+	cp $(<) $(@)

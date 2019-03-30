@@ -1,0 +1,55 @@
+# User-configurable options
+
+FIFOProtocol-CFLAGS ::=
+FIFOProtocol-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+FIFOProtocol-path ::= $(net-src-dir)/FIFOProtocol
+
+FIFOProtocol-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./FIFOProtocol -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+FIFOProtocol-header-files ::= $(filter %.hpp, $(FIFOProtocol-header-files-and-directories))
+FIFOProtocol-directories ::= $(filter-out %.hpp, $(FIFOProtocol-header-files-and-directories))
+
+FIFOProtocol-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(FIFOProtocol-path)/include.hpp)
+
+FIFOProtocol-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(FIFOProtocol-dependency-candidates)$\
+)
+
+FIFOProtocol-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+FIFOProtocol-inc-dir-flags ::= $(FIFOProtocol-inc-dirs:%=-I %)
+FIFOProtocol-include-flags ::= -I $(net-src-dir) $(FIFOProtocol-inc-dir-flags)
+
+FIFOProtocol-top-file ::= $(FIFOProtocol-path)/.build/FIFOProtocol.hpp
+FIFOProtocol-build-file ::= $(FIFOProtocol-path)/.build/FIFOProtocol.hpp.gch
+
+FIFOProtocol-include-file ::= $(net-inc-dir)/FIFOProtocol.hpp
+FIFOProtocol-include-path ::= $(net-inc-dir)/FIFOProtocol
+FIFOProtocol-include-files ::= \
+	$(FIFOProtocol-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+FIFOProtocol-include-directories ::= \
+	$(FIFOProtocol-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+FIFOProtocol-target ::= $(FIFOProtocol-include-files) $(FIFOProtocol-include-file)
+
+FIFOProtocol-install-file ::= $(net-header-install-dir)/FIFOProtocol.hpp
+FIFOProtocol-install-path ::= $(net-header-install-dir)/FIFOProtocol
+FIFOProtocol-install-files ::= \
+	$(FIFOProtocol-header-files:$(FIFOProtocol-path)/%=$(FIFOProtocol-install-path)/%)
+FIFOProtocol-install-directories ::= \
+	$(FIFOProtocol-directories:$(FIFOProtocol-path)/%=$(FIFOProtocol-install-path)/%)
+
+FIFOProtocol-install-target ::= $(FIFOProtocol-install-files) $(FIFOProtocol-install-file)

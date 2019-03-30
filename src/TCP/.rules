@@ -1,0 +1,51 @@
+TCP-dependency-targets ::= $(foreach \
+	TCP-dependency,$\
+	$(TCP-dependencies),$\
+	$($(TCP-dependency)-target)$\
+)
+
+TCP-dependency-install-targets ::= $(foreach \
+	TCP-dependency,$\
+	$(TCP-dependencies),$\
+	$($(TCP-dependency)-install-target)$\
+)
+
+.PHONY : TCP
+TCP : $(TCP-target)
+
+.PHONY : TCP-clean
+TCP-clean :
+	rm -rf $(TCP-include-file)
+	rm -rf $(TCP-include-files)
+	rm -rf $(TCP-include-directories)
+	rm -rf $(TCP-build-file)
+	rm -rf $(TCP-top-file)
+
+.PHONY : TCP-install
+TCP-install : $(TCP-install-target)
+
+.PHONY : TCP-uninstall
+TCP-uninstall :
+	rm -rf $(TCP-install-file)
+	rm -rf $(TCP-install-files)
+	rm -rf $(TCP-install-directories)
+
+$(TCP-top-file) : $(TCP-header-files) $(TCP-directories)
+	cliide header-include-file $(TCP-path) > $(@)
+
+$(TCP-build-file) : $(TCP-top-file) $(TCP-header-files) $(TCP-dependency-targets)
+	$(net-CPP) $(TCP-include-flags) $(net-CFLAGS) $(TCP-CFLAGS) -c -o $(@) $(<)
+
+$(TCP-include-path)/%.hpp : $(TCP-path)/%.hpp $(TCP-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(TCP-include-file) : $(TCP-top-file) $(TCP-build-file)
+	cp $(<) $(@)
+
+$(TCP-install-path)/%.hpp : $(TCP-include-path)/%.hpp $(TCP-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(TCP-install-file) : $(TCP-include-file)
+	cp $(<) $(@)

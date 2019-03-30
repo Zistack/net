@@ -1,0 +1,51 @@
+FIFOProtocol-dependency-targets ::= $(foreach \
+	FIFOProtocol-dependency,$\
+	$(FIFOProtocol-dependencies),$\
+	$($(FIFOProtocol-dependency)-target)$\
+)
+
+FIFOProtocol-dependency-install-targets ::= $(foreach \
+	FIFOProtocol-dependency,$\
+	$(FIFOProtocol-dependencies),$\
+	$($(FIFOProtocol-dependency)-install-target)$\
+)
+
+.PHONY : FIFOProtocol
+FIFOProtocol : $(FIFOProtocol-target)
+
+.PHONY : FIFOProtocol-clean
+FIFOProtocol-clean :
+	rm -rf $(FIFOProtocol-include-file)
+	rm -rf $(FIFOProtocol-include-files)
+	rm -rf $(FIFOProtocol-include-directories)
+	rm -rf $(FIFOProtocol-build-file)
+	rm -rf $(FIFOProtocol-top-file)
+
+.PHONY : FIFOProtocol-install
+FIFOProtocol-install : $(FIFOProtocol-install-target)
+
+.PHONY : FIFOProtocol-uninstall
+FIFOProtocol-uninstall :
+	rm -rf $(FIFOProtocol-install-file)
+	rm -rf $(FIFOProtocol-install-files)
+	rm -rf $(FIFOProtocol-install-directories)
+
+$(FIFOProtocol-top-file) : $(FIFOProtocol-header-files) $(FIFOProtocol-directories)
+	cliide header-include-file $(FIFOProtocol-path) > $(@)
+
+$(FIFOProtocol-build-file) : $(FIFOProtocol-top-file) $(FIFOProtocol-header-files) $(FIFOProtocol-dependency-targets)
+	$(net-CPP) $(FIFOProtocol-include-flags) $(net-CFLAGS) $(FIFOProtocol-CFLAGS) -c -o $(@) $(<)
+
+$(FIFOProtocol-include-path)/%.hpp : $(FIFOProtocol-path)/%.hpp $(FIFOProtocol-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(FIFOProtocol-include-file) : $(FIFOProtocol-top-file) $(FIFOProtocol-build-file)
+	cp $(<) $(@)
+
+$(FIFOProtocol-install-path)/%.hpp : $(FIFOProtocol-include-path)/%.hpp $(FIFOProtocol-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(FIFOProtocol-install-file) : $(FIFOProtocol-include-file)
+	cp $(<) $(@)

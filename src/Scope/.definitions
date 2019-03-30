@@ -1,0 +1,55 @@
+# User-configurable options
+
+Scope-CFLAGS ::=
+Scope-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+Scope-path ::= $(net-src-dir)/Scope
+
+Scope-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./Scope -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+Scope-header-files ::= $(filter %.hpp, $(Scope-header-files-and-directories))
+Scope-directories ::= $(filter-out %.hpp, $(Scope-header-files-and-directories))
+
+Scope-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Scope-path)/include.hpp)
+
+Scope-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Scope-dependency-candidates)$\
+)
+
+Scope-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Scope-inc-dir-flags ::= $(Scope-inc-dirs:%=-I %)
+Scope-include-flags ::= -I $(net-src-dir) $(Scope-inc-dir-flags)
+
+Scope-top-file ::= $(Scope-path)/.build/Scope.hpp
+Scope-build-file ::= $(Scope-path)/.build/Scope.hpp.gch
+
+Scope-include-file ::= $(net-inc-dir)/Scope.hpp
+Scope-include-path ::= $(net-inc-dir)/Scope
+Scope-include-files ::= \
+	$(Scope-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+Scope-include-directories ::= \
+	$(Scope-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+Scope-target ::= $(Scope-include-files) $(Scope-include-file)
+
+Scope-install-file ::= $(net-header-install-dir)/Scope.hpp
+Scope-install-path ::= $(net-header-install-dir)/Scope
+Scope-install-files ::= \
+	$(Scope-header-files:$(Scope-path)/%=$(Scope-install-path)/%)
+Scope-install-directories ::= \
+	$(Scope-directories:$(Scope-path)/%=$(Scope-install-path)/%)
+
+Scope-install-target ::= $(Scope-install-files) $(Scope-install-file)

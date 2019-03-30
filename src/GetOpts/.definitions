@@ -1,0 +1,55 @@
+# User-configurable options
+
+GetOpts-CFLAGS ::=
+GetOpts-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+GetOpts-path ::= $(net-src-dir)/GetOpts
+
+GetOpts-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./GetOpts -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+GetOpts-header-files ::= $(filter %.hpp, $(GetOpts-header-files-and-directories))
+GetOpts-directories ::= $(filter-out %.hpp, $(GetOpts-header-files-and-directories))
+
+GetOpts-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(GetOpts-path)/include.hpp)
+
+GetOpts-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(GetOpts-dependency-candidates)$\
+)
+
+GetOpts-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+GetOpts-inc-dir-flags ::= $(GetOpts-inc-dirs:%=-I %)
+GetOpts-include-flags ::= -I $(net-src-dir) $(GetOpts-inc-dir-flags)
+
+GetOpts-top-file ::= $(GetOpts-path)/.build/GetOpts.hpp
+GetOpts-build-file ::= $(GetOpts-path)/.build/GetOpts.hpp.gch
+
+GetOpts-include-file ::= $(net-inc-dir)/GetOpts.hpp
+GetOpts-include-path ::= $(net-inc-dir)/GetOpts
+GetOpts-include-files ::= \
+	$(GetOpts-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+GetOpts-include-directories ::= \
+	$(GetOpts-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+GetOpts-target ::= $(GetOpts-include-files) $(GetOpts-include-file)
+
+GetOpts-install-file ::= $(net-header-install-dir)/GetOpts.hpp
+GetOpts-install-path ::= $(net-header-install-dir)/GetOpts
+GetOpts-install-files ::= \
+	$(GetOpts-header-files:$(GetOpts-path)/%=$(GetOpts-install-path)/%)
+GetOpts-install-directories ::= \
+	$(GetOpts-directories:$(GetOpts-path)/%=$(GetOpts-install-path)/%)
+
+GetOpts-install-target ::= $(GetOpts-install-files) $(GetOpts-install-file)

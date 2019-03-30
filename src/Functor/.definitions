@@ -1,0 +1,55 @@
+# User-configurable options
+
+Functor-CFLAGS ::=
+Functor-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+Functor-path ::= $(net-src-dir)/Functor
+
+Functor-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./Functor -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+Functor-header-files ::= $(filter %.hpp, $(Functor-header-files-and-directories))
+Functor-directories ::= $(filter-out %.hpp, $(Functor-header-files-and-directories))
+
+Functor-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Functor-path)/include.hpp)
+
+Functor-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Functor-dependency-candidates)$\
+)
+
+Functor-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Functor-inc-dir-flags ::= $(Functor-inc-dirs:%=-I %)
+Functor-include-flags ::= -I $(net-src-dir) $(Functor-inc-dir-flags)
+
+Functor-top-file ::= $(Functor-path)/.build/Functor.hpp
+Functor-build-file ::= $(Functor-path)/.build/Functor.hpp.gch
+
+Functor-include-file ::= $(net-inc-dir)/Functor.hpp
+Functor-include-path ::= $(net-inc-dir)/Functor
+Functor-include-files ::= \
+	$(Functor-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+Functor-include-directories ::= \
+	$(Functor-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+Functor-target ::= $(Functor-include-files) $(Functor-include-file)
+
+Functor-install-file ::= $(net-header-install-dir)/Functor.hpp
+Functor-install-path ::= $(net-header-install-dir)/Functor
+Functor-install-files ::= \
+	$(Functor-header-files:$(Functor-path)/%=$(Functor-install-path)/%)
+Functor-install-directories ::= \
+	$(Functor-directories:$(Functor-path)/%=$(Functor-install-path)/%)
+
+Functor-install-target ::= $(Functor-install-files) $(Functor-install-file)

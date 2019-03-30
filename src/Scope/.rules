@@ -1,0 +1,51 @@
+Scope-dependency-targets ::= $(foreach \
+	Scope-dependency,$\
+	$(Scope-dependencies),$\
+	$($(Scope-dependency)-target)$\
+)
+
+Scope-dependency-install-targets ::= $(foreach \
+	Scope-dependency,$\
+	$(Scope-dependencies),$\
+	$($(Scope-dependency)-install-target)$\
+)
+
+.PHONY : Scope
+Scope : $(Scope-target)
+
+.PHONY : Scope-clean
+Scope-clean :
+	rm -rf $(Scope-include-file)
+	rm -rf $(Scope-include-files)
+	rm -rf $(Scope-include-directories)
+	rm -rf $(Scope-build-file)
+	rm -rf $(Scope-top-file)
+
+.PHONY : Scope-install
+Scope-install : $(Scope-install-target)
+
+.PHONY : Scope-uninstall
+Scope-uninstall :
+	rm -rf $(Scope-install-file)
+	rm -rf $(Scope-install-files)
+	rm -rf $(Scope-install-directories)
+
+$(Scope-top-file) : $(Scope-header-files) $(Scope-directories)
+	cliide header-include-file $(Scope-path) > $(@)
+
+$(Scope-build-file) : $(Scope-top-file) $(Scope-header-files) $(Scope-dependency-targets)
+	$(net-CPP) $(Scope-include-flags) $(net-CFLAGS) $(Scope-CFLAGS) -c -o $(@) $(<)
+
+$(Scope-include-path)/%.hpp : $(Scope-path)/%.hpp $(Scope-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Scope-include-file) : $(Scope-top-file) $(Scope-build-file)
+	cp $(<) $(@)
+
+$(Scope-install-path)/%.hpp : $(Scope-include-path)/%.hpp $(Scope-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Scope-install-file) : $(Scope-include-file)
+	cp $(<) $(@)

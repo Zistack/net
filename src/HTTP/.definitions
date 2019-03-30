@@ -1,0 +1,55 @@
+# User-configurable options
+
+HTTP-CFLAGS ::=
+HTTP-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+HTTP-path ::= $(net-src-dir)/HTTP
+
+HTTP-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./HTTP -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+HTTP-header-files ::= $(filter %.hpp, $(HTTP-header-files-and-directories))
+HTTP-directories ::= $(filter-out %.hpp, $(HTTP-header-files-and-directories))
+
+HTTP-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(HTTP-path)/include.hpp)
+
+HTTP-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(HTTP-dependency-candidates)$\
+)
+
+HTTP-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+HTTP-inc-dir-flags ::= $(HTTP-inc-dirs:%=-I %)
+HTTP-include-flags ::= -I $(net-src-dir) $(HTTP-inc-dir-flags)
+
+HTTP-top-file ::= $(HTTP-path)/.build/HTTP.hpp
+HTTP-build-file ::= $(HTTP-path)/.build/HTTP.hpp.gch
+
+HTTP-include-file ::= $(net-inc-dir)/HTTP.hpp
+HTTP-include-path ::= $(net-inc-dir)/HTTP
+HTTP-include-files ::= \
+	$(HTTP-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+HTTP-include-directories ::= \
+	$(HTTP-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+HTTP-target ::= $(HTTP-include-files) $(HTTP-include-file)
+
+HTTP-install-file ::= $(net-header-install-dir)/HTTP.hpp
+HTTP-install-path ::= $(net-header-install-dir)/HTTP
+HTTP-install-files ::= \
+	$(HTTP-header-files:$(HTTP-path)/%=$(HTTP-install-path)/%)
+HTTP-install-directories ::= \
+	$(HTTP-directories:$(HTTP-path)/%=$(HTTP-install-path)/%)
+
+HTTP-install-target ::= $(HTTP-install-files) $(HTTP-install-file)

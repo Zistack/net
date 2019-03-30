@@ -1,0 +1,55 @@
+# User-configurable options
+
+Thread-CFLAGS ::=
+Thread-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+Thread-path ::= $(net-src-dir)/Thread
+
+Thread-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./Thread -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+Thread-header-files ::= $(filter %.hpp, $(Thread-header-files-and-directories))
+Thread-directories ::= $(filter-out %.hpp, $(Thread-header-files-and-directories))
+
+Thread-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Thread-path)/include.hpp)
+
+Thread-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Thread-dependency-candidates)$\
+)
+
+Thread-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Thread-inc-dir-flags ::= $(Thread-inc-dirs:%=-I %)
+Thread-include-flags ::= -I $(net-src-dir) $(Thread-inc-dir-flags)
+
+Thread-top-file ::= $(Thread-path)/.build/Thread.hpp
+Thread-build-file ::= $(Thread-path)/.build/Thread.hpp.gch
+
+Thread-include-file ::= $(net-inc-dir)/Thread.hpp
+Thread-include-path ::= $(net-inc-dir)/Thread
+Thread-include-files ::= \
+	$(Thread-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+Thread-include-directories ::= \
+	$(Thread-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+Thread-target ::= $(Thread-include-files) $(Thread-include-file)
+
+Thread-install-file ::= $(net-header-install-dir)/Thread.hpp
+Thread-install-path ::= $(net-header-install-dir)/Thread
+Thread-install-files ::= \
+	$(Thread-header-files:$(Thread-path)/%=$(Thread-install-path)/%)
+Thread-install-directories ::= \
+	$(Thread-directories:$(Thread-path)/%=$(Thread-install-path)/%)
+
+Thread-install-target ::= $(Thread-install-files) $(Thread-install-file)

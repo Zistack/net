@@ -73,7 +73,8 @@ net-reference-inc-dirs ::= $(sort \
 net-module-dirs ::= $(shell \
 	find $(net-src-dir) -mindepth 1 -maxdepth 1 -type d -regex '.*/[^.][^/]*'$\
 )
-net-module-makefiles ::= $(net-module-dirs:%=%/.makefile)
+net-module-definitions ::= $(net-module-dirs:%=%/.definitions)
+net-module-rules ::= $(net-module-dirs:%=%/.rules)
 
 ## Define modules for toplevel makefile
 net-modules ::= $(net-module-dirs:$(net-src-dir)/%=%)
@@ -83,5 +84,8 @@ net-export-targets ::= \
 	$(net-modules) \
 	$(net-reference-export-targets)
 
-## Include all module makefiles
-include $(net-module-makefiles)
+## Include all module definitions
+include $(net-module-definitions)
+
+## Include all module rules
+include $(net-module-rules)

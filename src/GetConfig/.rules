@@ -1,0 +1,51 @@
+GetConfig-dependency-targets ::= $(foreach \
+	GetConfig-dependency,$\
+	$(GetConfig-dependencies),$\
+	$($(GetConfig-dependency)-target)$\
+)
+
+GetConfig-dependency-install-targets ::= $(foreach \
+	GetConfig-dependency,$\
+	$(GetConfig-dependencies),$\
+	$($(GetConfig-dependency)-install-target)$\
+)
+
+.PHONY : GetConfig
+GetConfig : $(GetConfig-target)
+
+.PHONY : GetConfig-clean
+GetConfig-clean :
+	rm -rf $(GetConfig-include-file)
+	rm -rf $(GetConfig-include-files)
+	rm -rf $(GetConfig-include-directories)
+	rm -rf $(GetConfig-build-file)
+	rm -rf $(GetConfig-top-file)
+
+.PHONY : GetConfig-install
+GetConfig-install : $(GetConfig-install-target)
+
+.PHONY : GetConfig-uninstall
+GetConfig-uninstall :
+	rm -rf $(GetConfig-install-file)
+	rm -rf $(GetConfig-install-files)
+	rm -rf $(GetConfig-install-directories)
+
+$(GetConfig-top-file) : $(GetConfig-header-files) $(GetConfig-directories)
+	cliide header-include-file $(GetConfig-path) > $(@)
+
+$(GetConfig-build-file) : $(GetConfig-top-file) $(GetConfig-header-files) $(GetConfig-dependency-targets)
+	$(net-CPP) $(GetConfig-include-flags) $(net-CFLAGS) $(GetConfig-CFLAGS) -c -o $(@) $(<)
+
+$(GetConfig-include-path)/%.hpp : $(GetConfig-path)/%.hpp $(GetConfig-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(GetConfig-include-file) : $(GetConfig-top-file) $(GetConfig-build-file)
+	cp $(<) $(@)
+
+$(GetConfig-install-path)/%.hpp : $(GetConfig-include-path)/%.hpp $(GetConfig-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(GetConfig-install-file) : $(GetConfig-include-file)
+	cp $(<) $(@)

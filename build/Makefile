@@ -27,8 +27,8 @@ else
 	net-target-prefix ::= net-
 endif
 
-net-inc-dir ::= $(net-base-dir)/inc
 net-src-dir ::= $(net-base-dir)/src
+net-inc-dir ::= $(net-base-dir)/inc
 net-bin-dir ::= $(net-base-dir)/bin
 net-ref-dir ::= $(net-base-dir)/ref
 net-build-dir ::= $(net-base-dir)/build
@@ -46,6 +46,8 @@ $(net-target-prefix)all : $(net-modules)
 
 .PHONY : clean
 $(net-target-prefix)clean : $(net-module-cleans)
+	rm -rf $(net-inc-dir)/*
+	rm -rf $(net-bin-dir)/*
 
 .PHONE : install
 $(net-target-prefix)install : $(net-module-installs)

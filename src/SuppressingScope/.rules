@@ -1,0 +1,51 @@
+SuppressingScope-dependency-targets ::= $(foreach \
+	SuppressingScope-dependency,$\
+	$(SuppressingScope-dependencies),$\
+	$($(SuppressingScope-dependency)-target)$\
+)
+
+SuppressingScope-dependency-install-targets ::= $(foreach \
+	SuppressingScope-dependency,$\
+	$(SuppressingScope-dependencies),$\
+	$($(SuppressingScope-dependency)-install-target)$\
+)
+
+.PHONY : SuppressingScope
+SuppressingScope : $(SuppressingScope-target)
+
+.PHONY : SuppressingScope-clean
+SuppressingScope-clean :
+	rm -rf $(SuppressingScope-include-file)
+	rm -rf $(SuppressingScope-include-files)
+	rm -rf $(SuppressingScope-include-directories)
+	rm -rf $(SuppressingScope-build-file)
+	rm -rf $(SuppressingScope-top-file)
+
+.PHONY : SuppressingScope-install
+SuppressingScope-install : $(SuppressingScope-install-target)
+
+.PHONY : SuppressingScope-uninstall
+SuppressingScope-uninstall :
+	rm -rf $(SuppressingScope-install-file)
+	rm -rf $(SuppressingScope-install-files)
+	rm -rf $(SuppressingScope-install-directories)
+
+$(SuppressingScope-top-file) : $(SuppressingScope-header-files) $(SuppressingScope-directories)
+	cliide header-include-file $(SuppressingScope-path) > $(@)
+
+$(SuppressingScope-build-file) : $(SuppressingScope-top-file) $(SuppressingScope-header-files) $(SuppressingScope-dependency-targets)
+	$(net-CPP) $(SuppressingScope-include-flags) $(net-CFLAGS) $(SuppressingScope-CFLAGS) -c -o $(@) $(<)
+
+$(SuppressingScope-include-path)/%.hpp : $(SuppressingScope-path)/%.hpp $(SuppressingScope-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(SuppressingScope-include-file) : $(SuppressingScope-top-file) $(SuppressingScope-build-file)
+	cp $(<) $(@)
+
+$(SuppressingScope-install-path)/%.hpp : $(SuppressingScope-include-path)/%.hpp $(SuppressingScope-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(SuppressingScope-install-file) : $(SuppressingScope-include-file)
+	cp $(<) $(@)

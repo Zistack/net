@@ -1,0 +1,51 @@
+IO-dependency-targets ::= $(foreach \
+	IO-dependency,$\
+	$(IO-dependencies),$\
+	$($(IO-dependency)-target)$\
+)
+
+IO-dependency-install-targets ::= $(foreach \
+	IO-dependency,$\
+	$(IO-dependencies),$\
+	$($(IO-dependency)-install-target)$\
+)
+
+.PHONY : IO
+IO : $(IO-target)
+
+.PHONY : IO-clean
+IO-clean :
+	rm -rf $(IO-include-file)
+	rm -rf $(IO-include-files)
+	rm -rf $(IO-include-directories)
+	rm -rf $(IO-build-file)
+	rm -rf $(IO-top-file)
+
+.PHONY : IO-install
+IO-install : $(IO-install-target)
+
+.PHONY : IO-uninstall
+IO-uninstall :
+	rm -rf $(IO-install-file)
+	rm -rf $(IO-install-files)
+	rm -rf $(IO-install-directories)
+
+$(IO-top-file) : $(IO-header-files) $(IO-directories)
+	cliide header-include-file $(IO-path) > $(@)
+
+$(IO-build-file) : $(IO-top-file) $(IO-header-files) $(IO-dependency-targets)
+	$(net-CPP) $(IO-include-flags) $(net-CFLAGS) $(IO-CFLAGS) -c -o $(@) $(<)
+
+$(IO-include-path)/%.hpp : $(IO-path)/%.hpp $(IO-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(IO-include-file) : $(IO-top-file) $(IO-build-file)
+	cp $(<) $(@)
+
+$(IO-install-path)/%.hpp : $(IO-include-path)/%.hpp $(IO-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(IO-install-file) : $(IO-include-file)
+	cp $(<) $(@)

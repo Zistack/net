@@ -1,0 +1,51 @@
+Shutdown-dependency-targets ::= $(foreach \
+	Shutdown-dependency,$\
+	$(Shutdown-dependencies),$\
+	$($(Shutdown-dependency)-target)$\
+)
+
+Shutdown-dependency-install-targets ::= $(foreach \
+	Shutdown-dependency,$\
+	$(Shutdown-dependencies),$\
+	$($(Shutdown-dependency)-install-target)$\
+)
+
+.PHONY : Shutdown
+Shutdown : $(Shutdown-target)
+
+.PHONY : Shutdown-clean
+Shutdown-clean :
+	rm -rf $(Shutdown-include-file)
+	rm -rf $(Shutdown-include-files)
+	rm -rf $(Shutdown-include-directories)
+	rm -rf $(Shutdown-build-file)
+	rm -rf $(Shutdown-top-file)
+
+.PHONY : Shutdown-install
+Shutdown-install : $(Shutdown-install-target)
+
+.PHONY : Shutdown-uninstall
+Shutdown-uninstall :
+	rm -rf $(Shutdown-install-file)
+	rm -rf $(Shutdown-install-files)
+	rm -rf $(Shutdown-install-directories)
+
+$(Shutdown-top-file) : $(Shutdown-header-files) $(Shutdown-directories)
+	cliide header-include-file $(Shutdown-path) > $(@)
+
+$(Shutdown-build-file) : $(Shutdown-top-file) $(Shutdown-header-files) $(Shutdown-dependency-targets)
+	$(net-CPP) $(Shutdown-include-flags) $(net-CFLAGS) $(Shutdown-CFLAGS) -c -o $(@) $(<)
+
+$(Shutdown-include-path)/%.hpp : $(Shutdown-path)/%.hpp $(Shutdown-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Shutdown-include-file) : $(Shutdown-top-file) $(Shutdown-build-file)
+	cp $(<) $(@)
+
+$(Shutdown-install-path)/%.hpp : $(Shutdown-include-path)/%.hpp $(Shutdown-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Shutdown-install-file) : $(Shutdown-include-file)
+	cp $(<) $(@)

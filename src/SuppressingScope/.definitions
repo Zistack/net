@@ -1,0 +1,55 @@
+# User-configurable options
+
+SuppressingScope-CFLAGS ::=
+SuppressingScope-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+SuppressingScope-path ::= $(net-src-dir)/SuppressingScope
+
+SuppressingScope-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./SuppressingScope -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+SuppressingScope-header-files ::= $(filter %.hpp, $(SuppressingScope-header-files-and-directories))
+SuppressingScope-directories ::= $(filter-out %.hpp, $(SuppressingScope-header-files-and-directories))
+
+SuppressingScope-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(SuppressingScope-path)/include.hpp)
+
+SuppressingScope-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(SuppressingScope-dependency-candidates)$\
+)
+
+SuppressingScope-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+SuppressingScope-inc-dir-flags ::= $(SuppressingScope-inc-dirs:%=-I %)
+SuppressingScope-include-flags ::= -I $(net-src-dir) $(SuppressingScope-inc-dir-flags)
+
+SuppressingScope-top-file ::= $(SuppressingScope-path)/.build/SuppressingScope.hpp
+SuppressingScope-build-file ::= $(SuppressingScope-path)/.build/SuppressingScope.hpp.gch
+
+SuppressingScope-include-file ::= $(net-inc-dir)/SuppressingScope.hpp
+SuppressingScope-include-path ::= $(net-inc-dir)/SuppressingScope
+SuppressingScope-include-files ::= \
+	$(SuppressingScope-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+SuppressingScope-include-directories ::= \
+	$(SuppressingScope-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+SuppressingScope-target ::= $(SuppressingScope-include-files) $(SuppressingScope-include-file)
+
+SuppressingScope-install-file ::= $(net-header-install-dir)/SuppressingScope.hpp
+SuppressingScope-install-path ::= $(net-header-install-dir)/SuppressingScope
+SuppressingScope-install-files ::= \
+	$(SuppressingScope-header-files:$(SuppressingScope-path)/%=$(SuppressingScope-install-path)/%)
+SuppressingScope-install-directories ::= \
+	$(SuppressingScope-directories:$(SuppressingScope-path)/%=$(SuppressingScope-install-path)/%)
+
+SuppressingScope-install-target ::= $(SuppressingScope-install-files) $(SuppressingScope-install-file)

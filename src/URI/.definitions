@@ -1,0 +1,55 @@
+# User-configurable options
+
+URI-CFLAGS ::=
+URI-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+URI-path ::= $(net-src-dir)/URI
+
+URI-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./URI -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+URI-header-files ::= $(filter %.hpp, $(URI-header-files-and-directories))
+URI-directories ::= $(filter-out %.hpp, $(URI-header-files-and-directories))
+
+URI-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(URI-path)/include.hpp)
+
+URI-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(URI-dependency-candidates)$\
+)
+
+URI-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+URI-inc-dir-flags ::= $(URI-inc-dirs:%=-I %)
+URI-include-flags ::= -I $(net-src-dir) $(URI-inc-dir-flags)
+
+URI-top-file ::= $(URI-path)/.build/URI.hpp
+URI-build-file ::= $(URI-path)/.build/URI.hpp.gch
+
+URI-include-file ::= $(net-inc-dir)/URI.hpp
+URI-include-path ::= $(net-inc-dir)/URI
+URI-include-files ::= \
+	$(URI-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+URI-include-directories ::= \
+	$(URI-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+URI-target ::= $(URI-include-files) $(URI-include-file)
+
+URI-install-file ::= $(net-header-install-dir)/URI.hpp
+URI-install-path ::= $(net-header-install-dir)/URI
+URI-install-files ::= \
+	$(URI-header-files:$(URI-path)/%=$(URI-install-path)/%)
+URI-install-directories ::= \
+	$(URI-directories:$(URI-path)/%=$(URI-install-path)/%)
+
+URI-install-target ::= $(URI-install-files) $(URI-install-file)

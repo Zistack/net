@@ -1,0 +1,51 @@
+GetOpts-dependency-targets ::= $(foreach \
+	GetOpts-dependency,$\
+	$(GetOpts-dependencies),$\
+	$($(GetOpts-dependency)-target)$\
+)
+
+GetOpts-dependency-install-targets ::= $(foreach \
+	GetOpts-dependency,$\
+	$(GetOpts-dependencies),$\
+	$($(GetOpts-dependency)-install-target)$\
+)
+
+.PHONY : GetOpts
+GetOpts : $(GetOpts-target)
+
+.PHONY : GetOpts-clean
+GetOpts-clean :
+	rm -rf $(GetOpts-include-file)
+	rm -rf $(GetOpts-include-files)
+	rm -rf $(GetOpts-include-directories)
+	rm -rf $(GetOpts-build-file)
+	rm -rf $(GetOpts-top-file)
+
+.PHONY : GetOpts-install
+GetOpts-install : $(GetOpts-install-target)
+
+.PHONY : GetOpts-uninstall
+GetOpts-uninstall :
+	rm -rf $(GetOpts-install-file)
+	rm -rf $(GetOpts-install-files)
+	rm -rf $(GetOpts-install-directories)
+
+$(GetOpts-top-file) : $(GetOpts-header-files) $(GetOpts-directories)
+	cliide header-include-file $(GetOpts-path) > $(@)
+
+$(GetOpts-build-file) : $(GetOpts-top-file) $(GetOpts-header-files) $(GetOpts-dependency-targets)
+	$(net-CPP) $(GetOpts-include-flags) $(net-CFLAGS) $(GetOpts-CFLAGS) -c -o $(@) $(<)
+
+$(GetOpts-include-path)/%.hpp : $(GetOpts-path)/%.hpp $(GetOpts-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(GetOpts-include-file) : $(GetOpts-top-file) $(GetOpts-build-file)
+	cp $(<) $(@)
+
+$(GetOpts-install-path)/%.hpp : $(GetOpts-include-path)/%.hpp $(GetOpts-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(GetOpts-install-file) : $(GetOpts-include-file)
+	cp $(<) $(@)

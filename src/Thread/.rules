@@ -1,0 +1,51 @@
+Thread-dependency-targets ::= $(foreach \
+	Thread-dependency,$\
+	$(Thread-dependencies),$\
+	$($(Thread-dependency)-target)$\
+)
+
+Thread-dependency-install-targets ::= $(foreach \
+	Thread-dependency,$\
+	$(Thread-dependencies),$\
+	$($(Thread-dependency)-install-target)$\
+)
+
+.PHONY : Thread
+Thread : $(Thread-target)
+
+.PHONY : Thread-clean
+Thread-clean :
+	rm -rf $(Thread-include-file)
+	rm -rf $(Thread-include-files)
+	rm -rf $(Thread-include-directories)
+	rm -rf $(Thread-build-file)
+	rm -rf $(Thread-top-file)
+
+.PHONY : Thread-install
+Thread-install : $(Thread-install-target)
+
+.PHONY : Thread-uninstall
+Thread-uninstall :
+	rm -rf $(Thread-install-file)
+	rm -rf $(Thread-install-files)
+	rm -rf $(Thread-install-directories)
+
+$(Thread-top-file) : $(Thread-header-files) $(Thread-directories)
+	cliide header-include-file $(Thread-path) > $(@)
+
+$(Thread-build-file) : $(Thread-top-file) $(Thread-header-files) $(Thread-dependency-targets)
+	$(net-CPP) $(Thread-include-flags) $(net-CFLAGS) $(Thread-CFLAGS) -c -o $(@) $(<)
+
+$(Thread-include-path)/%.hpp : $(Thread-path)/%.hpp $(Thread-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Thread-include-file) : $(Thread-top-file) $(Thread-build-file)
+	cp $(<) $(@)
+
+$(Thread-install-path)/%.hpp : $(Thread-include-path)/%.hpp $(Thread-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Thread-install-file) : $(Thread-include-file)
+	cp $(<) $(@)

@@ -1,0 +1,51 @@
+URI-dependency-targets ::= $(foreach \
+	URI-dependency,$\
+	$(URI-dependencies),$\
+	$($(URI-dependency)-target)$\
+)
+
+URI-dependency-install-targets ::= $(foreach \
+	URI-dependency,$\
+	$(URI-dependencies),$\
+	$($(URI-dependency)-install-target)$\
+)
+
+.PHONY : URI
+URI : $(URI-target)
+
+.PHONY : URI-clean
+URI-clean :
+	rm -rf $(URI-include-file)
+	rm -rf $(URI-include-files)
+	rm -rf $(URI-include-directories)
+	rm -rf $(URI-build-file)
+	rm -rf $(URI-top-file)
+
+.PHONY : URI-install
+URI-install : $(URI-install-target)
+
+.PHONY : URI-uninstall
+URI-uninstall :
+	rm -rf $(URI-install-file)
+	rm -rf $(URI-install-files)
+	rm -rf $(URI-install-directories)
+
+$(URI-top-file) : $(URI-header-files) $(URI-directories)
+	cliide header-include-file $(URI-path) > $(@)
+
+$(URI-build-file) : $(URI-top-file) $(URI-header-files) $(URI-dependency-targets)
+	$(net-CPP) $(URI-include-flags) $(net-CFLAGS) $(URI-CFLAGS) -c -o $(@) $(<)
+
+$(URI-include-path)/%.hpp : $(URI-path)/%.hpp $(URI-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(URI-include-file) : $(URI-top-file) $(URI-build-file)
+	cp $(<) $(@)
+
+$(URI-install-path)/%.hpp : $(URI-include-path)/%.hpp $(URI-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(URI-install-file) : $(URI-include-file)
+	cp $(<) $(@)

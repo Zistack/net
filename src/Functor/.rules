@@ -1,0 +1,51 @@
+Functor-dependency-targets ::= $(foreach \
+	Functor-dependency,$\
+	$(Functor-dependencies),$\
+	$($(Functor-dependency)-target)$\
+)
+
+Functor-dependency-install-targets ::= $(foreach \
+	Functor-dependency,$\
+	$(Functor-dependencies),$\
+	$($(Functor-dependency)-install-target)$\
+)
+
+.PHONY : Functor
+Functor : $(Functor-target)
+
+.PHONY : Functor-clean
+Functor-clean :
+	rm -rf $(Functor-include-file)
+	rm -rf $(Functor-include-files)
+	rm -rf $(Functor-include-directories)
+	rm -rf $(Functor-build-file)
+	rm -rf $(Functor-top-file)
+
+.PHONY : Functor-install
+Functor-install : $(Functor-install-target)
+
+.PHONY : Functor-uninstall
+Functor-uninstall :
+	rm -rf $(Functor-install-file)
+	rm -rf $(Functor-install-files)
+	rm -rf $(Functor-install-directories)
+
+$(Functor-top-file) : $(Functor-header-files) $(Functor-directories)
+	cliide header-include-file $(Functor-path) > $(@)
+
+$(Functor-build-file) : $(Functor-top-file) $(Functor-header-files) $(Functor-dependency-targets)
+	$(net-CPP) $(Functor-include-flags) $(net-CFLAGS) $(Functor-CFLAGS) -c -o $(@) $(<)
+
+$(Functor-include-path)/%.hpp : $(Functor-path)/%.hpp $(Functor-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Functor-include-file) : $(Functor-top-file) $(Functor-build-file)
+	cp $(<) $(@)
+
+$(Functor-install-path)/%.hpp : $(Functor-include-path)/%.hpp $(Functor-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Functor-install-file) : $(Functor-include-file)
+	cp $(<) $(@)

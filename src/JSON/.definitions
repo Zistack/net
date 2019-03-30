@@ -1,0 +1,55 @@
+# User-configurable options
+
+JSON-CFLAGS ::=
+JSON-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+JSON-path ::= $(net-src-dir)/JSON
+
+JSON-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./JSON -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+JSON-header-files ::= $(filter %.hpp, $(JSON-header-files-and-directories))
+JSON-directories ::= $(filter-out %.hpp, $(JSON-header-files-and-directories))
+
+JSON-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(JSON-path)/include.hpp)
+
+JSON-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(JSON-dependency-candidates)$\
+)
+
+JSON-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+JSON-inc-dir-flags ::= $(JSON-inc-dirs:%=-I %)
+JSON-include-flags ::= -I $(net-src-dir) $(JSON-inc-dir-flags)
+
+JSON-top-file ::= $(JSON-path)/.build/JSON.hpp
+JSON-build-file ::= $(JSON-path)/.build/JSON.hpp.gch
+
+JSON-include-file ::= $(net-inc-dir)/JSON.hpp
+JSON-include-path ::= $(net-inc-dir)/JSON
+JSON-include-files ::= \
+	$(JSON-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+JSON-include-directories ::= \
+	$(JSON-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+JSON-target ::= $(JSON-include-files) $(JSON-include-file)
+
+JSON-install-file ::= $(net-header-install-dir)/JSON.hpp
+JSON-install-path ::= $(net-header-install-dir)/JSON
+JSON-install-files ::= \
+	$(JSON-header-files:$(JSON-path)/%=$(JSON-install-path)/%)
+JSON-install-directories ::= \
+	$(JSON-directories:$(JSON-path)/%=$(JSON-install-path)/%)
+
+JSON-install-target ::= $(JSON-install-files) $(JSON-install-file)

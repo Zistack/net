@@ -1,0 +1,55 @@
+# User-configurable options
+
+Failure-CFLAGS ::=
+Failure-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+Failure-path ::= $(net-src-dir)/Failure
+
+Failure-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./Failure -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+Failure-header-files ::= $(filter %.hpp, $(Failure-header-files-and-directories))
+Failure-directories ::= $(filter-out %.hpp, $(Failure-header-files-and-directories))
+
+Failure-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Failure-path)/include.hpp)
+
+Failure-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Failure-dependency-candidates)$\
+)
+
+Failure-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Failure-inc-dir-flags ::= $(Failure-inc-dirs:%=-I %)
+Failure-include-flags ::= -I $(net-src-dir) $(Failure-inc-dir-flags)
+
+Failure-top-file ::= $(Failure-path)/.build/Failure.hpp
+Failure-build-file ::= $(Failure-path)/.build/Failure.hpp.gch
+
+Failure-include-file ::= $(net-inc-dir)/Failure.hpp
+Failure-include-path ::= $(net-inc-dir)/Failure
+Failure-include-files ::= \
+	$(Failure-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+Failure-include-directories ::= \
+	$(Failure-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+Failure-target ::= $(Failure-include-files) $(Failure-include-file)
+
+Failure-install-file ::= $(net-header-install-dir)/Failure.hpp
+Failure-install-path ::= $(net-header-install-dir)/Failure
+Failure-install-files ::= \
+	$(Failure-header-files:$(Failure-path)/%=$(Failure-install-path)/%)
+Failure-install-directories ::= \
+	$(Failure-directories:$(Failure-path)/%=$(Failure-install-path)/%)
+
+Failure-install-target ::= $(Failure-install-files) $(Failure-install-file)

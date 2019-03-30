@@ -1,0 +1,55 @@
+# User-configurable options
+
+TLS-CFLAGS ::=
+TLS-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+TLS-path ::= $(net-src-dir)/TLS
+
+TLS-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./TLS -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+TLS-header-files ::= $(filter %.hpp, $(TLS-header-files-and-directories))
+TLS-directories ::= $(filter-out %.hpp, $(TLS-header-files-and-directories))
+
+TLS-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TLS-path)/include.hpp)
+
+TLS-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(TLS-dependency-candidates)$\
+)
+
+TLS-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+TLS-inc-dir-flags ::= $(TLS-inc-dirs:%=-I %)
+TLS-include-flags ::= -I $(net-src-dir) $(TLS-inc-dir-flags)
+
+TLS-top-file ::= $(TLS-path)/.build/TLS.hpp
+TLS-build-file ::= $(TLS-path)/.build/TLS.hpp.gch
+
+TLS-include-file ::= $(net-inc-dir)/TLS.hpp
+TLS-include-path ::= $(net-inc-dir)/TLS
+TLS-include-files ::= \
+	$(TLS-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+TLS-include-directories ::= \
+	$(TLS-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+TLS-target ::= $(TLS-include-files) $(TLS-include-file)
+
+TLS-install-file ::= $(net-header-install-dir)/TLS.hpp
+TLS-install-path ::= $(net-header-install-dir)/TLS
+TLS-install-files ::= \
+	$(TLS-header-files:$(TLS-path)/%=$(TLS-install-path)/%)
+TLS-install-directories ::= \
+	$(TLS-directories:$(TLS-path)/%=$(TLS-install-path)/%)
+
+TLS-install-target ::= $(TLS-install-files) $(TLS-install-file)

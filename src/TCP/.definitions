@@ -1,0 +1,55 @@
+# User-configurable options
+
+TCP-CFLAGS ::=
+TCP-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+TCP-path ::= $(net-src-dir)/TCP
+
+TCP-header-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./TCP -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' \
+		)$\
+	)
+
+TCP-header-files ::= $(filter %.hpp, $(TCP-header-files-and-directories))
+TCP-directories ::= $(filter-out %.hpp, $(TCP-header-files-and-directories))
+
+TCP-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TCP-path)/include.hpp)
+
+TCP-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(TCP-dependency-candidates)$\
+)
+
+TCP-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+TCP-inc-dir-flags ::= $(TCP-inc-dirs:%=-I %)
+TCP-include-flags ::= -I $(net-src-dir) $(TCP-inc-dir-flags)
+
+TCP-top-file ::= $(TCP-path)/.build/TCP.hpp
+TCP-build-file ::= $(TCP-path)/.build/TCP.hpp.gch
+
+TCP-include-file ::= $(net-inc-dir)/TCP.hpp
+TCP-include-path ::= $(net-inc-dir)/TCP
+TCP-include-files ::= \
+	$(TCP-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+TCP-include-directories ::= \
+	$(TCP-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+TCP-target ::= $(TCP-include-files) $(TCP-include-file)
+
+TCP-install-file ::= $(net-header-install-dir)/TCP.hpp
+TCP-install-path ::= $(net-header-install-dir)/TCP
+TCP-install-files ::= \
+	$(TCP-header-files:$(TCP-path)/%=$(TCP-install-path)/%)
+TCP-install-directories ::= \
+	$(TCP-directories:$(TCP-path)/%=$(TCP-install-path)/%)
+
+TCP-install-target ::= $(TCP-install-files) $(TCP-install-file)

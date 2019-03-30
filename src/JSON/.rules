@@ -1,0 +1,51 @@
+JSON-dependency-targets ::= $(foreach \
+	JSON-dependency,$\
+	$(JSON-dependencies),$\
+	$($(JSON-dependency)-target)$\
+)
+
+JSON-dependency-install-targets ::= $(foreach \
+	JSON-dependency,$\
+	$(JSON-dependencies),$\
+	$($(JSON-dependency)-install-target)$\
+)
+
+.PHONY : JSON
+JSON : $(JSON-target)
+
+.PHONY : JSON-clean
+JSON-clean :
+	rm -rf $(JSON-include-file)
+	rm -rf $(JSON-include-files)
+	rm -rf $(JSON-include-directories)
+	rm -rf $(JSON-build-file)
+	rm -rf $(JSON-top-file)
+
+.PHONY : JSON-install
+JSON-install : $(JSON-install-target)
+
+.PHONY : JSON-uninstall
+JSON-uninstall :
+	rm -rf $(JSON-install-file)
+	rm -rf $(JSON-install-files)
+	rm -rf $(JSON-install-directories)
+
+$(JSON-top-file) : $(JSON-header-files) $(JSON-directories)
+	cliide header-include-file $(JSON-path) > $(@)
+
+$(JSON-build-file) : $(JSON-top-file) $(JSON-header-files) $(JSON-dependency-targets)
+	$(net-CPP) $(JSON-include-flags) $(net-CFLAGS) $(JSON-CFLAGS) -c -o $(@) $(<)
+
+$(JSON-include-path)/%.hpp : $(JSON-path)/%.hpp $(JSON-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(JSON-include-file) : $(JSON-top-file) $(JSON-build-file)
+	cp $(<) $(@)
+
+$(JSON-install-path)/%.hpp : $(JSON-include-path)/%.hpp $(JSON-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(JSON-install-file) : $(JSON-include-file)
+	cp $(<) $(@)
