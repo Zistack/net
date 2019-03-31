@@ -1,0 +1,60 @@
+# User-configurable options
+
+ShutdownSignal-CFLAGS ::=
+ShutdownSignal-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+ShutdownSignal-path ::= $(net-src-dir)/ShutdownSignal
+
+ShutdownSignal-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./ShutdownSignal -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
+		)$\
+	)
+
+ShutdownSignal-header-files ::= \
+	$(filter %.hpp, $(ShutdownSignal-files-and-directories))
+ShutdownSignal-deps-files ::= \
+	$(filter %/deps, $(ShutdownSignal-files-and-directories))
+ShutdownSignal-directories ::= \
+	$(filter-out %.hpp %/deps, $(ShutdownSignal-files-and-directories))
+
+ShutdownSignal-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(ShutdownSignal-path)/include.hpp)
+
+ShutdownSignal-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(ShutdownSignal-dependency-candidates)$\
+)
+
+ShutdownSignal-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+ShutdownSignal-inc-dir-flags ::= $(ShutdownSignal-inc-dirs:%=-I %)
+ShutdownSignal-include-flags ::= -I $(net-src-dir) $(ShutdownSignal-inc-dir-flags)
+
+ShutdownSignal-top-file ::= $(ShutdownSignal-path)/.build/ShutdownSignal.hpp
+ShutdownSignal-build-file ::= $(ShutdownSignal-path)/.build/ShutdownSignal.hpp.gch
+
+ShutdownSignal-include-file ::= $(net-inc-dir)/ShutdownSignal.hpp
+ShutdownSignal-include-path ::= $(net-inc-dir)/ShutdownSignal
+ShutdownSignal-include-files ::= \
+	$(ShutdownSignal-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+ShutdownSignal-include-directories ::= \
+	$(ShutdownSignal-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+ShutdownSignal-target ::= $(ShutdownSignal-include-files) $(ShutdownSignal-include-file)
+
+ShutdownSignal-install-file ::= $(net-header-install-dir)/ShutdownSignal.hpp
+ShutdownSignal-install-path ::= $(net-header-install-dir)/ShutdownSignal
+ShutdownSignal-install-files ::= \
+	$(ShutdownSignal-header-files:$(ShutdownSignal-path)/%=$(ShutdownSignal-install-path)/%)
+ShutdownSignal-install-directories ::= \
+	$(ShutdownSignal-directories:$(ShutdownSignal-path)/%=$(ShutdownSignal-install-path)/%)
+
+ShutdownSignal-install-target ::= $(ShutdownSignal-install-files) $(ShutdownSignal-install-file)

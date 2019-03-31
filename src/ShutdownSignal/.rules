@@ -1,0 +1,51 @@
+ShutdownSignal-dependency-targets ::= $(foreach \
+	ShutdownSignal-dependency,$\
+	$(ShutdownSignal-dependencies),$\
+	$($(ShutdownSignal-dependency)-target)$\
+)
+
+ShutdownSignal-dependency-install-targets ::= $(foreach \
+	ShutdownSignal-dependency,$\
+	$(ShutdownSignal-dependencies),$\
+	$($(ShutdownSignal-dependency)-install-target)$\
+)
+
+.PHONY : ShutdownSignal
+ShutdownSignal : $(ShutdownSignal-target)
+
+.PHONY : ShutdownSignal-clean
+ShutdownSignal-clean :
+	rm -rf $(ShutdownSignal-include-file)
+	rm -rf $(ShutdownSignal-include-files)
+	rm -rf $(ShutdownSignal-include-directories)
+	rm -rf $(ShutdownSignal-build-file)
+	rm -rf $(ShutdownSignal-top-file)
+
+.PHONY : ShutdownSignal-install
+ShutdownSignal-install : $(ShutdownSignal-install-target)
+
+.PHONY : ShutdownSignal-uninstall
+ShutdownSignal-uninstall :
+	rm -rf $(ShutdownSignal-install-file)
+	rm -rf $(ShutdownSignal-install-files)
+	rm -rf $(ShutdownSignal-install-directories)
+
+$(ShutdownSignal-top-file) : $(ShutdownSignal-deps-files) $(ShutdownSignal-directories)
+	cliide header-include-file $(ShutdownSignal-path) > $(@)
+
+$(ShutdownSignal-build-file) : $(ShutdownSignal-top-file) $(ShutdownSignal-header-files) $(ShutdownSignal-dependency-targets)
+	$(net-CPP) $(ShutdownSignal-include-flags) $(net-CFLAGS) $(ShutdownSignal-CFLAGS) -c -o $(@) $(<)
+
+$(ShutdownSignal-include-path)/%.hpp : $(ShutdownSignal-path)/%.hpp $(ShutdownSignal-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(ShutdownSignal-include-file) : $(ShutdownSignal-top-file) $(ShutdownSignal-build-file)
+	cp $(<) $(@)
+
+$(ShutdownSignal-install-path)/%.hpp : $(ShutdownSignal-include-path)/%.hpp $(ShutdownSignal-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(ShutdownSignal-install-file) : $(ShutdownSignal-include-file)
+	cp $(<) $(@)
