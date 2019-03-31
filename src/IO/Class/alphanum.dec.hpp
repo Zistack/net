@@ -1,0 +1,2 @@
+bool
+alphanum (char c);

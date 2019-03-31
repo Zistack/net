@@ -1,1 +1,3 @@
-T::T (std::string & string) : string (string), pointer (0) {}
+T::T (std::string & string) : string (string), pointer (0)
+{
+}

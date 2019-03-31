@@ -1,0 +1,2 @@
+bool
+hex (char c);

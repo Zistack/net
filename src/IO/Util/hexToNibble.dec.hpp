@@ -1,0 +1,2 @@
+char
+hexToNibble (char c);

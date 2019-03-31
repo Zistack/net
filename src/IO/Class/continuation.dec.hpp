@@ -1,0 +1,2 @@
+bool
+continuation (char c);

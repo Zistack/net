@@ -1,0 +1,2 @@
+bool
+alpha (char c);

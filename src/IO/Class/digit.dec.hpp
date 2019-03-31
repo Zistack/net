@@ -1,0 +1,2 @@
+bool
+digit (char c);
