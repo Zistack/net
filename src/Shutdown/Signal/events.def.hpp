@@ -1,5 +1,5 @@
 IO::Watchable::Events::T
 T::events () const
 {
-	return this->signal.events ();
+	return this -> signal . events ();
 }

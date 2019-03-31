@@ -24,11 +24,11 @@ struct T
 	close ();
 
 	IO::Signal::T signal;
-	std::atomic<State::T> state;
+	std::atomic <State::T> state;
 
-	friend Scope::T<T>;
-	friend SuppressingScope::T<T>;
+	friend Scope::T <T>;
+	friend SuppressingScope::T <T>;
 
-	static_assert (IO::TypeTraits::IsWatchable::T<T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T<T>::value);
+	static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
