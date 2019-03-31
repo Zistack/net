@@ -7,19 +7,24 @@ Functor-LFLAGS ::=
 
 Functor-path ::= $(net-src-dir)/Functor
 
-Functor-header-files-and-directories ::= \
+Functor-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./Functor -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-Functor-header-files ::= $(filter %.hpp, $(Functor-header-files-and-directories))
-Functor-directories ::= $(filter-out %.hpp, $(Functor-header-files-and-directories))
+Functor-header-files ::= \
+	$(filter %.hpp, $(Functor-files-and-directories))
+Functor-deps-files ::= \
+	$(filter %/deps, $(Functor-files-and-directories))
+Functor-directories ::= \
+	$(filter-out %.hpp %/deps, $(Functor-files-and-directories))
 
 Functor-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Functor-path)/include.hpp)

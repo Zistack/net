@@ -7,19 +7,24 @@ Failure-LFLAGS ::=
 
 Failure-path ::= $(net-src-dir)/Failure
 
-Failure-header-files-and-directories ::= \
+Failure-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./Failure -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-Failure-header-files ::= $(filter %.hpp, $(Failure-header-files-and-directories))
-Failure-directories ::= $(filter-out %.hpp, $(Failure-header-files-and-directories))
+Failure-header-files ::= \
+	$(filter %.hpp, $(Failure-files-and-directories))
+Failure-deps-files ::= \
+	$(filter %/deps, $(Failure-files-and-directories))
+Failure-directories ::= \
+	$(filter-out %.hpp %/deps, $(Failure-files-and-directories))
 
 Failure-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Failure-path)/include.hpp)

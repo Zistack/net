@@ -7,19 +7,24 @@ FIFOProtocol-LFLAGS ::=
 
 FIFOProtocol-path ::= $(net-src-dir)/FIFOProtocol
 
-FIFOProtocol-header-files-and-directories ::= \
+FIFOProtocol-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./FIFOProtocol -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-FIFOProtocol-header-files ::= $(filter %.hpp, $(FIFOProtocol-header-files-and-directories))
-FIFOProtocol-directories ::= $(filter-out %.hpp, $(FIFOProtocol-header-files-and-directories))
+FIFOProtocol-header-files ::= \
+	$(filter %.hpp, $(FIFOProtocol-files-and-directories))
+FIFOProtocol-deps-files ::= \
+	$(filter %/deps, $(FIFOProtocol-files-and-directories))
+FIFOProtocol-directories ::= \
+	$(filter-out %.hpp %/deps, $(FIFOProtocol-files-and-directories))
 
 FIFOProtocol-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(FIFOProtocol-path)/include.hpp)

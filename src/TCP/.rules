@@ -30,7 +30,7 @@ TCP-uninstall :
 	rm -rf $(TCP-install-files)
 	rm -rf $(TCP-install-directories)
 
-$(TCP-top-file) : $(TCP-header-files) $(TCP-directories)
+$(TCP-top-file) : $(TCP-deps-files) $(TCP-directories)
 	cliide header-include-file $(TCP-path) > $(@)
 
 $(TCP-build-file) : $(TCP-top-file) $(TCP-header-files) $(TCP-dependency-targets)

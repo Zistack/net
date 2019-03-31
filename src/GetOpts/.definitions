@@ -7,19 +7,24 @@ GetOpts-LFLAGS ::=
 
 GetOpts-path ::= $(net-src-dir)/GetOpts
 
-GetOpts-header-files-and-directories ::= \
+GetOpts-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./GetOpts -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-GetOpts-header-files ::= $(filter %.hpp, $(GetOpts-header-files-and-directories))
-GetOpts-directories ::= $(filter-out %.hpp, $(GetOpts-header-files-and-directories))
+GetOpts-header-files ::= \
+	$(filter %.hpp, $(GetOpts-files-and-directories))
+GetOpts-deps-files ::= \
+	$(filter %/deps, $(GetOpts-files-and-directories))
+GetOpts-directories ::= \
+	$(filter-out %.hpp %/deps, $(GetOpts-files-and-directories))
 
 GetOpts-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(GetOpts-path)/include.hpp)

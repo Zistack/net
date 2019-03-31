@@ -7,19 +7,24 @@ IO-LFLAGS ::=
 
 IO-path ::= $(net-src-dir)/IO
 
-IO-header-files-and-directories ::= \
+IO-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./IO -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-IO-header-files ::= $(filter %.hpp, $(IO-header-files-and-directories))
-IO-directories ::= $(filter-out %.hpp, $(IO-header-files-and-directories))
+IO-header-files ::= \
+	$(filter %.hpp, $(IO-files-and-directories))
+IO-deps-files ::= \
+	$(filter %/deps, $(IO-files-and-directories))
+IO-directories ::= \
+	$(filter-out %.hpp %/deps, $(IO-files-and-directories))
 
 IO-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(IO-path)/include.hpp)

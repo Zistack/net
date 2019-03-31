@@ -7,19 +7,24 @@ GetConfig-LFLAGS ::=
 
 GetConfig-path ::= $(net-src-dir)/GetConfig
 
-GetConfig-header-files-and-directories ::= \
+GetConfig-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./GetConfig -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-GetConfig-header-files ::= $(filter %.hpp, $(GetConfig-header-files-and-directories))
-GetConfig-directories ::= $(filter-out %.hpp, $(GetConfig-header-files-and-directories))
+GetConfig-header-files ::= \
+	$(filter %.hpp, $(GetConfig-files-and-directories))
+GetConfig-deps-files ::= \
+	$(filter %/deps, $(GetConfig-files-and-directories))
+GetConfig-directories ::= \
+	$(filter-out %.hpp %/deps, $(GetConfig-files-and-directories))
 
 GetConfig-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(GetConfig-path)/include.hpp)

@@ -7,19 +7,24 @@ Thread-LFLAGS ::=
 
 Thread-path ::= $(net-src-dir)/Thread
 
-Thread-header-files-and-directories ::= \
+Thread-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./Thread -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-Thread-header-files ::= $(filter %.hpp, $(Thread-header-files-and-directories))
-Thread-directories ::= $(filter-out %.hpp, $(Thread-header-files-and-directories))
+Thread-header-files ::= \
+	$(filter %.hpp, $(Thread-files-and-directories))
+Thread-deps-files ::= \
+	$(filter %/deps, $(Thread-files-and-directories))
+Thread-directories ::= \
+	$(filter-out %.hpp %/deps, $(Thread-files-and-directories))
 
 Thread-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Thread-path)/include.hpp)

@@ -30,7 +30,7 @@ NullOpt-uninstall :
 	rm -rf $(NullOpt-install-files)
 	rm -rf $(NullOpt-install-directories)
 
-$(NullOpt-top-file) : $(NullOpt-header-files) $(NullOpt-directories)
+$(NullOpt-top-file) : $(NullOpt-deps-files) $(NullOpt-directories)
 	cliide header-include-file $(NullOpt-path) > $(@)
 
 $(NullOpt-build-file) : $(NullOpt-top-file) $(NullOpt-header-files) $(NullOpt-dependency-targets)

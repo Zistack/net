@@ -30,7 +30,7 @@ Thread-uninstall :
 	rm -rf $(Thread-install-files)
 	rm -rf $(Thread-install-directories)
 
-$(Thread-top-file) : $(Thread-header-files) $(Thread-directories)
+$(Thread-top-file) : $(Thread-deps-files) $(Thread-directories)
 	cliide header-include-file $(Thread-path) > $(@)
 
 $(Thread-build-file) : $(Thread-top-file) $(Thread-header-files) $(Thread-dependency-targets)

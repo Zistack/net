@@ -30,7 +30,7 @@ Shutdown-uninstall :
 	rm -rf $(Shutdown-install-files)
 	rm -rf $(Shutdown-install-directories)
 
-$(Shutdown-top-file) : $(Shutdown-header-files) $(Shutdown-directories)
+$(Shutdown-top-file) : $(Shutdown-deps-files) $(Shutdown-directories)
 	cliide header-include-file $(Shutdown-path) > $(@)
 
 $(Shutdown-build-file) : $(Shutdown-top-file) $(Shutdown-header-files) $(Shutdown-dependency-targets)

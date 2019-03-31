@@ -30,7 +30,7 @@ Scope-uninstall :
 	rm -rf $(Scope-install-files)
 	rm -rf $(Scope-install-directories)
 
-$(Scope-top-file) : $(Scope-header-files) $(Scope-directories)
+$(Scope-top-file) : $(Scope-deps-files) $(Scope-directories)
 	cliide header-include-file $(Scope-path) > $(@)
 
 $(Scope-build-file) : $(Scope-top-file) $(Scope-header-files) $(Scope-dependency-targets)

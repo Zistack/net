@@ -30,7 +30,7 @@ StatusBit-uninstall :
 	rm -rf $(StatusBit-install-files)
 	rm -rf $(StatusBit-install-directories)
 
-$(StatusBit-top-file) : $(StatusBit-header-files) $(StatusBit-directories)
+$(StatusBit-top-file) : $(StatusBit-deps-files) $(StatusBit-directories)
 	cliide header-include-file $(StatusBit-path) > $(@)
 
 $(StatusBit-build-file) : $(StatusBit-top-file) $(StatusBit-header-files) $(StatusBit-dependency-targets)

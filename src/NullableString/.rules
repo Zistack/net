@@ -30,7 +30,7 @@ NullableString-uninstall :
 	rm -rf $(NullableString-install-files)
 	rm -rf $(NullableString-install-directories)
 
-$(NullableString-top-file) : $(NullableString-header-files) $(NullableString-directories)
+$(NullableString-top-file) : $(NullableString-deps-files) $(NullableString-directories)
 	cliide header-include-file $(NullableString-path) > $(@)
 
 $(NullableString-build-file) : $(NullableString-top-file) $(NullableString-header-files) $(NullableString-dependency-targets)

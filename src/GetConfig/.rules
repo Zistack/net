@@ -30,7 +30,7 @@ GetConfig-uninstall :
 	rm -rf $(GetConfig-install-files)
 	rm -rf $(GetConfig-install-directories)
 
-$(GetConfig-top-file) : $(GetConfig-header-files) $(GetConfig-directories)
+$(GetConfig-top-file) : $(GetConfig-deps-files) $(GetConfig-directories)
 	cliide header-include-file $(GetConfig-path) > $(@)
 
 $(GetConfig-build-file) : $(GetConfig-top-file) $(GetConfig-header-files) $(GetConfig-dependency-targets)

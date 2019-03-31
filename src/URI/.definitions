@@ -7,19 +7,24 @@ URI-LFLAGS ::=
 
 URI-path ::= $(net-src-dir)/URI
 
-URI-header-files-and-directories ::= \
+URI-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./URI -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-URI-header-files ::= $(filter %.hpp, $(URI-header-files-and-directories))
-URI-directories ::= $(filter-out %.hpp, $(URI-header-files-and-directories))
+URI-header-files ::= \
+	$(filter %.hpp, $(URI-files-and-directories))
+URI-deps-files ::= \
+	$(filter %/deps, $(URI-files-and-directories))
+URI-directories ::= \
+	$(filter-out %.hpp %/deps, $(URI-files-and-directories))
 
 URI-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(URI-path)/include.hpp)

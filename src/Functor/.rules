@@ -30,7 +30,7 @@ Functor-uninstall :
 	rm -rf $(Functor-install-files)
 	rm -rf $(Functor-install-directories)
 
-$(Functor-top-file) : $(Functor-header-files) $(Functor-directories)
+$(Functor-top-file) : $(Functor-deps-files) $(Functor-directories)
 	cliide header-include-file $(Functor-path) > $(@)
 
 $(Functor-build-file) : $(Functor-top-file) $(Functor-header-files) $(Functor-dependency-targets)

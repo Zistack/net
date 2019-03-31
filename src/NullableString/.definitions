@@ -7,19 +7,24 @@ NullableString-LFLAGS ::=
 
 NullableString-path ::= $(net-src-dir)/NullableString
 
-NullableString-header-files-and-directories ::= \
+NullableString-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./NullableString -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-NullableString-header-files ::= $(filter %.hpp, $(NullableString-header-files-and-directories))
-NullableString-directories ::= $(filter-out %.hpp, $(NullableString-header-files-and-directories))
+NullableString-header-files ::= \
+	$(filter %.hpp, $(NullableString-files-and-directories))
+NullableString-deps-files ::= \
+	$(filter %/deps, $(NullableString-files-and-directories))
+NullableString-directories ::= \
+	$(filter-out %.hpp %/deps, $(NullableString-files-and-directories))
 
 NullableString-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(NullableString-path)/include.hpp)

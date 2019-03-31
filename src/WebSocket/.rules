@@ -30,7 +30,7 @@ WebSocket-uninstall :
 	rm -rf $(WebSocket-install-files)
 	rm -rf $(WebSocket-install-directories)
 
-$(WebSocket-top-file) : $(WebSocket-header-files) $(WebSocket-directories)
+$(WebSocket-top-file) : $(WebSocket-deps-files) $(WebSocket-directories)
 	cliide header-include-file $(WebSocket-path) > $(@)
 
 $(WebSocket-build-file) : $(WebSocket-top-file) $(WebSocket-header-files) $(WebSocket-dependency-targets)

@@ -7,19 +7,24 @@ WebSocket-LFLAGS ::=
 
 WebSocket-path ::= $(net-src-dir)/WebSocket
 
-WebSocket-header-files-and-directories ::= \
+WebSocket-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./WebSocket -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-WebSocket-header-files ::= $(filter %.hpp, $(WebSocket-header-files-and-directories))
-WebSocket-directories ::= $(filter-out %.hpp, $(WebSocket-header-files-and-directories))
+WebSocket-header-files ::= \
+	$(filter %.hpp, $(WebSocket-files-and-directories))
+WebSocket-deps-files ::= \
+	$(filter %/deps, $(WebSocket-files-and-directories))
+WebSocket-directories ::= \
+	$(filter-out %.hpp %/deps, $(WebSocket-files-and-directories))
 
 WebSocket-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(WebSocket-path)/include.hpp)

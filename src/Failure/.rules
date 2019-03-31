@@ -30,7 +30,7 @@ Failure-uninstall :
 	rm -rf $(Failure-install-files)
 	rm -rf $(Failure-install-directories)
 
-$(Failure-top-file) : $(Failure-header-files) $(Failure-directories)
+$(Failure-top-file) : $(Failure-deps-files) $(Failure-directories)
 	cliide header-include-file $(Failure-path) > $(@)
 
 $(Failure-build-file) : $(Failure-top-file) $(Failure-header-files) $(Failure-dependency-targets)

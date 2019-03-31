@@ -30,7 +30,7 @@ SuppressingScope-uninstall :
 	rm -rf $(SuppressingScope-install-files)
 	rm -rf $(SuppressingScope-install-directories)
 
-$(SuppressingScope-top-file) : $(SuppressingScope-header-files) $(SuppressingScope-directories)
+$(SuppressingScope-top-file) : $(SuppressingScope-deps-files) $(SuppressingScope-directories)
 	cliide header-include-file $(SuppressingScope-path) > $(@)
 
 $(SuppressingScope-build-file) : $(SuppressingScope-top-file) $(SuppressingScope-header-files) $(SuppressingScope-dependency-targets)

@@ -30,7 +30,7 @@ IO-uninstall :
 	rm -rf $(IO-install-files)
 	rm -rf $(IO-install-directories)
 
-$(IO-top-file) : $(IO-header-files) $(IO-directories)
+$(IO-top-file) : $(IO-deps-files) $(IO-directories)
 	cliide header-include-file $(IO-path) > $(@)
 
 $(IO-build-file) : $(IO-top-file) $(IO-header-files) $(IO-dependency-targets)

@@ -7,19 +7,24 @@ JSON-LFLAGS ::=
 
 JSON-path ::= $(net-src-dir)/JSON
 
-JSON-header-files-and-directories ::= \
+JSON-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./JSON -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-JSON-header-files ::= $(filter %.hpp, $(JSON-header-files-and-directories))
-JSON-directories ::= $(filter-out %.hpp, $(JSON-header-files-and-directories))
+JSON-header-files ::= \
+	$(filter %.hpp, $(JSON-files-and-directories))
+JSON-deps-files ::= \
+	$(filter %/deps, $(JSON-files-and-directories))
+JSON-directories ::= \
+	$(filter-out %.hpp %/deps, $(JSON-files-and-directories))
 
 JSON-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(JSON-path)/include.hpp)

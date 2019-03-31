@@ -7,19 +7,24 @@ TCP-LFLAGS ::=
 
 TCP-path ::= $(net-src-dir)/TCP
 
-TCP-header-files-and-directories ::= \
+TCP-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./TCP -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-TCP-header-files ::= $(filter %.hpp, $(TCP-header-files-and-directories))
-TCP-directories ::= $(filter-out %.hpp, $(TCP-header-files-and-directories))
+TCP-header-files ::= \
+	$(filter %.hpp, $(TCP-files-and-directories))
+TCP-deps-files ::= \
+	$(filter %/deps, $(TCP-files-and-directories))
+TCP-directories ::= \
+	$(filter-out %.hpp %/deps, $(TCP-files-and-directories))
 
 TCP-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TCP-path)/include.hpp)

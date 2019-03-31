@@ -30,7 +30,7 @@ GetOpts-uninstall :
 	rm -rf $(GetOpts-install-files)
 	rm -rf $(GetOpts-install-directories)
 
-$(GetOpts-top-file) : $(GetOpts-header-files) $(GetOpts-directories)
+$(GetOpts-top-file) : $(GetOpts-deps-files) $(GetOpts-directories)
 	cliide header-include-file $(GetOpts-path) > $(@)
 
 $(GetOpts-build-file) : $(GetOpts-top-file) $(GetOpts-header-files) $(GetOpts-dependency-targets)

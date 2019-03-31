@@ -7,19 +7,24 @@ StatusBit-LFLAGS ::=
 
 StatusBit-path ::= $(net-src-dir)/StatusBit
 
-StatusBit-header-files-and-directories ::= \
+StatusBit-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./StatusBit -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-StatusBit-header-files ::= $(filter %.hpp, $(StatusBit-header-files-and-directories))
-StatusBit-directories ::= $(filter-out %.hpp, $(StatusBit-header-files-and-directories))
+StatusBit-header-files ::= \
+	$(filter %.hpp, $(StatusBit-files-and-directories))
+StatusBit-deps-files ::= \
+	$(filter %/deps, $(StatusBit-files-and-directories))
+StatusBit-directories ::= \
+	$(filter-out %.hpp %/deps, $(StatusBit-files-and-directories))
 
 StatusBit-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(StatusBit-path)/include.hpp)

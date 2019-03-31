@@ -7,19 +7,24 @@ Scope-LFLAGS ::=
 
 Scope-path ::= $(net-src-dir)/Scope
 
-Scope-header-files-and-directories ::= \
+Scope-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./Scope -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-Scope-header-files ::= $(filter %.hpp, $(Scope-header-files-and-directories))
-Scope-directories ::= $(filter-out %.hpp, $(Scope-header-files-and-directories))
+Scope-header-files ::= \
+	$(filter %.hpp, $(Scope-files-and-directories))
+Scope-deps-files ::= \
+	$(filter %/deps, $(Scope-files-and-directories))
+Scope-directories ::= \
+	$(filter-out %.hpp %/deps, $(Scope-files-and-directories))
 
 Scope-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Scope-path)/include.hpp)

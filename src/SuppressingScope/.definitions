@@ -7,19 +7,24 @@ SuppressingScope-LFLAGS ::=
 
 SuppressingScope-path ::= $(net-src-dir)/SuppressingScope
 
-SuppressingScope-header-files-and-directories ::= \
+SuppressingScope-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./SuppressingScope -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-SuppressingScope-header-files ::= $(filter %.hpp, $(SuppressingScope-header-files-and-directories))
-SuppressingScope-directories ::= $(filter-out %.hpp, $(SuppressingScope-header-files-and-directories))
+SuppressingScope-header-files ::= \
+	$(filter %.hpp, $(SuppressingScope-files-and-directories))
+SuppressingScope-deps-files ::= \
+	$(filter %/deps, $(SuppressingScope-files-and-directories))
+SuppressingScope-directories ::= \
+	$(filter-out %.hpp %/deps, $(SuppressingScope-files-and-directories))
 
 SuppressingScope-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(SuppressingScope-path)/include.hpp)

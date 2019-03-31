@@ -30,7 +30,7 @@ FIFOProtocol-uninstall :
 	rm -rf $(FIFOProtocol-install-files)
 	rm -rf $(FIFOProtocol-install-directories)
 
-$(FIFOProtocol-top-file) : $(FIFOProtocol-header-files) $(FIFOProtocol-directories)
+$(FIFOProtocol-top-file) : $(FIFOProtocol-deps-files) $(FIFOProtocol-directories)
 	cliide header-include-file $(FIFOProtocol-path) > $(@)
 
 $(FIFOProtocol-build-file) : $(FIFOProtocol-top-file) $(FIFOProtocol-header-files) $(FIFOProtocol-dependency-targets)

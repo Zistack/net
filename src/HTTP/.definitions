@@ -7,19 +7,24 @@ HTTP-LFLAGS ::=
 
 HTTP-path ::= $(net-src-dir)/HTTP
 
-HTTP-header-files-and-directories ::= \
+HTTP-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./HTTP -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-HTTP-header-files ::= $(filter %.hpp, $(HTTP-header-files-and-directories))
-HTTP-directories ::= $(filter-out %.hpp, $(HTTP-header-files-and-directories))
+HTTP-header-files ::= \
+	$(filter %.hpp, $(HTTP-files-and-directories))
+HTTP-deps-files ::= \
+	$(filter %/deps, $(HTTP-files-and-directories))
+HTTP-directories ::= \
+	$(filter-out %.hpp %/deps, $(HTTP-files-and-directories))
 
 HTTP-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(HTTP-path)/include.hpp)

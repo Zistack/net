@@ -7,19 +7,24 @@ Shutdown-LFLAGS ::=
 
 Shutdown-path ::= $(net-src-dir)/Shutdown
 
-Shutdown-header-files-and-directories ::= \
+Shutdown-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./Shutdown -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-Shutdown-header-files ::= $(filter %.hpp, $(Shutdown-header-files-and-directories))
-Shutdown-directories ::= $(filter-out %.hpp, $(Shutdown-header-files-and-directories))
+Shutdown-header-files ::= \
+	$(filter %.hpp, $(Shutdown-files-and-directories))
+Shutdown-deps-files ::= \
+	$(filter %/deps, $(Shutdown-files-and-directories))
+Shutdown-directories ::= \
+	$(filter-out %.hpp %/deps, $(Shutdown-files-and-directories))
 
 Shutdown-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Shutdown-path)/include.hpp)

@@ -7,19 +7,24 @@ TLS-LFLAGS ::=
 
 TLS-path ::= $(net-src-dir)/TLS
 
-TLS-header-files-and-directories ::= \
+TLS-files-and-directories ::= \
 	$(patsubst \
 		./%,$\
 		$(net-src-dir)/%,$\
 		$(shell \
 			cd $(net-src-dir); \
 			find ./TLS -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
-				-type d -regex '\.\(/[^./][^/]*\)*' \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
 		)$\
 	)
 
-TLS-header-files ::= $(filter %.hpp, $(TLS-header-files-and-directories))
-TLS-directories ::= $(filter-out %.hpp, $(TLS-header-files-and-directories))
+TLS-header-files ::= \
+	$(filter %.hpp, $(TLS-files-and-directories))
+TLS-deps-files ::= \
+	$(filter %/deps, $(TLS-files-and-directories))
+TLS-directories ::= \
+	$(filter-out %.hpp %/deps, $(TLS-files-and-directories))
 
 TLS-dependency-candidates ::= \
 	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TLS-path)/include.hpp)
