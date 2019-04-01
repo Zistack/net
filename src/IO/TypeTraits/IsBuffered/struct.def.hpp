@@ -8,7 +8,6 @@ struct T
 		) ||
 		(
 			IsOutputStream::T <Buffered>::value &&
-			HasOpen::T <Buffered>::value &&
-			HasClose::T <Buffered>::value
+			IsScopable::T <Buffered>::value
 		);
 };

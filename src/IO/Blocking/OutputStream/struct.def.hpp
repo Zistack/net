@@ -26,7 +26,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	void
 	flush ();
 
