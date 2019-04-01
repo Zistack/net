@@ -1,0 +1,31 @@
+using T = GetConfig::Section::T
+<
+	GetConfig::Member::T
+	<
+		TCP::Config::T,
+		false,
+		TCP_CONFIG,
+		TCP_CONFIG_DESCRIPTION
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::String::T,
+		false,
+		CA_PATH,
+		CA_PATH_DESCRIPTION
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::String::T,
+		false,
+		SERVER_NAME,
+		SERVER_NAME_DESCRIPTION
+	>,
+	GetConfig::Member::T
+	<
+		KeyPair::T,
+		true,
+		IDENTITY,
+		IDENTITY_DESCRIPTION
+	>
+>;
