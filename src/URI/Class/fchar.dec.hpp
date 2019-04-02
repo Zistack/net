@@ -1,0 +1,2 @@
+bool
+fchar (char c);

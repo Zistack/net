@@ -1,0 +1,2 @@
+bool
+secondDelimiter (char c);

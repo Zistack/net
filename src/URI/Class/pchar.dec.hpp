@@ -1,0 +1,2 @@
+bool
+pchar (char c);

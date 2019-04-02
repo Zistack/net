@@ -1,0 +1,2 @@
+bool
+schar (char c);

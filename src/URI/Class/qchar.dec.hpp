@@ -1,0 +1,2 @@
+bool
+qchar (char c);

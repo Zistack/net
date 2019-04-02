@@ -1,0 +1,2 @@
+bool
+fourthDelimiter (char c);

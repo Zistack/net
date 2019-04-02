@@ -1,0 +1,2 @@
+bool
+uichar (char c);

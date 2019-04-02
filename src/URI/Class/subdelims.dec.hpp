@@ -1,0 +1,2 @@
+bool
+subdelims (char c);

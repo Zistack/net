@@ -1,0 +1,2 @@
+bool
+rnchar (char c);
