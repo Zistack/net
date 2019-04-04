@@ -27,7 +27,8 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	std::unique_ptr <char []> name;
 	int file_descriptor;
 };
