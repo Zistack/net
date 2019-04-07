@@ -17,7 +17,9 @@ struct T
 				& std::remove_cv_t <std::remove_reference_t <Protocol>>::
 					template run <InputStream::T, OutputStream::T>
 			),
-			std::remove_cv_t <std::remove_reference_t <Protocol>> *
+			std::remove_cv_t <std::remove_reference_t <Protocol>> *,
+			InputStream::T,
+			OutputStream::T
 		>
 	>
 > : std::true_type
