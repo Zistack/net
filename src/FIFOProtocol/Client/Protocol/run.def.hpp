@@ -13,7 +13,7 @@ T <Request, Response, Interface>::run
 		nursery.add
 		(
 			this -> input,
-			& Input::T <Response, Interface>::template run<InputStream>,
+			& Input::T <Response, Interface>::template run <InputStream>,
 			& this -> input,
 			std::forward <InputStream> (input_stream)
 		);
@@ -21,7 +21,7 @@ T <Request, Response, Interface>::run
 		nursery.run
 		(
 			this -> output,
-			& Output::T <Request, Interface>::template run<OutputStream>,
+			& Output::T <Request, Interface>::template run <OutputStream>,
 			& this -> output,
 			std::forward <OutputStream> (output_stream)
 		);
