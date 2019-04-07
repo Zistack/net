@@ -30,6 +30,7 @@ GetOpts-uninstall :
 	rm -rf $(GetOpts-install-files)
 	rm -rf $(GetOpts-install-directories)
 
+.DELETE_ON_ERROR : $(GetOpts-top-file)
 $(GetOpts-top-file) : $(GetOpts-deps-files) $(GetOpts-directories)
 	cliide header-include-file $(GetOpts-path) > $(@)
 

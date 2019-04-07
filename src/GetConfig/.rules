@@ -30,6 +30,7 @@ GetConfig-uninstall :
 	rm -rf $(GetConfig-install-files)
 	rm -rf $(GetConfig-install-directories)
 
+.DELETE_ON_ERROR : $(GetConfig-top-file)
 $(GetConfig-top-file) : $(GetConfig-deps-files) $(GetConfig-directories)
 	cliide header-include-file $(GetConfig-path) > $(@)
 

@@ -30,6 +30,7 @@ Thread-uninstall :
 	rm -rf $(Thread-install-files)
 	rm -rf $(Thread-install-directories)
 
+.DELETE_ON_ERROR : $(Thread-top-file)
 $(Thread-top-file) : $(Thread-deps-files) $(Thread-directories)
 	cliide header-include-file $(Thread-path) > $(@)
 

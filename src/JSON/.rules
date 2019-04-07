@@ -30,6 +30,7 @@ JSON-uninstall :
 	rm -rf $(JSON-install-files)
 	rm -rf $(JSON-install-directories)
 
+.DELETE_ON_ERROR : $(JSON-top-file)
 $(JSON-top-file) : $(JSON-deps-files) $(JSON-directories)
 	cliide header-include-file $(JSON-path) > $(@)
 

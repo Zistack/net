@@ -30,6 +30,7 @@ HTTP-uninstall :
 	rm -rf $(HTTP-install-files)
 	rm -rf $(HTTP-install-directories)
 
+.DELETE_ON_ERROR : $(HTTP-top-file)
 $(HTTP-top-file) : $(HTTP-deps-files) $(HTTP-directories)
 	cliide header-include-file $(HTTP-path) > $(@)
 

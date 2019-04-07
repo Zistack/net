@@ -30,6 +30,7 @@ NullableString-uninstall :
 	rm -rf $(NullableString-install-files)
 	rm -rf $(NullableString-install-directories)
 
+.DELETE_ON_ERROR : $(NullableString-top-file)
 $(NullableString-top-file) : $(NullableString-deps-files) $(NullableString-directories)
 	cliide header-include-file $(NullableString-path) > $(@)
 

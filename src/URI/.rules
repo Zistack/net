@@ -30,6 +30,7 @@ URI-uninstall :
 	rm -rf $(URI-install-files)
 	rm -rf $(URI-install-directories)
 
+.DELETE_ON_ERROR : $(URI-top-file)
 $(URI-top-file) : $(URI-deps-files) $(URI-directories)
 	cliide header-include-file $(URI-path) > $(@)
 

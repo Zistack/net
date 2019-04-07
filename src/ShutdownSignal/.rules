@@ -30,6 +30,7 @@ ShutdownSignal-uninstall :
 	rm -rf $(ShutdownSignal-install-files)
 	rm -rf $(ShutdownSignal-install-directories)
 
+.DELETE_ON_ERROR : $(ShutdownSignal-top-file)
 $(ShutdownSignal-top-file) : $(ShutdownSignal-deps-files) $(ShutdownSignal-directories)
 	cliide header-include-file $(ShutdownSignal-path) > $(@)
 

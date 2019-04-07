@@ -30,6 +30,7 @@ TLS-uninstall :
 	rm -rf $(TLS-install-files)
 	rm -rf $(TLS-install-directories)
 
+.DELETE_ON_ERROR : $(TLS-top-file)
 $(TLS-top-file) : $(TLS-deps-files) $(TLS-directories)
 	cliide header-include-file $(TLS-path) > $(@)
 

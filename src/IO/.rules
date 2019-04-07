@@ -30,6 +30,7 @@ IO-uninstall :
 	rm -rf $(IO-install-files)
 	rm -rf $(IO-install-directories)
 
+.DELETE_ON_ERROR : $(IO-top-file)
 $(IO-top-file) : $(IO-deps-files) $(IO-directories)
 	cliide header-include-file $(IO-path) > $(@)
 

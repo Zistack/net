@@ -30,6 +30,7 @@ SuppressingScope-uninstall :
 	rm -rf $(SuppressingScope-install-files)
 	rm -rf $(SuppressingScope-install-directories)
 
+.DELETE_ON_ERROR : $(SuppressingScope-top-file)
 $(SuppressingScope-top-file) : $(SuppressingScope-deps-files) $(SuppressingScope-directories)
 	cliide header-include-file $(SuppressingScope-path) > $(@)
 
