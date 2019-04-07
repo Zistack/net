@@ -10,7 +10,7 @@ struct T
 	operator = (const T & other) = delete;
 
 	T &
-	operator = (T && other) = delete;
+	operator = (T && other);
 
 	Watchable::Events::T
 	events () const;

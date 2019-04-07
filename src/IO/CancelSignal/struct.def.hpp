@@ -2,6 +2,11 @@ struct T
 {
 	T ();
 
+	T (T && other);
+
+	T &
+	operator = (T && other);
+
 	Watchable::Events::T
 	events () const;
 

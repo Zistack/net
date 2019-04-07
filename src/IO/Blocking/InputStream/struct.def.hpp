@@ -3,6 +3,11 @@ struct T
 {
 	T (NonblockingInputStream input_stream);
 
+	T (T && other) = default;
+
+	T &
+	operator = (T && other) = default;
+
 	Watchable::Events::T
 	events () const;
 
