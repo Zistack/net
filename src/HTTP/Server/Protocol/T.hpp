@@ -1,5 +1,11 @@
-T::T (const Config::Value::T & config, Responder::T & responder) :
-    config (config),
-    responder (responder)
+T::T (const Config::T & config, Responder::T & responder)
+:	Base::T
+	(
+		config -> getInputTimeout (),
+		config -> getOutputTimeout (),
+		config -> getTransferEncodingConfig (),
+		config -> getTempFileThreshhold (),
+		responder
+	)
 {
 }

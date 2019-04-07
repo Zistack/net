@@ -1,0 +1,2 @@
+bool
+vchar (char c);

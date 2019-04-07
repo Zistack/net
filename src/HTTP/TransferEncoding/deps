@@ -1,0 +1,1 @@
+children : Entity.typedef, Header.children, Util.declarations

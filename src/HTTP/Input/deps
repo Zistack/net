@@ -1,0 +1,3 @@
+children : TransferEncoding.children
+declarations : Entity.typedef, HeaderMap.typedef
+definitions : Header.children
