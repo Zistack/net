@@ -1,5 +1,5 @@
 bool
 isNonOption (char * arg)
 {
-	return arg && (arg[0] != '-');
+	return arg && (arg [0] != '-');
 }

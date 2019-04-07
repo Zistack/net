@@ -1,5 +1,5 @@
 bool
 T::takesArgument () const
 {
-	return (bool) this->argAction;
+	return (bool) this -> argAction;
 }

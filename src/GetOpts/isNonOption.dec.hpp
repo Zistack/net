@@ -1,0 +1,2 @@
+bool
+isNonOption (char * arg);

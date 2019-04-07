@@ -1,5 +1,5 @@
 bool
 T::requiresArgument () const
 {
-	return !(bool) this->flagAction;
+	return ! (bool) this -> flagAction;
 }
