@@ -1,6 +1,6 @@
 template
 <
-	typename ByteBlockPackType,
-	template <typename ...> typename ResultPackType = std::tuple
+	typename ByteBlockPack,
+	template <typename ...> typename ResultPackContainer = std::tuple
 >
 struct T;

@@ -1,12 +1,12 @@
 template
 <
-	template <typename ...> typename PackType,
+	template <typename ...> typename ByteBlockPackContainer,
 	typename ... ByteBlocks,
-	template <typename ...> typename ResultPackType
+	template <typename ...> typename ResultPackContainer
 >
-struct T <PackType <ByteBlocks ...>, ResultPackType>
+struct T <ByteBlockPackContainer <ByteBlocks ...>, ResultPackContainer>
 {
-	using Type = ResultPackType
+	using Type = ResultPackContainer
 	<
 		decltype
 		(
