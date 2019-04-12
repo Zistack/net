@@ -2,20 +2,26 @@ struct T
 {
 	T () = default;
 
-	T (const std::vector <uint8_t> & vector);
+	T (const Data::T & vector);
 
-	std::vector <uint8_t>::size_type
+	Size::T
 	size () const;
 
 	Reader::T
 	reader () const;
 
+	Reader::T
+	readerAt (Size::T position) const;
+
 	Writer::T
 	writer ();
+
+	Writer::T
+	writerAt (Size::T position);
 
 	~T () = default;
 
 private:
 
-	std::vector <uint8_t> vector;
+	Data::T vector;
 };

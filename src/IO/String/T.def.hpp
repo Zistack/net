@@ -1,3 +1,3 @@
-T::T (const std::string & string) : string (string)
+T::T (const Data::T & string) : string (string)
 {
 }

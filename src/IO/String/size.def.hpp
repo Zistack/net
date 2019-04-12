@@ -1,4 +1,4 @@
-std::string::size_type
+Size::T
 T::size () const
 {
 	return this -> string . size ();

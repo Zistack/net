@@ -22,8 +22,14 @@ struct T
 	FileDescriptor::Reader::T
 	reader () const;
 
+	FileDescriptor::Reader::T
+	readerAt (off_t position) const;
+
 	FileDescriptor::Writer::T
-	writer () const;
+	writer ();
+
+	FileDescriptor::Writer::T
+	writerAt (off_t position);
 
 	~T ();
 

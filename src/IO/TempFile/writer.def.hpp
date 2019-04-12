@@ -1,5 +1,5 @@
 FileDescriptor::Writer::T
-T::writer () const
+T::writer ()
 {
 	return {this -> file_descriptor};
 }

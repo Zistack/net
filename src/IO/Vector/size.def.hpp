@@ -1,4 +1,4 @@
-std::vector <uint8_t>::size_type
+Size::T
 T::size () const
 {
 	return this -> vector . size ();

@@ -1,6 +1,8 @@
 struct T
 {
-	T (const std::string & string);
+	T (const Data::T & string);
+
+	T (const Data::T & string, Size::T initial_position);
 
 	char
 	get ();
@@ -14,8 +16,8 @@ struct T
 	~T () = default;
 
 	private:
-	const std::string & string;
-	std::string::size_type pointer;
+	const Data::T & string;
+	Size::T pointer;
 
 	static_assert (TypeTraits::IsInputStream::T <T>::value);
 };

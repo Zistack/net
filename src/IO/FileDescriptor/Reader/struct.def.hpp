@@ -2,6 +2,8 @@ struct T
 {
 	T (int file_descriptor);
 
+	T (int file_descriptor, off_t initial_position);
+
 	Watchable::Events::T
 	events () const;
 

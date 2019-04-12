@@ -1,6 +1,8 @@
 struct T
 {
-	T (std::string & string);
+	T (Data::T & string);
+
+	T (Data::T & string, Size::T initial_position);
 
 	void
 	put (char c);
@@ -14,8 +16,8 @@ struct T
 	~T () = default;
 
 	private:
-	std::string & string;
-	std::string::size_type pointer;
+	Data::T & string;
+	Size::T pointer;
 
 	static_assert (TypeTraits::IsOutputStream::T <T>::value);
 };

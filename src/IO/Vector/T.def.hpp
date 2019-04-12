@@ -1,3 +1,3 @@
-T::T (const std::vector <uint8_t> & vector) : vector (vector)
+T::T (const Data::T & vector) : vector (vector)
 {
 }

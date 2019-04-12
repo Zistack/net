@@ -2,20 +2,26 @@ struct T
 {
 	T () = default;
 
-	T (const std::string & string);
+	T (const Data::T & string);
 
-	std::string::size_type
+	Size::T
 	size () const;
 
 	Reader::T
 	reader () const;
 
+	Reader::T
+	readerAt (Size::T position) const;
+
 	Writer::T
 	writer ();
+
+	Writer::T
+	writerAt (Size::T position);
 
 	~T () = default;
 
 private:
 
-	std::string string;
+	Data::T string;
 };

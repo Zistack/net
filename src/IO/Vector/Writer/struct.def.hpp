@@ -1,6 +1,8 @@
 struct T
 {
-	T (std::vector <uint8_t> & vector);
+	T (Data::T & vector);
+
+	T (Data::T & vector, Size::T initial_position);
 
 	void
 	put (char c);
@@ -14,8 +16,8 @@ struct T
 	~T () = default;
 
 	private:
-	std::vector <uint8_t> & vector;
-	std::vector <uint8_t>::size_type pointer;
+	Data::T & vector;
+	Size::T pointer;
 
 	static_assert (TypeTraits::IsOutputStream::T <T>::value);
 };
