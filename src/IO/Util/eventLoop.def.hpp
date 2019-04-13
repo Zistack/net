@@ -29,7 +29,7 @@ eventLoop
 				IO::Util::wait
 				(
 					std::forward <Watchable> (watchable),
-					std::forward<ShutdownSignal> (shutdown_signal)
+					std::forward <ShutdownSignal> (shutdown_signal)
 				);
 
 				if constexpr (TypeTraits::IsSpurious::T <Watchable>::value)
