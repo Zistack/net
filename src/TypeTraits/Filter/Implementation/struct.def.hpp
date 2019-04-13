@@ -27,3 +27,14 @@ struct T
 		RemainingResultPack
 	>;
 };
+
+template
+<
+	template <typename ...> typename ArgumentPackContainer,
+	template <typename> typename Predicate,
+	template <typename ...> typename ResultPackContainer
+>
+struct T <ArgumentPackContainer <>, Predicate, ResultPackContainer>
+{
+	using Type = ResultPackContainer <>;
+};
