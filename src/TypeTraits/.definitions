@@ -1,0 +1,60 @@
+# User-configurable options
+
+TypeTraits-CFLAGS ::=
+TypeTraits-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+TypeTraits-path ::= $(net-src-dir)/TypeTraits
+
+TypeTraits-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./TypeTraits -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
+		)$\
+	)
+
+TypeTraits-header-files ::= \
+	$(filter %.hpp, $(TypeTraits-files-and-directories))
+TypeTraits-deps-files ::= \
+	$(filter %/deps, $(TypeTraits-files-and-directories))
+TypeTraits-directories ::= \
+	$(filter-out %.hpp %/deps, $(TypeTraits-files-and-directories))
+
+TypeTraits-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(TypeTraits-path)/include.hpp)
+
+TypeTraits-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(TypeTraits-dependency-candidates)$\
+)
+
+TypeTraits-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+TypeTraits-inc-dir-flags ::= $(TypeTraits-inc-dirs:%=-I %)
+TypeTraits-include-flags ::= -I $(net-src-dir) $(TypeTraits-inc-dir-flags)
+
+TypeTraits-top-file ::= $(TypeTraits-path)/.build/TypeTraits.hpp
+TypeTraits-build-file ::= $(TypeTraits-path)/.build/TypeTraits.hpp.gch
+
+TypeTraits-include-file ::= $(net-inc-dir)/TypeTraits.hpp
+TypeTraits-include-path ::= $(net-inc-dir)/TypeTraits
+TypeTraits-include-files ::= \
+	$(TypeTraits-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+TypeTraits-include-directories ::= \
+	$(TypeTraits-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+TypeTraits-target ::= $(TypeTraits-include-files) $(TypeTraits-include-file)
+
+TypeTraits-install-file ::= $(net-header-install-dir)/TypeTraits.hpp
+TypeTraits-install-path ::= $(net-header-install-dir)/TypeTraits
+TypeTraits-install-files ::= \
+	$(TypeTraits-header-files:$(TypeTraits-path)/%=$(TypeTraits-install-path)/%)
+TypeTraits-install-directories ::= \
+	$(TypeTraits-directories:$(TypeTraits-path)/%=$(TypeTraits-install-path)/%)
+
+TypeTraits-install-target ::= $(TypeTraits-install-files) $(TypeTraits-install-file)

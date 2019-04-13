@@ -1,0 +1,52 @@
+TypeTraits-dependency-targets ::= $(foreach \
+	TypeTraits-dependency,$\
+	$(TypeTraits-dependencies),$\
+	$($(TypeTraits-dependency)-target)$\
+)
+
+TypeTraits-dependency-install-targets ::= $(foreach \
+	TypeTraits-dependency,$\
+	$(TypeTraits-dependencies),$\
+	$($(TypeTraits-dependency)-install-target)$\
+)
+
+.PHONY : TypeTraits
+TypeTraits : $(TypeTraits-target)
+
+.PHONY : TypeTraits-clean
+TypeTraits-clean :
+	rm -rf $(TypeTraits-include-file)
+	rm -rf $(TypeTraits-include-files)
+	rm -rf $(TypeTraits-include-directories)
+	rm -rf $(TypeTraits-build-file)
+	rm -rf $(TypeTraits-top-file)
+
+.PHONY : TypeTraits-install
+TypeTraits-install : $(TypeTraits-install-target)
+
+.PHONY : TypeTraits-uninstall
+TypeTraits-uninstall :
+	rm -rf $(TypeTraits-install-file)
+	rm -rf $(TypeTraits-install-files)
+	rm -rf $(TypeTraits-install-directories)
+
+.DELETE_ON_ERROR : $(TypeTraits-top-file)
+$(TypeTraits-top-file) : $(TypeTraits-deps-files) $(TypeTraits-directories)
+	cliide header-include-file $(TypeTraits-path) > $(@)
+
+$(TypeTraits-build-file) : $(TypeTraits-top-file) $(TypeTraits-header-files) $(TypeTraits-dependency-targets)
+	$(net-CPP) $(TypeTraits-include-flags) $(net-CFLAGS) $(TypeTraits-CFLAGS) -c -o $(@) $(<)
+
+$(TypeTraits-include-path)/%.hpp : $(TypeTraits-path)/%.hpp $(TypeTraits-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(TypeTraits-include-file) : $(TypeTraits-top-file) $(TypeTraits-build-file)
+	cp $(<) $(@)
+
+$(TypeTraits-install-path)/%.hpp : $(TypeTraits-include-path)/%.hpp $(TypeTraits-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(TypeTraits-install-file) : $(TypeTraits-include-file)
+	cp $(<) $(@)
