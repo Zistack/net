@@ -2,7 +2,7 @@ struct T
 {
 	T ();
 
-	T (size_t entity_size, size_t temp_file_threshhold);
+	T (uint64_t entity_size, uint64_t temp_file_threshhold);
 
 	T (T && other) = default;
 
@@ -33,7 +33,7 @@ struct T
 private:
 
 	static Data::T
-	newData (size_t entity_size, size_t temp_file_threshhold);
+	newData (uint64_t entity_size, uint64_t temp_file_threshhold);
 
 	Data::T data;
 };
