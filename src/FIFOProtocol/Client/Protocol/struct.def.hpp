@@ -21,6 +21,9 @@ struct T
 	Response
 	makeRequest (const Request & request);
 
+	Response
+	makeRequest (Request && request);
+
 	~T () = default;
 
 	private:
