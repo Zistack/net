@@ -9,21 +9,16 @@ struct T
 	NonblockingInputStream,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			size_t,
 			decltype
 			(
-				& std::remove_cv_t
-				<
-					std::remove_reference_t <NonblockingInputStream>
-				>::read
+				std::declval <NonblockingInputStream> () . read
+				(
+					std::declval <char *> (),
+					std::declval <size_t> ()
+				)
 			),
-			std::remove_cv_t
-			<
-				std::remove_reference_t <NonblockingInputStream>
-			> *,
-			char *,
 			size_t
 		>
 	>

@@ -9,17 +9,10 @@ struct T
 	Watchable,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			int,
-			decltype
-			(
-				& std::remove_cv_t
-				<
-					std::remove_reference_t <Watchable>
-				>::fileDescriptor
-			),
-			const std::remove_cv_t <std::remove_reference_t <Watchable>> *
+			decltype (std::declval <const Watchable> () . fileDescriptor ()),
+			int
 		>
 	>
 > : std::true_type

@@ -9,14 +9,10 @@ struct T
 	Watchable,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			IO::Watchable::Events::T,
-			decltype
-			(
-				& std::remove_cv_t <std::remove_reference_t <Watchable>>::events
-			),
-			const std::remove_cv_t <std::remove_reference_t <Watchable>> *
+			decltype (std::declval <const Watchable> () . events ()),
+			IO::Watchable::Events::T
 		>
 	>
 > : std::true_type

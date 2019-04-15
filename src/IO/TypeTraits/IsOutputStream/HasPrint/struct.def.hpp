@@ -9,18 +9,16 @@ struct T
 	OutputStream,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			void,
 			decltype
 			(
-				& std::remove_cv_t
-				<
-					std::remove_reference_t <OutputStream>
-				>::print
+				std::declval <OutputStream> () . print
+				(
+					std::declval <const std::string &> ()
+				)
 			),
-			std::remove_cv_t <std::remove_reference_t <OutputStream>> *,
-			const std::string &
+			void
 		>
 	>
 > : std::true_type

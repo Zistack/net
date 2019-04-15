@@ -17,8 +17,8 @@ struct T
 
 	void
 	print (const std::string & string);
-
-	static_assert (IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-	static_assert (IsOutputStream::T <T>::value);
 };
+
+static_assert (IsWatchable::T <T>::value);
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert (IsOutputStream::T <T>::value);

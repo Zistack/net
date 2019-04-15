@@ -9,17 +9,17 @@ struct T
 	Protocol,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			void,
 			decltype
 			(
-				& std::remove_cv_t <std::remove_reference_t <Protocol>>::
-					template run <InputStream::T, OutputStream::T>
+				std::declval <Protocol> () . run
+				(
+					std::declval <InputStream::T> (),
+					std::declval <OutputStream::T> ()
+				)
 			),
-			std::remove_cv_t <std::remove_reference_t <Protocol>> *,
-			InputStream::T,
-			OutputStream::T
+			void
 		>
 	>
 > : std::true_type

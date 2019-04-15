@@ -9,14 +9,10 @@ struct T
 	Protocol,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			void,
-			decltype
-			(
-				& std::remove_cv_t <std::remove_reference_t <Protocol>>::prime
-			),
-			std::remove_cv_t <std::remove_reference_t <Protocol>> *
+			decltype (std::declval <Protocol> () . prime ()),
+			void
 		>
 	>
 > : std::true_type

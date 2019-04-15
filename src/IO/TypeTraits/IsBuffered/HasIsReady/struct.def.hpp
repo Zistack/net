@@ -9,14 +9,10 @@ struct T
 	Buffered,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			bool,
-			decltype
-			(
-				& std::remove_cv_t <std::remove_reference_t <Buffered>>::isReady
-			),
-			const std::remove_cv_t <std::remove_reference_t <Buffered>> *
+			decltype (std::declval <const Buffered> () . isReady ()),
+			bool
 		>
 	>
 > : std::true_type

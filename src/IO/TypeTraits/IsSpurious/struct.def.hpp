@@ -9,17 +9,10 @@ struct T
 	Spurious,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			bool,
-			decltype
-			(
-				& std::remove_cv_t
-				<
-					std::remove_reference_t <Spurious>
-				>::spurious
-			),
-			std::remove_cv_t <std::remove_reference_t <Spurious>> *
+			decltype (std::declval <Spurious> () . spurious ()),
+			bool
 		>
 	>
 > : std::true_type

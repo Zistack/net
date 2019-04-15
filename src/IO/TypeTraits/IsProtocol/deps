@@ -1,1 +1,1 @@
-children : IsWatchable.typedef, IsInputStream.typedef, IsOutputStream.typedef
+children : InputStream.typedef, OutputStream.typedef

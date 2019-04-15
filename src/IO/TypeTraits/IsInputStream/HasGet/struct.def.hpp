@@ -9,14 +9,10 @@ struct T
 	InputStream,
 	std::enable_if_t
 	<
-		std::is_invocable_r_v
+		std::is_convertible_v
 		<
-			char,
-			decltype
-			(
-				& std::remove_cv_t <std::remove_reference_t <InputStream>>::get
-			),
-			std::remove_cv_t <std::remove_reference_t <InputStream>> *
+			decltype (std::declval <InputStream> () . get ()),
+			char
 		>
 	>
 > : std::true_type
