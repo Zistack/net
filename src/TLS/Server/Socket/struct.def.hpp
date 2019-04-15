@@ -12,6 +12,6 @@ struct T : TLS::Socket::T
 	fileDescriptor () const;
 
 	~T () = default;
-
-	static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
 };
+
+static_assert (IO::TypeTraits::IsWatchable::T <T>::value);

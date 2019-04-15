@@ -181,6 +181,6 @@ struct T
 
 	std::unique_ptr <Failure::ExceptionStore::T> internal_store;
 	Failure::ExceptionStore::T & exception_store;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);

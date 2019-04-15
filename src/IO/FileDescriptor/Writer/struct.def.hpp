@@ -15,10 +15,11 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	int file_descriptor;
 	off_t pointer;
-
-	static_assert (TypeTraits::IsWatchable::T <T>::value);
-	static_assert (TypeTraits::IsNonblockingOutputStream::T <T>::value);
 };
+
+static_assert (TypeTraits::IsWatchable::T <T>::value);
+static_assert (TypeTraits::IsNonblockingOutputStream::T <T>::value);

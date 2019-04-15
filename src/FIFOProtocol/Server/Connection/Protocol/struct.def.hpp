@@ -16,11 +16,27 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	Interface interface;
 
 	Input::T <Request, Response, Interface> input;
 	Output::T <Response, Interface> output;
-
-	static_assert (IO::TypeTraits::IsProtocol::T <T>::value);
 };
+
+static_assert
+(
+	IO::
+		TypeTraits::
+		IsProtocol::
+		T
+		<
+			T
+			<
+				std::monostate,
+				std::monostate,
+				TypeTraits::ServerInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);

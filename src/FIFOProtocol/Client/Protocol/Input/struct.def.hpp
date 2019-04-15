@@ -38,6 +38,20 @@ struct T
 
 	SuppressingScope::T <ShutdownSignal::T> input_shutdown_scope;
 	Scope::T <decltype (response_queue)> response_scope;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				std::monostate,
+				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);

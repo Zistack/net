@@ -14,8 +14,7 @@ struct T
 	~T () = default;
 
 	int file_descriptor;
-
-	private:
-	static_assert (TypeTraits::IsWatchable::T <T>::value);
-	static_assert (TypeTraits::IsNonblockingOutputStream::T <T>::value);
 };
+
+static_assert (TypeTraits::IsWatchable::T <T>::value);
+static_assert (TypeTraits::IsNonblockingOutputStream::T <T>::value);

@@ -18,6 +18,6 @@ struct T
 	private:
 	const Data::T & vector;
 	Size::T pointer;
-
-	static_assert (TypeTraits::IsInputStream::T <T>::value);
 };
+
+static_assert (TypeTraits::IsInputStream::T <T>::value);

@@ -15,7 +15,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	event (InputStream && input_stream, Thread::Nursery::T & nursery);
@@ -40,6 +41,21 @@ struct T
 	// Transient members
 
 	SuppressingScope::T <ShutdownSignal::T> input_shutdown_scope;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				std::monostate,
+				std::monostate,
+				TypeTraits::ServerInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);

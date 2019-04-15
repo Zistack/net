@@ -55,13 +55,44 @@ private:
 	std::unique_ptr <char []> buffer;
 
 	friend struct Scope::T <T>;
-
-	static_assert (TypeTraits::IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-	static_assert (TypeTraits::IsClearable::T <T>::value);
-	static_assert (TypeTraits::IsOutputStream::T <T>::value);
-	static_assert (TypeTraits::IsBuffered::T <T>::value);
 };
 
 template <typename NonblockingOutputStream>
 T (NonblockingOutputStream && output_stream) -> T <NonblockingOutputStream>;
+
+static_assert
+(
+	TypeTraits::
+		IsWatchable::
+		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		value
+);
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		value
+);
+static_assert
+(
+	TypeTraits::
+		IsClearable::
+		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		value
+);
+static_assert
+(
+	TypeTraits::
+		IsOutputStream::
+		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		value
+);
+static_assert
+(
+	TypeTraits::
+		IsBuffered::
+		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		value
+);

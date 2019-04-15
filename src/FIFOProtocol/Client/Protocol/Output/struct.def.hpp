@@ -21,7 +21,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	// Given members
 
 	Interface & interface;
@@ -33,6 +34,20 @@ struct T
 	// Transient members
 
 	Scope::T <decltype (request_queue)> request_scope;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				std::monostate,
+				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);

@@ -28,7 +28,7 @@ struct T
 
 	friend Scope::T <T>;
 	friend SuppressingScope::T <T>;
-
-	static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);

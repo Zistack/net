@@ -34,7 +34,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	void
 	refill ();
 
@@ -50,13 +51,41 @@ struct T
 	std::unique_ptr <char []> buffer;
 
 	bool eof_bit;
-
-	static_assert (TypeTraits::IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-	static_assert (TypeTraits::IsClearable::T <T>::value);
-	static_assert (TypeTraits::IsBuffered::T <T>::value);
-	static_assert (TypeTraits::IsInputStream::T <T>::value);
 };
 
 template <typename NonblockingInputStream>
 T (NonblockingInputStream && input_stream) -> T <NonblockingInputStream>;
+
+static_assert
+(
+	TypeTraits::
+		IsWatchable::
+		T <T <TypeTraits::NonblockingInputStream::T>>::
+		value
+);
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T <T <TypeTraits::NonblockingInputStream::T>>::
+		value
+);
+static_assert
+(
+	TypeTraits::
+		IsClearable::
+		T <T <TypeTraits::NonblockingInputStream::T>>::
+		value
+);
+static_assert
+(
+	TypeTraits::IsBuffered::T <T <TypeTraits::NonblockingInputStream::T>>::value
+);
+static_assert
+(
+	TypeTraits::
+		IsInputStream::
+		T <T <TypeTraits::NonblockingInputStream::T>>::
+		value
+);

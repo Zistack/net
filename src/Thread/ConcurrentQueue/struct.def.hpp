@@ -36,6 +36,9 @@ struct T
 	std::list <Element> elements;
 
 	friend struct Scope::T <T>;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert
+(
+	Failure::TypeTraits::IsCancellable::T <T <std::monostate>>::value
+);

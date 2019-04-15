@@ -37,7 +37,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	void
 	refill ();
 
@@ -56,11 +57,11 @@ struct T
 	std::unique_ptr <char []> buffer;
 
 	bool eof_bit;
-
-	static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-	static_assert (IO::TypeTraits::IsClearable::T <T>::value);
-	static_assert (IO::TypeTraits::IsBuffered::T <T>::value);
-	static_assert (IO::TypeTraits::IsSpurious::T <T>::value);
-	static_assert (IO::TypeTraits::IsInputStream::T <T>::value);
 };
+
+static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert (IO::TypeTraits::IsClearable::T <T>::value);
+static_assert (IO::TypeTraits::IsBuffered::T <T>::value);
+static_assert (IO::TypeTraits::IsSpurious::T <T>::value);
+static_assert (IO::TypeTraits::IsInputStream::T <T>::value);

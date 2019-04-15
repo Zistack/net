@@ -11,7 +11,13 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	std::unique_ptr <Cancellable * []> cancellables;
 	size_t next;
 };
+
+static_assert
+(
+	TypeTraits::IsCancellable::T <T <TypeTraits::Cancellable::T>>::value
+);

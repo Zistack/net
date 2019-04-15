@@ -29,7 +29,8 @@ struct T
 	void
 	print (const std::string & string);
 
-	private:
+private:
+
 	void
 	flush ();
 
@@ -56,10 +57,10 @@ struct T
 	std::unique_ptr <char []> buffer;
 
 	friend struct Scope::T <T>;
-
-	static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-	static_assert (IO::TypeTraits::IsClearable::T <T>::value);
-	static_assert (IO::TypeTraits::IsOutputStream::T <T>::value);
-	static_assert (IO::TypeTraits::IsBuffered::T <T>::value);
 };
+
+static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert (IO::TypeTraits::IsClearable::T <T>::value);
+static_assert (IO::TypeTraits::IsOutputStream::T <T>::value);
+static_assert (IO::TypeTraits::IsBuffered::T <T>::value);

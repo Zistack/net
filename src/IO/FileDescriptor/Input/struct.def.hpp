@@ -10,8 +10,9 @@ struct T
 
 	~T () = default;
 
-	private:
-	int file_descriptor;
+private:
 
-	static_assert (TypeTraits::IsWatchable::T <T>::value);
+	int file_descriptor;
 };
+
+static_assert (TypeTraits::IsWatchable::T <T>::value);

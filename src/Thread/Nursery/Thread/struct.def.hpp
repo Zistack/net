@@ -34,6 +34,6 @@ struct T
 	void (* cancel_cancellable) (void *);
 
 	std::thread thread;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);

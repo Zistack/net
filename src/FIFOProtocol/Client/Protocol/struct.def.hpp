@@ -26,7 +26,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	// Given members
 
 	std::chrono::milliseconds round_trip_timeout;
@@ -39,6 +40,21 @@ struct T
 
 	Input::T <Response, Interface> input;
 	Output::T <Request, Interface> output;
-
-	static_assert (IO::TypeTraits::IsProtocol::T <T>::value);
 };
+
+static_assert
+(
+	IO::
+		TypeTraits::
+		IsProtocol::
+		T
+		<
+			T
+			<
+				std::monostate,
+				std::monostate,
+				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);

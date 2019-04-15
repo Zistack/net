@@ -15,9 +15,10 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	const Data::T & string;
 	Size::T pointer;
-
-	static_assert (TypeTraits::IsInputStream::T <T>::value);
 };
+
+static_assert (TypeTraits::IsInputStream::T <T>::value);

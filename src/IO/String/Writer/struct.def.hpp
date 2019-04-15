@@ -15,9 +15,10 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	Data::T & string;
 	Size::T pointer;
-
-	static_assert (TypeTraits::IsOutputStream::T <T>::value);
 };
+
+static_assert (TypeTraits::IsOutputStream::T <T>::value);

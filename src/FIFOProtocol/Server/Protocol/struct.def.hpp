@@ -14,8 +14,24 @@ struct T
 
 	~T () = default;
 
-	private:
-	std::tuple <Arguments ...> arguments;
+private:
 
-	static_assert (IO::TypeTraits::IsServerProtocol::T <T>::value);
+	std::tuple <Arguments ...> arguments;
 };
+
+static_assert
+(
+	IO::
+		TypeTraits::
+		IsServerProtocol::
+		T
+		<
+			T
+			<
+				std::monostate,
+				std::monostate,
+				TypeTraits::ServerInterface::T <std::monostate, std::monostate>
+			>
+		>::
+		value
+);
