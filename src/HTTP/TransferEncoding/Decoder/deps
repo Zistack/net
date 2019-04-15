@@ -1,2 +1,7 @@
-children : BoundedIdentity.typedef, Chunked.children, Pipeline.children, UnboundedIdentity.typedef
+children :
+	BoundedIdentity.typedef,
+	Chunked.children,
+	Pipeline.children,
+	UnboundedIdentity.typedef
+
 typedef : Pipeline.typedef

@@ -22,6 +22,7 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	InterfaceType value;
 };

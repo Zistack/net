@@ -1,6 +1,10 @@
 template <typename ServerProtocol>
 void
-T <ServerProtocol>::accept (Socket::T & server_socket, Thread::Nursery::T & nursery)
+T <ServerProtocol>::accept
+(
+	Socket::T & server_socket,
+	Thread::Nursery::T & nursery
+)
 {
 	auto connection_protocol = this -> server_protocol . make ();
 

@@ -18,13 +18,15 @@ struct T : Socket::T
 
 	virtual ~T () = default;
 
-	protected:
+protected:
+
 	T (std::pair <int, struct tls *> p);
 
 	Thread::SleepMutex::T socket_mutex;
 	bool spurious_read;
 
-	private:
+private:
+
 	IO::FileDescriptor::Input::T
 	input () const;
 

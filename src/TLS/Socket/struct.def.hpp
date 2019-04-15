@@ -11,7 +11,8 @@ struct T
 
 	virtual ~T ();
 
-	protected:
+protected:
+
 	int tcp_socket;
 	std::unique_ptr <struct tls, Functor::T <tls_free>> tls_context;
 };

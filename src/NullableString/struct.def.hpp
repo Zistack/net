@@ -50,6 +50,7 @@ struct T
 	T &
 	operator = (const std::optional <std::string> & string);
 
-	private:
+private:
+
 	std::optional <std::string> string;
 };

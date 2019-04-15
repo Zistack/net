@@ -16,7 +16,7 @@ struct T
 >
 {
 	static constexpr const bool value =
-	    (& query == & identifier) || T <query, RemainingMemberTypes ...>::value;
+		(& query == & identifier) || T <query, RemainingMemberTypes ...>::value;
 };
 
 template <const std::string & query>

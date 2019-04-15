@@ -13,7 +13,8 @@ struct T : std::exception
 
 	~T () = default;
 
-	private:
+private:
+
 	uint64_t error_code;
 	std::string message;
 };

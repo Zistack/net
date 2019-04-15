@@ -16,6 +16,7 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	std::string registered_name;
 };

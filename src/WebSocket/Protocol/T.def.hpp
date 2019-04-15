@@ -9,6 +9,6 @@ T <Dispatcher>::T (const Config::T & config, Arguments && ... arguments)
 		this -> output,
 		std::forward <Arguments> (arguments) ...
 	),
-    output (config . getOutputTimeout (), config . getChunkSize ())
+	output (config . getOutputTimeout (), config . getChunkSize ())
 {
 }

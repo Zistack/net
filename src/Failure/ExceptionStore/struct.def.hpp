@@ -25,7 +25,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	std::mutex m;
 	std::exception_ptr exception;
 };

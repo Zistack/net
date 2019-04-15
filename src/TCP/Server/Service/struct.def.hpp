@@ -14,7 +14,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	void
 	listen (Thread::Nursery::T & nursery);
 

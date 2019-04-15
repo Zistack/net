@@ -153,7 +153,8 @@ struct T
 
 	~T () noexcept (false);
 
-	private:
+private:
+
 	template <typename Cancellable, typename Function, typename ... Arguments>
 	bool
 	start

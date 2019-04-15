@@ -1,1 +1,8 @@
-children : CodeError.typedef, Request.typedef, Responder.typedef, Response.typedef, TransferEncoding.children, Input.children, Output.children
+children :
+	CodeError.typedef,
+	Request.typedef,
+	Responder.typedef,
+	Response.typedef,
+	TransferEncoding.children,
+	Input.children,
+	Output.children

@@ -23,7 +23,8 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	int read_file_descriptor;
 	int write_file_descriptor;
 };

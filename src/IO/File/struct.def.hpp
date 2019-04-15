@@ -33,6 +33,7 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	int file_descriptor;
 };

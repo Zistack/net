@@ -52,6 +52,7 @@ struct T
 		size_t indentation
 	);
 
-	private:
+private:
+
 	std::optional <ValueType> value;
 };

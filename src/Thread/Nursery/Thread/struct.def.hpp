@@ -29,7 +29,8 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	void * cancellable;
 	void (* cancel_cancellable) (void *);
 

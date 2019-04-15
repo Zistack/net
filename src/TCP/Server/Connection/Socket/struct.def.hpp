@@ -2,7 +2,8 @@ struct T : TCP::Socket::T
 {
 	~T () = default;
 
-	private:
+private:
+
 	T (int connection_socket);
 
 	friend struct Server::Socket::T;

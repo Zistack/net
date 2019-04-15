@@ -46,7 +46,8 @@ struct T
 
 	~T () = default;
 
-	protected:
+protected:
+
 	template <typename InputStream>
 	void
 	readFrom (const std::string & identifier, InputStream && input_stream);
@@ -71,7 +72,8 @@ struct T
 		size_t indentation
 	);
 
-	private:
+private:
+
 	MemberType member;
 };
 
@@ -90,7 +92,8 @@ struct T <>
 
 	~T () = default;
 
-	protected:
+protected:
+
 	template <typename InputStream>
 	void
 	readFrom (const std::string & identifier, InputStream && input_stream);

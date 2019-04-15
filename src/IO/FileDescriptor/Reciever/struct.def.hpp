@@ -13,7 +13,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	int file_descriptor;
 };
 

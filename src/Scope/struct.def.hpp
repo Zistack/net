@@ -18,6 +18,7 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	Scopable * scopable;
 };

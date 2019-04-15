@@ -35,7 +35,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	getStatusLine (InputStream && input_stream);

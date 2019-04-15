@@ -30,7 +30,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	init (InputStream && input_stream);

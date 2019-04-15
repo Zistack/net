@@ -1,2 +1,7 @@
 typedef : HeaderMap.typedef, TransferEncoding.children
-definitions : Rule.declarations, Entity.typedef, Input.declarations, Output.declarations
+
+definitions :
+	Rule.declarations,
+	Entity.typedef,
+	Input.declarations,
+	Output.declarations

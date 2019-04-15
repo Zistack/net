@@ -18,7 +18,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	event (InputStream && input_stream);

@@ -1,2 +1,9 @@
-typedef : Null.typedec, Array.typedec, Boolean.typedec, Number.typedec, Object.typedec, String.typedec
+typedef :
+	Null.typedec,
+	Array.typedec,
+	Boolean.typedec,
+	Number.typedec,
+	Object.typedec,
+	String.typedec
+
 definitions : Util.definitions

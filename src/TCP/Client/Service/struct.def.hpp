@@ -14,7 +14,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	Protocol protocol;
 	Config::T config;
 

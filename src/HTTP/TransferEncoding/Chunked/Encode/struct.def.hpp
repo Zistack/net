@@ -8,6 +8,7 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	size_t chunk_size;
 };

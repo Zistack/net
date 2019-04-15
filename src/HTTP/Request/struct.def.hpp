@@ -38,7 +38,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	getRequestLine (InputStream && input_stream);

@@ -23,7 +23,8 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	Scopable * scopable;
 	Failure::ExceptionStore::T * exception_store;
 };

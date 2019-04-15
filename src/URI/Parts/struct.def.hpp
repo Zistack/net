@@ -13,7 +13,8 @@ struct T
 	NullableString::T query;
 	NullableString::T fragment;
 
-	private:
+private:
+
 	template <typename InputStream>
 	void
 	init (InputStream && input_stream);

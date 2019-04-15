@@ -24,6 +24,7 @@ struct T : MemberPack::T <MemberTypes ...>
 
 	~T () = default;
 
-	private:
+private:
+
 	using Members = MemberPack::T <MemberTypes ...>;
 };

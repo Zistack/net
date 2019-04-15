@@ -1,1 +1,6 @@
-children : Request.typedef, Response.typedef, TransferEncoding.children, Input.children, Output.children
+children :
+	Request.typedef,
+	Response.typedef,
+	TransferEncoding.children,
+	Input.children,
+	Output.children

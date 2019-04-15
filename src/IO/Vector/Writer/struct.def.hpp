@@ -15,7 +15,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	Data::T & vector;
 	Size::T pointer;
 };

@@ -2,10 +2,12 @@ struct T
 {
 	T ();
 
-	protected:
+protected:
+
 	T (int file_descriptor);
 
-	public:
+public:
+
 	T (const T & other) = delete;
 
 	T (T && other);
@@ -24,6 +26,7 @@ struct T
 
 	~T ();
 
-	private:
+private:
+
 	int file_descriptor;
 };

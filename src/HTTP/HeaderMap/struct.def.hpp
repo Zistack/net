@@ -40,7 +40,8 @@ struct T
 
 	~T () = default;
 
-	private:
+private:
+
 	static std::string
 	normalize (std::string string);
 
