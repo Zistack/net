@@ -3,7 +3,7 @@ template
 	template <typename ...> typename ArgumentPackContainer,
 	typename Argument,
 	typename ... RemainingArguments,
-	template <typename> typename Predicate,
+	template <typename ...> typename Predicate,
 	template <typename ...> typename ResultPackContainer
 >
 struct T
@@ -31,7 +31,7 @@ struct T
 template
 <
 	template <typename ...> typename ArgumentPackContainer,
-	template <typename> typename Predicate,
+	template <typename ...> typename Predicate,
 	template <typename ...> typename ResultPackContainer
 >
 struct T <ArgumentPackContainer <>, Predicate, ResultPackContainer>
