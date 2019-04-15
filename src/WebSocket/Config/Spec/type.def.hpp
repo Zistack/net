@@ -1,0 +1,43 @@
+using T = GetConfig::Section::T
+<
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		INPUT_TIMEOUT,
+		INPUT_TIMEOUT_DESCRIPTION,
+		INPUT_TIMEOUT_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		OUTPUT_TIMEOUT,
+		OUTPUT_TIMEOUT_DESCRIPTION,
+		OUTPUT_TIMEOUT_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		CLOSE_TIMEOUT,
+		CLOSE_TIMEOUT_DESCRIPTION,
+		CLOSE_TIMEOUT_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		CHUNK_SIZE,
+		CHUNK_SIZE_DESCRIPTION,
+		CHUNK_SIZE_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		TEMP_FILE_THRESHHOLD,
+		TEMP_FILE_THRESHHOLD_DESCRIPTION,
+		TEMP_FILE_THRESHHOLD_DEFAULT
+	>
+>;

@@ -7,8 +7,8 @@
 #include <GetConfig.hpp>
 #include <HTTP.hpp>
 #include <IO.hpp>
-#include <Protocol.hpp>
 #include <Scope.hpp>
-#include <Status.hpp>
+#include <StatusBit.hpp>
 #include <SuppressingScope.hpp>
 #include <Thread.hpp>
+#include <TypeTraits.hpp>

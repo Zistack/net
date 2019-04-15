@@ -1,0 +1,12 @@
+children :
+	CloseMessage.typedef,
+	FrameHeader.typedef,
+	InputEntitySlot.typedef,
+	Masking.children,
+	Message.typedef,
+	OutputEntitySlot.typedef,
+	Type.definitions,
+	TypeTraits.children,
+	Util.definitions
+
+typedef : Config.typedef

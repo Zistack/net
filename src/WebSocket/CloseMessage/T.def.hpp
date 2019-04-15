@@ -1,0 +1,53 @@
+template <typename InputStream>
+T::T (InputStream && input_stream, uint64_t count)
+{
+	if (count == 0)
+	{
+		this -> status_code = 1005;
+	}
+	else if (count >= sizeof (this -> status_code))
+	{
+		this -> status_code =
+			IO::Rule::getIntType <decltype (this -> status_code)>
+			(
+				std::forward <InputStream> (input_stream)
+			);
+
+		if (count > sizeof (this -> status_code))
+		{
+			this -> reason = "";
+			IO::String::Reader::T output_stream
+			(
+				this -> reason . stdString ()
+			);
+
+			Util::transfer
+			(
+				std::forward <InputStream> (input_stream),
+				count - sizeof (this -> status_code),
+				output_stream
+			);
+		}
+	}
+	else
+	{
+		throw Failure::SemanticError::T
+		(
+			"Nonzero payloads on close frames must be at least " +
+				std::to_string (sizeof (this -> status_code)) +
+				" bytes long\n"
+		);
+	}
+}
+
+// I might want to include logic for handling reasons that are too long.
+// There's a generic failure code we could send in that case.
+T::T (uint16_t status_code, const NullableString::T & reason)
+:	status_code (status_code), reason (reason)
+{
+	if (reason && (reason . size () > (125 - sizeof (this -> status_code))))
+	{
+		this -> status_code = 1008;
+		this -> reason = nullptr;
+	}
+}
