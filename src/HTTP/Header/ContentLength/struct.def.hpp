@@ -4,5 +4,7 @@ struct T
 
 	operator size_t () const;
 
+	~T () = default;
+
 	size_t content_length;
 };
