@@ -70,7 +70,7 @@ T::printHelp
 			std::string line :
 			IO::Util::justify
 			(
-				option_spec.description,
+				option_spec . description,
 				columns - tabwidth * (indentation + 1)
 			)
 		)

@@ -11,7 +11,7 @@ processOption (const OptionSpec::T & option, char * argument)
 		{
 			throw Failure::Error::T
 			(
-				"Argument required: " + option.name () + "\n"
+				"Argument required: " + option . name () + "\n"
 			);
 		}
 		else option . flagAction ();
