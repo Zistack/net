@@ -3,7 +3,7 @@ T::T (InputStream && input_stream)
 {
 	try
 	{
-		this -> identifier =
+		this -> m_identifier =
 			Rule::getToken (std::forward <InputStream> (input_stream));
 
 		Util::skipWhitespace (std::forward <InputStream> (input_stream));
@@ -45,9 +45,9 @@ T::T (InputStream && input_stream)
 					);
 				}
 
-				this -> options . insert ({name, value});
+				this -> m_options . insert ({name, value});
 			}
-			else this -> options . insert ({name, nullptr});
+			else this -> m_options . insert ({name, nullptr});
 
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 		}

@@ -36,6 +36,21 @@ struct T
 	void
 	check () const;
 
+	const std::string &
+	method () const;
+
+	const URI::T &
+	uri () const;
+
+	const std::string &
+	version () const;
+
+	const HeaderMap::T &
+	headers () const;
+
+	const std::optional <Entity::T> &
+	entity () const;
+
 	~T () = default;
 
 private:
@@ -48,12 +63,13 @@ private:
 	void
 	putRequestLine (OutputStream && output_stream) const;
 
-	std::string method;
-	URI::T uri;
-	std::string version;
+	std::exception_ptr m_e_ptr;
 
-	HeaderMap::T headers;
+	std::string m_method;
+	URI::T m_uri;
+	std::string m_version;
 
-	std::optional <Entity::T> entity;
-	std::exception_ptr e_ptr;
+	HeaderMap::T m_headers;
+
+	std::optional <Entity::T> m_entity;
 };

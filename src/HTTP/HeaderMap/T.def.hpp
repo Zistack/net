@@ -32,11 +32,12 @@ T::T (InputStream && input_stream)
 
 		IO::Util::expect (std::forward <InputStream> (input_stream), "\r\n");
 
-		this -> map . insert ({field_name, field_value});
+		this -> m_map . emplace (field_name, field_value);
 	}
 }
 
 template <class Iterable, typename>
-T::T (const Iterable & iterable) : map (iterable . begin (), iterable . end ())
+T::T (const Iterable & iterable)
+:	m_map (iterable . begin (), iterable . end ())
 {
 }

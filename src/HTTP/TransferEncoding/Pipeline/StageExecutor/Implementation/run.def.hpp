@@ -2,5 +2,5 @@ template <typename InputStream, typename Stage, typename OutputStream>
 void
 T <InputStream, Stage, OutputStream>::run ()
 {
-	this -> stage . recode (this -> input_stream, this -> output_stream);
+	this -> m_stage . recode (this -> m_input_stream, this -> m_output_stream);
 }

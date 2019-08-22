@@ -1,5 +1,5 @@
 void
 T::check () const
 {
-	if (this -> e_ptr) std::rethrow_exception (this -> e_ptr);
+	if (this -> m_e_ptr) std::rethrow_exception (this -> m_e_ptr);
 }

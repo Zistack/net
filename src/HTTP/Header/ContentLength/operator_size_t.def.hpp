@@ -1,4 +1,4 @@
 T::operator size_t () const
 {
-	return this -> content_length;
+	return this -> m_content_length;
 }

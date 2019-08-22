@@ -8,6 +8,6 @@ T::withReader (Visitor && visitor)
 		{
 			return visitor (IO::Util::ensureBlocking (data . reader ()));
 		},
-		this -> data
+		this -> m_data
 	);
 }

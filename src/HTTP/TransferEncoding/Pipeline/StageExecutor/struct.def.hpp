@@ -28,7 +28,7 @@ struct T <InputStream, Stage, OutputStream, true>
 
 private:
 
-	IO::Pipe::T pipe;
+	IO::Pipe::T m_pipe;
 };
 
 template <typename InputStream, typename Stage, typename OutputStream>

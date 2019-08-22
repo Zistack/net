@@ -1,3 +1,3 @@
-T::T (size_t chunk_size) : chunk_size (chunk_size)
+T::T (size_t chunk_size) : m_chunk_size (chunk_size)
 {
 }

@@ -12,5 +12,5 @@ struct T
 
 private:
 
-	std::variant <Recoders ...> recoder;
+	std::variant <Recoders ...> m_recoder;
 };

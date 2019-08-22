@@ -11,6 +11,6 @@ T::withWriterAt (Visitor && visitor, uint64_t position)
 				IO::Util::ensureBlocking (data . writerAt (position))
 			);
 		},
-		this -> data
+		this -> m_data
 	);
 }

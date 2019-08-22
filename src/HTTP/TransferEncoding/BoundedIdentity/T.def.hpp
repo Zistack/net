@@ -1,3 +1,3 @@
-T::T (size_t count) : count (count)
+T::T (size_t count) : m_count (count)
 {
 }

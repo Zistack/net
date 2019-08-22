@@ -24,5 +24,5 @@ struct T
 
 protected:
 
-	std::list <Stage> stages;
+	std::list <Stage> m_stages;
 };

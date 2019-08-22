@@ -35,5 +35,5 @@ private:
 	static Data::T
 	newData (uint64_t entity_size, uint64_t temp_file_threshhold);
 
-	Data::T data;
+	Data::T m_data;
 };

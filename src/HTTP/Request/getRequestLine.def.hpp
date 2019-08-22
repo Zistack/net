@@ -2,7 +2,8 @@ template <typename InputStream>
 void
 T::getRequestLine (InputStream && input_stream)
 {
-	this -> method = Rule::getToken (std::forward <InputStream> (input_stream));
+	this -> m_method =
+		Rule::getToken (std::forward <InputStream> (input_stream));
 
 	IO::Util::expect (std::forward <InputStream> (input_stream), ' ');
 
@@ -12,11 +13,11 @@ T::getRequestLine (InputStream && input_stream)
 		' '
 	);
 
-	this -> uri = URI::T (uri_string);
+	this -> m_uri = URI::T (uri_string);
 
 	IO::Util::expect (std::forward <InputStream> (input_stream), ' ');
 
-	this -> version = Rule::getVersion
+	this -> m_version = Rule::getVersion
 	(
 		std::forward <InputStream> (input_stream)
 	);

@@ -8,6 +8,6 @@ T::withWriter (Visitor && visitor)
 		{
 			return visitor (IO::Util::ensureBlocking (data . writer ()));
 		},
-		this -> data
+		this -> m_data
 	);
 }

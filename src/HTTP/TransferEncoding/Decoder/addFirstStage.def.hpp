@@ -4,9 +4,12 @@ T::addFirstStage
 	const Header::TransferEncoding::Specification::T & specification
 )
 {
-	if (specification . identifier == "chunked")
+	if (specification . m_identifier == "chunked")
 	{
-		this -> stages . emplace_back (std::in_place_type <Chunked::Decode::T>);
+		this -> m_stages . emplace_back
+		(
+			std::in_place_type <Chunked::Decode::T>
+		);
 	}
 	else
 	{

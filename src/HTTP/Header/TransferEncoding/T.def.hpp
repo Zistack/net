@@ -9,6 +9,6 @@ T::T (const std::string & field_value)
 	};
 
 	IO::String::T transfer_encoding_streams (field_value);
-	this -> specifications = Rule::getList (input_stream, parseSpecification);
+	this -> m_specifications = Rule::getList (input_stream, parseSpecification);
 	IO::Util::expectEOF (input_stream);
 }

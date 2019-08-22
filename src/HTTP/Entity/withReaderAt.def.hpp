@@ -11,6 +11,6 @@ T::withReaderAt (Visitor && visitor, uint64_t position)
 				IO::Util::ensureBlocking (data . readerAt (position))
 			);
 		},
-		this -> data
+		this -> m_data
 	);
 }

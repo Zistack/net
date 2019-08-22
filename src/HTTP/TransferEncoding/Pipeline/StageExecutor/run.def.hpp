@@ -4,5 +4,5 @@ T <InputStream, Stage, OutputStream, true>::run ()
 {
 	this -> Implementation::T <InputStream, Stage, OutputStream>::run ();
 
-	this -> pipe . shutdown ();
+	this -> m_pipe . shutdown ();
 }

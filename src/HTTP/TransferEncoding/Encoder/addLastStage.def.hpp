@@ -5,9 +5,9 @@ T::addLastStage
 	uint64_t chunk_size
 )
 {
-	if (specification . identifier == "chunked")
+	if (specification . m_identifier == "chunked")
 	{
-		this -> stages . emplace_back
+		this -> m_stages . emplace_back
 		(
 			std::in_place_type <Chunked::Encode::T>,
 			chunk_size

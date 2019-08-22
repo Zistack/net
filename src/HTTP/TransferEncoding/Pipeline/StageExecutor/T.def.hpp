@@ -12,6 +12,6 @@ T <InputStream, Stage, OutputStream, true>::T
 		stage,
 		std::forward <OutputStream> (output_stream)
 	),
-	pipe (std::move (pipe))
+	m_pipe (std::move (pipe))
 {
 }

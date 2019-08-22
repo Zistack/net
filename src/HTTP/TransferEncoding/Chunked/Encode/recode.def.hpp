@@ -2,7 +2,7 @@ template <typename InputStream, typename OutputStream>
 void
 T::recode (InputStream && input_stream, OutputStream && output_stream)
 {
-	char buffer [this -> chunk_size];
+	char buffer [this -> m_chunk_size];
 
 	size_t i;
 
@@ -10,7 +10,7 @@ T::recode (InputStream && input_stream, OutputStream && output_stream)
 	{
 		try
 		{
-			for (i = 0; i < this -> chunk_size; ++ i)
+			for (i = 0; i < this -> m_chunk_size; ++ i)
 			{
 				buffer [i] = input_stream . get ();
 			}

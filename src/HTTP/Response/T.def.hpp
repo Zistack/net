@@ -11,7 +11,7 @@ T::T
 
 		this -> getStatusLine (std::forward <InputStream> (input_stream));
 
-		this -> headers = HeaderMap::T
+		this -> m_headers = HeaderMap::T
 		(
 			std::forward <InputStream> (input_stream)
 		);
@@ -21,25 +21,25 @@ T::T
 
 	auto entity_kit = Input::headersToEntity <false>
 	(
-		this -> headers,
+		this -> m_headers,
 		temp_file_threshhold
 	);
 
-	if (this -> entity)
+	if (this -> m_entity)
 	{
 		TransferEncoding::Decoder::T decoder = entity_kit -> first;
-		this -> entity = std::move (entity_kit -> second);
+		this -> m_entity = std::move (entity_kit -> second);
 
 		decoder . decode
 		(
 			std::forward <InputStream> (input_stream),
-			* entity,
+			* this -> m_entity,
 			input_slot
 		);
 	}
 
-	this -> headers . remove ("Content-Length");
-	this -> headers . remove ("Transfer-Encoding");
+	this -> m_headers . remove ("Content-Length");
+	this -> m_headers . remove ("Transfer-Encoding");
 }
 
 T::T
@@ -50,10 +50,10 @@ T::T
 	const HeaderMap::T & headers,
 	std::optional <Entity::T> && entity
 )
-:	version (version),
-	status_code (status_code),
-	reason_phrase (reason_phrase),
-	headers (headers),
-	entity (std::move (entity))
+:	m_version (version),
+	m_status_code (status_code),
+	m_reason_phrase (reason_phrase),
+	m_headers (headers),
+	m_entity (std::move (entity))
 {
 }

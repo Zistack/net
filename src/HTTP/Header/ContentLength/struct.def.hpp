@@ -6,5 +6,5 @@ struct T
 
 	~T () = default;
 
-	size_t content_length;
+	size_t m_content_length;
 };

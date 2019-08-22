@@ -2,7 +2,7 @@ template <typename InputStream, typename OutputStream>
 void
 T::recode (InputStream && input_stream, OutputStream && output_stream)
 {
-	size_t count = this -> count;
+	size_t count = this -> m_count;
 
 	while (count > 0)
 	{

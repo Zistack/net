@@ -17,6 +17,6 @@ T <Recoders ...>::recode
 				std::forward <OutputStream> (output_stream)
 			);
 		},
-		this -> recoder
+		this -> m_recoder
 	);
 }

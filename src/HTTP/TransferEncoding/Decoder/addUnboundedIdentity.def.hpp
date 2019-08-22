@@ -1,5 +1,5 @@
 void
 T::addUnboundedIdentity ()
 {
-	this -> stages . emplace_back (std::in_place_type <UnboundedIdentity::T>);
+	this -> m_stages . emplace_back (std::in_place_type <UnboundedIdentity::T>);
 }

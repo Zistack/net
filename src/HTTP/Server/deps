@@ -1,8 +1,9 @@
 children :
 	CodeError.typedef,
+	Input.children,
+	Output.children,
 	Request.typedef,
-	Responder.typedef,
 	Response.typedef,
 	TransferEncoding.children,
-	Input.children,
-	Output.children
+	UpgradeFactory.typedef
+

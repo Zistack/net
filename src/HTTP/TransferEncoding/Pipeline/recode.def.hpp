@@ -13,12 +13,12 @@ T <Stage>::recode
 	CancellableSlot & recode_cancel_slot
 ) const
 {
-	if (this -> stages . size () == 1)
+	if (this -> m_stages . size () == 1)
 	{
 		StageExecutor::T stage
 		(
 			std::forward <InputStream> (input_stream),
-			this -> stages . front (),
+			this -> m_stages . front (),
 			std::forward <OutputStream> (output_stream)
 		);
 
@@ -35,7 +35,7 @@ T <Stage>::recode
 
 		// Iterators so that we can deal with the first and last stages in a 
 		// special way.
-		auto next_it = this -> stages . begin ();
+		auto next_it = this -> m_stages . begin ();
 		auto current_it = next_it;
 		++ next_it;
 
@@ -90,7 +90,7 @@ T <Stage>::recode
 			std::move (next_input_stream)
 		);
 
-		while (next_it != stages . end ())
+		while (next_it != this -> m_stages . end ())
 		{
 			IO::Pipe::T pipe_to_next;
 			next_input_stream = IO::Blocking::InputStream::T

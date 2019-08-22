@@ -10,5 +10,5 @@ struct T
 
 private:
 
-	size_t count;
+	size_t m_count;
 };

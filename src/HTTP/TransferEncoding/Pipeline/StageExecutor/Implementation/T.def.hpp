@@ -5,6 +5,8 @@ T <InputStream, Stage, OutputStream>::T
 	Stage & stage,
 	OutputStream output_stream
 )
-:	input_stream (input_stream), stage (stage), output_stream (output_stream)
+:	m_input_stream (input_stream),
+	m_stage (stage),
+	m_output_stream (output_stream)
 {
 }

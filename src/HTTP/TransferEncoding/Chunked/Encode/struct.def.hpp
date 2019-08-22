@@ -10,5 +10,5 @@ struct T
 
 private:
 
-	size_t chunk_size;
+	size_t m_chunk_size;
 };
