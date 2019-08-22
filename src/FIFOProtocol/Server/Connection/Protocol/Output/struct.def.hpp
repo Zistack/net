@@ -1,7 +1,7 @@
-template <typename Response, typename Interface>
+template <typename Protocol, typename Response, typename Details>
 struct T
 {
-	T (Interface & interface);
+	T () = default;
 
 	void
 	prime ();
@@ -18,19 +18,29 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const T &
+	output () const;
+
+	T &
+	output ();
+
 private:
 
-	// Given members
+	const Details &
+	details () const;
 
-	Interface & interface;
+	Details &
+	details ();
 
 	// Internal members
 
-	Thread::ConcurrentQueue::T <Thread::Delay::T <Response>> response_queue;
+	Thread::ConcurrentQueue::T <Thread::Delay::T <Response>> m_response_queue;
 
 	// Transient members
 
-	Scope::T <decltype (response_queue)> response_scope;
+	Scope::T <decltype (m_response_queue)> m_response_scope;
 };
 
 static_assert
@@ -42,8 +52,18 @@ static_assert
 		<
 			T
 			<
+				Interface::T
+				<
+					std::monostate,
+					std::monostate,
+					TypeTraits::ServerDetails::T
+					<
+						std::monostate,
+						std::monostate
+					>
+				>,
 				std::monostate,
-				TypeTraits::ServerInterface::T <std::monostate, std::monostate>
+				TypeTraits::ServerDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value

@@ -1,5 +1,7 @@
-template <typename Request, typename Response, typename Interface>
+template <typename Request, typename Response, typename Details>
 struct T
+:	Input::T <Interface::T <Request, Response, Details>, Response, Details>,
+	Output::T <Interface::T <Request, Response, Details>, Request, Details>
 {
 	template <typename ... Arguments>
 	T
@@ -26,20 +28,25 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
+
 private:
 
 	// Given members
 
-	std::chrono::milliseconds round_trip_timeout;
+	std::chrono::milliseconds m_round_trip_timeout;
 
 	// Internal members
 
-	Interface interface;
+	Details m_details;
 
-	std::mutex queue_mutex;
-
-	Input::T <Response, Interface> input;
-	Output::T <Request, Interface> output;
+	std::mutex m_queue_mutex;
 };
 
 static_assert
@@ -53,7 +60,7 @@ static_assert
 			<
 				std::monostate,
 				std::monostate,
-				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+				TypeTraits::ClientDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value

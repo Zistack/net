@@ -1,7 +1,7 @@
-template <typename Response, typename Interface>
+template <typename Protocol, typename Response, typename Details>
 struct T
 {
-	T (Interface & interface);
+	T () = default;
 
 	void
 	prime ();
@@ -18,27 +18,37 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const T &
+	input () const;
+
+	T &
+	input ();
+
 private:
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
 
 	template <typename InputStream>
 	void
 	event (InputStream && input_stream);
 
-	// Given members
-
-	Interface & interface;
-
 	// Internal members
 
-	Failure::ExceptionStore::T exception_store;
-	ShutdownSignal::T input_shutdown_signal;
+	Failure::ExceptionStore::T m_exception_store;
+	ShutdownSignal::T m_input_shutdown_signal;
 
-	Thread::ConcurrentQueue::T <Thread::Delay::T <Response>> response_queue;
+	Thread::ConcurrentQueue::T <Thread::Delay::T <Response>> m_response_queue;
 
 	// Transient members
 
-	SuppressingScope::T <ShutdownSignal::T> input_shutdown_scope;
-	Scope::T <decltype (response_queue)> response_scope;
+	SuppressingScope::T <ShutdownSignal::T> m_input_shutdown_scope;
+	Scope::T <decltype (m_response_queue)> m_response_scope;
 };
 
 static_assert
@@ -50,8 +60,18 @@ static_assert
 		<
 			T
 			<
+				Interface::T
+				<
+					std::monostate,
+					std::monostate,
+					TypeTraits::ClientDetails::T
+					<
+						std::monostate,
+						std::monostate
+					>
+				>,
 				std::monostate,
-				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+				TypeTraits::ClientDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value

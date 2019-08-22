@@ -1,13 +1,13 @@
-template <typename Response, typename Interface>
+template <typename Protocol, typename Response, typename Details>
 void
-T <Response, Interface>::push
+T <Protocol, Response, Details>::push
 (
 	const Thread::Delay::T <Response> & response_delay
 )
 {
 	try
 	{
-		this -> response_queue . push (response_delay);
+		this -> m_response_queue . push (response_delay);
 	}
 	catch (Failure::EndOfResource::T)
 	{

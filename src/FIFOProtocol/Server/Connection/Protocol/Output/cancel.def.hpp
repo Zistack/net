@@ -1,6 +1,6 @@
-template <typename Response, typename Interface>
+template <typename Protocol, typename Response, typename Details>
 void
-T <Response, Interface>::cancel ()
+T <Protocol, Response, Details>::cancel ()
 {
-	this -> response_queue . cancel ();
+	this -> m_response_queue . cancel ();
 }

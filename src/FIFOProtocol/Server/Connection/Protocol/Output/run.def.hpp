@@ -1,28 +1,56 @@
-template <typename Response, typename Interface>
+template <typename Protocol, typename Response, typename Details>
 template <typename OutputStream>
 void
-T <Response, Interface>::run (OutputStream && output_stream)
+T <Protocol, Response, Details>::run (OutputStream && output_stream)
 {
-	Scope::T response_scope (std::move (this -> response_scope));
+	Scope::T response_scope (std::move (this -> m_response_scope));
 
-	try
+	while (true)
 	{
-		while (true)
+		Thread::Delay::T <Response> response_delay;
+
+		try
 		{
-			this -> interface . writeResponse
+			response_delay = this -> m_response_queue . pop ();
+		}
+		catch (Failure::EndOfResource::T)
+		{
+			// This happens when the queue is closed.
+
+			return;
+		}
+
+		Response response;
+
+		try
+		{
+			response = std::move (response_delay . get ());
+		}
+		catch (Failure::CancelException::T)
+		{
+			// This happens when an error occurs while computing a response for a
+			// request.  That error will be reported elsewhere.
+
+			return;
+		}
+
+		try
+		{
+			this -> details () . writeResponse
 			(
-				this -> response_queue . pop () . get (),
+				response,
 				std::forward <OutputStream> (output_stream)
 			);
 		}
-	}
-	catch (Failure::EndOfResource::T)
-	{
-		// This happens when the queue is closed.
-	}
-	catch (Failure::CancelException::T)
-	{
-		// This happens when an error occurs while computing a response for a
-		// request.  That error will be reported elsewhere.
+		catch (Failure::EndOfResource::T)
+		{
+			// This happens when the protocol details want to shut down the
+			// protocol.
+
+			// I _might_ want to wrap this cast in an accessor method.
+			static_cast <Protocol &> (* this) . cancel ();
+
+			return;
+		}
 	}
 }

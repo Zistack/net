@@ -1,10 +1,10 @@
-template <typename Request, typename Interface>
+template <typename Protocol, typename Request, typename Details>
 void
-T <Request, Interface>::push (const Request & request)
+T <Protocol, Request, Details>::push (const Request & request)
 {
 	try
 	{
-		this -> request_queue . push (request);
+		this -> m_request_queue . push (request);
 	}
 	catch (Failure::EndOfResource::T)
 	{
@@ -12,13 +12,13 @@ T <Request, Interface>::push (const Request & request)
 	}
 }
 
-template <typename Request, typename Interface>
+template <typename Protocol, typename Request, typename Details>
 void
-T <Request, Interface>::push (Request && request)
+T <Protocol, Request, Details>::push (Request && request)
 {
 	try
 	{
-		this -> request_queue . push (std::move (request));
+		this -> m_request_queue . push (std::move (request));
 	}
 	catch (Failure::EndOfResource::T)
 	{

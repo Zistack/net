@@ -1,17 +1,17 @@
-template <typename Request, typename Interface>
+template <typename Protocol, typename Request, typename Details>
 template <typename OutputStream>
 void
-T <Request, Interface>::run (OutputStream && output_stream)
+T <Protocol, Request, Details>::run (OutputStream && output_stream)
 {
-	Scope::T request_scope (std::move (this->request_scope));
+	Scope::T request_scope (std::move (this -> m_request_scope));
 
 	try
 	{
 		while (true)
 		{
-			this -> interface . writeRequest
+			this -> details () . writeRequest
 			(
-				this -> request_queue . pop (),
+				this -> m_request_queue . pop (),
 				std::forward <OutputStream> (output_stream)
 			);
 		}

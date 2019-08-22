@@ -1,6 +1,6 @@
-template <typename Request, typename Interface>
+template <typename Protocol, typename Request, typename Details>
 void
-T <Request, Interface>::prime ()
+T <Protocol, Request, Details>::prime ()
 {
-	this -> request_scope = std::move (Scope::T (this -> request_queue));
+	this -> m_request_scope = std::move (Scope::T (this -> m_request_queue));
 }

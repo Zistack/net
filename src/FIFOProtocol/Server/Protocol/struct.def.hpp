@@ -2,21 +2,21 @@ template
 <
 	typename Request,
 	typename Response,
-	typename Interface,
+	typename Details,
 	typename ... Arguments
 >
 struct T
 {
 	T (Arguments ... arguments);
 
-	std::unique_ptr <Connection::Protocol::T <Request, Response, Interface>>
+	std::unique_ptr <Connection::Protocol::T <Request, Response, Details>>
 	make ();
 
 	~T () = default;
 
 private:
 
-	std::tuple <Arguments ...> arguments;
+	std::tuple <Arguments ...> m_arguments;
 };
 
 static_assert
@@ -30,7 +30,7 @@ static_assert
 			<
 				std::monostate,
 				std::monostate,
-				TypeTraits::ServerInterface::T <std::monostate, std::monostate>
+				TypeTraits::ServerDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value

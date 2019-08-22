@@ -1,7 +1,7 @@
-template <typename Request, typename Interface>
+template <typename Protocol, typename Request, typename Details>
 struct T
 {
-	T (Interface & interface);
+	T () = default;
 
 	void
 	prime ();
@@ -21,19 +21,23 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
+
 private:
-
-	// Given members
-
-	Interface & interface;
 
 	// Internal members
 
-	Thread::ConcurrentQueue::T <Request> request_queue;
+	Thread::ConcurrentQueue::T <Request> m_request_queue;
 
 	// Transient members
 
-	Scope::T <decltype (request_queue)> request_scope;
+	Scope::T <decltype (m_request_queue)> m_request_scope;
 };
 
 static_assert
@@ -45,8 +49,18 @@ static_assert
 		<
 			T
 			<
+				Interface::T
+				<
+					std::monostate,
+					std::monostate,
+					TypeTraits::ClientDetails::T
+					<
+						std::monostate,
+						std::monostate
+					>
+				>,
 				std::monostate,
-				TypeTraits::ClientInterface::T <std::monostate, std::monostate>
+				TypeTraits::ClientDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value

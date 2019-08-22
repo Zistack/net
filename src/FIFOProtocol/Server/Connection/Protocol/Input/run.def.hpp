@@ -1,21 +1,27 @@
-template <typename Request, typename Response, typename Interface>
+template
+<
+	typename Protocol,
+	typename Request,
+	typename Response,
+	typename Details
+>
 template <typename InputStream>
 void
-T <Request, Response, Interface>::run (InputStream && input_stream)
+T <Protocol, Request, Response, Details>::run (InputStream && input_stream)
 {
 	{
 		SuppressingScope::T input_shutdown_scope
 		(
-			std::move (this->input_shutdown_scope)
+			std::move (this -> m_input_shutdown_scope)
 		);
 
-		Thread::Nursery::T nursery (this->exception_store);
+		Thread::Nursery::T nursery (this -> m_exception_store);
 
 		IO::Util::eventLoop
 		(
-			this -> exception_store,
+			this -> m_exception_store,
 			std::forward <InputStream> (input_stream),
-			this -> input_shutdown_signal,
+			this -> m_input_shutdown_signal,
 			& T::event <InputStream>,
 			this,
 			std::forward <InputStream> (input_stream),
@@ -23,5 +29,5 @@ T <Request, Response, Interface>::run (InputStream && input_stream)
 		);
 	}
 
-	exception_store . pop ();
+	this -> m_exception_store . pop ();
 }
