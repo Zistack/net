@@ -9,6 +9,27 @@ struct T
 	T &
 	operator = (const T & other) = default;
 
+	int
+	compare (const T & other) const;
+
+	bool
+	operator == (const T & other) const;
+
+	bool
+	operator != (const T & other) const;
+
+	bool
+	operator < (const T & other) const;
+
+	bool
+	operator > (const T & other) const;
+
+	bool
+	operator <= (const T & other) const;
+
+	bool
+	operator >= (const T & other) const;
+
 	const char *
 	cString () const;
 
