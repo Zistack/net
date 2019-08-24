@@ -1,0 +1,60 @@
+# User-configurable options
+
+Crypto-CFLAGS ::=
+Crypto-LFLAGS ::=
+
+# Boilerplate that shouldn't be touched
+
+Crypto-path ::= $(net-src-dir)/Crypto
+
+Crypto-files-and-directories ::= \
+	$(patsubst \
+		./%,$\
+		$(net-src-dir)/%,$\
+		$(shell \
+			cd $(net-src-dir); \
+			find ./Crypto -type f -regex '\.\(/[^./][^/]*\)*\.hpp' -or \
+				-type d -regex '\.\(/[^./][^/]*\)*' -or \
+				-type f -name 'deps' \
+		)$\
+	)
+
+Crypto-header-files ::= \
+	$(filter %.hpp, $(Crypto-files-and-directories))
+Crypto-deps-files ::= \
+	$(filter %/deps, $(Crypto-files-and-directories))
+Crypto-directories ::= \
+	$(filter-out %.hpp %/deps, $(Crypto-files-and-directories))
+
+Crypto-dependency-candidates ::= \
+	$(shell sed -ne 's~\#include *<\(.*\)\.hpp>.*~\1~p' $(Crypto-path)/include.hpp)
+
+Crypto-dependencies ::= $(filter \
+	$(net-export-targets),$\
+	$(Crypto-dependency-candidates)$\
+)
+
+Crypto-inc-dirs ::= $(net-inc-dir) $(net-reference-inc-dirs)
+Crypto-inc-dir-flags ::= $(Crypto-inc-dirs:%=-I %)
+Crypto-include-flags ::= -I $(net-src-dir) $(Crypto-inc-dir-flags)
+
+Crypto-top-file ::= $(Crypto-path)/.build/Crypto.hpp
+Crypto-build-file ::= $(Crypto-path)/.build/Crypto.hpp.gch
+
+Crypto-include-file ::= $(net-inc-dir)/Crypto.hpp
+Crypto-include-path ::= $(net-inc-dir)/Crypto
+Crypto-include-files ::= \
+	$(Crypto-header-files:$(net-src-dir)/%=$(net-inc-dir)/%)
+Crypto-include-directories ::= \
+	$(Crypto-directories:$(net-src-dir)/%=$(net-inc-dir)/%)
+
+Crypto-target ::= $(Crypto-include-files) $(Crypto-include-file)
+
+Crypto-install-file ::= $(net-header-install-dir)/Crypto.hpp
+Crypto-install-path ::= $(net-header-install-dir)/Crypto
+Crypto-install-files ::= \
+	$(Crypto-header-files:$(Crypto-path)/%=$(Crypto-install-path)/%)
+Crypto-install-directories ::= \
+	$(Crypto-directories:$(Crypto-path)/%=$(Crypto-install-path)/%)
+
+Crypto-install-target ::= $(Crypto-install-files) $(Crypto-install-file)

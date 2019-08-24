@@ -1,0 +1,52 @@
+Crypto-dependency-targets ::= $(foreach \
+	Crypto-dependency,$\
+	$(Crypto-dependencies),$\
+	$($(Crypto-dependency)-target)$\
+)
+
+Crypto-dependency-install-targets ::= $(foreach \
+	Crypto-dependency,$\
+	$(Crypto-dependencies),$\
+	$($(Crypto-dependency)-install-target)$\
+)
+
+.PHONY : Crypto
+Crypto : $(Crypto-target)
+
+.PHONY : Crypto-clean
+Crypto-clean :
+	rm -rf $(Crypto-include-file)
+	rm -rf $(Crypto-include-files)
+	rm -rf $(Crypto-include-directories)
+	rm -rf $(Crypto-build-file)
+	rm -rf $(Crypto-top-file)
+
+.PHONY : Crypto-install
+Crypto-install : $(Crypto-install-target)
+
+.PHONY : Crypto-uninstall
+Crypto-uninstall :
+	rm -rf $(Crypto-install-file)
+	rm -rf $(Crypto-install-files)
+	rm -rf $(Crypto-install-directories)
+
+.DELETE_ON_ERROR : $(Crypto-top-file)
+$(Crypto-top-file) : $(Crypto-deps-files) $(Crypto-directories)
+	cliide header-include-file $(Crypto-path) > $(@)
+
+$(Crypto-build-file) : $(Crypto-top-file) $(Crypto-header-files) $(Crypto-dependency-targets)
+	$(net-CPP) $(Crypto-include-flags) $(net-CFLAGS) $(Crypto-CFLAGS) -c -o $(@) $(<)
+
+$(Crypto-include-path)/%.hpp : $(Crypto-path)/%.hpp $(Crypto-build-file)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Crypto-include-file) : $(Crypto-top-file) $(Crypto-build-file)
+	cp $(<) $(@)
+
+$(Crypto-install-path)/%.hpp : $(Crypto-include-path)/%.hpp $(Crypto-dependency-install-targets)
+	mkdir -p $(dir $(@))
+	cp $(<) $(@)
+
+$(Crypto-install-file) : $(Crypto-include-file)
+	cp $(<) $(@)
