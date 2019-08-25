@@ -1,5 +1,6 @@
 #include <kcapi.h>
 
+#include <assert.h>
 #include <string.h>
 #include <sys/random.h>
 
