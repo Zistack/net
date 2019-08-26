@@ -1,5 +1,5 @@
 template <typename Protocol, typename Response, typename Details>
-struct T
+struct T : private Shared::T <Protocol, Details>
 {
 	T () = default;
 
@@ -27,12 +27,6 @@ protected:
 	input ();
 
 private:
-
-	const Details &
-	details () const;
-
-	Details &
-	details ();
 
 	template <typename InputStream>
 	void

@@ -5,7 +5,6 @@ struct T : Implementation::T <Request, Response, Details>
 
 private:
 
-	using Input::T <T, Request, Response, Details>::input;
 	using Output::T <T, Response, Details>::output;
 
 	friend Input::T <T, Request, Response, Details>;

@@ -1,13 +1,18 @@
 template <typename Request, typename Response, typename Details>
 struct T
-:	Input::T
+:	private Input::T
 	<
 		Interface::T <Request, Response, Details>,
 		Request,
 		Response,
 		Details
 	>,
-	Output::T <Interface::T <Request, Response, Details>, Response, Details>
+	private Output::T
+	<
+		Interface::T <Request, Response, Details>,
+		Response,
+		Details
+	>
 {
 	template <typename... Arguments>
 	T (Arguments && ... arguments);
@@ -26,13 +31,11 @@ struct T
 
 protected:
 
-	const Details &
-	details () const;
+	// Inherited members shared with submodules
 
-	Details &
-	details ();
-
-private:
+	using Output::
+		T <Interface::T <Request, Response, Details>, Response, Details>::
+		output;
 
 	// Internal members
 

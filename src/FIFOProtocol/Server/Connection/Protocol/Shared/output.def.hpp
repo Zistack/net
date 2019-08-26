@@ -1,12 +1,11 @@
 template
 <
 	typename Protocol,
-	typename Request,
 	typename Response,
 	typename Details
 >
 const Output::T <Protocol, Response, Details> &
-T <Protocol, Request, Response, Details>::output () const
+T <Protocol, Response, Details>::output () const
 {
 	return static_cast <Protocol &> (* this) . output ();
 }
@@ -14,12 +13,11 @@ T <Protocol, Request, Response, Details>::output () const
 template
 <
 	typename Protocol,
-	typename Request,
 	typename Response,
 	typename Details
 >
 Output::T <Protocol, Response, Details> &
-T <Protocol, Request, Response, Details>::output ()
+T <Protocol, Response, Details>::output ()
 {
 	return static_cast <Protocol &> (* this) . output ();
 }

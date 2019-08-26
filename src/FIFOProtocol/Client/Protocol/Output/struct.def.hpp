@@ -1,5 +1,5 @@
 template <typename Protocol, typename Request, typename Details>
-struct T
+struct T : private Shared::T <Protocol, Details>
 {
 	T () = default;
 
@@ -20,14 +20,6 @@ struct T
 	push (Request && request);
 
 	~T () = default;
-
-protected:
-
-	const Details &
-	details () const;
-
-	Details &
-	details ();
 
 private:
 

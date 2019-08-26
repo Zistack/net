@@ -1,7 +1,17 @@
 template <typename Request, typename Response, typename Details>
 struct T
-:	Input::T <Interface::T <Request, Response, Details>, Response, Details>,
-	Output::T <Interface::T <Request, Response, Details>, Request, Details>
+:	private Input::T
+	<
+		Interface::T <Request, Response, Details>,
+		Response,
+		Details
+	>,
+	private Output::T
+	<
+		Interface::T <Request, Response, Details>,
+		Request,
+		Details
+	>
 {
 	template <typename ... Arguments>
 	T
@@ -30,11 +40,9 @@ struct T
 
 protected:
 
-	const Details &
-	details () const;
+	// Internal members
 
-	Details &
-	details ();
+	Details m_details;
 
 private:
 
@@ -43,8 +51,6 @@ private:
 	std::chrono::milliseconds m_round_trip_timeout;
 
 	// Internal members
-
-	Details m_details;
 
 	std::mutex m_queue_mutex;
 };
