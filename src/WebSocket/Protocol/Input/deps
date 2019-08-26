@@ -1,1 +1,1 @@
-typedef : Output.typedef
+typedef : Output.typedef, Interface.typedec

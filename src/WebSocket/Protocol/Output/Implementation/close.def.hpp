@@ -1,7 +1,9 @@
+template <typename Protocol>
 template <typename OutputStream>
 void
-T::close (OutputStream && output_stream)
+T <Protocol>::close (OutputStream && output_stream)
 {
+	// rng needed
 	FrameHeader::T close_header
 	(
 		true,
@@ -24,7 +26,7 @@ T::close (OutputStream && output_stream)
 		{
 			Thread::Timer::T output_timer
 			(
-				this -> output_timeout,
+				this -> m_output_timeout,
 				& OutputStream::cancel,
 				& output_stream
 			);
@@ -38,7 +40,7 @@ T::close (OutputStream && output_stream)
 					std::forward <OutputStream> (output_stream)
 				);
 
-				this -> close_message . writeTo (masking_output_stream);
+				this -> m_close_message . writeTo (masking_output_stream);
 			}
 			else
 			{
@@ -47,7 +49,7 @@ T::close (OutputStream && output_stream)
 					std::forward <OutputStream> (output_stream)
 				);
 
-				this -> close_message . writeTo (masking_output_stream);
+				this -> m_close_message . writeTo (masking_output_stream);
 			}
 		}
 		if constexpr (IO::TypeTraits::IsClearable::T <OutputStream>::value)

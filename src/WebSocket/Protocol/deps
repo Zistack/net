@@ -1,4 +1,5 @@
 children :
+	Config.typedef,
 	CloseMessage.typedef,
 	FrameHeader.typedef,
 	InputEntitySlot.typedef,
@@ -8,5 +9,3 @@ children :
 	Type.definitions,
 	TypeTraits.children,
 	Util.definitions
-
-typedef : Config.typedef

@@ -1,15 +1,19 @@
+template <typename Output>
 template <typename OutputStream>
 void
-T::writeMessage (Message::T & message, OutputStream && output_stream)
+T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 {
 	uint64_t remaining_bytes = (uint64_t) message . size ();
 	uint64_t position = 0;
 
 	uint64_t next_chunk_size =
-		remaining_bytes < this -> chunk_size ? remaining_bytes : chunk_size;
+		remaining_bytes < this -> m_chunk_size ?
+		remaining_bytes :
+		this -> m_chunk_size;
 
 	remaining_bytes -= next_chunk_size;
 
+	// rng needed
 	FrameHeader::T message_header
 	(
 		! remaining_bytes,
@@ -34,10 +38,13 @@ T::writeMessage (Message::T & message, OutputStream && output_stream)
 	while (remaining_bytes)
 	{
 		uint64_t next_chunk_size =
-			remaining_bytes < this -> chunk_size ? remaining_bytes : chunk_size;
+			remaining_bytes < this -> m_chunk_size ?
+			remaining_bytes :
+			this -> m_chunk_size;
 
 		remaining_bytes -= next_chunk_size;
 
+		// rng needed
 		FrameHeader::T continuation_header
 		(
 			! remaining_bytes,

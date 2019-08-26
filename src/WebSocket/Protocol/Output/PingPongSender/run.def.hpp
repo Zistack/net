@@ -1,15 +1,17 @@
+template <typename Output>
 template <typename OutputStream>
 void
-T::run (OutputStream && output_stream)
+T <Output>::run (OutputStream && output_stream)
 {
-	Scope::T output_scope (std::move (this -> output_scope));
+	Scope::T output_scope (std::move (this -> m_output_scope));
 
 	try
 	{
 		while (true)
 		{
-			auto [type, payload] = this -> output_queue . pop ();
+			auto [type, payload] = this -> m_output_queue . pop ();
 
+			// rng needed
 			FrameHeader::T frame_header
 			(
 				true,

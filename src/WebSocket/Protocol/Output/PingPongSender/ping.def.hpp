@@ -1,9 +1,10 @@
+template <typename Output>
 void
-T::ping (const std::vector <uint8_t> & payload)
+T <Output>::ping (const std::vector <uint8_t> & payload)
 {
 	try
 	{
-		this -> output_queue . push ({Type::PING, payload});
+		this -> m_output_queue . push ({Type::PING, payload});
 	}
 	catch (Failure::EndOfResource::T)
 	{

@@ -1,5 +1,6 @@
+template <typename Output>
 void
-T::cancel ()
+T <Output>::cancel ()
 {
-	this -> output_queue . cancel ();
+	this -> m_output_queue . cancel ();
 }

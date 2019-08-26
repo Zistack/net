@@ -1,6 +1,7 @@
+template <typename Output>
 template <typename OutputStream>
 void
-T::writeFrame
+T <Output>::writeFrame
 (
 	const FrameHeader::T & frame_header,
 	Message::T & message,
@@ -17,14 +18,14 @@ T::writeFrame
 	OutputEntitySlot::T entity_slot;
 	Failure::CancellableAggregate::T cancel_handle (entity_slot, output_stream);
 
-	std::unique_lock output_lock (this -> output_mutex);
+	std::unique_lock output_lock (this -> outputMutex ());
 
 	try
 	{
 		{
 			Thread::Timer::T output_timeout
 			(
-				this -> output_timeout,
+				this -> outputTimeout (),
 				& decltype (cancel_handle)::cancel,
 				& cancel_handle
 			);

@@ -1,10 +1,7 @@
-struct T
+template <typename Output>
+struct T : private Shared::T <Output>
 {
-	T
-	(
-		std::chrono::milliseconds output_timeout,
-		Thread::SleepMutex::T & output_mutex
-	);
+	T () = default;
 
 	void
 	prime ();
@@ -24,6 +21,14 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const T &
+	pingPongSender () const;
+
+	T &
+	pingPongSender ();
+
 private:
 
 	template <typename OutputStream>
@@ -35,20 +40,30 @@ private:
 		OutputStream && output_stream
 	);
 
-	// Given members
-
-	std::chrono::milliseconds output_timeout;
-
-	Thread::SleepMutex::T & output_mutex;
-
 	// Internal members
 
 	Thread::ConcurrentQueue::T <std::pair <Type::T, std::vector <uint8_t>>>
-	output_queue;
+		m_output_queue;
 
 	// Transient members
 
-	Scope::T <decltype (output_queue)> output_scope;
+	Scope::T <decltype (m_output_queue)> m_output_scope;
 };
 
-static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				Interface::T
+				<
+					Protocol::Interface::T <TypeTraits::Dispatcher::T>
+				>
+			>
+		>::
+		value
+);

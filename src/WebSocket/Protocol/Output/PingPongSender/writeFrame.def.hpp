@@ -1,6 +1,7 @@
+template <typename Output>
 template <typename OutputStream>
 void
-T::writeFrame
+T <Output>::writeFrame
 (
 	const FrameHeader::T & frame_header,
 	const std::vector <uint8_t> & payload,
@@ -13,14 +14,14 @@ T::writeFrame
 		frame_header . masking_key
 	);
 
-	std::unique_lock output_lock (this -> output_mutex);
+	std::unique_lock output_lock (this -> outputMutex ());
 
 	try
 	{
 		{
 			Thread::Timer::T
 			(
-				this -> output_timeout,
+				this -> outputTimeout (),
 				& OutputStream::cancel,
 				& output_stream
 			);

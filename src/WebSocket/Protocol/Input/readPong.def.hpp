@@ -1,7 +1,7 @@
-template <typename Dispatcher>
+template <typename Protocol, typename Dispatcher>
 template <typename InputStream>
 void
-T <Dispatcher>::readPong
+T <Protocol, Dispatcher>::readPong
 (
 	const FrameHeader::T & frame_header,
 	InputStream && input_stream
@@ -21,5 +21,5 @@ T <Dispatcher>::readPong
 		payload . push_back ((uint8_t) masking_input_stream . get ());
 	}
 
-	this -> dispatcher . pong (payload);
+	this -> m_dispatcher . pong (payload);
 }

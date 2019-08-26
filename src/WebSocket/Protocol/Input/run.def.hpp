@@ -1,18 +1,18 @@
-template <typename Dispatcher>
+template <typename Protocol, typename Dispatcher>
 template <typename InputStream>
 void
-T <Dispatcher>::run (InputStream && input_stream)
+T <Protocol, Dispatcher>::run (InputStream && input_stream)
 {
 	SuppressingScope::T input_shutdown_scope
 	(
-		std::move (this -> input_shutdown_scope)
+		std::move (this -> m_input_shutdown_scope)
 	);
 
 	try
 	{
 		this -> processFrames (std::forward <InputStream> (input_stream));
 
-		if (! this -> close_message)
+		if (! this -> m_close_message)
 		{
 			this -> waitForCloseFrame
 			(
@@ -22,8 +22,8 @@ T <Dispatcher>::run (InputStream && input_stream)
 	}
 	catch (...)
 	{
-		this -> exception_store . store (std::current_exception ());
+		this -> m_exception_store . store (std::current_exception ());
 	}
 
-	this -> exception_store . pop ();
+	this -> m_exception_store . pop ();
 }

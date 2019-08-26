@@ -1,5 +1,6 @@
+template <typename Output>
 void
-T::prime ()
+T <Output>::prime ()
 {
-	this -> output_scope = Scope::T (this -> output_queue);
+	this -> m_output_scope = Scope::T (this -> m_output_queue);
 }

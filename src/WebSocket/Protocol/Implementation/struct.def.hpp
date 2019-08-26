@@ -1,5 +1,7 @@
 template <typename Dispatcher>
 struct T
+:	private Input::T <Interface::T <Dispatcher>, Dispatcher>,
+	private Output::T <Interface::T <Dispatcher>>
 {
 	template <typename ... Arguments>
 	T (const Config::T & config, Arguments && ... arguments);
@@ -14,21 +16,17 @@ struct T
 	void
 	cancel ();
 
-	void
-	send (Message::T && message);
-
-	void
-	ping (const std::vector <uint8_t> & payload);
-
-	void
-	pong (const std::vector <uint8_t> & payload);
+	using Output::T <Interface::T <Dispatcher>>::send;
+	using Output::T <Interface::T <Dispatcher>>::ping;
+	using Output::T <Interface::T <Dispatcher>>::pong;
 
 	~T () = default;
 
-private:
+protected:
 
-	Input::T <Dispatcher> input;
-	Output::T output;
+	// Inherited members shared with submodules
+
+	using Output::T <Interface::T <Dispatcher>>::output;
 };
 
 static_assert

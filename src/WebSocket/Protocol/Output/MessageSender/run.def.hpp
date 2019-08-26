@@ -1,14 +1,15 @@
+template <typename Output>
 template <typename OutputStream>
 void
-T::run (OutputStream && output_stream)
+T <Output>::run (OutputStream && output_stream)
 {
-	Scope::T output_scope (std::move (this -> output_scope));
+	Scope::T output_scope (std::move (this -> m_output_scope));
 
 	try
 	{
 		while (true)
 		{
-			Message::T message (std::move (this -> output_queue . pop ()));
+			Message::T message (std::move (this -> m_output_queue . pop ()));
 
 			this -> writeMessage
 			(

@@ -1,11 +1,7 @@
-struct T
+template <typename Output>
+struct T : private Shared::T <Output>
 {
-	T
-	(
-		std::chrono::milliseconds output_timeout,
-		uint64_t chunk_size,
-		Thread::SleepMutex::T & output_mutex
-	);
+	T (uint64_t chunk_size);
 
 	void
 	prime ();
@@ -21,6 +17,14 @@ struct T
 	send (Message::T && message);
 
 	~T () = default;
+
+protected:
+
+	const T &
+	messageSender () const;
+
+	T &
+	messageSender ();
 
 private:
 
@@ -40,19 +44,31 @@ private:
 
 	// Given members
 
-	std::chrono::milliseconds output_timeout;
-
-	uint64_t chunk_size;
-
-	Thread::SleepMutex::T & output_mutex;
+	uint64_t m_chunk_size;
 
 	// Internal members
 
-	Thread::ConcurrentQueue::T <Message::T> output_queue;
+	Thread::ConcurrentQueue::T <Message::T> m_output_queue;
 
 	// Transient members
 
-	Scope::T <decltype (output_queue)> output_scope;
+	Scope::T <decltype (m_output_queue)> m_output_scope;
 };
 
-static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				Interface::T
+				<
+					Protocol::Interface::T <TypeTraits::Dispatcher::T>
+				>
+			>
+		>::
+		value
+);

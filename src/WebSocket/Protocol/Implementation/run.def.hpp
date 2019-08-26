@@ -10,17 +10,21 @@ T <Dispatcher>::run (InputStream && input_stream, OutputStream && output_stream)
 
 		nursery . add
 		(
-			this -> input,
-			& Input::T <Dispatcher>::template run <InputStream>,
-			& this -> input,
+			this -> input (),
+			& Input::
+				T <Interface::T <Dispatcher>, Dispatcher>::
+				template run <InputStream>,
+			& this -> input (),
 			std::forward <InputStream> (input_stream)
 		);
 
 		nursery . run
 		(
-			this -> output,
-			& Output::T::run <OutputStream>,
-			& this -> output,
+			this -> output (),
+			& Output::
+				T <Interface::T <Dispatcher>>::
+				template run <OutputStream>,
+			& this -> output (),
 			std::forward <OutputStream> (output_stream)
 		);
 	}

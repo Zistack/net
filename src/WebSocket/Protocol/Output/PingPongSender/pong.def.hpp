@@ -1,9 +1,10 @@
+template <typename Output>
 void
-T::pong (const std::vector <uint8_t> & payload)
+T <Output>::pong (const std::vector <uint8_t> & payload)
 {
 	try
 	{
-		this -> output_queue . push ({Type::PONG, payload});
+		this -> m_output_queue . push ({Type::PONG, payload});
 	}
 	catch (Failure::EndOfResource::T)
 	{

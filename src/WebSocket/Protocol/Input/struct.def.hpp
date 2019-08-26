@@ -1,4 +1,4 @@
-template <typename Dispatcher>
+template <typename Protocol, typename Dispatcher>
 struct T
 {
 	template <typename ... Arguments>
@@ -7,7 +7,6 @@ struct T
 		std::chrono::milliseconds input_timeout,
 		std::chrono::milliseconds close_timeout,
 		uint64_t temp_file_threshhold,
-		Output::T & output,
 		Arguments && ... arguments
 	);
 
@@ -23,7 +22,21 @@ struct T
 
 	~T () = default;
 
+protected:
+
+	const T &
+	input () const;
+
+	T &
+	input ();
+
 private:
+
+	const Output::T <Protocol> &
+	output () const;
+
+	Output::T <Protocol> &
+	output ();
 
 	template <typename InputStream>
 	void
@@ -80,30 +93,39 @@ private:
 
 	// Given members
 
-	std::chrono::milliseconds input_timeout;
-	std::chrono::milliseconds close_timeout;
+	std::chrono::milliseconds m_input_timeout;
+	std::chrono::milliseconds m_close_timeout;
 
-	uint64_t temp_file_threshhold;
+	uint64_t m_temp_file_threshhold;
 
-	Output::T & output;
-
-	Dispatcher dispatcher;
+	Dispatcher m_dispatcher;
 
 	// Internal members
 
-	Failure::ExceptionStore::T exception_store;
+	Failure::ExceptionStore::T m_exception_store;
 
-	ShutdownSignal::T input_shutdown_signal;
+	ShutdownSignal::T m_input_shutdown_signal;
 
-	std::optional <Message::T> message;
-	std::optional <CloseMessage::T> close_message;
+	std::optional <Message::T> m_message;
+	std::optional <CloseMessage::T> m_close_message;
 
 	// Transient members
 
-	SuppressingScope::T <ShutdownSignal::T> input_shutdown_scope;
+	SuppressingScope::T <ShutdownSignal::T> m_input_shutdown_scope;
 };
 
 static_assert
 (
-	Failure::TypeTraits::IsCancellable::T <T <TypeTraits::Dispatcher::T>>::value
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T
+		<
+			T
+			<
+				Interface::T <TypeTraits::Dispatcher::T>,
+				TypeTraits::Dispatcher::T
+			>
+		>::
+		value
 );

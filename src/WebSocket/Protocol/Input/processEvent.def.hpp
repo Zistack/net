@@ -1,7 +1,7 @@
-template <typename Dispatcher>
+template <typename Protocol, typename Dispatcher>
 template <typename InputStream>
 void
-T <Dispatcher>::processEvent (InputStream && input_stream)
+T <Protocol, Dispatcher>::processEvent (InputStream && input_stream)
 {
 	InputEntitySlot::T entity_slot;
 	Failure::CancellableAggregate::T cancel_handle (input_stream, entity_slot);
@@ -11,7 +11,7 @@ T <Dispatcher>::processEvent (InputStream && input_stream)
 		{
 			Thread::Timer::T input_timer
 			(
-				this -> input_timeout,
+				this -> m_input_timeout,
 				& decltype (cancel_handle)::cancel,
 				& cancel_handle
 			);
@@ -23,14 +23,14 @@ T <Dispatcher>::processEvent (InputStream && input_stream)
 
 			try
 			{
-				frame_header . validate ((bool) this -> message);
+				frame_header . validate ((bool) this -> m_message);
 			}
 			catch (const Failure::SemanticError::T & e)
 			{
-				this -> exception_store . store (std::current_exception ());
+				this -> m_exception_store . store (std::current_exception ());
 
 				this -> cancel ();
-				output . cancel (CloseMessage::T (1002, e . what ()));
+				this -> output () . cancel (CloseMessage::T (1002, e . what ()));
 
 				Util::discard
 				(

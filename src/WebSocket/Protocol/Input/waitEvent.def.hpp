@@ -1,14 +1,14 @@
-template <typename Dispatcher>
+template <typename Protocol, typename Dispatcher>
 template <typename InputStream>
 void
-T <Dispatcher>::waitEvent (InputStream && input_stream)
+T <Protocol, Dispatcher>::waitEvent (InputStream && input_stream)
 {
 	try
 	{
 		{
 			Thread::Timer::T input_timer
 			(
-				this -> input_timeout,
+				this -> m_input_timeout,
 				& InputStream::cancel,
 				& input_stream
 			);
@@ -17,11 +17,11 @@ T <Dispatcher>::waitEvent (InputStream && input_stream)
 
 			try
 			{
-				frame_header . validate ((bool) this -> message);
+				frame_header . validate ((bool) this -> m_message);
 			}
 			catch (Failure::SemanticError::T)
 			{
-				this -> exception_store . store (std::current_exception ());
+				this -> m_exception_store . store (std::current_exception ());
 
 				Util::discard
 				(
