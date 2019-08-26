@@ -5,5 +5,11 @@ struct T
 	outputTimeout () const;
 
 	std::mutex &
+	rngMutex ();
+
+	Crypto::RNG::T &
+	rng ();
+
+	std::mutex &
 	outputMutex ();
 };

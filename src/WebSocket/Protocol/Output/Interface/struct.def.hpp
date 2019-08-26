@@ -6,6 +6,8 @@ struct T : Implementation::T <Protocol>
 private:
 
 	using Implementation::T <Protocol>::m_output_timeout;
+	using Implementation::T <Protocol>::m_rng_mutex;
+	using Implementation::T <Protocol>::m_rng;
 	using Implementation::T <Protocol>::m_output_mutex;
 
 	friend MessageSender::T <T>;

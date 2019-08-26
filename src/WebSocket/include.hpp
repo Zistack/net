@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <vector>
 
+#include <Crypto.hpp>
 #include <Failure.hpp>
 #include <GetConfig.hpp>
 #include <HTTP.hpp>

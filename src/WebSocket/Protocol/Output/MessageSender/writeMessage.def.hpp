@@ -13,7 +13,11 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 
 	remaining_bytes -= next_chunk_size;
 
-	// rng needed
+	std::array <uint8_t, 4> masking_key;
+	{
+		std::unique_lock rng_lock (this -> rngMutex ());
+		this -> rng () . generate (masking_key . data (), 4);
+	}
 	FrameHeader::T message_header
 	(
 		! remaining_bytes,
@@ -22,7 +26,7 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 		false,
 		message . type (),
 		next_chunk_size,
-		{0}
+		masking_key
 	);
 
 	this -> writeFrame
@@ -44,7 +48,10 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 
 		remaining_bytes -= next_chunk_size;
 
-		// rng needed
+		{
+			std::unique_lock rng_lock (this -> rngMutex ());
+			this -> rng () . generate (masking_key . data (), 4);
+		}
 		FrameHeader::T continuation_header
 		(
 			! remaining_bytes,
@@ -53,7 +60,7 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 			false,
 			Type::CONTINUATION,
 			next_chunk_size,
-			{0}
+			masking_key
 		);
 
 		this -> writeFrame

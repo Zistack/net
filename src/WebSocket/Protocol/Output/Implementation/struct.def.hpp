@@ -39,7 +39,10 @@ protected:
 
 	// Internal members shared with submodules
 
-	Thread::SleepMutex::T m_output_mutex;
+	std::mutex m_rng_mutex;
+	Crypto::RNG::T m_rng;
+
+	std::mutex m_output_mutex;
 
 private:
 

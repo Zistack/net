@@ -3,7 +3,8 @@ template <typename OutputStream>
 void
 T <Protocol>::close (OutputStream && output_stream)
 {
-	// rng needed
+	std::array <uint8_t, 4> masking_key;
+	this -> m_rng . generate (masking_key . data (), 4);
 	FrameHeader::T close_header
 	(
 		true,
@@ -12,13 +13,13 @@ T <Protocol>::close (OutputStream && output_stream)
 		false,
 		Type::CLOSE,
 		this -> close_message . length (),
-		{0}
+		masking_key
 	);
 
 	Masking::OutputStream::T masking_output_stream
 	(
 		std::forward <OutputStream> (output_stream),
-		close_header . masking_key
+		masking_key
 	);
 
 	try
