@@ -1,16 +1,14 @@
 Response::T
 T::toResponse (uint64_t temp_file_threshhold) const
 {
-	HeaderMap::T headers;
-
-	Entity::T error_details (this -> message . size (), temp_file_threshhold);
+	Entity::T error_details (this -> m_message . size (), temp_file_threshhold);
 	error_details . withWriter
 	(
 		[&] (auto && writer)
 		{
 			Scope::T writer_scope (writer);
 
-			writer . print (this -> message);
+			writer . print (this -> m_message);
 			writer . put ('\n');
 		}
 	);
@@ -20,7 +18,7 @@ T::toResponse (uint64_t temp_file_threshhold) const
 		"HTTP/1.1",
 		this -> errorCode (),
 		Util::reasonPhrase (this -> errorCode ()),
-		headers,
+		this -> m_headers,
 		std::move (error_details)
 	);
 }
