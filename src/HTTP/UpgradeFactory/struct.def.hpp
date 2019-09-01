@@ -3,11 +3,7 @@ struct T
 {
 	using ResponseAndProtocol = std::variant
 	<
-		std::pair
-		<
-			Response::T,
-			std::unique_ptr <typename UpgradeTargets::ServerProtocol>
-		> ...
+		std::pair <Response::T, std::unique_ptr <UpgradeTargets>> ...
 	>;
 
 	template <typename ... UpgradeArguments>
@@ -23,6 +19,9 @@ struct T
 	~T () = default;
 
 private:
+
+	static std::string
+	normalize (std::string string);
 
 	std::map
 	<
