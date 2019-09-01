@@ -8,7 +8,7 @@ struct T : Base::T
 		typename ... RequestArguments,
 		typename ... ClientProtocolArguments
 	>
-	std::unique_ptr <typename UpgradeTarget::ClientProtocol>
+	std::unique_ptr <UpgradeTarget>
 	upgrade
 	(
 		const std::tuple <RequestArguments ...> & request_arguments,

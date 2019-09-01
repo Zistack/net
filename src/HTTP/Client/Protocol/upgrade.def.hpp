@@ -4,7 +4,7 @@ template
 	typename ... RequestArguments,
 	typename ... ClientProtocolArguments
 >
-std::unique_ptr <typename UpgradeTarget::ClientProtocol>
+std::unique_ptr <UpgradeTarget>
 T::upgrade
 (
 	const std::tuple <RequestArguments ...> & request_arguments,
