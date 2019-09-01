@@ -27,9 +27,6 @@ reasonPhrase (uint64_t status_code)
 	case 205:
 		return "Reset Content";
 
-	case 206:
-		return "Partial Content";
-
 	case 300:
 		return "Multiple Choices";
 
@@ -42,20 +39,17 @@ reasonPhrase (uint64_t status_code)
 	case 303:
 		return "See Other";
 
-	case 304:
-		return "Not Modified";
-
 	case 305:
 		return "Use Proxy";
 
 	case 307:
 		return "Temporary Redirect";
 
+	case 308:
+		return "Permanent Redirect";
+
 	case 400:
 		return "Bad Request";
-
-	case 401:
-		return "Unauthorized";
 
 	case 402:
 		return "Payment Required";
@@ -72,9 +66,6 @@ reasonPhrase (uint64_t status_code)
 	case 406:
 		return "Not Acceptable";
 
-	case 407:
-		return "Proxy Authentication Required";
-
 	case 408:
 		return "Request Timeout";
 
@@ -87,23 +78,26 @@ reasonPhrase (uint64_t status_code)
 	case 411:
 		return "Length Required";
 
-	case 412:
-		return "Precondition Failed";
-
 	case 413:
-		return "Request Entity Too Large";
+		return "Payload Too Large";
 
 	case 414:
-		return "Request-URI Too Long";
+		return "URI Too Long";
 
 	case 415:
 		return "Unsupported Media Type";
 
-	case 416:
-		return "Requesting Range Not Satisfiable";
-
 	case 417:
 		return "Expectation Failed";
+
+	case 418:
+		return "I'm a teapot";
+
+	case 426:
+		return "Upgrade Required";
+
+	case 429:
+		return "Too Many Requests";
 
 	case 500:
 		return "Internal Server Error";
