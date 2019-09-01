@@ -21,6 +21,10 @@ struct T
 
 	~T () = default;
 
+	NullableString::T user_info;
+	Host::T host;
+	std::optional <uint64_t> port;
+
 private:
 
 	template <typename InputStream>
@@ -46,8 +50,4 @@ private:
 	template <typename InputStream>
 	static IPv6Address::T
 	getIPLiteral (InputStream && input_stream);
-
-	NullableString::T user_info;
-	Host::T host;
-	std::optional <uint64_t> port;
 };

@@ -25,15 +25,15 @@ struct T
 
 	~T () = default;
 
-private:
-
-	template <typename InputStream>
-	void
-	init (InputStream && input_stream);
-
 	NullableString::T scheme;
 	std::optional <Authority::T> authority;
 	Path::T path;
 	NullableString::T query;
 	NullableString::T fragment;
+
+private:
+
+	template <typename InputStream>
+	void
+	init (InputStream && input_stream);
 };
