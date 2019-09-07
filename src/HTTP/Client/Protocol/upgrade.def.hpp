@@ -11,9 +11,19 @@ T::upgrade
 	const std::tuple <ClientProtocolArguments ...> & client_protocol_arguments
 )
 {
+	typename UpgradeTarget::ClientUpgradeFactory upgrade_factory;
+
 	Response::T response = this -> makeRequest
 	(
-		std::apply (UpgradeTarget::createUpgradeRequest, request_arguments)
+		std::apply
+		(
+			UpgradeTarget::ClientUpgradeFactory::createUpgradeRequest,
+			std::tuple_cat
+			(
+				std::forward_as_tuple (& upgrade_factory),
+				request_arguments
+			)
+		)
 	);
 
 	if (response . statusCode () == 101)
@@ -22,10 +32,10 @@ T::upgrade
 
 		return std::apply
 		(
-			UpgradeTarget::createClientProtocol,
+			UpgradeTarget::ClientUpgradeFactory::createClientProtocol,
 			std::tuple_cat
 			(
-				std::forward_as_tuple (response),
+				std::forward_as_tuple (& upgrade_factory, response),
 				client_protocol_arguments
 			)
 		);
