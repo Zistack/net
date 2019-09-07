@@ -4,7 +4,7 @@ template
 	typename ... RequestArguments,
 	typename ... ClientProtocolArguments
 >
-std::unique_ptr <UpgradeTarget>
+std::variant <std::unique_ptr <UpgradeTarget>, Response::T>
 T::upgrade
 (
 	const std::tuple <RequestArguments ...> & request_arguments,
@@ -32,8 +32,6 @@ T::upgrade
 	}
 	else
 	{
-		// IDK what to do with the response.
-
-		return nullptr;
+		return response;
 	}
 }
