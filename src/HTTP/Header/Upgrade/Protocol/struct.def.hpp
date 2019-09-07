@@ -26,12 +26,15 @@ struct T
 	bool
 	operator >= (const T & other) const;
 
+	std::string
+	toString () const;
+
 	template <typename OutputStream>
 	void
 	writeTo (OutputStream && output_stream);
 
 	~T () = default;
 
-	std::string m_name;
-	NullableString::T m_version;
+	std::string name;
+	NullableString::T version;
 };
