@@ -1,6 +1,6 @@
 # User-configurable options
 
-TLS-CFLAGS ::=
+TLS-CFLAGS ::= -I/usr/include/libressl
 TLS-LFLAGS ::=
 
 # Boilerplate that shouldn't be touched
