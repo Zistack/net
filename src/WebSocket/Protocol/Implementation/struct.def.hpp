@@ -3,8 +3,13 @@ struct T
 :	private Input::T <Interface::T <Dispatcher>, Dispatcher>,
 	private Output::T <Interface::T <Dispatcher>>
 {
-	template <typename ... Arguments>
-	T (const Config::T & config, Arguments && ... arguments);
+	template <typename ... DispatcherArguments>
+	T
+	(
+		const Config::T & config,
+		const URI::T & requested_resource,
+		DispatcherArguments && ... dispatcher_arguments
+	);
 
 	void
 	prime ();

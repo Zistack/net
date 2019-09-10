@@ -1,7 +1,7 @@
 template <typename InputStream>
 struct T
 {
-	T (InputStream input_stream, std::array <uint8_t, 4> masking_key);
+	T (InputStream input_stream, Key::T masking_key);
 
 	char
 	get ();
@@ -12,7 +12,7 @@ private:
 
 	InputStream input_stream;
 
-	std::array <uint8_t, 4> masking_key;
+	Key::T masking_key;
 
 	unsigned int masking_key_idx;
 
@@ -20,4 +20,4 @@ private:
 };
 
 template <typename InputStream>
-T (InputStream && input_stream) -> T <InputStream>;
+T (InputStream && input_stream, Key::T masking_key) -> T <InputStream>;

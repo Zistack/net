@@ -23,7 +23,7 @@ struct T
 		bool reserved_3,
 		Type::T opcode,
 		uint64_t payload_length,
-		std::array <uint8_t, 4> masking_key
+		Masking::Key::T masking_key
 	);
 
 	bool
@@ -52,5 +52,5 @@ struct T
 	bool use_mask;
 	uint64_t payload_length;
 
-	std::array <uint8_t, 4> masking_key;
+	Masking::Key::T masking_key;
 };

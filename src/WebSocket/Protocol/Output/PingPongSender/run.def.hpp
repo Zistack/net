@@ -11,10 +11,12 @@ T <Output>::run (OutputStream && output_stream)
 		{
 			auto [type, payload] = this -> m_output_queue . pop ();
 
-			std::array <uint8_t, 4> masking_key;
+			Masking::Key::T masking_key;
 			{
 				std::unique_lock rng_lock (this -> rngMutex ());
-				this -> rng () . generate (masking_key . data (), 4);
+				this ->
+					rng () .
+					generate (masking_key . data (), masking_key . size ());
 			}
 			FrameHeader::T frame_header
 			(

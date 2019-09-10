@@ -92,7 +92,7 @@ T::T
 	bool reserved_3,
 	Type::T opcode,
 	uint64_t payload_length,
-	std::array <uint8_t, 4> masking_key
+	Masking::Key::T masking_key
 )
 :	final_frame (final_frame),
 	reserved_1 (reserved_1),

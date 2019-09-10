@@ -3,8 +3,8 @@ template <typename OutputStream>
 void
 T <Protocol>::close (OutputStream && output_stream)
 {
-	std::array <uint8_t, 4> masking_key;
-	this -> m_rng . generate (masking_key . data (), 4);
+	Masking::Key::T masking_key;
+	this -> m_rng . generate (masking_key . data (), masking_key . size ());
 	FrameHeader::T close_header
 	(
 		true,

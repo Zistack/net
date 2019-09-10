@@ -1,2 +1,2 @@
-typedef : Type.typedef
+typedef : Type.typedef, Masking.children
 definitions : Type.definitions

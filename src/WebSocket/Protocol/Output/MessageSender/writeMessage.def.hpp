@@ -13,10 +13,12 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 
 	remaining_bytes -= next_chunk_size;
 
-	std::array <uint8_t, 4> masking_key;
+	Masking::Key::T masking_key;
 	{
 		std::unique_lock rng_lock (this -> rngMutex ());
-		this -> rng () . generate (masking_key . data (), 4);
+		this ->
+			rng () .
+			generate (masking_key . data (), masking_key . size ());
 	}
 	FrameHeader::T message_header
 	(
@@ -50,7 +52,9 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 
 		{
 			std::unique_lock rng_lock (this -> rngMutex ());
-			this -> rng () . generate (masking_key . data (), 4);
+			this ->
+				rng () .
+				generate (masking_key . data (), masking_key . size ());
 		}
 		FrameHeader::T continuation_header
 		(

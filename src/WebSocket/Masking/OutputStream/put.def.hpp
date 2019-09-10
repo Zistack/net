@@ -7,5 +7,6 @@ T <OutputStream>::put (char c)
 		c ^ this -> masking_key [this -> masking_key_index]
 	);
 
-	this -> masking_key_index = (this -> masking_key_index + 1) % 4;
+	this -> masking_key_index =
+		(this -> masking_key_index + 1) % this -> masking_key . size ();
 }

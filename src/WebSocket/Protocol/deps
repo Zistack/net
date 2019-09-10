@@ -8,4 +8,4 @@ children :
 	OutputEntitySlot.typedef,
 	Type.definitions,
 	TypeTraits.children,
-	Util.definitions
+	Util.declarations
