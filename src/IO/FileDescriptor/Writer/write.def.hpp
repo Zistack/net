@@ -27,7 +27,9 @@ T::write (const char * buffer, size_t count)
 
 				throw Failure::ResourceError::T
 				(
-					std::string ("write: ") + strerror (errno) + "\n"
+					std::string ("write: ") +
+						Failure::Util::strerror (errno) +
+						"\n"
 				);
 			}
 		}

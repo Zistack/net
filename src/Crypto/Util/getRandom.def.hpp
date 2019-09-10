@@ -7,7 +7,7 @@ getRandom (uint8_t * buffer, size_t count)
 	{
 		throw Failure::ResourceError::T
 		(
-			std::string ("getrandom: ") + strerror (errno) + "\n"
+			std::string ("getrandom: ") + Failure::Util::strerror (errno) + "\n"
 		);
 	}
 

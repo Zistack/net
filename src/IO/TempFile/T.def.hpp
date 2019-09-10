@@ -15,7 +15,10 @@ T::T (const std::string & pattern)
 	{
 		throw Failure::ResourceError::T
 		(
-			message_prefix + "mkstemp: " + strerror (errno) + "\n"
+			message_prefix +
+				"mkstemp: " +
+				Failure::Util::strerror (errno) +
+				"\n"
 		);
 	}
 }

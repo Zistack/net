@@ -71,7 +71,7 @@ client (const char * hostname, const char * port)
 	)
 	{
 		std::string message =
-			message_prefix + "fcntl: " + strerror (errno) + "\n";
+			message_prefix + "fcntl: " + Failure::Util::strerror (errno) + "\n";
 		close (client_socket);
 		throw Failure::ResourceError::T (message);
 	}

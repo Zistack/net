@@ -8,7 +8,10 @@ T::T ()
 	{
 		throw Failure::ResourceError::T
 		(
-			message_prefix + "eventfd: " + strerror (errno) + "\n"
+			message_prefix +
+				"eventfd: " +
+				Failure::Util::strerror (errno) +
+				"\n"
 		);
 	}
 }

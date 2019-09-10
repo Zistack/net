@@ -8,7 +8,7 @@ T::size () const
 	if (fstat (this -> file_descriptor, & file_status) == -1)
 	{
 		throw Failure::ResourceError::T (
-			message_prefix + "fstat: " + strerror (errno) + "\n"
+			message_prefix + "fstat: " + Failure::Util::strerror (errno) + "\n"
 		);
 	}
 

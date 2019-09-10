@@ -28,7 +28,10 @@ T::recieve ()
 
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "read: " + strerror (errno) + "\n"
+				message_prefix +
+					"read: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 	}

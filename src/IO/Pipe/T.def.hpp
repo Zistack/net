@@ -8,7 +8,7 @@ T::T ()
 	{
 		throw Failure::ResourceError::T
 		(
-			message_prefix + "pipe: " + strerror (errno) + "\n"
+			message_prefix + "pipe: " + Failure::Util::strerror (errno) + "\n"
 		);
 	}
 
@@ -29,7 +29,10 @@ T::T ()
 		{
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "fcntl: " + strerror (errno) + "\n"
+				message_prefix +
+					"fcntl: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 
@@ -45,7 +48,10 @@ T::T ()
 		{
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "fcntl: " + strerror (errno) + "\n"
+				message_prefix +
+					"fcntl: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 	}

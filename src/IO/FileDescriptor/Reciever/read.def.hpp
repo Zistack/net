@@ -23,7 +23,9 @@ T::read (char * buffer, size_t count)
 
 				throw Failure::ResourceError::T
 				(
-					std::string ("read: ") + strerror (errno) + "\n"
+					std::string ("read: ") +
+						Failure::Util::strerror (errno) +
+						"\n"
 				);
 			}
 		}

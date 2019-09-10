@@ -32,7 +32,10 @@ wait (Stream && stream, CancelSignal && cancel_signal)
 
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "poll: " + strerror (errno) + "\n"
+				message_prefix +
+					"poll: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 	}
@@ -69,7 +72,10 @@ wait (Stream && stream)
 
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "poll: " + strerror (errno) + "\n"
+				message_prefix +
+					"poll: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 	}

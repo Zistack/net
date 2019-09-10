@@ -56,7 +56,10 @@ server (const char * hostname, const char * port)
 		)
 		{
 			std::string message =
-				message_prefix + "setsockopt: " + strerror (errno) + "\n";
+				message_prefix +
+				"setsockopt: " +
+				Failure::Util::strerror (errno) +
+				"\n";
 			freeaddrinfo (results);
 			close (server_socket);
 			throw Failure::ResourceError::T (message);
@@ -85,7 +88,10 @@ server (const char * hostname, const char * port)
 	if (listen (server_socket, SOMAXCONN) == -1)
 	{
 		std::string message =
-			message_prefix + "listen: " + strerror (errno) + "\n";
+			message_prefix +
+			"listen: " +
+			Failure::Util::strerror (errno) +
+			"\n";
 		close (server_socket);
 		throw Failure::ResourceError::T (message);
 	}

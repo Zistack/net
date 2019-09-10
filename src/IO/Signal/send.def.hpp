@@ -9,7 +9,7 @@ T::send ()
 	{
 		throw Failure::ResourceError::T
 		(
-			message_prefix + "write: " + strerror (errno) + "\n"
+			message_prefix + "write: " + Failure::Util::strerror (errno) + "\n"
 		);
 	}
 }

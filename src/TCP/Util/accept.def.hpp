@@ -31,7 +31,10 @@ accept (int server_socket)
 
 			throw Failure::ResourceError::T
 			(
-				message_prefix + "accept4: " + strerror (errno) + "\n"
+				message_prefix +
+					"accept4: " +
+					Failure::Util::strerror (errno) +
+					"\n"
 			);
 		}
 	}

@@ -38,7 +38,7 @@ T::T (const std::string & filename, const std::string & mode)
 	if (this -> file_descriptor == -1)
 	{
 		throw Failure::ResourceError::T (
-			message_prefix + "open: " + strerror (errno) + "\n"
+			message_prefix + "open: " + Failure::Util::strerror (errno) + "\n"
 		);
 	}
 }
