@@ -1,2 +1,2 @@
-definitions : Value.typedec
+typedef : Value.typedec
 definitions : Util.definitions, Value.typedef
