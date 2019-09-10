@@ -1,2 +1,2 @@
 typedef : Response.typedef
-definitions : Entity.typedef, HeaderMap.typedef
+definitions : Entity.typedef, HeaderMap.typedef, Util.declarations
