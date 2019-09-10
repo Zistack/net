@@ -20,9 +20,6 @@ struct T
 
 private:
 
-	static std::string
-	normalize (std::string string);
-
 	std::map
 	<
 		Header::Upgrade::Protocol::T,

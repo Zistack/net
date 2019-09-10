@@ -1,4 +1,4 @@
-T::T (const std::string field_value)
+T::T (const std::string & field_value)
 {
 	IO::String::Reader::T input_stream (field_value);
 
@@ -13,7 +13,7 @@ T::T (const std::string field_value)
 	{
 		throw Failure::SemanticError::T
 		(
-			"Upgrade header must be supplied with at least one protocol"
+			"Upgrade header must be supplied with at least one protocol\n"
 		);
 	}
 }

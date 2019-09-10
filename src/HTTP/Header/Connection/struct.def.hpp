@@ -4,5 +4,5 @@ struct T
 
 	~T () = default;
 
-	std::list <Protocol::T> m_protocols;
+	std::unordered_set <std::string> options;
 };

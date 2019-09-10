@@ -5,7 +5,7 @@ T <UpgradeTargets ...>::T (UpgradeArguments && ... upgrade_arguments)
 	(
 		this -> m_upgrade_methods . emplace
 		(
-			normalize (UpgradeTargets::PROTOCOL . toString ()),
+			UpgradeTargets::PROTOCOL . toString (),
 			[& upgrade_arguments] (const Request::T & request)
 			{
 				return std::apply

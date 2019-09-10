@@ -8,19 +8,19 @@ T <UpgradeTargets ...>::upgrade
 {
 	for (auto && protocol : upgrade . m_protocols)
 	{
-		std::string normalized_protocol = normalize (protocol . toString ());
+		std::string protocol_string = protocol . toString ();
 
-		if (this -> m_upgrade_methods . contains (normalized_protocol))
+		if (this -> m_upgrade_methods . contains (protocol_string))
 		{
-			return this -> m_upgrade_methods . at (normalized_protocol) (request);
+			return this -> m_upgrade_methods . at (protocol_string) (request);
 		}
 		else if (protocol . version)
 		{
-			normalized_protocol = normalize (protocol . name);
-
-			if (this -> m_upgrade_methods . contains (normalized_protocol))
+			if (this -> m_upgrade_methods . contains (protocol . name))
 			{
-				return this -> m_upgrade_methods . at (normalized_protocol) (request);
+				return this ->
+					m_upgrade_methods .
+					at (protocol . name) (request);
 			}
 		}
 	}

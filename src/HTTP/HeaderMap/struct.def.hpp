@@ -42,8 +42,5 @@ struct T
 
 private:
 
-	static std::string
-	normalize (std::string string);
-
 	std::unordered_map <std::string, std::string> m_map;
 };

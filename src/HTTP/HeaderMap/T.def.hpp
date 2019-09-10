@@ -3,7 +3,7 @@ T::T (InputStream && input_stream)
 {
 	while (! IO::Util::test (std::forward <InputStream> (input_stream), '\r'))
 	{
-		std::string field_name = normalize
+		std::string field_name = Util::normalize
 		(
 			Rule::getToken (std::forward <InputStream> (input_stream))
 		);
