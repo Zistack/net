@@ -22,7 +22,7 @@ protected:
 
 	T (std::pair <int, struct tls *> p);
 
-	Thread::SleepMutex::T socket_mutex;
+	std::mutex socket_mutex;
 	bool spurious_read;
 
 private:

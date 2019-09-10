@@ -2,7 +2,7 @@ T::T
 (
 	int tcp_socket,
 	struct tls * tls_context,
-	Thread::SleepMutex::T & socket_mutex,
+	std::mutex & socket_mutex,
 	bool & spurious_read
 )
 :	tcp_socket (tcp_socket),
