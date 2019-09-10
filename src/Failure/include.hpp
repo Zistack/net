@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include <atomic>
 #include <exception>
 #include <functional>
