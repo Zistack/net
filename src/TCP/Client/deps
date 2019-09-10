@@ -1,1 +1,1 @@
-children : Socket.typedef, Config.typedef
+children : Config.typedef, Socket.typedef, Util.declarations
