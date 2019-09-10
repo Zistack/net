@@ -40,8 +40,6 @@ T::T (InputStream && input_stream, uint64_t count)
 	}
 }
 
-// I might want to include logic for handling reasons that are too long.
-// There's a generic failure code we could send in that case.
 T::T (uint16_t status_code, const NullableString::T & reason)
 :	status_code (status_code), reason (reason)
 {
