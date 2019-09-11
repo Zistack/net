@@ -1,1 +1,1 @@
-definitions : Rule.definitions, Util.definitions
+definitions : Rule.declarations, Util.declarations

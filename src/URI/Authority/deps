@@ -1,1 +1,1 @@
-children : Class.declarations, Rule.definitions, Util.definitions
+children : Class.declarations, Rule.declarations, Util.declarations

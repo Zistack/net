@@ -1,2 +1,2 @@
 children : Contains.typedef, Member.typedef
-definitions : Util.definitions, Rule.definitions
+definitions : Util.declarations, Rule.declarations

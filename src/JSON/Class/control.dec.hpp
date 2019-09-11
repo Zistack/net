@@ -1,0 +1,2 @@
+bool
+control (char c);

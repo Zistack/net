@@ -1,0 +1,2 @@
+bool
+whitespace (char c);

@@ -6,4 +6,4 @@ typedef :
 	Object.typedec,
 	String.typedec
 
-definitions : Util.definitions
+definitions : Util.declarations

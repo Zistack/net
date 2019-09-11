@@ -1,8 +1,8 @@
-template <typename InputStream>
+template <typename OutputStream>
 struct T
 {
 	static constexpr const bool value =
-		HasPut::T <InputStream>::value &&
-		HasWrite::T <InputStream>::value &&
-		HasPrint::T <InputStream>::value;
+		HasPut::T <OutputStream>::value &&
+		HasWrite::T <OutputStream>::value &&
+		HasPrint::T <OutputStream>::value;
 };
