@@ -1,10 +1,10 @@
 T &
 T::operator = (T && other)
 {
-	this -> name = std::move (other . name);
-	this -> file_descriptor = other . file_descriptor;
+	this -> m_name = std::move (other . m_name);
+	this -> m_file_descriptor = other . m_file_descriptor;
 
-	other . file_descriptor = -1;
+	other . m_file_descriptor = -1;
 
 	return * this;
 }

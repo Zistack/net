@@ -10,11 +10,11 @@ struct T
 
 private:
 
-	InputStream input_stream;
+	InputStream m_input_stream;
 
-	Key::T masking_key;
+	Key::T m_masking_key;
 
-	unsigned int masking_key_idx;
+	unsigned int m_masking_key_idx;
 
 	static_assert (IO::TypeTraits::IsInputStream::T <T>::value);
 };

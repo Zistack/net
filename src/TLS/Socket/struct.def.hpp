@@ -13,6 +13,6 @@ struct T
 
 protected:
 
-	int tcp_socket;
-	std::unique_ptr <struct tls, Functor::T <tls_free>> tls_context;
+	int m_tcp_socket;
+	std::unique_ptr <struct tls, Functor::T <tls_free>> m_tls_context;
 };

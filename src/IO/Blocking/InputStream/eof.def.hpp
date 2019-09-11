@@ -2,7 +2,7 @@ template <typename NonblockingInputStream>
 bool
 T <NonblockingInputStream>::eof ()
 {
-	if (this -> eof_bit) return this -> eof_bit;
+	if (this -> m_eof_bit) return this -> m_eof_bit;
 
 	try
 	{

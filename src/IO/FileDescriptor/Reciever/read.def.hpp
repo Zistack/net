@@ -3,7 +3,7 @@ T::read (char * buffer, size_t count)
 {
 	while (true)
 	{
-		ssize_t size = ::read (this -> file_descriptor, buffer, count);
+		ssize_t size = ::read (this -> m_file_descriptor, buffer, count);
 
 		if (size == 0) throw Failure::EndOfResource::T ();
 

@@ -21,5 +21,5 @@ struct T : HTTP::Entity::T
 
 private:
 
-	Type::T message_type;
+	Type::T m_message_type;
 };

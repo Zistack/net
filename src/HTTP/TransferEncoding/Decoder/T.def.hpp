@@ -15,7 +15,7 @@ T::T (const NullableString::T & transfer_encoding_string, bool is_request)
 		transfer_encoding_string . stdString ()
 	);
 
-	if (transfer_encoding . m_specifications . empty ())
+	if (transfer_encoding . specifications . empty ())
 	{
 		throw Failure::SemanticError::T
 		(
@@ -24,10 +24,10 @@ T::T (const NullableString::T & transfer_encoding_string, bool is_request)
 	}
 
 	Header::TransferEncoding::Specification::T last_specification =
-		transfer_encoding . m_specifications . back ();
-	transfer_encoding . m_specifications . pop_back ();
+		transfer_encoding . specifications . back ();
+	transfer_encoding . specifications . pop_back ();
 
-	if (last_specification . m_identifier != "chunked")
+	if (last_specification . identifier != "chunked")
 	{
 		if (is_request)
 		{
@@ -46,8 +46,8 @@ T::T (const NullableString::T & transfer_encoding_string, bool is_request)
 
 	this -> addFirstStage (last_specification);
 
-	auto rit = transfer_encoding . m_specifications . rbegin ();
-	for (; rit != transfer_encoding . m_specifications . rend (); ++ rit)
+	auto rit = transfer_encoding . specifications . rbegin ();
+	for (; rit != transfer_encoding . specifications . rend (); ++ rit)
 	{
 		Header::TransferEncoding::Specification::T & specification = * rit;
 		this -> addStage (specification);

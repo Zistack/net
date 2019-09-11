@@ -5,10 +5,10 @@ T::write (const char * buffer, size_t count)
 	{
 		ssize_t size = pwrite
 		(
-			this -> file_descriptor,
+			this -> m_file_descriptor,
 			buffer,
 			count,
-			this -> pointer
+			this -> m_pointer
 		);
 
 		if (size == -1)
@@ -34,7 +34,7 @@ T::write (const char * buffer, size_t count)
 			}
 		}
 
-		this -> pointer += size;
+		this -> m_pointer += size;
 
 		return (size_t) size;
 	}

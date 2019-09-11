@@ -1,9 +1,9 @@
 template <typename NonblockingInputStream>
 T <NonblockingInputStream>::T (NonblockingInputStream input_stream)
-:	input_stream (input_stream),
-	begin (0),
-	end (0),
-	buffer (new char [T::BUFFER_SIZE]),
-	eof_bit (false)
+:	m_input_stream (input_stream),
+	m_begin (0),
+	m_end (0),
+	m_buffer (new char [T::BUFFER_SIZE]),
+	m_eof_bit (false)
 {
 }

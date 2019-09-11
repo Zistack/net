@@ -1,5 +1,5 @@
 bool
 T::value () const
 {
-	return this -> b;
+	return this -> m_value;
 }

@@ -25,6 +25,6 @@ struct T
 
 private:
 
-	int read_file_descriptor;
-	int write_file_descriptor;
+	int m_read_file_descriptor;
+	int m_write_file_descriptor;
 };

@@ -1,5 +1,5 @@
 FileDescriptor::Writer::T
 T::writerAt (off_t position)
 {
-	return {this -> file_descriptor, position};
+	return {this -> m_file_descriptor, position};
 }

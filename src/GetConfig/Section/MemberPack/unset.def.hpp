@@ -23,7 +23,7 @@ T
 {
 	if (identifier == member_identifier)
 	{
-		this -> member . unset ();
+		this -> m_member . unset ();
 	}
 	else
 	{

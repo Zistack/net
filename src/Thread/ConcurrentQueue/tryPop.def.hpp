@@ -2,12 +2,12 @@ template <typename Element>
 std::optional <Element>
 T <Element>::tryPop ()
 {
-	std::unique_lock lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	if (! this -> elements . empty ())
+	if (! this -> m_elements . empty ())
 	{
-		Element element = std::move (elements . front ());
-		this -> elements . pop_front ();
+		Element element = std::move (this -> m_elements . front ());
+		this -> m_elements . pop_front ();
 		return element;
 	}
 	else return {};

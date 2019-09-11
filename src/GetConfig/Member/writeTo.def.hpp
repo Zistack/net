@@ -19,7 +19,7 @@ T
 {
 	IO::Util::indent (std::forward <OutputStream> (output_stream), indentation);
 
-	if (this -> value)
+	if (this -> m_value)
 	{
 		output_stream . print ("set ");
 		Rule::putIdentifier
@@ -29,7 +29,7 @@ T
 		);
 		output_stream . put (' ');
 
-		this -> value -> writeTo
+		this -> m_value -> writeTo
 		(
 			std::forward <OutputStream> (output_stream),
 			indentation

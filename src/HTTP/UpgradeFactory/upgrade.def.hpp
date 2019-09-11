@@ -6,7 +6,7 @@ T <UpgradeTargets ...>::upgrade
 	const Request::T & request
 )
 {
-	for (auto && protocol : upgrade . m_protocols)
+	for (auto && protocol : upgrade . protocols)
 	{
 		std::string protocol_string = protocol . toString ();
 

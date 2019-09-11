@@ -1,5 +1,5 @@
 IO::FileDescriptor::Output::T
 T::output () const
 {
-	return {this -> tcp_socket};
+	return {this -> m_tcp_socket};
 }

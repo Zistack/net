@@ -4,7 +4,7 @@ T::close (CancelSignal && cancel_signal)
 {
 	while (true)
 	{
-		switch (tls_close (this -> tls_context . get ()))
+		switch (tls_close (this -> m_tls_context . get ()))
 		{
 		case TLS_WANT_POLLIN:
 
@@ -30,7 +30,7 @@ T::close (CancelSignal && cancel_signal)
 			throw Failure::Error::T
 			(
 				std::string ("Faled to close TLS connection: ") +
-					tls_error (this -> tls_context . get ()) +
+					tls_error (this -> m_tls_context . get ()) +
 					"\n"
 			);
 

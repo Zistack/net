@@ -2,5 +2,5 @@ template <typename NonblockingOutputStream>
 void
 T <NonblockingOutputStream>::clear ()
 {
-	this -> cancel_signal . clear ();
+	this -> m_cancel_signal . clear ();
 }

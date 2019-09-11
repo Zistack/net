@@ -7,11 +7,11 @@ T::store (const std::exception & e)
 bool
 T::store (std::exception_ptr e)
 {
-	std::unique_lock <decltype (this -> m)> lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	if (! this -> exception)
+	if (! this -> m_exception)
 	{
-		this -> exception = e;
+		this -> m_exception = e;
 		return true;
 	}
 	else return false;

@@ -1,5 +1,5 @@
 Writer::T
 T::writer ()
 {
-	return {this -> vector};
+	return {this -> m_vector};
 }

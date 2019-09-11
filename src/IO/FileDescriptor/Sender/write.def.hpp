@@ -3,7 +3,7 @@ T::write (const char * buffer, size_t count)
 {
 	while (true)
 	{
-		ssize_t size = ::write (this -> file_descriptor, buffer, count);
+		ssize_t size = ::write (this -> m_file_descriptor, buffer, count);
 
 		if (size == -1)
 		{

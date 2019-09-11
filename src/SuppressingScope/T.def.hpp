@@ -1,5 +1,5 @@
 template <typename Scopable>
-T <Scopable>::T () : scopable (nullptr), exception_store (nullptr)
+T <Scopable>::T () : m_scopable (nullptr), m_exception_store (nullptr)
 {
 }
 
@@ -11,17 +11,17 @@ T <Scopable>::T
 	Arguments && ... arguments,
 	Failure::ExceptionStore::T & exception_store
 )
-:	scopable (& scopable),
-	exception_store (& exception_store)
+:	m_scopable (& scopable),
+	m_exception_store (& exception_store)
 {
 	scopable . open (std::forward <Arguments> (arguments) ...);
 }
 
 template <typename Scopable>
 T <Scopable>::T (T && other)
-:	scopable (other . scopable),
-	exception_store (other . exception_store)
+:	m_scopable (other . m_scopable),
+	m_exception_store (other . m_exception_store)
 {
-	other . scopable = nullptr;
-	other . exception_store = nullptr;
+	other . m_scopable = nullptr;
+	other . m_exception_store = nullptr;
 }

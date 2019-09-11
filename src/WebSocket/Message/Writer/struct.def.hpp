@@ -16,9 +16,9 @@ struct T
 
 private:
 
-	InputStream input_stream;
-	uint64_t count;
-	InputEntitySlot::T & entity_slot;
+	InputStream m_input_stream;
+	uint64_t m_count;
+	InputEntitySlot::T & m_entity_slot;
 };
 
 template <typename InputStream>

@@ -1,8 +1,8 @@
 T &
 T::operator = (T && other)
 {
-	this -> cancelled . store (other . cancelled . exchange (false));
-	this -> signal = std::move (other . signal);
+	this -> m_cancelled . store (other . m_cancelled . exchange (false));
+	this -> m_signal = std::move (other . m_signal);
 
 	return * this;
 }

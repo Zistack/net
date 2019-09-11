@@ -18,12 +18,12 @@ T::init (InputStream && input_stream)
 		size_t i;
 		for (i = 0; i < head . size (); ++ i)
 		{
-			this->hexadecitets[i] = head[i];
+			this -> m_hexadecitets [i] = head [i];
 		}
 
 		for (i = 0; i < tail . size (); ++ i)
 		{
-			this -> hexadecitets [8 - tail . size () + i] = tail [i];
+			this -> m_hexadecitets [8 - tail . size () + i] = tail [i];
 		}
 	}
 	else if (head . size () > 8)
@@ -35,7 +35,7 @@ T::init (InputStream && input_stream)
 		size_t i;
 		for (i = 0; i < head . size (); ++ i)
 		{
-			this -> hexadecitets [i] = head [i];
+			this -> m_hexadecitets [i] = head [i];
 		}
 	}
 }

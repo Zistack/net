@@ -17,8 +17,8 @@ struct T
 
 private:
 
-	const Data::T & vector;
-	Size::T pointer;
+	const Data::T & m_vector;
+	Size::T m_pointer;
 };
 
 static_assert (TypeTraits::IsInputStream::T <T>::value);

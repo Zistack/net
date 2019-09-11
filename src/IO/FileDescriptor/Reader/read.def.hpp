@@ -5,10 +5,10 @@ T::read (char * buffer, size_t count)
 	{
 		ssize_t size = pread
 		(
-			this -> file_descriptor,
+			this -> m_file_descriptor,
 			buffer,
 			count,
-			this -> pointer
+			this -> m_pointer
 		);
 
 		if (size == 0) throw Failure::EndOfResource::T ();
@@ -36,7 +36,7 @@ T::read (char * buffer, size_t count)
 			}
 		}
 
-		this -> pointer += size;
+		this -> m_pointer += size;
 
 		return (size_t) size;
 	}

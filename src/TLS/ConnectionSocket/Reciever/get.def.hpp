@@ -1,13 +1,13 @@
 char
 T::get ()
 {
-	if (this -> begin == this -> end)
+	if (this -> m_begin == this -> m_end)
 	{
 		this -> refill ();
 	}
 
-	char c = this -> buffer [this -> begin];
-	++ this -> begin;
+	char c = this -> m_buffer [this -> m_begin];
+	++ this -> m_begin;
 
 	return c;
 }

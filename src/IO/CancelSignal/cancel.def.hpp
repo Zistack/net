@@ -1,6 +1,6 @@
 void
 T::cancel ()
 {
-	if (this -> cancelled . load ()) return;
-	this -> signal . send ();
+	if (this -> m_cancelled . load ()) return;
+	this -> m_signal . send ();
 }

@@ -1,11 +1,11 @@
 T::~T ()
 {
-	if (this -> read_file_descriptor != -1)
+	if (this -> m_read_file_descriptor != -1)
 	{
-		close (this -> read_file_descriptor);
+		close (this -> m_read_file_descriptor);
 	}
-	if (this -> write_file_descriptor != -1)
+	if (this -> m_write_file_descriptor != -1)
 	{
-		close (this -> write_file_descriptor);
+		close (this -> m_write_file_descriptor);
 	}
 }

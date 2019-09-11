@@ -22,5 +22,5 @@ struct T
 
 private:
 
-	std::vector <std::unique_ptr <Value::T>> members;
+	std::vector <std::unique_ptr <Value::T>> m_members;
 };

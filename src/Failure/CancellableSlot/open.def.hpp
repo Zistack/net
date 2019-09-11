@@ -3,9 +3,9 @@ template <typename Cancellable>
 void
 T <Cancellables...>::open (Cancellable & cancellable)
 {
-	std::unique_lock <decltype (this -> mutex)> lock (this -> mutex);
+	std::unique_lock lock (this -> m_mutex);
 
-	this -> cancellable = cancellable;
+	this -> m_cancellable = cancellable;
 
-	if (this -> cancelled) this -> callCancellable ();
+	if (this -> m_cancelled) this -> callCancellable ();
 }

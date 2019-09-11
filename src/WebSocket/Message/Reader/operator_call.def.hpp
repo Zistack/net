@@ -5,13 +5,13 @@ T <OutputStream>::operator () (InputStream && input_stream)
 {
 	if constexpr (Failure::TypeTraits::IsCancellable::T <InputStream>::value)
 	{
-		Scope::T entity_scope (this -> entity_slot, input_stream);
+		Scope::T entity_scope (this -> m_entity_slot, input_stream);
 
 		Util::transfer
 		(
 			std::forward <InputStream> (input_stream),
-			this -> count,
-			std::forward <OutputStream> (this -> output_stream)
+			this -> m_count,
+			std::forward <OutputStream> (this -> m_output_stream)
 		);
 	}
 	else
@@ -19,8 +19,8 @@ T <OutputStream>::operator () (InputStream && input_stream)
 		Util::transfer
 		(
 			std::forward <InputStream> (input_stream),
-			this -> count,
-			std::forward <OutputStream> (this -> output_stream)
+			this -> m_count,
+			std::forward <OutputStream> (this -> m_output_stream)
 		);
 	}
 }

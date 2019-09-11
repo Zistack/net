@@ -3,9 +3,9 @@ T::sender ()
 {
 	return
 	{
-		this -> tcp_socket,
-		this -> tls_context . get (),
-		this -> socket_mutex,
-		this -> spurious_read
+		this -> m_tcp_socket,
+		this -> m_tls_context . get (),
+		this -> m_socket_mutex,
+		this -> m_spurious_read
 	};
 }

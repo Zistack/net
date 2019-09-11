@@ -24,8 +24,8 @@ private:
 	void
 	close ();
 
-	IO::Signal::T signal;
-	std::atomic <State::T> state;
+	IO::Signal::T m_signal;
+	std::atomic <State::T> m_state;
 
 	friend Scope::T <T>;
 	friend SuppressingScope::T <T>;

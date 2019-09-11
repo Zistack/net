@@ -5,10 +5,10 @@ T::writeTo (OutputStream && output_stream, size_t indentation) const
 	IO::Util::indent (std::forward <OutputStream> (output_stream), indentation);
 	output_stream . put ('{');
 
-	auto it = this -> members . begin ();
-	for (; it != this -> members . end (); ++ it)
+	auto it = this -> m_members . begin ();
+	for (; it != this -> m_members . end (); ++ it)
 	{
-		if (it != this -> members . begin ()) output_stream . put (',');
+		if (it != this -> m_members . begin ()) output_stream . put (',');
 		output_stream . put ('\n');
 
 		String::T json_string (it -> first);

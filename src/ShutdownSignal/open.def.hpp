@@ -1,5 +1,5 @@
 void
 T::open ()
 {
-	this -> state . store (State::RUNNING);
+	this -> m_state . store (State::RUNNING);
 }

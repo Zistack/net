@@ -1,5 +1,5 @@
 FileDescriptor::Sender::T
 T::sender () const
 {
-	return {this -> write_file_descriptor};
+	return {this -> m_write_file_descriptor};
 }

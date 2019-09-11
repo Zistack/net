@@ -1,9 +1,9 @@
 void
 T::close ()
 {
-	if (this -> state . exchange (State::INACTIVE) == State::SHUTTING_DOWN)
+	if (this -> m_state . exchange (State::INACTIVE) == State::SHUTTING_DOWN)
 	{
-		IO::Util::wait (this -> signal);
-		this -> signal . recieve ();
+		IO::Util::wait (this -> m_signal);
+		this -> m_signal . recieve ();
 	}
 }

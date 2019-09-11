@@ -2,9 +2,9 @@ template <typename NonblockingOutputStream>
 void
 T <NonblockingOutputStream>::flush ()
 {
-	if (! this -> next) return;
+	if (! this -> m_next) return;
 
-	this -> send (this -> buffer, this -> next);
+	this -> send (this -> m_buffer, this -> m_next);
 
-	this -> next = 0;
+	this -> m_next = 0;
 }

@@ -1,7 +1,7 @@
 bool
 T::eof ()
 {
-	if (this -> eof_bit) return true;
+	if (this -> m_eof_bit) return true;
 
 	try
 	{

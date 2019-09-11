@@ -27,32 +27,32 @@ T::T (InputStream && input_stream)
 				{
 				case 'b':
 
-					this -> string . push_back ('\x08');
+					this -> value . push_back ('\x08');
 					continue;
 
 				case 't':
 
-					this -> string . push_back ('\x09');
+					this -> value . push_back ('\x09');
 					continue;
 
 				case 'n':
 
-					this -> string . push_back ('\x0A');
+					this -> value . push_back ('\x0A');
 					continue;
 
 				case 'f':
 
-					this -> string . push_back ('\x0C');
+					this -> value . push_back ('\x0C');
 					continue;
 
 				case 'r':
 
-					this -> string . push_back ('\x0D');
+					this -> value . push_back ('\x0D');
 					continue;
 
 				case 'u':
 
-					this -> string . append
+					this -> value . append
 					(
 						IO::Util::runeToUTF8CodePoint
 						(
@@ -63,12 +63,12 @@ T::T (InputStream && input_stream)
 
 				default:
 
-					this -> string . push_back (c);
+					this -> value . push_back (c);
 					continue;
 				}
 			}
 
-			this -> string . push_back (c);
+			this -> value . push_back (c);
 		}
 	}
 	catch (const Failure::EndOfResource::T & e)
@@ -77,6 +77,6 @@ T::T (InputStream && input_stream)
 	}
 }
 
-T::T (const std::string & string) : string (string)
+T::T (const std::string & string) : value (string)
 {
 }

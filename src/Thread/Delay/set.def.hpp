@@ -4,7 +4,7 @@ T <Element>::set (const Element & element)
 {
 	try
 	{
-		this -> promise -> set_value (element);
+		this -> m_promise -> set_value (element);
 	}
 	catch (std::future_error)
 	{
@@ -17,7 +17,7 @@ T <Element>::set (Element && element)
 {
 	try
 	{
-		this -> promise -> set_value (std::move (element));
+		this -> m_promise -> set_value (std::move (element));
 	}
 	catch (std::future_error)
 	{

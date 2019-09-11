@@ -9,7 +9,7 @@ T::T (InputStream && input_stream)
 	{
 	case '{':
 
-		this -> contents . emplace
+		this -> m_contents . emplace
 		(
 			std::in_place_type <Object::T>,
 			std::forward <InputStream> (input_stream)
@@ -17,7 +17,7 @@ T::T (InputStream && input_stream)
 
 	case '[':
 
-		this -> contents . emplace
+		this -> m_contents . emplace
 		(
 			std::in_place_type <Array::T>,
 			std::forward <InputStream> (input_stream)
@@ -26,7 +26,7 @@ T::T (InputStream && input_stream)
 	case 't':
 	case 'f':
 
-		this -> contents . emplace
+		this -> m_contents . emplace
 		(
 			std::in_place_type <Boolean::T>,
 			std::forward <InputStream> (input_stream)
@@ -38,7 +38,7 @@ T::T (InputStream && input_stream)
 
 	case '"':
 
-		this -> contents . emplace
+		this -> m_contents . emplace
 		(
 			std::in_place_type <String::T>,
 			std::forward <InputStream> (input_stream)
@@ -57,7 +57,7 @@ T::T (InputStream && input_stream)
 	case '8':
 	case '9':
 
-		this -> contents . emplace
+		this -> m_contents . emplace
 		(
 			std::in_place_type <Number::T>,
 			std::forward <InputStream> (input_stream)

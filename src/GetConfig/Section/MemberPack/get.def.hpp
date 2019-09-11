@@ -24,7 +24,7 @@ T
 {
 	if constexpr (& identifier == & member_identifier)
 	{
-		return this -> member . get ();
+		return this -> m_member . get ();
 	}
 	else
 	{

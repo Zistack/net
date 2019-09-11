@@ -2,18 +2,18 @@ template <typename Scopable>
 T <Scopable> &
 T <Scopable>::operator = (T && other)
 {
-	if (this -> scopable)
+	if (this -> m_scopable)
 	{
-		this -> exception_store -> tryStore
+		this -> m_exception_store -> tryStore
 		(
-			[this] () { this -> scopable -> close (); }
+			[this] () { this -> m_scopable -> close (); }
 		);
 	}
 
-	this -> scopable = other . scopable;
-	this -> exception_store = other . exception_store;
-	other . scopable = nullptr;
-	other . exception_store = nullptr;
+	this -> m_scopable = other . m_scopable;
+	this -> m_exception_store = other . m_exception_store;
+	other . m_scopable = nullptr;
+	other . m_exception_store = nullptr;
 
 	return * this;
 }

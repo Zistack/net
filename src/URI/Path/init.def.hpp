@@ -4,12 +4,12 @@ T::init (InputStream && input_stream)
 {
 	if (IO::Util::test (std::forward <InputStream> (input_stream), '/'))
 	{
-		this -> absolute = true;
+		this -> m_absolute = true;
 		input_stream . get ();
 	}
 	else
 	{
-		this -> absolute = false;
+		this -> m_absolute = false;
 	}
 
 	std::string segment = Rule::getSegment
@@ -19,7 +19,7 @@ T::init (InputStream && input_stream)
 
 	if (segment != "." && segment != "..")
 	{
-		this -> segments . push_back (segment);
+		this -> m_segments . push_back (segment);
 	}
 
 	while (IO::Util::test (std::forward <InputStream> (input_stream), '/'))
@@ -33,11 +33,11 @@ T::init (InputStream && input_stream)
 		}
 		else if (segment == "..")
 		{
-			if (this -> segments . size ()) this -> segments . pop_back ();
+			if (this -> m_segments . size ()) this -> m_segments . pop_back ();
 		}
 		else
 		{
-			this -> segments . push_back (segment);
+			this -> m_segments . push_back (segment);
 		}
 	}
 }

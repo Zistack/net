@@ -54,5 +54,5 @@ struct T
 
 private:
 
-	std::optional <ValueType> value;
+	std::optional <ValueType> m_value;
 };

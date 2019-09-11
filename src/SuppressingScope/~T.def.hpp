@@ -1,11 +1,11 @@
 template <typename Scopable>
 T <Scopable>::~T ()
 {
-	if (this -> scopable)
+	if (this -> m_scopable)
 	{
-		this -> exception_store -> tryStore
+		this -> m_exception_store -> tryStore
 		(
-			[this] () { this -> scopable -> close (); }
+			[this] () { this -> m_scopable -> close (); }
 		);
 	}
 }

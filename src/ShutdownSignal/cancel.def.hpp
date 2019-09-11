@@ -5,9 +5,13 @@ T::cancel ()
 
 	if
 	(
-		this -> state . compare_exchange_strong (expected, State::SHUTTING_DOWN)
+		this -> m_state . compare_exchange_strong
+		(
+			expected,
+			State::SHUTTING_DOWN
+		)
 	)
 	{
-		this -> signal . send ();
+		this -> m_signal . send ();
 	}
 }

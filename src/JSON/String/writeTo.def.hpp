@@ -10,7 +10,7 @@ T::writeTo (OutputStream && output_stream, size_t indentation) const
 
 	output_stream . put ('"');
 
-	for (char c : this->string)
+	for (char c : this -> value)
 	{
 		switch (c)
 		{

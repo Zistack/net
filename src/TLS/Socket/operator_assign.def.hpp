@@ -1,10 +1,10 @@
 T &
 T::operator = (T && other)
 {
-	this -> tcp_socket = other . tcp_socket;
-	this -> tls_context = std::move (other . tls_context);
+	this -> m_tcp_socket = other . m_tcp_socket;
+	this -> m_tls_context = std::move (other . m_tls_context);
 
-	other . tcp_socket = -1;
+	other . m_tcp_socket = -1;
 
 	return * this;
 }

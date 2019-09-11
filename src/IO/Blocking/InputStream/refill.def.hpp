@@ -2,28 +2,29 @@ template <typename NonblockingInputStream>
 void
 T <NonblockingInputStream>::refill ()
 {
-	if (this -> eof_bit) throw Failure::EndOfResource::T ();
+	if (this -> m_eof_bit) throw Failure::EndOfResource::T ();
 
 	try
 	{
 		while (true)
 		{
-			size_t size = this -> input_stream . read
+			size_t size = this -> m_input_stream . read
 			(
-				this -> buffer, T::BUFFER_SIZE
+				this -> m_buffer,
+				T::BUFFER_SIZE
 			);
 			if (size)
 			{
-				this -> begin = 0;
-				this -> end = size;
+				this -> m_begin = 0;
+				this -> m_end = size;
 				return;
 			}
-			Util::wait (this -> input_stream, this -> cancel_signal);
+			Util::wait (this -> m_input_stream, this -> m_cancel_signal);
 		}
 	}
 	catch (Failure::EndOfResource::T)
 	{
-		this -> eof_bit = true;
+		this -> m_eof_bit = true;
 		throw;
 	}
 }

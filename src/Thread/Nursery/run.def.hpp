@@ -13,7 +13,7 @@ T::run
 	Arguments && ... arguments
 ) noexcept
 {
-	this->run
+	this -> run
 	(
 		& cancellable,
 		std::forward <Function> (function),
@@ -25,7 +25,7 @@ template <typename Function, typename ... Arguments, typename>
 void
 T::run (Function && function, Arguments && ... arguments) noexcept
 {
-	this->run
+	this -> run
 	(
 		nullptr,
 		std::forward<Function> (function),

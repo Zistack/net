@@ -18,5 +18,5 @@ struct T
 
 private:
 
-	bool b;
+	bool m_value;
 };

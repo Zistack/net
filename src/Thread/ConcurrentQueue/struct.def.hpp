@@ -31,10 +31,10 @@ private:
 	void
 	flush ();
 
-	std::mutex m;
-	std::condition_variable c;
-	bool closed;
-	std::list <Element> elements;
+	std::mutex m_mutex;
+	std::condition_variable m_condition_variable;
+	bool m_closed;
+	std::list <Element> m_elements;
 
 	friend struct Scope::T <T>;
 };

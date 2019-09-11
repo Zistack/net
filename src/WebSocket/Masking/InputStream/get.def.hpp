@@ -3,11 +3,11 @@ char
 T <InputStream>::get ()
 {
 	char c =
-		this -> input_stream . get () ^
-		this -> masking_key [this -> masking_key_index];
+		this -> m_input_stream . get () ^
+		this -> m_masking_key [this -> m_masking_key_index];
 
-	this -> masking_key_index =
-		(this -> masking_key_index + 1) % this -> masking_key . size ();
+	this -> m_masking_key_index =
+		(this -> m_masking_key_index + 1) % this -> m_masking_key . size ();
 
 	return c;
 }

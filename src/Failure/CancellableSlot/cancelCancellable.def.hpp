@@ -17,9 +17,9 @@ T <Cancellables ...>::cancelCancellable ()
 				>
 			)
 			{
-				cancellable.cancel ();
+				cancellable . cancel ();
 			}
 		},
-		this->cancellable
+		this -> m_cancellable
 	);
 }

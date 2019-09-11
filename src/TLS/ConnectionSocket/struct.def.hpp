@@ -22,8 +22,8 @@ protected:
 
 	T (std::pair <int, struct tls *> p);
 
-	std::mutex socket_mutex;
-	bool spurious_read;
+	std::mutex m_socket_mutex;
+	bool m_spurious_read;
 
 private:
 

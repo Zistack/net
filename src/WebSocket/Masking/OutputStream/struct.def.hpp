@@ -16,11 +16,11 @@ struct T
 
 private:
 
-	OutputStream output_stream;
+	OutputStream m_output_stream;
 
-	Key::T masking_key;
+	Key::T m_masking_key;
 
-	unsigned int masking_key_index;
+	unsigned int m_masking_key_index;
 
 	static_assert (IO::TypeTraits::IsOutputStream::T <T>::value);
 };

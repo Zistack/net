@@ -5,7 +5,7 @@ T::addLastStage
 	uint64_t chunk_size
 )
 {
-	if (specification . m_identifier == "chunked")
+	if (specification . identifier == "chunked")
 	{
 		this -> m_stages . emplace_back
 		(

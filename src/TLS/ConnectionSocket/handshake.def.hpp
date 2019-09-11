@@ -4,7 +4,7 @@ T::handshake (CancelSignal && cancel_signal)
 {
 	while (true)
 	{
-		switch (tls_handshake (this -> tls_context . get ()))
+		switch (tls_handshake (this -> m_tls_context . get ()))
 		{
 		case TLS_WANT_POLLIN:
 
@@ -30,7 +30,7 @@ T::handshake (CancelSignal && cancel_signal)
 			throw Failure::Error::T
 			(
 				std::string ("Failed to complete TLS handshake: ") +
-					tls_error (this->tls_context.get ()) +
+					tls_error (this -> m_tls_context . get ()) +
 					"\n"
 			);
 

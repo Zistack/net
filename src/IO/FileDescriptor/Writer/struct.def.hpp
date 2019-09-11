@@ -17,8 +17,8 @@ struct T
 
 private:
 
-	int file_descriptor;
-	off_t pointer;
+	int m_file_descriptor;
+	off_t m_pointer;
 };
 
 static_assert (TypeTraits::IsWatchable::T <T>::value);

@@ -4,5 +4,5 @@ struct T
 
 	~T () = default;
 
-	std::list <Specification::T> m_specifications;
+	std::list <Specification::T> specifications;
 };

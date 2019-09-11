@@ -31,10 +31,10 @@ struct T
 
 private:
 
-	void * cancellable;
-	void (* cancel_cancellable) (void *);
+	void * m_cancellable;
+	void (* m_cancel_cancellable) (void *);
 
-	std::thread thread;
+	std::thread m_thread;
 };
 
 static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);

@@ -16,9 +16,9 @@ T
 	default_value
 >::validate () const
 {
-	if constexpr (!optional)
+	if constexpr (! optional)
 	{
-		if (! this -> value)
+		if (! this -> m_value)
 		{
 			throw Failure::SemanticError::T
 			(

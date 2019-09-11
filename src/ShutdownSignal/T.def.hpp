@@ -1,3 +1,3 @@
-T::T () : state (State::INACTIVE)
+T::T () : m_state (State::INACTIVE)
 {
 }

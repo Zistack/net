@@ -25,7 +25,7 @@ template <typename Function, typename ... Arguments, typename>
 void
 T::add (Function && function, Arguments && ... arguments) noexcept
 {
-	this->add
+	this -> add
 	(
 		nullptr,
 		std::forward <Function> (function),
@@ -48,7 +48,7 @@ T::add
 	Arguments &&... arguments
 ) noexcept
 {
-	this->start
+	this -> start
 	(
 		& T::execute,
 		this,

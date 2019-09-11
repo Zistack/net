@@ -43,18 +43,18 @@ private:
 	void
 	close ();
 
-	int tcp_socket;
-	struct tls * tls_context;
-	std::mutex & socket_mutex;
-	bool & spurious_read;
+	int m_tcp_socket;
+	struct tls * m_tls_context;
+	std::mutex & m_socket_mutex;
+	bool & m_spurious_read;
 
-	IO::CancelSignal::T cancel_signal;
+	IO::CancelSignal::T m_cancel_signal;
 
-	size_t next;
+	size_t m_next;
 
 	static const size_t BUFFER_SIZE = 4096;
 
-	std::unique_ptr <char []> buffer;
+	std::unique_ptr <char []> m_buffer;
 
 	friend struct Scope::T <T>;
 };

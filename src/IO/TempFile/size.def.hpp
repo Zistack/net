@@ -5,7 +5,7 @@ T::size () const
 
 	struct stat file_status;
 
-	if (fstat (this -> file_descriptor, & file_status) == -1)
+	if (fstat (this -> m_file_descriptor, & file_status) == -1)
 	{
 		throw Failure::ResourceError::T
 		(

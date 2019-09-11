@@ -1,5 +1,5 @@
 bool
 T::running ()
 {
-	return this -> state . load () == State::RUNNING;
+	return this -> m_state . load () == State::RUNNING;
 }

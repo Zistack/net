@@ -19,9 +19,9 @@ private:
 
 	// Given members
 
-	Lockable & lockable;
+	Lockable & m_lockable;
 
 	// Internal members
 
-	bool state;
+	bool m_state;
 };

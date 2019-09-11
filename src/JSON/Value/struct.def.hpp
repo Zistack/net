@@ -42,5 +42,5 @@ private:
 		Number::T,
 		Object::T,
 		String::T
-	> contents;
+	> m_contents;
 };

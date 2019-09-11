@@ -18,5 +18,5 @@ struct T
 
 private:
 
-	std::string registered_name;
+	std::string m_registered_name;
 };

@@ -20,7 +20,7 @@ T <ValueType, optional, identifier, description, default_value>::get () const
 	{
 		if (this -> value)
 		{
-			return std::make_optional (this -> value . get ());
+			return std::make_optional (this -> m_value . get ());
 		}
 		else
 		{
@@ -29,6 +29,6 @@ T <ValueType, optional, identifier, description, default_value>::get () const
 	}
 	else
 	{
-		return this -> value -> get ();
+		return this -> m_value -> get ();
 	}
 }

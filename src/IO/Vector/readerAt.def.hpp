@@ -1,5 +1,5 @@
 Reader::T
 T::readerAt (Size::T position) const
 {
-	return {this -> vector, position};
+	return {this -> m_vector, position};
 }

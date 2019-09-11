@@ -25,6 +25,6 @@ struct T
 
 private:
 
-	Scopable * scopable;
-	Failure::ExceptionStore::T * exception_store;
+	Scopable * m_scopable;
+	Failure::ExceptionStore::T * m_exception_store;
 };

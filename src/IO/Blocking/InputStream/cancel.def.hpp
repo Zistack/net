@@ -2,5 +2,5 @@ template <typename NonblockingInputStream>
 void
 T <NonblockingInputStream>::cancel ()
 {
-	this -> cancel_signal . cancel ();
+	this -> m_cancel_signal . cancel ();
 }

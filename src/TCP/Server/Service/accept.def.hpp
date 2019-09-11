@@ -6,7 +6,7 @@ T <ServerProtocol>::accept
 	Thread::Nursery::T & nursery
 )
 {
-	auto connection_protocol = this -> server_protocol . make ();
+	auto connection_protocol = this -> m_server_protocol . make ();
 
 	connection_protocol -> prime ();
 

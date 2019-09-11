@@ -1,4 +1,4 @@
-T::T (const InterfaceType & value) : value (value)
+T::T (const InterfaceType & value) : m_value (value)
 {
 }
 
@@ -12,7 +12,7 @@ T::T (InputStream && input_stream)
 
 		if (c == '\\')
 		{
-			this -> value . push_back (input_stream . get ());
+			this -> m_value . push_back (input_stream . get ());
 		}
 		else if (c == '"')
 		{
@@ -20,7 +20,7 @@ T::T (InputStream && input_stream)
 		}
 		else
 		{
-			this -> value . push_back (c);
+			this -> m_value . push_back (c);
 		}
 	}
 }

@@ -17,7 +17,7 @@ T::T (InputStream && input_stream)
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 
 			String::T json_string (std::forward <InputStream> (input_stream));
-			std::string key = json_string . value ();
+			std::string key = json_string . value;
 
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 			IO::Util::expect (std::forward <InputStream> (input_stream), ':');
@@ -27,7 +27,7 @@ T::T (InputStream && input_stream)
 				std::forward <InputStream> (input_stream)
 			);
 
-			members . insert ({key, std::move (json_value)});
+			this -> m_members . insert ({key, std::move (json_value)});
 
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 			char c = input_stream . get ();

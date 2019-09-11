@@ -1,10 +1,10 @@
 void
 T::reset () noexcept
 {
-	if (this -> cancellable)
+	if (this -> m_cancellable)
 	{
-		this -> cancellable = nullptr;
-		this -> cancel_cancellable = nullptr;
+		this -> m_cancellable = nullptr;
+		this -> m_cancel_cancellable = nullptr;
 	}
-	if (this -> thread . joinable ()) this -> thread . detach ();
+	if (this -> m_thread . joinable ()) this -> m_thread . detach ();
 }

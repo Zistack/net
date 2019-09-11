@@ -24,7 +24,7 @@ T
 {
 	if constexpr (& identifier == & member_identifier)
 	{
-		this -> member . set (std::forward <Value> (value));
+		this -> m_member . set (std::forward <Value> (value));
 	}
 	else
 	{

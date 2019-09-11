@@ -2,9 +2,9 @@ template <typename Element>
 void
 T <Element>::close ()
 {
-	std::unique_lock lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	this -> closed = true;
+	this -> m_closed = true;
 
-	this -> c . notify_one ();
+	this -> m_condition_variable . notify_one ();
 }

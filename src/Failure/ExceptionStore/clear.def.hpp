@@ -1,7 +1,7 @@
 void
 T::clear ()
 {
-	std::unique_lock <decltype (this -> m)> lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	this -> exception = nullptr;
+	this -> m_exception = nullptr;
 }

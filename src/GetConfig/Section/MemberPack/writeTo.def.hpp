@@ -22,7 +22,7 @@ T
 	RemainingMemberTypes ...
 >::writeTo (OutputStream && output_stream, size_t indentation) const
 {
-	this -> member . writeTo
+	this -> m_member . writeTo
 	(
 		std::forward <OutputStream> (output_stream),
 		indentation

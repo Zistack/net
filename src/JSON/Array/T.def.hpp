@@ -14,7 +14,7 @@ T::T (InputStream && input_stream)
 
 		while (true)
 		{
-			members . push_back
+			this -> m_members . push_back
 			(
 				std::make_unique <Value::T>
 				(

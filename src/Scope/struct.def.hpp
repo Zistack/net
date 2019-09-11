@@ -20,5 +20,5 @@ struct T
 
 private:
 
-	Scopable * scopable;
+	Scopable * m_scopable;
 };

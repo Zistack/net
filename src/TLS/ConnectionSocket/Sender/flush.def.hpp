@@ -1,9 +1,9 @@
 void
 T::flush ()
 {
-	if (! this -> next) return;
+	if (! this -> m_next) return;
 
-	this -> send (this -> buffer . get (), this -> next);
+	this -> send (this -> m_buffer . get (), this -> m_next);
 
-	this -> next = 0;
+	this -> m_next = 0;
 }

@@ -174,14 +174,14 @@ private:
 	void
 	join ();
 
-	std::mutex m;
-	std::condition_variable c;
-	bool cancelled;
+	std::mutex m_mutex;
+	std::condition_variable m_condition_variable;
+	bool m_cancelled;
 
-	std::unordered_map <std::thread::id, Thread::T> threads;
+	std::unordered_map <std::thread::id, Thread::T> m_threads;
 
-	std::unique_ptr <Failure::ExceptionStore::T> internal_store;
-	Failure::ExceptionStore::T & exception_store;
+	std::unique_ptr <Failure::ExceptionStore::T> m_internal_store;
+	Failure::ExceptionStore::T & m_exception_store;
 };
 
 static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);

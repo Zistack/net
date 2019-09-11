@@ -45,14 +45,14 @@ private:
 	void
 	close ();
 
-	NonblockingOutputStream output_stream;
-	CancelSignal::T cancel_signal;
+	NonblockingOutputStream m_output_stream;
+	CancelSignal::T m_cancel_signal;
 
-	size_t next;
+	size_t m_next;
 
 	static const size_t BUFFER_SIZE = 4096;
 
-	std::unique_ptr <char []> buffer;
+	std::unique_ptr <char []> m_buffer;
 
 	friend struct Scope::T <T>;
 };

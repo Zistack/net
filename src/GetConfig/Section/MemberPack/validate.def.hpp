@@ -21,16 +21,19 @@ T
 	RemainingMemberTypes ...
 >::validate () const
 {
-	this -> member . validate ();
+	this -> m_member . validate ();
 
-	if ((! optional) && (! this -> value))
+	if constexpr (! optional)
 	{
-		throw Failure::SemanticError::T
-		(
-			"Value is required for member '" +
-				member_identifier +
-				"' and is not provided\n"
-		);
+		if (! this -> m_member . get ())
+		{
+			throw Failure::SemanticError::T
+			(
+				"Value is required for member '" +
+					member_identifier +
+					"' and is not provided\n"
+			);
+		}
 	}
 
 	this -> T <RemainingMemberTypes ...>::validate ();

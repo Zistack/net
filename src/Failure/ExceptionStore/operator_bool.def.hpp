@@ -1,4 +1,4 @@
 T::operator bool () const
 {
-	return (bool) this -> exception;
+	return (bool) this -> m_exception;
 }

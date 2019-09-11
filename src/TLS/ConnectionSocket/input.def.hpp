@@ -1,5 +1,5 @@
 IO::FileDescriptor::Input::T
 T::input () const
 {
-	return {this -> tcp_socket};
+	return {this -> m_tcp_socket};
 }

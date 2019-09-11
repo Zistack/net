@@ -1,5 +1,5 @@
 Size::T
 T::size () const
 {
-	return this -> string . size ();
+	return this -> m_string . size ();
 }

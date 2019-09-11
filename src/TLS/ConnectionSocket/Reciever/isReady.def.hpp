@@ -1,5 +1,5 @@
 bool
 T::isReady () const
 {
-	return this -> begin != this -> end;
+	return this -> m_begin != this -> m_end;
 }

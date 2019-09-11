@@ -12,6 +12,6 @@ T::writeTo (OutputStream && output_stream, size_t indentation)
 				indentation
 			);
 		},
-		this -> contents
+		this -> m_contents
 	);
 }

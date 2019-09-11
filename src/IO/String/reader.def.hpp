@@ -1,5 +1,5 @@
 Reader::T
 T::reader () const
 {
-	return {this -> string};
+	return {this -> m_string};
 }

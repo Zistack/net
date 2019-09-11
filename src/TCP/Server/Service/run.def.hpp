@@ -3,14 +3,17 @@ void
 T <ServerProtocol>::run ()
 {
 	{
-		SuppressingScope::T shutdown_scope (std::move (this -> shutdown_scope));
+		SuppressingScope::T shutdown_scope
+		(
+			std::move (this -> m_shutdown_scope)
+		);
 
-		Thread::Nursery::T nursery (this -> exception_store);
+		Thread::Nursery::T nursery (this -> m_exception_store);
 
 		nursery.run
 		(
-			this -> shutdown_signal,
-			[this, &nursery] ()
+			this -> m_shutdown_signal,
+			[this, & nursery] ()
 			{
 				this -> listen (nursery);
 				nursery . cancel ();
@@ -18,5 +21,5 @@ T <ServerProtocol>::run ()
 		);
 	}
 
-	this -> exception_store . pop ();
+	this -> m_exception_store . pop ();
 }

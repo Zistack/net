@@ -23,5 +23,5 @@ struct T
 
 private:
 
-	Data::T vector;
+	Data::T m_vector;
 };

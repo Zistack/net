@@ -2,5 +2,5 @@ template <typename NonblockingOutputStream>
 int
 T <NonblockingOutputStream>::fileDescriptor () const
 {
-	return this -> output_stream . fileDescriptor ();
+	return this -> m_output_stream . fileDescriptor ();
 }

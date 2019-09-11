@@ -16,6 +16,6 @@ struct T
 
 private:
 
-	uint16_t status_code;
-	NullableString::T reason;
+	uint16_t m_status_code;
+	NullableString::T m_reason;
 };

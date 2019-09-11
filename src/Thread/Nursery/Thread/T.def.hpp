@@ -8,8 +8,8 @@ T::T
 {
 	if constexpr (Failure::TypeTraits::IsCancellable::T <T>::value)
 	{
-		this -> cancellable = cancellable;
-		this -> cancel_cancellable = & Cancellable::cancel;
+		this -> m_cancellable = cancellable;
+		this -> m_cancel_cancellable = & Cancellable::cancel;
 	}
 	else
 	{
@@ -18,7 +18,7 @@ T::T
 
 	if constexpr (std::is_invocable_v <Function, Arguments ...>)
 	{
-		this->thread = std::thread
+		this -> m_thread = std::thread
 		(
 			std::forward <Function> (function),
 			std::forward <Arguments> (arguments) ...

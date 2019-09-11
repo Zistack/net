@@ -1,5 +1,5 @@
 Reader::T
 T::reader () const
 {
-	return {this -> vector};
+	return {this -> m_vector};
 }

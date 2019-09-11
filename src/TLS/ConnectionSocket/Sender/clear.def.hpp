@@ -1,5 +1,5 @@
 void
 T::clear ()
 {
-	this -> cancel_signal . clear ();
+	this -> m_cancel_signal . clear ();
 }

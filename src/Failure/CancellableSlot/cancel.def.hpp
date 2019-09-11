@@ -2,11 +2,11 @@ template <typename ... Cancellables>
 void
 T <Cancellables ...>::cancel ()
 {
-	std::unique_lock <decltype (this -> mutex)> lock (this -> mutex);
+	std::unique_lock lock (this -> m_mutex);
 
-	if (cancelled) return;
+	if (this -> m_cancelled) return;
 
-	this -> cancelled = true;
+	this -> m_cancelled = true;
 
 	this -> callCancellable ();
 }

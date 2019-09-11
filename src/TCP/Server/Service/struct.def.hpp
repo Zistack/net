@@ -24,17 +24,17 @@ private:
 
 	// Given members
 
-	ServerProtocol server_protocol;
-	Config::T config;
+	ServerProtocol m_server_protocol;
+	Config::T m_config;
 
 	// Internal members
 
-	ShutdownSignal::T shutdown_signal;
-	Failure::ExceptionStore::T exception_store;
+	ShutdownSignal::T m_shutdown_signal;
+	Failure::ExceptionStore::T m_exception_store;
 
 	// Transient members
 
-	SuppressingScope::T <ShutdownSignal::T> shutdown_scope;
+	SuppressingScope::T <ShutdownSignal::T> m_shutdown_scope;
 
 	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };

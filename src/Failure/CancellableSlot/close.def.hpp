@@ -2,7 +2,7 @@ template <typename ... Cancellables>
 void
 T <Cancellables ...>::close ()
 {
-	std::unique_lock <decltype (this -> mutex)> lock (this -> mutex);
+	std::unique_lock lock (this -> m_mutex);
 
-	this -> cancellable = nullptr;
+	this -> m_cancellable = nullptr;
 }

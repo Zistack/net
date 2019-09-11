@@ -1,6 +1,6 @@
 template <typename Cancellable>
 T <Cancellable>::T (size_t size)
-:	cancellables (new Cancellable * [size]),
-	next (0)
+:	m_cancellables (new Cancellable * [size]),
+	m_next (0)
 {
 }

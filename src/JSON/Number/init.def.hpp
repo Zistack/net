@@ -6,7 +6,7 @@ T::init (InputStream && input_stream)
 
 	try
 	{
-		this -> base = Rule::getBase
+		this -> m_base = Rule::getBase
 		(
 			std::forward <InputStream> (input_stream)
 		);
@@ -31,7 +31,7 @@ T::init (InputStream && input_stream)
 
 	mantissa:
 
-		this -> mantissa = Rule::getMantissa
+		this -> m_mantissa = Rule::getMantissa
 		(
 			std::forward <InputStream> (input_stream)
 		);
@@ -50,7 +50,7 @@ T::init (InputStream && input_stream)
 
 	exponent:
 
-		this -> exponent = Rule::getExponent
+		this -> m_exponent = Rule::getExponent
 		(
 			std::forward <InputStream> (input_stream)
 		);

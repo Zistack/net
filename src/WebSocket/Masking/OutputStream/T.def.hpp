@@ -4,8 +4,8 @@ T <OutputStream>::T
 	OutputStream output_stream,
 	Key::T masking_key
 )
-:	output_stream (output_stream),
-	masking_key (masking_key),
-	masking_key_index (0)
+:	m_output_stream (output_stream),
+	m_masking_key (masking_key),
+	m_masking_key_index (0)
 {
 }

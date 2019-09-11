@@ -1,9 +1,9 @@
-T::T () : file_descriptor (-1)
+T::T () : m_file_descriptor (-1)
 {
 }
 
 T::T (const Config::T & config)
-:	file_descriptor
+:	m_file_descriptor
 	(
 		Util::server
 		(
@@ -14,7 +14,7 @@ T::T (const Config::T & config)
 {
 }
 
-T::T (T && other) : file_descriptor (other . file_descriptor)
+T::T (T && other) : m_file_descriptor (other . m_file_descriptor)
 {
-	other . file_descriptor = -1;
+	other . m_file_descriptor = -1;
 }

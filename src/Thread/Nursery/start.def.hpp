@@ -7,11 +7,11 @@ T::start
 	Arguments && ... arguments
 ) noexcept
 {
-	std::unique_lock lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	if (this -> cancelled) return false;
+	if (this -> m_cancelled) return false;
 
-	if (this -> exception_store) return false;
+	if (this -> m_exception_store) return false;
 
 	Thread::T thread
 	(
@@ -20,7 +20,7 @@ T::start
 		cancellable
 	);
 
-	this -> threads . insert ({thread . id (), std::move (thread)});
+	this -> m_threads . insert ({thread . id (), std::move (thread)});
 
 	return true;
 }

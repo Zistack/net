@@ -24,5 +24,5 @@ struct T
 
 private:
 
-	InterfaceType value;
+	InterfaceType m_value;
 };

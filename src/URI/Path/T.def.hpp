@@ -1,4 +1,4 @@
-T::T () : absolute (true)
+T::T () : m_absolute (true)
 {
 }
 
@@ -17,6 +17,6 @@ T::T (const std::string & path_string)
 
 template <class Iterable, typename>
 T::T (Iterable && iterable, bool absolute)
-:	segments (iterable . begin (), iterable . end ()), absolute (absolute)
+:	m_segments (iterable . begin (), iterable . end ()), m_absolute (absolute)
 {
 }

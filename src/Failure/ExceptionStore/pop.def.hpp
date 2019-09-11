@@ -1,12 +1,12 @@
 void
 T::pop ()
 {
-	std::unique_lock <decltype (this -> m)> lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	if (this -> exception)
+	if (this -> m_exception)
 	{
-		std::exception_ptr e = this -> exception;
-		this -> exception = nullptr;
+		std::exception_ptr e = this -> m_exception;
+		this -> m_exception = nullptr;
 		std::rethrow_exception (e);
 	}
 }

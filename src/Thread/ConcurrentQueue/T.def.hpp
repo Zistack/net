@@ -1,4 +1,4 @@
 template <typename Element>
-T <Element>::T () : closed (true)
+T <Element>::T () : m_closed (true)
 {
 }

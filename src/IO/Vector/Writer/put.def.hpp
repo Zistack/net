@@ -1,13 +1,13 @@
 void
 T::put (char c)
 {
-	if (this -> pointer < this -> vector . size ())
+	if (this -> m_pointer < this -> m_vector . size ())
 	{
-		this -> vector [this -> pointer] = (uint8_t) c;
+		this -> m_vector [this -> m_pointer] = (uint8_t) c;
 	}
 	else
 	{
-		this -> vector . push_back ((uint8_t) c);
-		this -> pointer = this -> vector . size ();
+		this -> m_vector . push_back ((uint8_t) c);
+		this -> m_pointer = this -> m_vector . size ();
 	}
 }

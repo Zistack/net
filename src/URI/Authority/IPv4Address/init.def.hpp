@@ -37,7 +37,7 @@ T::init (InputStream && input_stream)
 		throw Failure::SyntaxError::T ("IPv4 octet must be less than 256\n");
 	}
 
-	this -> octets =
+	this -> m_octets =
 	{
 		(uint8_t) first,
 		(uint8_t) second,

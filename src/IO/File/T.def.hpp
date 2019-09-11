@@ -1,4 +1,4 @@
-T::T () : file_descriptor (-1)
+T::T () : m_file_descriptor (-1)
 {
 }
 
@@ -33,9 +33,9 @@ T::T (const std::string & filename, const std::string & mode)
 		flags = O_RDWR | O_CREAT | O_APPEND;
 	}
 
-	this -> file_descriptor = open (filename . data (), flags);
+	this -> m_file_descriptor = open (filename . data (), flags);
 
-	if (this -> file_descriptor == -1)
+	if (this -> m_file_descriptor == -1)
 	{
 		throw Failure::ResourceError::T (
 			message_prefix + "open: " + Failure::Util::strerror (errno) + "\n"
@@ -43,7 +43,7 @@ T::T (const std::string & filename, const std::string & mode)
 	}
 }
 
-T::T (T && other) : file_descriptor (other . file_descriptor)
+T::T (T && other) : m_file_descriptor (other . m_file_descriptor)
 {
-	other . file_descriptor = -1;
+	other . m_file_descriptor = -1;
 }

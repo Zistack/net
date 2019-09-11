@@ -1,20 +1,20 @@
 void
 T::refill ()
 {
-	if (this -> eof_bit)
+	if (this -> m_eof_bit)
 	{
 		throw Failure::EndOfResource::T ();
 	}
 
-	std::unique_lock socket_lock (this -> socket_mutex);
+	std::unique_lock socket_lock (this -> m_socket_mutex);
 
 	while (true)
 	{
 		ssize_t size = tls_read
 		(
-			this -> tls_context,
-			this -> buffer . get (),
-			this -> BUFFER_SIZE
+			this -> m_tls_context,
+			this -> m_buffer . get (),
+			BUFFER_SIZE
 		);
 
 		if (size <= 0)
@@ -23,12 +23,12 @@ T::refill ()
 			{
 			case TLS_WANT_POLLIN:
 
-				IO::Util::wait (* this, this -> cancel_signal);
+				IO::Util::wait (* this, this -> m_cancel_signal);
 				continue;
 
 			case TLS_WANT_POLLOUT:
 
-				IO::Util::wait (* this, this -> cancel_signal);
+				IO::Util::wait (* this, this -> m_cancel_signal);
 				continue;
 
 			case -1:
@@ -37,20 +37,20 @@ T::refill ()
 				throw Failure::Error::T
 				(
 					std::string ("Failed to read from TLS context: ") +
-						tls_error (this->tls_context) +
+						tls_error (this -> m_tls_context) +
 						"\n"
 				);
 
 			case 0:
 
-				this -> eof_bit = true;
+				this -> m_eof_bit = true;
 				throw Failure::EndOfResource::T ();
 			}
 		}
 		else
 		{
-			this -> begin = 0;
-			this -> end = (size_t) size;
+			this -> m_begin = 0;
+			this -> m_end = (size_t) size;
 			return;
 		}
 	}

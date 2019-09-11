@@ -1,5 +1,8 @@
 void
 T::cancel () noexcept
 {
-	if (this -> cancellable) this -> cancel_cancellable (this -> cancellable);
+	if (this -> m_cancellable)
+	{
+		this -> m_cancel_cancellable (this -> m_cancellable);
+	}
 }

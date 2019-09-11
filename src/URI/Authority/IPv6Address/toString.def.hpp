@@ -10,7 +10,7 @@ T::toString () const
 	size_t i;
 	for (i = 0; i < 8; ++ i)
 	{
-		if (this -> hexadecitets [i] == 0)
+		if (this -> m_hexadecitets [i] == 0)
 		{
 			if (current_position + current_size == i)
 			{
@@ -51,7 +51,7 @@ T::toString () const
 		{
 			address_string . append
 			(
-				hexadecitetToString (this -> hexadecitets [i])
+				hexadecitetToString (this -> m_hexadecitets [i])
 			);
 			++ i;
 			if (i < 8) address_string . push_back (':');

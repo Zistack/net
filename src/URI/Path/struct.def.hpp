@@ -36,6 +36,6 @@ private:
 	void
 	init (InputStream && input_stream);
 
-	std::list <std::string> segments;
-	bool absolute;
+	std::list <std::string> m_segments;
+	bool m_absolute;
 };

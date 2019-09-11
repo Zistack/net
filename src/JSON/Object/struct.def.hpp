@@ -22,5 +22,5 @@ struct T
 
 private:
 
-	std::unordered_map <std::string, std::unique_ptr <Value::T>> members;
+	std::unordered_map <std::string, std::unique_ptr <Value::T>> m_members;
 };

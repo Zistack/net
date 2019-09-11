@@ -20,12 +20,12 @@ private:
 	void
 	cancelCancellable ();
 
-	std::mutex mutex;
+	std::mutex m_mutex;
 
-	bool cancelled;
+	bool m_cancelled;
 
 	std::variant <std::nullptr_t, std::reference_wrapper <Cancellables> ...>
-	cancellable;
+	m_cancellable;
 
 	friend struct Scope::T <T>;
 };

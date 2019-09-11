@@ -1,13 +1,13 @@
 void
 T::put (char c)
 {
-	if (this -> pointer < this -> string . size ())
+	if (this -> m_pointer < this -> m_string . size ())
 	{
-		this -> string [this -> pointer] = c;
+		this -> m_string [this -> m_pointer] = c;
 	}
 	else
 	{
-		this -> string . push_back (c);
-		this -> pointer = this -> string . size ();
+		this -> m_string . push_back (c);
+		this -> m_pointer = this -> m_string . size ();
 	}
 }

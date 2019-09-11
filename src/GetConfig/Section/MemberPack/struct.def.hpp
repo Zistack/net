@@ -74,7 +74,7 @@ protected:
 
 private:
 
-	MemberType member;
+	MemberType m_member;
 };
 
 template <>

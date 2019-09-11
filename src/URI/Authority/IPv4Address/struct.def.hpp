@@ -24,5 +24,5 @@ private:
 	void
 	init (InputStream && input_stream);
 
-	std::array <uint8_t, 4> octets;
+	std::array <uint8_t, 4> m_octets;
 };

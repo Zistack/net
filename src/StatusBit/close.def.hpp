@@ -2,7 +2,7 @@ template <class Lockable>
 void
 T <Lockable>::close ()
 {
-	std::unique_lock lock (this -> lockable);
+	std::unique_lock lock (this -> m_lockable);
 
-	this -> state = false;
+	this -> m_state = false;
 }

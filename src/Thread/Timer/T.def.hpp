@@ -5,8 +5,8 @@ T::T
 	Callback && callback,
 	CallbackArgs && ... callback_args
 )
-:	stop (false),
-	thread
+:	m_stop (false),
+	m_thread
 	(
 		& T::run <Rep, Period>,
 		* this,

@@ -23,5 +23,5 @@ struct T
 
 private:
 
-	Data::T string;
+	Data::T m_string;
 };

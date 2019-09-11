@@ -24,7 +24,7 @@ T
 {
 	if (identifier == member_identifier)
 	{
-		this -> member . set (std::forward <InputStream> (input_stream));
+		this -> m_member . set (std::forward <InputStream> (input_stream));
 	}
 	else
 	{

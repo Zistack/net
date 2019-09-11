@@ -1,5 +1,5 @@
 Writer::T
 T::writer ()
 {
-	return {this -> string};
+	return {this -> m_string};
 }

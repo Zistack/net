@@ -5,8 +5,8 @@ T <OutputStream>::T
 	OutputStream output_stream,
 	OutputEntitySlot::T & entity_slot
 )
-:	count (count),
-	output_stream (std::forward <OutputStream> (output_stream)),
-	entity_slot (entity_slot)
+:	m_count (count),
+	m_output_stream (std::forward <OutputStream> (output_stream)),
+	m_entity_slot (entity_slot)
 {
 }

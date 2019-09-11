@@ -7,6 +7,6 @@ template
 	const std::optional <ValueType> & default_value
 >
 T <ValueType, optional, identifier, description, default_value>::T ()
-:	value (default_value)
+:	m_value (default_value)
 {
 }

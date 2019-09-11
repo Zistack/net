@@ -1,9 +1,9 @@
 char
 T::peek ()
 {
-	if (this -> pointer < this -> vector . size ())
+	if (this -> m_pointer < this -> m_vector . size ())
 	{
-		return (char) this -> vector [this -> pointer];
+		return (char) this -> m_vector [this -> m_pointer];
 	}
 	else
 	{

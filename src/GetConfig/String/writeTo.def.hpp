@@ -3,7 +3,7 @@ void
 T::writeTo (OutputStream && output_stream) const
 {
 	output_stream . put ('"');
-	for (char c : this -> value)
+	for (char c : this -> m_value)
 	{
 		if (c == '"')
 		{

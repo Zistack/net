@@ -35,5 +35,5 @@ private:
 	static std::string
 	hexadecitetToString (uint16_t hexadecitet);
 
-	std::array <uint16_t, 8> hexadecitets;
+	std::array <uint16_t, 8> m_hexadecitets;
 };

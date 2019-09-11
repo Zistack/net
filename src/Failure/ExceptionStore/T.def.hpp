@@ -1,3 +1,3 @@
-T::T () : exception (nullptr)
+T::T () : m_exception (nullptr)
 {
 }

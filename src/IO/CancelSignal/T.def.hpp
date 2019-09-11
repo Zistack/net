@@ -1,9 +1,10 @@
-T::T () : cancelled (false)
+T::T () : m_cancelled (false)
 {
 }
 
 T::T (T && other)
-:	cancelled (other . cancelled . load ()), signal (std::move (other . signal))
+:	m_cancelled (other . m_cancelled . load ()),
+	m_signal (std::move (other . m_signal))
 {
-	other . cancelled = false;
+	other . m_cancelled = false;
 }

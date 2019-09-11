@@ -1,9 +1,9 @@
 std::thread::id
 T::id () const noexcept
 {
-	if (this -> thread . joinable ())
+	if (this -> m_thread . joinable ())
 	{
-		return this -> thread . get_id ();
+		return this -> m_thread . get_id ();
 	}
 	else
 	{

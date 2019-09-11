@@ -17,5 +17,5 @@ T
 	default_value
 >::readFrom (InputStream && input_stream)
 {
-	this -> value . emplace (input_stream);
+	this -> m_value . emplace (input_stream);
 }

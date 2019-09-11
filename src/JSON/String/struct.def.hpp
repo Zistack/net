@@ -5,12 +5,6 @@ struct T
 
 	T (const std::string & string);
 
-	std::string &
-	value ();
-
-	const std::string &
-	value () const;
-
 	operator const std::string & () const;
 
 	template <typename OutputStream>
@@ -19,7 +13,5 @@ struct T
 
 	~T () = default;
 
-private:
-
-	std::string string;
+	std::string value;
 };

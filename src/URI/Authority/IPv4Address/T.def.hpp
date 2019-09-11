@@ -1,4 +1,4 @@
-T::T () : octets ({127, 0, 0, 1})
+T::T () : m_octets ({127, 0, 0, 1})
 {
 }
 
@@ -15,6 +15,6 @@ T::T (const std::string & address_string)
 	IO::Util::expectEOF (input_stream);
 }
 
-T::T (const std::array <uint8_t, 4> & octets) : octets (octets)
+T::T (const std::array <uint8_t, 4> & octets) : m_octets (octets)
 {
 }

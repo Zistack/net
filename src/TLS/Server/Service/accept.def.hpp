@@ -6,7 +6,7 @@ T <ServerProtocol>::accept
 	Thread::Nursery::T & nursery
 )
 {
-	auto connection_protocol = this -> server_protocol . make ();
+	auto connection_protocol = this -> m_server_protocol . make ();
 
 	connection_protocol -> prime ();
 
@@ -31,7 +31,7 @@ T <ServerProtocol>::accept
 					{
 						Thread::Timer::T handshake_timer
 						(
-							this -> config . getTimeout (),
+							this -> m_config . getTimeout (),
 							& IO::CancelSignal::T::cancel,
 							& timeout_signal
 						);
@@ -59,7 +59,7 @@ T <ServerProtocol>::accept
 					{
 						Thread::Timer::T close_timer
 						(
-							this -> config . getTimeout (),
+							this -> m_config . getTimeout (),
 							& IO::CancelSignal::T::cancel,
 							& timeout_signal
 						);

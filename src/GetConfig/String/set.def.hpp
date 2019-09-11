@@ -1,11 +1,11 @@
 void
 T::set (const InterfaceType & value)
 {
-	this -> value = value;
+	this -> m_value = value;
 }
 
 void
 T::set (InterfaceType && value)
 {
-	this -> value = std::move (value);
+	this -> m_value = std::move (value);
 }

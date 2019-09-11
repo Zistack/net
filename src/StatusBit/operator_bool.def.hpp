@@ -1,5 +1,5 @@
 template <class Lockable>
 T <Lockable>::operator bool () const
 {
-	return this -> state;
+	return this -> m_state;
 }

@@ -15,13 +15,13 @@ T::T (const Config::T & config, size_t entity_size)
 		// boned.
 
 		Header::TransferEncoding::Specification::T last_specification =
-			transfer_encoding . m_specifications . back ();
-		transfer_encoding . m_specifications . pop_back ();
+			transfer_encoding . specifications . back ();
+		transfer_encoding . specifications . pop_back ();
 
 		for
 		(
 			Header::TransferEncoding::Specification::T & specification :
-			transfer_encoding . m_specifications
+			transfer_encoding . specifications
 		)
 		{
 			this -> addStage (specification);

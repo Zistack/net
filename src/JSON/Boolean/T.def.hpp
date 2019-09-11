@@ -6,18 +6,18 @@ T::T (InputStream && input_stream)
 	if (c == 't')
 	{
 		IO::Util::expect (std::forward <InputStream> (input_stream), "true");
-		this -> b = true;
+		this -> m_value = true;
 	}
 
 	if (c == 'f')
 	{
 		IO::Util::expect (std::forward <InputStream> (input_stream), "false");
-		this -> b = false;
+		this -> m_value = false;
 	}
 
 	throw Failure::SyntaxError::T (IO::Message::unexpectedCharacter (c));
 }
 
-T::T (bool b) : b (b)
+T::T (bool value) : m_value (value)
 {
 }

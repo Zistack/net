@@ -13,8 +13,8 @@ struct T
 
 private:
 
-	std::unique_ptr <Cancellable * []> cancellables;
-	size_t next;
+	std::unique_ptr <Cancellable * []> m_cancellables;
+	size_t m_next;
 };
 
 static_assert

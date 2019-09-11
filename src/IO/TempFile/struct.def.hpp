@@ -35,6 +35,6 @@ struct T
 
 private:
 
-	std::unique_ptr <char []> name;
-	int file_descriptor;
+	std::unique_ptr <char []> m_name;
+	int m_file_descriptor;
 };

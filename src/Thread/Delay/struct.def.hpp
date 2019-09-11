@@ -17,7 +17,9 @@ struct T
 
 	~T () = default;
 
-	std::shared_ptr <std::promise <Element>> promise;
+private:
+
+	std::shared_ptr <std::promise <Element>> m_promise;
 
 	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };

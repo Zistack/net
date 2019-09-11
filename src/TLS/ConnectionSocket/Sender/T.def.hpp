@@ -5,11 +5,11 @@ T::T
 	std::mutex & socket_mutex,
 	bool & spurious_read
 )
-:	tcp_socket (tcp_socket),
-	tls_context (tls_context),
-	socket_mutex (socket_mutex),
-	spurious_read (spurious_read),
-	next (0),
-	buffer (new char [BUFFER_SIZE])
+:	m_tcp_socket (tcp_socket),
+	m_tls_context (tls_context),
+	m_socket_mutex (socket_mutex),
+	m_spurious_read (spurious_read),
+	m_next (0),
+	m_buffer (new char [BUFFER_SIZE])
 {
 }

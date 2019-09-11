@@ -1,12 +1,12 @@
 T::T () noexcept
-:	cancelled (false),
-	internal_store (std::make_unique <Failure::ExceptionStore::T> ()),
-	exception_store (* internal_store)
+:	m_cancelled (false),
+	m_internal_store (std::make_unique <Failure::ExceptionStore::T> ()),
+	m_exception_store (* m_internal_store)
 {
 }
 
 T::T (Failure::ExceptionStore::T & exception_store) noexcept
-:	cancelled (false),
-	exception_store (exception_store)
+:	m_cancelled (false),
+	m_exception_store (exception_store)
 {
 }

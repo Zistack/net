@@ -1,5 +1,5 @@
 Type::T
 T::type () const
 {
-	return this -> message_type;
+	return this -> m_message_type;
 }

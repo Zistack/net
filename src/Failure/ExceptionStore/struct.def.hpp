@@ -27,6 +27,6 @@ struct T
 
 private:
 
-	std::mutex m;
-	std::exception_ptr exception;
+	std::mutex m_mutex;
+	std::exception_ptr m_exception;
 };

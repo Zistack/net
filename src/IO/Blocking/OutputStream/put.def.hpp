@@ -2,10 +2,10 @@ template <typename NonblockingOutputStream>
 void
 T <NonblockingOutputStream>::put (char c)
 {
-	this -> buffer [this -> next] = c;
-	++ this -> next;
+	this -> m_buffer [this -> m_next] = c;
+	++ this -> m_next;
 
-	if (this -> next == BUFFER_SIZE)
+	if (this -> m_next == BUFFER_SIZE)
 	{
 		this -> flush ();
 	}

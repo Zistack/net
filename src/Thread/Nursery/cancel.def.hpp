@@ -1,9 +1,9 @@
 void
 T::cancel () noexcept
 {
-	std::unique_lock lock (this -> m);
+	std::unique_lock lock (this -> m_mutex);
 
-	this -> cancelled = true;
+	this -> m_cancelled = true;
 
-	for (auto && [id, thread] : this -> threads) thread . cancel ();
+	for (auto && [id, thread] : this -> m_threads) thread . cancel ();
 }

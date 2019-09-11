@@ -35,5 +35,5 @@ struct T
 
 private:
 
-	int file_descriptor;
+	int m_file_descriptor;
 };

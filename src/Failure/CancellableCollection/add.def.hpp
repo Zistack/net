@@ -2,6 +2,6 @@ template <typename Cancellable>
 void
 T <Cancellable>::add (Cancellable & cancellable)
 {
-	this -> cancellables [this -> next] = & cancellable;
-	++ this -> next;
+	this -> m_cancellables [this -> m_next] = & cancellable;
+	++ this -> m_next;
 }

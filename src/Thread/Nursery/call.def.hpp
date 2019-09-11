@@ -65,7 +65,7 @@ T::call
 		catch (...)
 		{
 			e = std::current_exception ();
-			first_fail = this -> exception_store . store (e);
+			first_fail = this -> m_exception_store . store (e);
 		}
 		this -> finish ();
 		if (first_fail) this -> cancel ();

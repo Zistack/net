@@ -23,8 +23,8 @@ struct T
 
 private:
 
-	std::atomic <bool> cancelled;
-	Signal::T signal;
+	std::atomic <bool> m_cancelled;
+	Signal::T m_signal;
 };
 
 static_assert (TypeTraits::IsWatchable::T <T>::value);

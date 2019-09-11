@@ -2,10 +2,10 @@ template <typename Scopable>
 T <Scopable> &
 T <Scopable>::operator = (T && other)
 {
-	if (this -> scopable) this -> scopable -> close ();
+	if (this -> m_scopable) this -> m_scopable -> close ();
 
-	this -> scopable = other . scopable;
-	other . scopable = nullptr;
+	this -> m_scopable = other . m_scopable;
+	other . m_scopable = nullptr;
 
 	return * this;
 }

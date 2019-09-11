@@ -1,5 +1,5 @@
 Size::T
 T::size () const
 {
-	return this -> vector . size ();
+	return this -> m_vector . size ();
 }

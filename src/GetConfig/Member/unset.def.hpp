@@ -11,7 +11,7 @@ T <ValueType, optional, identifier, description, default_value>::unset ()
 {
 	if constexpr (optional)
 	{
-		this -> value = std::nullopt;
+		this -> m_value = std::nullopt;
 	}
 	else
 	{

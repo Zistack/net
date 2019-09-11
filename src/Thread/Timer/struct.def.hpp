@@ -20,8 +20,10 @@ struct T
 		CallbackArgs && ... callback_args
 	);
 
-	bool stop;
-	std::mutex m;
-	std::condition_variable c;
-	std::thread thread;
+private:
+
+	bool m_stop;
+	std::mutex m_mutex;
+	std::condition_variable m_condition_variable;
+	std::thread m_thread;
 };

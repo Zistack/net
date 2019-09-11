@@ -39,18 +39,18 @@ private:
 	void
 	refill ();
 
-	NonblockingInputStream input_stream;
+	NonblockingInputStream m_input_stream;
 
-	CancelSignal::T cancel_signal;
+	CancelSignal::T m_cancel_signal;
 
-	size_t begin;
-	size_t end;
+	size_t m_begin;
+	size_t m_end;
 
 	static const size_t BUFFER_SIZE = 4096;
 
-	std::unique_ptr <char []> buffer;
+	std::unique_ptr <char []> m_buffer;
 
-	bool eof_bit;
+	bool m_eof_bit;
 };
 
 template <typename NonblockingInputStream>

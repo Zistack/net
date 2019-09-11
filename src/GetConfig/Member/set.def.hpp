@@ -20,16 +20,16 @@ T
 	{
 		if (value)
 		{
-			this -> value . emplace (* value);
+			this -> m_value . emplace (* value);
 		}
 		else
 		{
-			this -> value = std::nullopt;
+			this -> m_value = std::nullopt;
 		}
 	}
 	else
 	{
-		this -> value . emplace (value);
+		this -> m_value . emplace (value);
 	}
 }
 
@@ -55,15 +55,15 @@ T
 	{
 		if (value)
 		{
-			this -> value . emplace (* value);
+			this -> m_value . emplace (* value);
 		}
 		else
 		{
-			this -> value = std::nullopt;
+			this -> m_value = std::nullopt;
 		}
 	}
 	else
 	{
-		this -> value . emplace (std::move (value));
+		this -> m_value . emplace (std::move (value));
 	}
 }

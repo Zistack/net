@@ -4,7 +4,7 @@ T::addFirstStage
 	const Header::TransferEncoding::Specification::T & specification
 )
 {
-	if (specification . m_identifier == "chunked")
+	if (specification . identifier == "chunked")
 	{
 		this -> m_stages . emplace_back
 		(

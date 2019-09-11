@@ -23,7 +23,7 @@ private:
 	void
 	init (InputStream && input_stream);
 
-	std::string base;
-	NullableString::T mantissa;
-	NullableString::T exponent;
+	std::string m_base;
+	NullableString::T m_mantissa;
+	NullableString::T m_exponent;
 };

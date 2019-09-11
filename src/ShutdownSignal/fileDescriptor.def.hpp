@@ -1,5 +1,5 @@
 int
 T::fileDescriptor () const
 {
-	return this -> signal . fileDescriptor ();
+	return this -> m_signal . fileDescriptor ();
 }

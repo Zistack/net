@@ -5,7 +5,7 @@ T::recieve ()
 
 	uint64_t event;
 
-	while (read (this -> file_descriptor, & event, sizeof (event)) == -1)
+	while (read (this -> m_file_descriptor, & event, sizeof (event)) == -1)
 	{
 		switch (errno)
 		{

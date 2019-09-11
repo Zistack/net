@@ -1,11 +1,11 @@
 void
 T::send (const char * buffer, size_t count)
 {
-	std::unique_lock socket_lock (this -> socket_mutex);
+	std::unique_lock socket_lock (this -> m_socket_mutex);
 
 	while (count)
 	{
-		ssize_t size = tls_write (this -> tls_context, buffer, count);
+		ssize_t size = tls_write (this -> m_tls_context, buffer, count);
 
 		if (size < 0)
 		{
@@ -13,13 +13,13 @@ T::send (const char * buffer, size_t count)
 			{
 			case TLS_WANT_POLLIN:
 
-				this -> spurious_read = true;
-				IO::Util::wait (* this, this -> cancel_signal);
+				this -> m_spurious_read = true;
+				IO::Util::wait (* this, this -> m_cancel_signal);
 				continue;
 
 			case TLS_WANT_POLLOUT:
 
-				IO::Util::wait (* this, this -> cancel_signal);
+				IO::Util::wait (* this, this -> m_cancel_signal);
 				continue;
 
 			default:
@@ -28,7 +28,7 @@ T::send (const char * buffer, size_t count)
 				throw Failure::ResourceError::T
 				(
 					std::string ("Failed to write to TLS context: ") +
-						tls_error (this->tls_context) +
+						tls_error (this -> m_tls_context) +
 						"\n"
 				);
 			}

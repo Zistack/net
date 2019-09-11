@@ -17,8 +17,8 @@ struct T
 
 private:
 
-	Data::T & string;
-	Size::T pointer;
+	Data::T & m_string;
+	Size::T m_pointer;
 };
 
 static_assert (TypeTraits::IsOutputStream::T <T>::value);

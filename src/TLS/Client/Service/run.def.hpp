@@ -2,7 +2,7 @@ template <typename Protocol>
 void
 T <Protocol>::run ()
 {
-	Socket::T client_socket (this->config);
+	Socket::T client_socket (this -> m_config);
 
 	IO::CancelSignal::T timeout_signal;
 
@@ -11,7 +11,7 @@ T <Protocol>::run ()
 		{
 			Thread::Timer::T handshake_timer
 			(
-				this -> config . getTimeout (),
+				this -> m_config . getTimeout (),
 				& IO::CancelSignal::T::cancel,
 				& timeout_signal
 			);
@@ -27,14 +27,14 @@ T <Protocol>::run ()
 	ConnectionSocket::Reciever::T input_stream = client_socket . reciever ();
 	ConnectionSocket::Sender::T output_stream = client_socket . sender ();
 
-	this -> protocol . run (input_stream, output_stream);
+	this -> m_protocol . run (input_stream, output_stream);
 
 	try
 	{
 		{
 			Thread::Timer::T close_timer
 			(
-				this -> config . getTimeout (),
+				this -> m_config . getTimeout (),
 				& IO::CancelSignal::T::cancel,
 				& timeout_signal
 			);

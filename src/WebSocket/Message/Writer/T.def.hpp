@@ -5,8 +5,8 @@ T <InputStream>::T
 	uint64_t count,
 	InputEntitySlot::T & entity_slot
 )
-:	input_stream (std::forward <InputStream> (input_stream)),
-	count (count),
-	entity_slot (entity_slot)
+:	m_input_stream (std::forward <InputStream> (input_stream)),
+	m_count (count),
+	m_entity_slot (entity_slot)
 {
 }
