@@ -10,5 +10,5 @@ struct T
 
 	template <typename OutputStream>
 	void
-	writeResponse (OutputStream && output_stream);
+	writeResponse (const Response & response, OutputStream && output_stream);
 };
