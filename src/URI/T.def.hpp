@@ -13,11 +13,11 @@ T::T (const std::string & uri_string)
 
 T::T
 (
-	const NullableString::T & scheme,
+	const std::optional <std::string> & scheme,
 	const std::optional <Authority::T> & authority,
 	const Path::T & path,
-	const NullableString::T & query,
-	const NullableString::T & fragment
+	const std::optional <std::string> & query,
+	const std::optional <std::string> & fragment
 )
 :	scheme (scheme),
 	authority (authority),

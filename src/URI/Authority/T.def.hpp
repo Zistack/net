@@ -11,7 +11,12 @@ T::T (const std::string & authority_string)
 	IO::Util::expectEOF (input_stream);
 }
 
-T::T (const NullableString::T & user_info, const Host::T & host, uint64_t port)
+T::T
+(
+	const std::optional <std::string> & user_info,
+	const Host::T & host,
+	uint64_t port
+)
 :	user_info (user_info), host (host), port (port)
 {
 }

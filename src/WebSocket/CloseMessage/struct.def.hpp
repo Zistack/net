@@ -3,7 +3,11 @@ struct T
 	template <typename InputStream>
 	T (InputStream && input_stream, uint64_t length);
 
-	T (uint16_t status_code = 1000, const NullableString::T & reason = nullptr);
+	T
+	(
+		uint16_t status_code = 1000,
+		const std::optional <std::string> & reason = std::nullopt
+	);
 
 	uint64_t
 	length () const;
@@ -17,5 +21,5 @@ struct T
 private:
 
 	uint16_t m_status_code;
-	NullableString::T m_reason;
+	std::optional <std::string> m_reason;
 };

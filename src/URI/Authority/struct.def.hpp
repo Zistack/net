@@ -7,7 +7,7 @@ struct T
 
 	T
 	(
-		const NullableString::T & user_info,
+		const std::optional <std::string> & user_info,
 		const Host::T & host,
 		uint64_t port
 	);
@@ -21,7 +21,7 @@ struct T
 
 	~T () = default;
 
-	NullableString::T user_info;
+	std::optional <std::string> user_info;
 	Host::T host;
 	std::optional <uint64_t> port;
 

@@ -9,11 +9,11 @@ struct T
 
 	T
 	(
-		const NullableString::T & scheme,
+		const std::optional <std::string> & scheme,
 		const std::optional <Authority::T> & authority,
 		const Path::T & path,
-		const NullableString::T & query,
-		const NullableString::T & fragment
+		const std::optional <std::string> & query,
+		const std::optional <std::string> & fragment
 	);
 
 	template <typename OutputStream>
@@ -25,11 +25,11 @@ struct T
 
 	~T () = default;
 
-	NullableString::T scheme;
+	std::optional <std::string> scheme;
 	std::optional <Authority::T> authority;
 	Path::T path;
-	NullableString::T query;
-	NullableString::T fragment;
+	std::optional <std::string> query;
+	std::optional <std::string> fragment;
 
 private:
 

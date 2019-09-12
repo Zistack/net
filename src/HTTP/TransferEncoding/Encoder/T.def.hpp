@@ -1,13 +1,13 @@
 T::T (const Config::T & config, size_t entity_size)
 {
-	NullableString::T transfer_encoding_string =
+	std::optional <std::string> transfer_encoding_string =
 		config . getTransferEncoding ();
 
 	if (transfer_encoding_string)
 	{
 		Header::TransferEncoding::T transfer_encoding
 		(
-			transfer_encoding_string . stdString ()
+			* transfer_encoding_string
 		);
 
 		// We're going to assume that the specification is both nonempty and

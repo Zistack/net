@@ -4,7 +4,7 @@ T::writeTo (OutputStream && output_stream)
 {
 	if (this -> scheme)
 	{
-		output_stream . print (this -> scheme . stdString ());
+		output_stream . print (* this -> scheme);
 		output_stream . put (':');
 	}
 
@@ -22,12 +22,12 @@ T::writeTo (OutputStream && output_stream)
 	if (this -> query)
 	{
 		output_stream . put ('?');
-		output_stream . print (Util::encode (this -> query . stdString ()));
+		output_stream . print (Util::encode (* this -> query));
 	}
 
 	if (this -> fragment)
 	{
 		output_stream . put ('#');
-		output_stream . print (Util::encode (this -> fragment . stdString ()));
+		output_stream . print (Util::encode (* this -> fragment));
 	}
 }

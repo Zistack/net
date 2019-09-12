@@ -1,5 +1,5 @@
 void
-T::setHostname (const NullableString::T & hostname)
+T::setHostname (const std::optional <std::string> & hostname)
 {
-	this -> set <Spec::HOSTNAME> (hostname . optional ());
+	this -> set <Spec::HOSTNAME> (hostname);
 }

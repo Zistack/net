@@ -16,7 +16,7 @@ T::T (InputStream && input_stream)
 	}
 }
 
-T::T (const std::string & name, const NullableString::T & version)
+T::T (const std::string & name, const std::optional <std::string> & version)
 :	name (name), version (version)
 {
 }

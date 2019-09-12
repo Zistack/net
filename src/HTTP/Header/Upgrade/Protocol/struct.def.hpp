@@ -3,7 +3,11 @@ struct T
 	template <typename InputStream>
 	T (InputStream && input_stream);
 
-	T (const std::string & name, const NullableString::T & version = nullptr);
+	T
+	(
+		const std::string & name,
+		const std::optional <std::string> & version = std::nullopt
+	);
 
 	int
 	compare (const T & other) const;
@@ -36,5 +40,5 @@ struct T
 	~T () = default;
 
 	std::string name;
-	NullableString::T version;
+	std::optional <std::string> version;
 };

@@ -6,6 +6,6 @@ T::writeTo (OutputStream && output_stream)
 	if (this -> version)
 	{
 		output_stream . put ('/');
-		output_stream . print (this -> version . stdString ());
+		output_stream . print (* this -> version);
 	}
 }

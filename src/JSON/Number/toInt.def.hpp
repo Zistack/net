@@ -4,7 +4,7 @@ T::toInt () const
 	if
 	(
 		this -> m_mantissa ||
-		(this -> m_exponent && this -> m_exponent . stdString () [0] == '-')
+		(this -> m_exponent && (* this -> m_exponent) [0] == '-')
 	)
 	{
 		throw Failure::SemanticError::T ("Number must be ingeter\n");
@@ -13,7 +13,7 @@ T::toInt () const
 	if (this -> m_exponent)
 	{
 		uint64_t exponent =
-			IO::Util::toUInt (this -> m_exponent . stdString ());
+			IO::Util::toUInt (* this -> m_exponent);
 
 		std::string base = this -> m_base;
 

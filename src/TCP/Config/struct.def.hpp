@@ -4,15 +4,15 @@ struct T : Spec::T
 
 	using Spec::T::T;
 
-	NullableString::T
+	std::optional <std::string>
 	getHostname () const;
 
 	void
-	setHostname (const NullableString::T & hostname);
+	setHostname (const std::optional <std::string> & hostname);
 
-	NullableString::T
+	std::optional <std::string>
 	getPort () const;
 
 	void
-	setPort (const NullableString::T & port);
+	setPort (const std::optional <std::string> & port);
 };

@@ -6,10 +6,10 @@ T::writeTo (OutputStream && output_stream, size_t indentation) const
 	output_stream . print (this -> m_base);
 	if (this -> m_mantissa)
 	{
-		output_stream . print ("." + this -> m_mantissa . stdString ());
+		output_stream . print ("." + * this -> m_mantissa);
 	}
 	if (this -> m_exponent)
 	{
-		output_stream . print ("E" + this -> m_exponent . stdString ());
+		output_stream . print ("E" + * this -> m_exponent);
 	}
 }

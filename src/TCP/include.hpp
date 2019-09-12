@@ -12,6 +12,5 @@
 #include <Failure.hpp>
 #include <GetConfig.hpp>
 #include <IO.hpp>
-#include <NullableString.hpp>
 #include <ShutdownSignal.hpp>
 #include <SuppressingScope.hpp>

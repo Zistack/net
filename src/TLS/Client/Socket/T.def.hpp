@@ -3,8 +3,8 @@ T::T (const Config::T & config)
 	(
 		Util::client
 		(
-			config . getTCPConfig () . getHostname () . cString (),
-			config . getTCPConfig () . getPort () . cString (),
+			config . getTCPConfig () . getHostname () -> data (),
+			config . getTCPConfig () . getPort () -> data (),
 			config . makeTLSConfig () . get (),
 			config . getServerName () . data ()
 		)

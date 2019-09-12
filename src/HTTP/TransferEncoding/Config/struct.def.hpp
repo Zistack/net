@@ -5,9 +5,9 @@ struct T : Spec::T
 	using Spec::T::T;
 
 	void
-	setTransferEncoding (const NullableString::T & transfer_encoding);
+	setTransferEncoding (const std::optional <std::string> & transfer_encoding);
 
-	NullableString::T
+	std::optional <std::string>
 	getTransferEncoding () const;
 
 	void

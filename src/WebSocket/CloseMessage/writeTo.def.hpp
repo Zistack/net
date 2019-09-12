@@ -12,7 +12,7 @@ T::writeTo (OutputStream && output_stream) const
 
 		if (this -> m_reason)
 		{
-			output_stream . print (this -> m_reason . stdString ());
+			output_stream . print (* this -> m_reason);
 		}
 	}
 }

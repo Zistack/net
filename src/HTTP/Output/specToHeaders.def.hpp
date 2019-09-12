@@ -7,16 +7,12 @@ specToHeaders
 {
 	HeaderMap::T headers;
 
-	NullableString::T transfer_encoding =
+	std::optional <std::string> transfer_encoding =
 		transfer_encoding_config . getTransferEncoding ();
 
 	if (transfer_encoding)
 	{
-		headers . insert
-		(
-			"Transfer-Encoding",
-			transfer_encoding . stdString ()
-		);
+		headers . insert ("Transfer-Encoding", * transfer_encoding);
 	}
 	else
 	{

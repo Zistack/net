@@ -16,10 +16,7 @@ T::T (InputStream && input_stream, uint64_t count)
 		if (count > sizeof (this -> m_status_code))
 		{
 			this -> m_reason = "";
-			IO::String::Reader::T output_stream
-			(
-				this -> m_reason . stdString ()
-			);
+			IO::String::Reader::T output_stream (* this -> m_reason);
 
 			Util::transfer
 			(
@@ -40,10 +37,10 @@ T::T (InputStream && input_stream, uint64_t count)
 	}
 }
 
-T::T (uint16_t status_code, const NullableString::T & reason)
+T::T (uint16_t status_code, const std::optional <std::string> & reason)
 :	m_status_code (status_code), m_reason (reason)
 {
-	if (reason && (reason . size () > (125 - sizeof (this -> m_status_code))))
+	if (reason && (reason -> size () > (125 - sizeof (this -> m_status_code))))
 	{
 		this -> m_status_code = 1008;
 		this -> m_reason = nullptr;

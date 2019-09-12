@@ -3,8 +3,8 @@ T::T (const Config::T & config)
 	(
 		Util::client
 		(
-			config . getHostname () . cString (),
-			config . getPort () . cString ()
+			config . getHostname () -> data (),
+			config . getPort () -> data ()
 		)
 	)
 {

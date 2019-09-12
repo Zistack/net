@@ -24,6 +24,6 @@ private:
 	init (InputStream && input_stream);
 
 	std::string m_base;
-	NullableString::T m_mantissa;
-	NullableString::T m_exponent;
+	std::optional <std::string> m_mantissa;
+	std::optional <std::string> m_exponent;
 };

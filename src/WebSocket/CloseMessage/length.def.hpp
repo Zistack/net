@@ -7,7 +7,7 @@ T::length () const
 	{
 		return
 			sizeof (this -> m_status_code) +
-			this -> m_reason . stdString () . size ();
+			this -> m_reason -> size ();
 	}
 
 	return sizeof (this -> m_status_code);

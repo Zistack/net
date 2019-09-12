@@ -1,12 +1,12 @@
 template <typename InputStream>
-std::pair<std::string, NullableString::T>
+std::pair<std::string, std::optional <std::string>>
 getChunkExtension (InputStream && input_stream)
 {
 	std::string field_name = getToken
 	(
 		std::forward <InputStream> (input_stream)
 	);
-	NullableString::T field_value;
+	std::optional <std::string> field_value;
 
 	if (IO::Util::test (std::forward <InputStream> (input_stream), '='))
 	{

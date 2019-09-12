@@ -8,12 +8,13 @@ T::T (uint64_t content_length)
 	this -> addBoundedIdentity (content_length);
 }
 
-T::T (const NullableString::T & transfer_encoding_string, bool is_request)
+T::T
+(
+	const std::optional <std::string> & transfer_encoding_string,
+	bool is_request
+)
 {
-	Header::TransferEncoding::T transfer_encoding
-	(
-		transfer_encoding_string . stdString ()
-	);
+	Header::TransferEncoding::T transfer_encoding (* transfer_encoding_string);
 
 	if (transfer_encoding . specifications . empty ())
 	{

@@ -6,5 +6,5 @@ struct T
 	~T () = default;
 
 	std::string identifier;
-	std::unordered_map<std::string, NullableString::T> options;
+	std::unordered_map <std::string, std::optional <std::string>> options;
 };

@@ -7,11 +7,11 @@ struct T
 
 	~T () = default;
 
-	NullableString::T scheme;
-	NullableString::T authority;
+	std::optional <std::string> scheme;
+	std::optional <std::string> authority;
 	std::string path;
-	NullableString::T query;
-	NullableString::T fragment;
+	std::optional <std::string> query;
+	std::optional <std::string> fragment;
 
 private:
 

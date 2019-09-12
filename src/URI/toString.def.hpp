@@ -5,7 +5,7 @@ T::toString () const
 
 	if (this -> scheme)
 	{
-		uri_string . append (this -> scheme . stdString ());
+		uri_string . append (* this -> scheme);
 		uri_string . push_back (':');
 	}
 
@@ -20,13 +20,13 @@ T::toString () const
 	if (this -> query)
 	{
 		uri_string . push_back ('?');
-		uri_string . append (Util::encode (this -> query . stdString ()));
+		uri_string . append (Util::encode (* this -> query));
 	}
 
 	if (this -> fragment)
 	{
 		uri_string . push_back ('#');
-		uri_string . append (Util::encode (this -> fragment . stdString ()));
+		uri_string . append (Util::encode (* this -> fragment));
 	}
 
 	return uri_string;

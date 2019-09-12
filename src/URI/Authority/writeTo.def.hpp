@@ -4,7 +4,7 @@ T::writeTo (OutputStream && output_stream) const
 {
 	if (this -> user_info)
 	{
-		output_stream . print (Util::encode (this -> user_info . stdString ()));
+		output_stream . print (Util::encode (* this -> user_info));
 		output_stream . put ('@');
 	}
 
