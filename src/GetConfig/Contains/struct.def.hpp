@@ -1,17 +1,17 @@
 template
 <
 	const std::string & query,
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 struct T
 <
 	query,
-	Member::T <ValueType, optional, identifier, description, default_value>,
+	Member::T <ValueDetails, optional, identifier, description, default_value>,
 	RemainingMemberTypes ...
 >
 {

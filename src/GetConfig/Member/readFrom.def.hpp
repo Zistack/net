@@ -1,21 +1,22 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value
+	const std::optional <typename ValueDetails::Value> & default_value
 >
 template <typename InputStream>
 void
 T
 <
-	ValueType,
+	ValueDetails,
 	optional,
 	identifier,
 	description,
 	default_value
 >::readFrom (InputStream && input_stream)
 {
-	this -> m_value . emplace (input_stream);
+	this -> m_value =
+		ValueDetails::readFrom (std::forward <InputStream> (input_stream));
 }

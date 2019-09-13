@@ -1,10 +1,10 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & member_identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 template <typename InputStream>
@@ -13,7 +13,7 @@ T
 <
 	Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,
@@ -24,11 +24,11 @@ T
 {
 	if (identifier == member_identifier)
 	{
-		this -> m_member . set (std::forward <InputStream> (input_stream));
+		this -> m_member . readFrom (std::forward <InputStream> (input_stream));
 	}
 	else
 	{
-		this -> T <RemainingMemberTypes ...>::set
+		this -> T <RemainingMemberTypes ...>::readFrom
 		(
 			identifier,
 			std::forward <InputStream> (input_stream)

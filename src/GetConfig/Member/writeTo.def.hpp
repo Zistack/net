@@ -1,16 +1,16 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value
+	const std::optional <typename ValueDetails::Value> & default_value
 >
 template <typename OutputStream>
 void
 T
 <
-	ValueType,
+	ValueDetails,
 	optional,
 	identifier,
 	description,
@@ -29,8 +29,9 @@ T
 		);
 		output_stream . put (' ');
 
-		this -> m_value -> writeTo
+		ValueDetails::writeTo
 		(
+			* this -> m_value,
 			std::forward <OutputStream> (output_stream),
 			indentation
 		);

@@ -1,2 +1,2 @@
-template <typename ... MemberTypes>
+template <typename ... Members>
 struct T;

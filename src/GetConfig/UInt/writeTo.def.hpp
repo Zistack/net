@@ -1,10 +1,11 @@
 template <typename OutputStream>
 void
-T::writeTo (OutputStream && output_stream) const
+T::writeTo
+(
+	const Value & value,
+	OutputStream && output_stream,
+	size_t indentation
+)
 {
-	IO::Rule::putUInt
-	(
-		this -> m_value,
-		std::forward <OutputStream> (output_stream)
-	);
+	IO::Rule::putUInt (value, std::forward <OutputStream> (output_stream));
 }

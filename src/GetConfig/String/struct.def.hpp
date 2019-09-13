@@ -1,28 +1,17 @@
 struct T
 {
-	using InterfaceType = std::string;
-
-	T (const InterfaceType & value);
+	using Value = std::string;
 
 	template <typename InputStream>
-	T (InputStream && input_stream);
-
-	const InterfaceType &
-	get () const;
-
-	void
-	set (const InterfaceType & value);
-
-	void
-	set (InterfaceType && value);
+	static Value
+	readFrom (InputStream && input_stream);
 
 	template <typename OutputStream>
-	void
-	writeTo (OutputStream && output_stream) const;
-
-	~T () = default;
-
-private:
-
-	InterfaceType m_value;
+	static void
+	writeTo
+	(
+		const Value & value,
+		OutputStream && output_stream,
+		size_t indentation
+	);
 };

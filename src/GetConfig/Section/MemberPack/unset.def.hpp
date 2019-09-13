@@ -1,10 +1,10 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & member_identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 void
@@ -12,7 +12,7 @@ T
 <
 	Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,
@@ -23,21 +23,21 @@ T
 {
 	if (identifier == member_identifier)
 	{
-		this -> m_member . unset ();
+		if constexpr (optional) this -> m_member = std::nullopt;
+		else
+		{
+			throw Failure::SemanticError::T
+			(
+				"Value is required for member '" +
+					member_identifier +
+					"' and cannot be unset\n"
+			);
+		}
 	}
-	else
-	{
-		this -> T <RemainingMemberTypes ...>::unset (identifier);
-	}
+	else this -> T <RemainingMemberTypes ...>::unset (identifier);
 }
 
 void
 T <>::unset (const std::string & identifier)
 {
-	throw Failure::SyntaxError::T
-	(
-		"No member named '" +
-			identifier +
-			"' is defined for this section type\n"
-	);
 }

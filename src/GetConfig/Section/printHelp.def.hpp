@@ -1,7 +1,7 @@
-template <typename... MemberTypes>
+template <typename... Members>
 template <typename OutputStream>
 void
-T <MemberTypes ...>::printHelp
+T <Members ...>::printHelp
 (
 	OutputStream && output_stream,
 	size_t columns,
@@ -11,7 +11,7 @@ T <MemberTypes ...>::printHelp
 {
 	output_stream.print ("{\n");
 
-	MemberPack::T <MemberTypes ...>::printHelp
+	MemberPack::T <Members ...>::printHelp
 	(
 		std::forward <OutputStream> (output_stream),
 		columns,

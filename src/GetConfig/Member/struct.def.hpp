@@ -1,18 +1,20 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value
+	const std::optional <typename ValueDetails::Value> & default_value
 >
 struct T
 {
-	using ValueInterfaceType = typename std::conditional_t
+	using Value = typename ValueDetails::Value;
+
+	using ValueInterface = typename std::conditional_t
 	<
 		optional,
-		std::optional <typename ValueType::InterfaceType>,
-		typename ValueType::InterfaceType
+		std::optional <Value>,
+		Value
 	>;
 
 	T ();
@@ -22,19 +24,13 @@ struct T
 	readFrom (InputStream && input_stream);
 
 	void
-	set (const ValueInterfaceType & value);
-
-	void
-	set (ValueInterfaceType && value);
-
-	void
-	unset ();
-
-	void
 	validate () const;
 
-	ValueInterfaceType
-	get () const;
+	const ValueInterface &
+	value () const;
+
+	ValueInterface &
+	value ();
 
 	template <typename OutputStream>
 	void
@@ -54,5 +50,5 @@ struct T
 
 private:
 
-	std::optional <ValueType> m_value;
+	std::optional <Value> m_value;
 };

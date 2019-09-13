@@ -1,10 +1,9 @@
-T::T (const InterfaceType & value) : m_value (value)
-{
-}
-
 template <typename InputStream>
-T::T (InputStream && input_stream)
+T::Value
+T::readFrom (InputStream && input_stream)
 {
+	Value value;
+
 	IO::Util::expect (std::forward <InputStream> (input_stream), '"');
 	while (true)
 	{
@@ -12,15 +11,15 @@ T::T (InputStream && input_stream)
 
 		if (c == '\\')
 		{
-			this -> m_value . push_back (input_stream . get ());
+			value . push_back (input_stream . get ());
 		}
 		else if (c == '"')
 		{
-			return;
+			return value;
 		}
 		else
 		{
-			this -> m_value . push_back (c);
+			value . push_back (c);
 		}
 	}
 }

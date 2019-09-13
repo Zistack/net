@@ -1,6 +1,6 @@
 struct T
 {
-	using Value = uint64_t;
+	using Value = std::chrono::nanoseconds;
 
 	template <typename InputStream>
 	static Value

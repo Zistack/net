@@ -1,6 +1,6 @@
-template <typename ... MemberTypes>
+template <typename ... Members>
 template <typename InputStream>
-T <MemberTypes ...>::T (InputStream && input_stream)
+T <Members ...>::T (InputStream && input_stream)
 {
 	IO::Util::expect (std::forward <InputStream> (input_stream), '{');
 
@@ -20,7 +20,7 @@ T <MemberTypes ...>::T (InputStream && input_stream)
 
 		if (op == "set")
 		{
-			this -> set (identifier, std::forward <InputStream> (input_stream));
+			this -> readFrom (identifier, std::forward <InputStream> (input_stream));
 
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 		}

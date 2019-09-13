@@ -1,9 +1,14 @@
 template <typename OutputStream>
 void
-T::writeTo (OutputStream && output_stream) const
+T::writeTo
+(
+	const Value & value,
+	OutputStream && output_stream,
+	size_t indentation
+)
 {
 	output_stream . put ('"');
-	for (char c : this -> m_value)
+	for (char c : value)
 	{
 		if (c == '"')
 		{

@@ -1,10 +1,10 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & member_identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 template <typename OutputStream>
@@ -13,7 +13,7 @@ T
 <
 	Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,

@@ -1,16 +1,25 @@
-template <typename ... MemberTypes>
-struct T : MemberPack::T <MemberTypes ...>
+template <typename ... Members>
+struct T : MemberPack::T <Members ...>
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	T () = default;
 
 	template <typename InputStream>
 	T (InputStream && input_stream);
 
+	template <typename InputStream>
+	static T
+	readFrom (InputStream && input_stream);
+
 	template <typename OutputStream>
-	void
-	writeTo (OutputStream && output_stream, size_t indentation) const;
+	static void
+	writeTo
+	(
+		const Value & value,
+		OutputStream && output_stream,
+		size_t indentation
+	);
 
 	template <typename OutputStream>
 	static void
@@ -26,5 +35,7 @@ struct T : MemberPack::T <MemberTypes ...>
 
 private:
 
-	using Members = MemberPack::T <MemberTypes ...>;
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream, size_t indentation) const;
 };

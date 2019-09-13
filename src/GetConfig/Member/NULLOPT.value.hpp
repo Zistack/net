@@ -1,2 +1,2 @@
-template <typename ValueType>
-static const std::optional <ValueType> NULLOPT = std::nullopt;
+template <typename Value>
+static const std::optional <Value> NULLOPT = std::nullopt;

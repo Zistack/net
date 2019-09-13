@@ -1,17 +1,17 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & member_identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 struct T
 <
 	Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,
@@ -22,7 +22,7 @@ struct T
 {
 	using MemberType = Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,
@@ -37,12 +37,12 @@ struct T
 	T () = default;
 
 	template <const std::string & identifier>
-	auto
-	get () const;
+	const auto &
+	value () const;
 
-	template <const std::string & identifier, typename Value>
-	void
-	set (Value && value);
+	template <const std::string & identifier>
+	auto &
+	value ();
 
 	~T () = default;
 
@@ -84,11 +84,7 @@ struct T <>
 
 	template <const std::string & identifier>
 	void
-	get () const;
-
-	template <const std::string & identifier, typename Value>
-	void
-	set (Value && value);
+	value () const;
 
 	~T () = default;
 

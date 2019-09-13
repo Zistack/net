@@ -1,10 +1,10 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & member_identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value,
+	const std::optional <typename ValueDetails::Value> & default_value,
 	typename ... RemainingMemberTypes
 >
 void
@@ -12,7 +12,7 @@ T
 <
 	Member::T
 	<
-		ValueType,
+		ValueDetails,
 		optional,
 		member_identifier,
 		description,
@@ -22,19 +22,6 @@ T
 >::validate () const
 {
 	this -> m_member . validate ();
-
-	if constexpr (! optional)
-	{
-		if (! this -> m_member . get ())
-		{
-			throw Failure::SemanticError::T
-			(
-				"Value is required for member '" +
-					member_identifier +
-					"' and is not provided\n"
-			);
-		}
-	}
 
 	this -> T <RemainingMemberTypes ...>::validate ();
 }

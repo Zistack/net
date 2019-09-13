@@ -1,14 +1,14 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value
+	const std::optional <typename ValueDetails::Value> & default_value
 >
 template <typename OutputStream>
 void
-T <ValueType, optional, identifier, description, default_value>::printHelp
+T <ValueDetails, optional, identifier, description, default_value>::printHelp
 (
 	OutputStream && output_stream,
 	size_t columns,

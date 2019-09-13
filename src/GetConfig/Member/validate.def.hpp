@@ -1,15 +1,15 @@
 template
 <
-	typename ValueType,
+	typename ValueDetails,
 	bool optional,
 	const std::string & identifier,
 	const std::string & description,
-	const std::optional <ValueType> & default_value
+	const std::optional <typename ValueDetails::Value> & default_value
 >
 void
 T
 <
-	ValueType,
+	ValueDetails,
 	optional,
 	identifier,
 	description,
