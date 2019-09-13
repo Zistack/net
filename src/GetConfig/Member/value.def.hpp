@@ -23,8 +23,8 @@ T
 	default_value
 >::value () const
 {
-	if constexpr (optional) return this -> value;
-	else return * this -> value;
+	if constexpr (optional) return this -> m_value;
+	else return * this -> m_value;
 }
 
 template
@@ -52,6 +52,6 @@ T
 	default_value
 >::value ()
 {
-	if constexpr (optional) return this -> value;
-	else return * this -> value;
+	if constexpr (optional) return this -> m_value;
+	else return * this -> m_value;
 }
