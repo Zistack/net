@@ -1,7 +1,7 @@
 template <typename Output>
 struct T
 {
-	std::chrono::milliseconds
+	std::chrono::nanoseconds
 	outputTimeout () const;
 
 	std::mutex &

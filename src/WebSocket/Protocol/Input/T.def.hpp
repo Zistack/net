@@ -2,8 +2,8 @@ template <typename Protocol, typename Dispatcher>
 template <typename ... DispatcherArguments>
 T <Protocol, Dispatcher>::T
 (
-	std::chrono::milliseconds input_timeout,
-	std::chrono::milliseconds close_timeout,
+	std::chrono::nanoseconds input_timeout,
+	std::chrono::nanoseconds close_timeout,
 	uint64_t temp_file_threshhold,
 	const URI::T & requested_resource,
 	DispatcherArguments && ... dispatcher_arguments

@@ -8,16 +8,16 @@ T <Dispatcher>::T
 )
 :	Input::T <Interface::T <Dispatcher>, Dispatcher>
 	(
-		config . getInputTimeout (),
-		config . getCloseTimeout (),
-		config . getTempFileThreshhold (),
+		config . inputTimeout (),
+		config . closeTimeout (),
+		config . tempFileThreshhold (),
 		requested_resource,
 		std::forward <DispatcherArguments> (dispatcher_arguments) ...
 	),
 	Output::T <Interface::T <Dispatcher>>
 	(
-		config . getOutputTimeout (),
-		config . getChunkSize ()
+		config . outputTimeout (),
+		config . chunkSize ()
 	)
 {
 }

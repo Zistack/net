@@ -1,36 +1,36 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	using Spec::T::T;
 
-	void
-	setInputTimeout (std::chrono::milliseconds input_timeout);
+	const GetConfig::Duration::T::Value &
+	inputTimeout () const;
 
-	std::chrono::milliseconds
-	getInputTimeout () const;
+	GetConfig::Duration::T::Value &
+	inputTimeout ();
 
-	void
-	setOutputTimeout (std::chrono::milliseconds output_timeout);
+	const GetConfig::Duration::T::Value &
+	outputTimeout () const;
 
-	std::chrono::milliseconds
-	getOutputTimeout () const;
+	GetConfig::Duration::T::Value &
+	outputTimeout ();
 
-	void
-	setCloseTimeout (std::chrono::milliseconds close_timeout);
+	const GetConfig::Duration::T::Value &
+	closeTimeout () const;
 
-	std::chrono::milliseconds
-	getCloseTimeout () const;
+	GetConfig::Duration::T::Value &
+	closeTimeout ();
 
-	void
-	setChunkSize (uint64_t chunk_size);
+	const GetConfig::UInt::T::Value &
+	chunkSize () const;
 
-	uint64_t
-	getChunkSize () const;
+	GetConfig::UInt::T::Value &
+	chunkSize ();
 
-	void
-	setTempFileThreshhold (uint64_t temp_file_threshhold);
+	const GetConfig::UInt::T::Value &
+	tempFileThreshhold () const;
 
-	uint64_t
-	getTempFileThreshhold () const;
+	GetConfig::UInt::T::Value &
+	tempFileThreshhold ();
 };

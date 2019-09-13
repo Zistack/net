@@ -3,7 +3,7 @@ struct T
 :	private MessageSender::T <Interface::T <Protocol>>,
 	private PingPongSender::T <Interface::T <Protocol>>
 {
-	T (std::chrono::milliseconds output_timeout, uint64_t chunk_size);
+	T (std::chrono::nanoseconds output_timeout, uint64_t chunk_size);
 
 	void
 	prime ();
@@ -35,7 +35,7 @@ protected:
 
 	// Given members shared with submodules
 
-	std::chrono::milliseconds m_output_timeout;
+	std::chrono::nanoseconds m_output_timeout;
 
 	// Internal members shared with submodules
 

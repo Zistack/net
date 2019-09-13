@@ -4,8 +4,8 @@ struct T
 	template <typename ... DispatcherArguments>
 	T
 	(
-		std::chrono::milliseconds input_timeout,
-		std::chrono::milliseconds close_timeout,
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds close_timeout,
 		uint64_t temp_file_threshhold,
 		const URI::T & requested_resource,
 		DispatcherArguments && ... dispatcher_arguments
@@ -94,8 +94,8 @@ private:
 
 	// Given members
 
-	std::chrono::milliseconds m_input_timeout;
-	std::chrono::milliseconds m_close_timeout;
+	std::chrono::nanoseconds m_input_timeout;
+	std::chrono::nanoseconds m_close_timeout;
 
 	uint64_t m_temp_file_threshhold;
 
