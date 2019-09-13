@@ -1,18 +1,18 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Type = T;
 
 	using Spec::T::T;
 
-	std::optional <std::string>
-	getHostname () const;
+	const std::optional <std::string> &
+	hostname () const;
 
-	void
-	setHostname (const std::optional <std::string> & hostname);
+	std::optional <std::string> &
+	hostname ();
 
-	std::optional <std::string>
-	getPort () const;
+	const std::optional <std::string> &
+	port () const;
 
-	void
-	setPort (const std::optional <std::string> & port);
+	std::optional <std::string> &
+	port ();
 };

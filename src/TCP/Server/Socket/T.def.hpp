@@ -7,10 +7,8 @@ T::T (const Config::T & config)
 	(
 		Util::server
 		(
-			config . getHostname () ?
-				config . getHostname () -> data () :
-				nullptr,
-			config . getPort () ? config . getPort () -> data () : nullptr
+			config . hostname () ? config . hostname () -> data () : nullptr,
+			config . port () ? config . port () -> data () : nullptr
 		)
 	)
 {
