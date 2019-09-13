@@ -7,18 +7,16 @@ T::makeTLSConfig () const
 		Functor::T <tls_config_free>
 	> tls_config (Util::config ());
 
-	auto ca_path = this -> getCAPath ();
-	if (ca_path)
+	if (this -> caPath ())
 	{
-		Util::setCAPath (tls_config . get (), ca_path -> data ());
+		Util::setCAPath (tls_config . get (), this -> caPath () -> data ());
 	}
 
-	auto identity = this -> getIdentity ();
 	Util::setIdentity
 	(
 		tls_config . get (),
-		identity . getCertificateFilename () . data (),
-		identity . getPrivateKeyFilename () . data ()
+		this -> identity () . certificateFilename () . data (),
+		this -> identity () . privateKeyFilename () . data ()
 	);
 
 	return tls_config;

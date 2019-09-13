@@ -1,18 +1,18 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	using Spec::T::T;
 
-	void
-	setCertificateFilename (const std::string & certificate_filename);
+	const std::string &
+	certificateFilename () const;
 
-	std::string
-	getCertificateFilename () const;
+	std::string &
+	certificateFilename ();
 
-	void
-	setPrivateKeyFilename (const std::string & private_key_filename);
+	const std::string &
+	privateKeyFilename () const;
 
-	std::string
-	getPrivateKeyFilename () const;
+	std::string &
+	privateKeyFilename ();
 };

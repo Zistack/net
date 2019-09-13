@@ -1,26 +1,26 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	using Spec::T::T;
 
-	void
-	setTCPConfig (const TCP::Config::T & tcp_config);
+	const TCP::Config::T &
+	tcpConfig () const;
 
-	TCP::Config::T
-	getTCPConfig () const;
+	TCP::Config::T &
+	tcpConfig ();
 
-	void
-	setCAPath (const std::optional <std::string> & ca_path);
+	const std::optional <std::string> &
+	caPath () const;
 
-	std::optional <std::string>
-	getCAPath () const;
+	std::optional <std::string> &
+	caPath ();
 
-	void
-	setIdentity (const KeyPair::T & identity);
+	const KeyPair::T &
+	identity () const;
 
-	KeyPair::T
-	getIdentity () const;
+	KeyPair::T &
+	identity ();
 
 	std::unique_ptr <struct tls_config, Functor::T <tls_config_free>>
 	makeTLSConfig () const;

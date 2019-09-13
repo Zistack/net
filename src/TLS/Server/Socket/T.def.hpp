@@ -5,8 +5,8 @@ T::T (const Config::T & config)
 		(
 			Util::server
 			(
-				config . getTCPConfig () . getHostname () -> data (),
-				config . getTCPConfig () . getPort () -> data (),
+				config . tcpConfig () . hostname () -> data (),
+				config . tcpConfig () . port () -> data (),
 				config . makeTLSConfig () . get ()
 			)
 		)
