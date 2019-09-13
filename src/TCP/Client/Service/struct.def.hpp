@@ -18,9 +18,12 @@ private:
 
 	Protocol m_protocol;
 	Config::T m_config;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
 
 template <typename Protocol>
 T (Protocol && protocol, const Config::T & config) -> T <Protocol>;
+
+static_assert
+(
+	Failure::TypeTraits::IsCancellable::T <IO::TypeTraits::Protocol::T>::value
+);
