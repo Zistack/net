@@ -21,6 +21,14 @@ struct T : private Shared::T <Protocol, Details>
 
 	~T () = default;
 
+protected:
+
+	const T &
+	output () const;
+
+	T &
+	output ();
+
 private:
 
 	// Internal members
