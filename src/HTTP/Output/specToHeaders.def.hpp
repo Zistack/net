@@ -7,8 +7,8 @@ specToHeaders
 {
 	HeaderMap::T headers;
 
-	std::optional <std::string> transfer_encoding =
-		transfer_encoding_config . getTransferEncoding ();
+	const std::optional <std::string> & transfer_encoding =
+		transfer_encoding_config . transferEncoding ();
 
 	if (transfer_encoding)
 	{

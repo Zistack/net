@@ -1,7 +1,7 @@
 T::T (const Config::T & config, size_t entity_size)
 {
-	std::optional <std::string> transfer_encoding_string =
-		config . getTransferEncoding ();
+	const std::optional <std::string> & transfer_encoding_string =
+		config . transferEncoding ();
 
 	if (transfer_encoding_string)
 	{
@@ -27,7 +27,7 @@ T::T (const Config::T & config, size_t entity_size)
 			this -> addStage (specification);
 		}
 
-		this -> addLastStage (last_specification, config . getChunkSize ());
+		this -> addLastStage (last_specification, config . chunkSize ());
 	}
 	else
 	{

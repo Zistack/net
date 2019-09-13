@@ -1,4 +1,7 @@
 static const std::string INPUT_TIMEOUT = "Input-Timeout";
 static const std::string INPUT_TIMEOUT_DESCRIPTION =
-	"Timeout in milliseconds for reading a request from a client.";
-static const std::optional <GetConfig::UInt::T> INPUT_TIMEOUT_DEFAULT (1000);
+	"Timeout for reading a request from a client.";
+static const std::optional <GetConfig::Duration::T::Value> INPUT_TIMEOUT_DEFAULT
+(
+	std::chrono::milliseconds (1000)
+);

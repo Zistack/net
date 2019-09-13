@@ -2,7 +2,7 @@ using T = GetConfig::Section::T
 <
 	GetConfig::Member::T
 	<
-		GetConfig::UInt::T,
+		GetConfig::Duration::T,
 		false,
 		INPUT_TIMEOUT,
 		INPUT_TIMEOUT_DESCRIPTION,
@@ -10,7 +10,7 @@ using T = GetConfig::Section::T
 	>,
 	GetConfig::Member::T
 	<
-		GetConfig::UInt::T,
+		GetConfig::Duration::T,
 		false,
 		OUTPUT_TIMEOUT,
 		OUTPUT_TIMEOUT_DESCRIPTION,
@@ -18,7 +18,7 @@ using T = GetConfig::Section::T
 	>,
 	GetConfig::Member::T
 	<
-		GetConfig::UInt::T,
+		GetConfig::Duration::T,
 		false,
 		ROUND_TRIP_TIMEOUT,
 		ROUND_TRIP_TIMEOUT_DESCRIPTION,

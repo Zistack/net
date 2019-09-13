@@ -4,5 +4,5 @@ static const std::string TRANSFER_ENCODING_CONFIG_DESCRIPTION =
 static const std::optional <TransferEncoding::Config::T>
 TRANSFER_ENCODING_CONFIG_DEFAULT
 (
-	std::in_place_type <TransferEncoding::Config::T>
+	std::in_place
 );

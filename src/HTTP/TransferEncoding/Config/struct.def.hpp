@@ -1,18 +1,18 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	using Spec::T::T;
 
-	void
-	setTransferEncoding (const std::optional <std::string> & transfer_encoding);
+	const std::optional <std::string> &
+	transferEncoding () const;
 
-	std::optional <std::string>
-	getTransferEncoding () const;
+	std::optional <std::string> &
+	transferEncoding ();
 
-	void
-	setChunkSize (uint64_t chunk_size);
+	const GetConfig::UInt::T::Value &
+	chunkSize () const;
 
-	uint64_t
-	getChunkSize () const;
+	GetConfig::UInt::T::Value &
+	chunkSize ();
 };

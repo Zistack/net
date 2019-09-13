@@ -1,33 +1,30 @@
 struct T : Spec::T
 {
-	using InterfaceType = T;
+	using Value = T;
 
 	using Spec::T::T;
 
-	void
-	setInputTimeout (std::chrono::milliseconds input_timeout);
+	const GetConfig::Duration::T::Value &
+	inputTimeout () const;
 
-	std::chrono::milliseconds
-	getInputTimeout () const;
+	GetConfig::Duration::T::Value &
+	inputTimeout ();
 
-	void
-	setOutputTimeout (std::chrono::milliseconds output_timeout);
+	const GetConfig::Duration::T::Value &
+	outputTimeout () const;
 
-	std::chrono::milliseconds
-	getOutputTimeout () const;
+	GetConfig::Duration::T::Value &
+	outputTimeout ();
 
-	void
-	setTransferEncodingConfig
-	(
-		const TransferEncoding::Config::T & transfer_encoding_config
-	);
+	const TransferEncoding::Config::T &
+	transferEncodingConfig () const;
 
-	TransferEncoding::Config::T
-	getTransferEncodingConfig () const;
+	TransferEncoding::Config::T &
+	transferEncodingConfig ();
 
-	void
-	setTempFileThreshhold (uint64_t temp_file_threshhold);
+	const GetConfig::UInt::T::Value &
+	tempFileThreshhold () const;
 
-	uint64_t
-	getTempFileThreshhold () const;
+	GetConfig::UInt::T::Value &
+	tempFileThreshhold ();
 };

@@ -24,10 +24,10 @@ T <Responder, std::tuple <ResponderArguments ...>, UpgradeSpecs ...>::make ()
 		(
 			std::make_tuple
 			(
-				this -> config . getInputTimeout (),
-				this -> config . getOutputTimeout (),
-				this -> config . getTransferEncodingConfig (),
-				this -> config . getTempFileThreshhold (),
+				this -> config . inputTimeout (),
+				this -> config . outputTimeout (),
+				this -> config . transferEncodingConfig (),
+				this -> config . tempFileThreshhold (),
 				this -> m_responder_arguments
 			),
 			this -> m_upgrade_arguments

@@ -1,11 +1,11 @@
 T::T (const Config::T & config)
 :	Base::T
 	(
-		config . getRoundTripTimeout (),
-		config . getInputTimeout (),
-		config . getOutputTimeout (),
-		config . getTransferEncodingConfig (),
-		config . getTempFileThreshhold ()
+		config . roundTripTimeout (),
+		config . inputTimeout (),
+		config . outputTimeout (),
+		config . transferEncodingConfig (),
+		config . tempFileThreshhold ()
 	)
 {
 }
