@@ -1,8 +1,8 @@
 
 T::T
 (
-	std::chrono::milliseconds input_timeout,
-	std::chrono::milliseconds output_timeout,
+	std::chrono::nanoseconds input_timeout,
+	std::chrono::nanoseconds output_timeout,
 	TransferEncoding::Config::T transfer_encoding_config,
 	uint64_t temp_file_threshhold
 )

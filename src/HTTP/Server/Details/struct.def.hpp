@@ -6,8 +6,8 @@ struct T
 	template <typename ... ResponderArguments, typename ... UpgradeArguments>
 	T
 	(
-		std::chrono::milliseconds input_timeout,
-		std::chrono::milliseconds output_timeout,
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds output_timeout,
 		const TransferEncoding::Config::T & transfer_encoding_config,
 		uint64_t temp_file_threshhold,
 		const std::tuple <ResponderArguments ...> & responder_arguments,
@@ -35,8 +35,8 @@ private:
 
 	// Given members
 
-	std::chrono::milliseconds m_input_timeout;
-	std::chrono::milliseconds m_output_timeout;
+	std::chrono::nanoseconds m_input_timeout;
+	std::chrono::nanoseconds m_output_timeout;
 	const TransferEncoding::Config::T & m_transfer_encoding_config;
 	uint64_t m_temp_file_threshhold;
 

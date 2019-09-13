@@ -4,8 +4,8 @@ struct T : Base::T <Responder, UpgradeTargets ...>
 	template <typename ... ResponderArguments, typename ... UpgradeArguments>
 	T
 	(
-		std::chrono::milliseconds input_timeout,
-		std::chrono::milliseconds output_timeput,
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds output_timeput,
 		const TransferEncoding::Config::T & transfer_encoding_config,
 		uint64_t temp_file_threshhold,
 		const std::tuple <ResponderArguments ...> & responder_arguments,
