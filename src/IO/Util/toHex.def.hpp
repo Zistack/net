@@ -1,4 +1,4 @@
-template <class Number, typename>
+template <typename Number, typename>
 std::string
 toHex (Number number)
 {

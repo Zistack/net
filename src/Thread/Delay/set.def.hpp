@@ -1,4 +1,4 @@
-template <class Element>
+template <typename Element>
 void
 T <Element>::set (const Element & element)
 {
@@ -11,7 +11,7 @@ T <Element>::set (const Element & element)
 	}
 }
 
-template <class Element>
+template <typename Element>
 void
 T <Element>::set (Element && element)
 {

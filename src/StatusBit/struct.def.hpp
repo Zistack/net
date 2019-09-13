@@ -1,4 +1,4 @@
-template <class Lockable>
+template <typename Lockable>
 struct T
 {
 	T (Lockable & lockable);

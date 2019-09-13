@@ -1,6 +1,12 @@
 struct T
 {
-	template <class Rep, class Period, class Callback, class ... CallbackArgs>
+	template
+	<
+		typename Rep,
+		typename Period,
+		typename Callback,
+		typename ... CallbackArgs
+	>
 	T
 	(
 		const std::chrono::duration <Rep, Period> timeout,
@@ -10,7 +16,13 @@ struct T
 
 	~T ();
 
-	template <class Rep, class Period, class Callback, class ... CallbackArgs>
+	template
+	<
+		typename Rep,
+		typename Period,
+		typename Callback,
+		typename ... CallbackArgs
+	>
 	static void
 	run
 	(

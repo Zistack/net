@@ -3,7 +3,7 @@ struct T
 {
 	template
 	<
-		class ... Arguments,
+		typename ... Arguments,
 		typename = typename std::enable_if_t
 		<
 			std::is_invocable_v <decltype (f), Arguments ...>

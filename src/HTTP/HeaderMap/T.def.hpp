@@ -36,7 +36,7 @@ T::T (InputStream && input_stream)
 	}
 }
 
-template <class Iterable, typename>
+template <typename Iterable, typename>
 T::T (const Iterable & iterable)
 :	m_map (iterable . begin (), iterable . end ())
 {

@@ -1,4 +1,4 @@
-template <class Function, class ... Arguments>
+template <typename Function, typename ... Arguments>
 void
 T::execute (Function && function, Arguments && ... arguments) noexcept
 {

@@ -7,7 +7,7 @@ struct T
 
 	template
 	<
-		class Iterable,
+		typename Iterable,
 		typename = typename std::enable_if_t
 		<
 			std::is_convertible_v

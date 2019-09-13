@@ -15,7 +15,7 @@ T::T (const std::string & path_string)
 	IO::Util::expectEOF (input_stream);
 }
 
-template <class Iterable, typename>
+template <typename Iterable, typename>
 T::T (Iterable && iterable, bool absolute)
 :	m_segments (iterable . begin (), iterable . end ()), m_absolute (absolute)
 {

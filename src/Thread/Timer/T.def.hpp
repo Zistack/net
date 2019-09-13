@@ -1,4 +1,10 @@
-template <class Rep, class Period, class Callback, class ... CallbackArgs>
+template
+<
+	typename Rep,
+	typename Period,
+	typename Callback,
+	typename ... CallbackArgs
+>
 T::T
 (
 	std::chrono::duration <Rep, Period> timeout,

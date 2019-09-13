@@ -1,4 +1,4 @@
-template <class Lockable>
+template <typename Lockable>
 void
 T <Lockable>::close ()
 {
