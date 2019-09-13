@@ -16,7 +16,7 @@ struct T
 	template <typename ... Arguments>
 	T
 	(
-		std::chrono::milliseconds round_trip_timeout,
+		std::chrono::nanoseconds round_trip_timeout,
 		Arguments && ... arguments
 	);
 
@@ -48,7 +48,7 @@ private:
 
 	// Given members
 
-	std::chrono::milliseconds m_round_trip_timeout;
+	std::chrono::nanoseconds m_round_trip_timeout;
 
 	// Internal members
 
