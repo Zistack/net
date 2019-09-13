@@ -1,6 +1,6 @@
 struct T : Spec::T
 {
-	using Type = T;
+	using Value = T;
 
 	using Spec::T::T;
 
