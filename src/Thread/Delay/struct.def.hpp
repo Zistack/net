@@ -20,6 +20,6 @@ struct T
 private:
 
 	std::shared_ptr <std::promise <Element>> m_promise;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
+
+static_assert (Failure::TypeTraits::IsCancellable::T <T <int>>::value);
