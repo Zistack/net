@@ -17,8 +17,7 @@ T <Request, Response, Details>::makeRequest (const Request & request)
 		Thread::Timer::T round_trip_timer
 		(
 			this -> m_round_trip_timeout,
-			& Thread::Delay::T <Response>::cancel,
-			& response_delay
+			[&] () { response_delay . cancel (); }
 		);
 		return response_delay . get ();
 	}
@@ -47,8 +46,7 @@ T <Request, Response, Details>::makeRequest (Request && request)
 		Thread::Timer::T round_trip_timer
 		(
 			this -> m_round_trip_timeout,
-			& Thread::Delay::T <Response>::cancel,
-			& response_delay
+			[&] () { response_delay . cancel (); }
 		);
 		return response_delay . get ();
 	}
