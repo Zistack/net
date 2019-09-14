@@ -9,7 +9,7 @@ T <Request, Response, Details>::run
 {
 	Thread::Nursery::T nursery;
 
-	nursery.add
+	nursery . add
 	(
 		this -> input (),
 		& Input::
@@ -19,7 +19,7 @@ T <Request, Response, Details>::run
 		std::forward <InputStream> (input_stream)
 	);
 
-	nursery.run
+	nursery . run
 	(
 		this -> output (),
 		& Output::

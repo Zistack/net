@@ -22,7 +22,7 @@ T <Protocol, Request, Response, Details>::event
 
 	this -> output () . push (response_delay);
 
-	nursery.add
+	nursery . add
 	(
 		[
 			this,
