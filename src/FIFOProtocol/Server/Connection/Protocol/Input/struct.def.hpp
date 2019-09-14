@@ -5,7 +5,7 @@ template
 	typename Response,
 	typename Details
 >
-struct T : private Shared::T <Protocol, Response, Details>
+struct T
 {
 	T () = default;
 
@@ -41,6 +41,20 @@ private:
 		const Request & request,
 		Thread::Delay::T <Response> response_delay
 	);
+
+	// External members
+
+	const Output::T <Protocol, Response, Details> &
+	output () const;
+
+	Output::T <Protocol, Response, Details> &
+	output ();
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
 
 	// Internal members
 

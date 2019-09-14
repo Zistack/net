@@ -1,5 +1,5 @@
 template <typename Protocol, typename Response, typename Details>
-struct T : private Shared::T <Protocol, Details>
+struct T
 {
 	T () = default;
 
@@ -31,6 +31,14 @@ private:
 	template <typename InputStream>
 	void
 	event (InputStream && input_stream);
+
+	// External members
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
 
 	// Internal members
 

@@ -1,5 +1,5 @@
 template <typename Protocol, typename Request, typename Details>
-struct T : private Shared::T <Protocol, Details>
+struct T
 {
 	T () = default;
 
@@ -30,6 +30,14 @@ protected:
 	output ();
 
 private:
+
+	// External members
+
+	const Details &
+	details () const;
+
+	Details &
+	details ();
 
 	// Internal members
 
