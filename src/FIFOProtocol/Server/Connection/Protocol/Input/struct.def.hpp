@@ -66,29 +66,3 @@ private:
 	SuppressingScope::T <ShutdownSignal::T> m_input_shutdown_scope;
 };
 
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T
-		<
-			T
-			<
-				Interface::T
-				<
-					std::monostate,
-					std::monostate,
-					TypeTraits::ServerDetails::T
-					<
-						std::monostate,
-						std::monostate
-					>
-				>,
-				std::monostate,
-				std::monostate,
-				TypeTraits::ServerDetails::T <std::monostate, std::monostate>
-			>
-		>::
-		value
-);

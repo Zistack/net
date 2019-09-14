@@ -45,28 +45,3 @@ private:
 	Scope::T <decltype (m_response_queue)> m_response_scope;
 };
 
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T
-		<
-			T
-			<
-				Interface::T
-				<
-					std::monostate,
-					std::monostate,
-					TypeTraits::ServerDetails::T
-					<
-						std::monostate,
-						std::monostate
-					>
-				>,
-				std::monostate,
-				TypeTraits::ServerDetails::T <std::monostate, std::monostate>
-			>
-		>::
-		value
-);

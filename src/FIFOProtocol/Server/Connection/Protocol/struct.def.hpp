@@ -2,23 +2,20 @@ template <typename Request, typename Response, typename Details>
 struct T
 :	private Input::T
 	<
-		Interface::T <Request, Response, Details>,
+		T <Request, Response, Details>,
+		Request,
 		Response,
 		Details
 	>,
 	private Output::T
 	<
-		Interface::T <Request, Response, Details>,
-		Request,
+		T <Request, Response, Details>,
+		Response,
 		Details
 	>
 {
-	template <typename ... Arguments>
-	T
-	(
-		std::chrono::nanoseconds round_trip_timeout,
-		Arguments && ... arguments
-	);
+	template <typename... Arguments>
+	T (Arguments && ... arguments);
 
 	void
 	prime ();
@@ -30,12 +27,6 @@ struct T
 	void
 	cancel ();
 
-	Response
-	makeRequest (const Request & request);
-
-	Response
-	makeRequest (Request && request);
-
 	~T () = default;
 
 protected:
@@ -46,13 +37,10 @@ protected:
 
 private:
 
-	// Given members
+	// Submodules
 
-	std::chrono::nanoseconds m_round_trip_timeout;
-
-	// Internal members
-
-	std::mutex m_queue_mutex;
+	friend Input::T <T, Request, Response, Details>;
+	friend Output::T <T, Response, Details>;
 };
 
 static_assert
@@ -66,7 +54,7 @@ static_assert
 			<
 				std::monostate,
 				std::monostate,
-				TypeTraits::ClientDetails::T <std::monostate, std::monostate>
+				TypeTraits::ServerDetails::T <std::monostate, std::monostate>
 			>
 		>::
 		value
