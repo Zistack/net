@@ -37,11 +37,11 @@ struct T
 	T () = default;
 
 	template <const std::string & identifier>
-	const auto &
+	decltype (auto)
 	value () const;
 
 	template <const std::string & identifier>
-	auto &
+	decltype (auto)
 	value ();
 
 	~T () = default;

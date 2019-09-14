@@ -23,16 +23,7 @@ T
 {
 	if (identifier == member_identifier)
 	{
-		if constexpr (optional) this -> m_member = std::nullopt;
-		else
-		{
-			throw Failure::SemanticError::T
-			(
-				"Value is required for member '" +
-					member_identifier +
-					"' and cannot be unset\n"
-			);
-		}
+		this -> m_member . unset ();
 	}
 	else this -> T <RemainingMemberTypes ...>::unset (identifier);
 }

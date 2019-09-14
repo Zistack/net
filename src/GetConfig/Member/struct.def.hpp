@@ -32,6 +32,9 @@ struct T
 	ValueInterface &
 	value ();
 
+	void
+	unset ();
+
 	template <typename OutputStream>
 	void
 	writeTo (OutputStream && output_stream, size_t indentation) const;

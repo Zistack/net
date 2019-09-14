@@ -8,7 +8,7 @@ template
 	typename ... RemainingMemberTypes
 >
 template <const std::string & identifier>
-const auto &
+decltype (auto)
 T
 <
 	Member::T
@@ -42,7 +42,7 @@ template
 	typename ... RemainingMemberTypes
 >
 template <const std::string & identifier>
-auto &
+decltype (auto)
 T
 <
 	Member::T
