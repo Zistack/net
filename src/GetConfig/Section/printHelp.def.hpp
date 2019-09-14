@@ -1,7 +1,7 @@
-template <typename... Members>
+template <typename V, typename... Members>
 template <typename OutputStream>
 void
-T <Members ...>::printHelp
+T <V, Members ...>::printHelp
 (
 	OutputStream && output_stream,
 	size_t columns,

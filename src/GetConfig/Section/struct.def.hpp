@@ -1,7 +1,7 @@
-template <typename ... Members>
+template <typename V, typename ... Members>
 struct T : MemberPack::T <Members ...>
 {
-	using Value = T;
+	using Value = V;
 
 	T () = default;
 
@@ -9,7 +9,7 @@ struct T : MemberPack::T <Members ...>
 	T (InputStream && input_stream);
 
 	template <typename InputStream>
-	static T
+	static Value
 	readFrom (InputStream && input_stream);
 
 	template <typename OutputStream>

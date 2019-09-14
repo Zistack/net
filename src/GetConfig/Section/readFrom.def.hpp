@@ -1,7 +1,7 @@
-template <typename ... Members>
+template <typename V, typename ... Members>
 template <typename InputStream>
-typename T <Members ...>::Value
-T <Members ...>::readFrom (InputStream && input_stream)
+typename T <V, Members ...>::Value
+T <V, Members ...>::readFrom (InputStream && input_stream)
 {
-	return T (std::forward <InputStream> (input_stream));
+	return Value (std::forward <InputStream> (input_stream));
 }

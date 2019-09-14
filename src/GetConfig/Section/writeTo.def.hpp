@@ -1,7 +1,7 @@
-template <typename ... Members>
+template <typename V, typename ... Members>
 template <typename OutputStream>
 void
-T <Members ...>::writeTo
+T <V, Members ...>::writeTo
 (
 	OutputStream && output_stream,
 	size_t indentation
@@ -19,10 +19,10 @@ T <Members ...>::writeTo
 	output_stream . print ("}\n");
 }
 
-template <typename ... Members>
+template <typename V, typename ... Members>
 template <typename OutputStream>
 void
-T <Members ...>::writeTo
+T <V, Members ...>::writeTo
 (
 	const Value & value,
 	OutputStream && output_stream,

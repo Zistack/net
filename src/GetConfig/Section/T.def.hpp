@@ -1,6 +1,6 @@
-template <typename ... Members>
+template <typename V, typename ... Members>
 template <typename InputStream>
-T <Members ...>::T (InputStream && input_stream)
+T <V, Members ...>::T (InputStream && input_stream)
 {
 	IO::Util::expect (std::forward <InputStream> (input_stream), '{');
 
