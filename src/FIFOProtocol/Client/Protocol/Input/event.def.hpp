@@ -6,7 +6,7 @@ T <Protocol, Response, Details>::event (InputStream && input_stream)
 	Thread::Delay::T <Response> response_delay =
 		this -> m_response_queue . pop ();
 
-	response_delay . value () . set
+	response_delay . set
 	(
 		std::move
 		(
