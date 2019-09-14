@@ -8,7 +8,8 @@ template
 const Output::T <Protocol, Response, Details> &
 T <Protocol, Request, Response, Details>::output () const
 {
-	return static_cast <Protocol &> (* this) . output ();
+	return static_cast <Protocol &> (* this) .
+		Output::template T <Protocol, Response, Details>::output ();
 }
 
 template
@@ -21,5 +22,6 @@ template
 Output::T <Protocol, Response, Details> &
 T <Protocol, Request, Response, Details>::output ()
 {
-	return static_cast <Protocol &> (* this) . output ();
+	return static_cast <Protocol &> (* this) .
+		Output::template T <Protocol, Response, Details>::output ();
 }

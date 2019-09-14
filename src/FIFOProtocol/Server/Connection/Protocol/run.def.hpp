@@ -26,10 +26,10 @@ T <Request, Response, Details>::run
 
 		nursery . run
 		(
-			this -> output (),
+			this -> Output::T <T, Response, Details>::output (),
 			[&] ()
 			{
-				this -> output () . run
+				this -> Output::T <T, Response, Details>::output () . run
 				(
 					std::forward <OutputStream> (output_stream)
 				);
