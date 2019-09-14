@@ -1,5 +1,7 @@
+template <typename Wrapper>
 using T = GetConfig::Section::T
 <
+	Wrapper,
 	GetConfig::Member::T
 	<
 		GetConfig::String::T,
