@@ -20,7 +20,11 @@ T <Members ...>::T (InputStream && input_stream)
 
 		if (op == "set")
 		{
-			this -> readFrom (identifier, std::forward <InputStream> (input_stream));
+			this -> MemberPack::T <Members ...>::readFrom
+			(
+				identifier,
+				std::forward <InputStream> (input_stream)
+			);
 
 			Util::skipWhitespace (std::forward <InputStream> (input_stream));
 		}
