@@ -16,9 +16,10 @@ T <Protocol, Response, Details>::run (InputStream && input_stream)
 			this -> m_exception_store,
 			std::forward <InputStream> (input_stream),
 			this -> m_input_shutdown_signal,
-			& T::event <InputStream>,
-			this,
-			std::forward <InputStream> (input_stream)
+			[&] ()
+			{
+				this -> event (std::forward <InputStream> (input_stream));
+			}
 		);
 	}
 

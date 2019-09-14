@@ -12,20 +12,21 @@ T <Request, Response, Details>::run
 	nursery . add
 	(
 		this -> input (),
-		& Input::
-			T <Interface::T <Request, Response, Details>, Response, Details>::
-			template run <InputStream>,
-		& this -> input (),
-		std::forward <InputStream> (input_stream)
+		[&] ()
+		{
+			this -> input () . run (std::forward <InputStream> (input_stream));
+		}
 	);
 
 	nursery . run
 	(
 		this -> output (),
-		& Output::
-			T <Interface::T <Request, Response, Details>, Request, Details>::
-			template run <OutputStream>,
-		& this -> output (),
-		std::forward <OutputStream> (output_stream)
+		[&] ()
+		{
+			this -> output () . run
+			(
+				std::forward <OutputStream> (output_stream)
+			);
+		}
 	);
 }
