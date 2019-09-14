@@ -14,3 +14,4 @@
 
 #include <Failure.hpp>
 #include <Scope.hpp>
+#include <TypeTraits.hpp>

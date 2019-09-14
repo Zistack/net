@@ -11,14 +11,14 @@ T::T
 	Callback && callback,
 	CallbackArgs && ... callback_args
 )
-:	m_stop (false),
-	m_thread
-	(
-		& T::run <Rep, Period>,
-		* this,
-		timeout,
-		std::forward <Callback> (callback),
-		std::forward <CallbackArgs> (callback_args) ...
-	)
+:	m_stop (false)
 {
+	this -> m_thread = std::thread
+	(
+		& T::run <Rep, Period, Callback, CallbackArgs ...>,
+		std::ref (* this),
+		timeout,
+		TypeTraits::launder <Callback> (callback),
+		TypeTraits::launder <CallbackArgs> (callback_args) ...
+	);
 }
