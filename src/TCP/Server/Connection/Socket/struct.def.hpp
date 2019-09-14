@@ -4,7 +4,7 @@ struct T : TCP::Socket::T
 
 private:
 
-	T (int connection_socket);
+	using TCP::Socket::T::T;
 
-	friend struct Server::Socket::T;
+	friend Server::Socket::T;
 };
