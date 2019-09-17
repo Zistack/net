@@ -11,12 +11,12 @@ struct T : ExceptionStore::T <use_external_store>
 		ArgumentPacks && ... argument_packs
 	);
 
+	void
+	cancel ();
+
 	~T ();
 
 private:
-
-	void
-	cancel ();
 
 	template <typename Cancellable, typename Function, typename ... Arguments>
 	static auto

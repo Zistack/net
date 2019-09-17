@@ -14,12 +14,12 @@ struct T : private ExceptionStore::T <use_external_store>
 		Arguments && ... arguments
 	);
 
+	void
+	cancel ();
+
 	~T ();
 
 private:
-
-	void
-	cancel ();
 
 	template <typename Function, typename ... Arguments>
 	void
