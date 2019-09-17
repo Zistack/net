@@ -9,4 +9,6 @@ getUnit (InputStream && input_stream)
 	);
 
 	if (unit . empty ()) throw Failure::SyntaxError::T ("Expected unit\n");
+
+	return unit;
 }
