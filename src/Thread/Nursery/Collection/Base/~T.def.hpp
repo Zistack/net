@@ -1,5 +1,5 @@
-void
-T::join ()
+template <typename Cancellable>
+T <Cancellable>::~T ()
 {
 	std::unique_lock lock (this -> m_mutex);
 
@@ -7,6 +7,4 @@ T::join ()
 	{
 		this -> m_condition_variable . wait (lock);
 	}
-
-	if (this -> m_internal_store) this -> m_internal_store -> poll ();
 }

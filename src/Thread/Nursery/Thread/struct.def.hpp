@@ -1,40 +1,39 @@
-struct T
+template <typename Cancellable>
+struct T : Base::T
 {
-	template <typename Function, typename ... Arguments, typename Cancellable>
+	template <typename Function, typename ... Arguments>
 	T
 	(
+		Cancellable && cancellable,
 		Function && function,
-		Arguments && ... arguments,
-		Cancellable * cancellable
-	) noexcept;
-
-	T (const T & other) = delete;
-
-	T (T && other) = default;
-
-	T &
-	operator= (const T & other) = delete;
-
-	T &
-	operator= (T && other) = default;
-
-	std::thread::id
-	id () const noexcept;
+		Arguments && ... arguments
+	);
 
 	void
-	cancel () noexcept;
+	cancel ();
 
-	void
-	reset () noexcept;
-
-	~T ();
+	~T () = default;
 
 private:
 
-	void * m_cancellable;
-	void (* m_cancel_cancellable) (void *);
+	Cancellable m_cancellable;
 
 	std::thread m_thread;
 };
 
-static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+template <>
+struct T <std::nullptr_t> : Base::T
+{
+	template <typename Function, typename ... Arguments>
+	T (std::nullptr_t, Function && function, Arguments && ... arguments);
+
+	void
+	cancel ();
+
+	~T () = default;
+
+private:
+
+	std::thread m_thread;
+};
+

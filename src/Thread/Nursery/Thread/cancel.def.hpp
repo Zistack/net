@@ -1,8 +1,11 @@
+template <typename Cancellable>
 void
-T::cancel () noexcept
+T <Cancellable>::cancel ()
 {
-	if (this -> m_cancellable)
-	{
-		this -> m_cancel_cancellable (this -> m_cancellable);
-	}
+	this -> m_cancel ();
+}
+
+void
+T <std::nullptr_t>::cancel ()
+{
 }
