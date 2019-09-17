@@ -1,5 +1,5 @@
-template <typename ... Cancellables>
-T <Cancellables ...>::~T ()
+template <bool use_external_store, typename ... Cancellables>
+T <use_external_store, Cancellables ...>::~T ()
 {
 	TypeTraits::map
 	(

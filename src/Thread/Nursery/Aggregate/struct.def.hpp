@@ -1,8 +1,15 @@
-template <typename ... Cancellables>
-struct T
+template <bool use_external_store, typename ... Cancellables>
+struct T : ExceptionStore::T <use_external_store>
 {
 	template <typename ... ArgumentPacks>
 	T (ArgumentPacks && ... argument_packs);
+
+	template <typename ... ArgumentPacks>
+	T
+	(
+		Failure::ExceptionStore::T & exception_store,
+		ArgumentPacks && ... argument_packs
+	);
 
 	~T ();
 
@@ -30,10 +37,17 @@ private:
 		Arguments && ... arguments
 	);
 
-	Failure::ExceptionStore::T m_exception_store;
-
 	std::tuple <Thread::T <Cancellables> ...> m_threads;
 };
 
 template <typename ... ArgumentPacks>
-T (ArgumentPacks && ... argument_packs) -> T <Cancellable::T <ArgumentPacks> ...>;
+T (ArgumentPacks && ... argument_packs) ->
+T <false, Cancellable::T <ArgumentPacks> ...>;
+
+template <typename ... ArgumentPacks>
+T
+(
+	Failure::ExceptionStore::T & exception_store,
+	ArgumentPacks && ... argument_packs
+) ->
+T <true, Cancellable::T <ArgumentPacks> ...>;

@@ -1,7 +1,9 @@
-template <typename Cancellable>
-struct T
+template <bool use_external_store, typename Cancellable>
+struct T : private ExceptionStore::T <use_external_store>
 {
 	T ();
+
+	T (Failure::ExceptionStore::T & exception_store);
 
 	template <typename Function, typename ... Arguments>
 	void
@@ -27,8 +29,6 @@ private:
 		Function && function,
 		Arguments && ... arguments
 	);
-
-	Failure::ExceptionStore::T m_exception_store;
 
 	std::mutex m_mutex;
 	std::condition_variable m_condition_variable;

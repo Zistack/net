@@ -1,2 +1,2 @@
-template <typename Cancellable>
+template <bool use_external_store, typename Cancellable>
 struct T;

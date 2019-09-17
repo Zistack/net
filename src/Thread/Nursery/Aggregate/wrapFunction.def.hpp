@@ -1,9 +1,9 @@
-template <typename ... Cancellables>
+template <bool use_external_store, typename ... Cancellables>
 template <typename Cancellable, typename Function, typename ... Arguments>
 auto
-T <Cancellables ...>::wrapFunction
+T <use_external_store, Cancellables ...>::wrapFunction
 (
-	T <Cancellables ...> * aggregate,
+	T <use_external_store, Cancellables ...> * aggregate,
 	Cancellable && cancellable,
 	Function && function,
 	Arguments && ... arguments

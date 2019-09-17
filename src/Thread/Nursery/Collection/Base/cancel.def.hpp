@@ -1,6 +1,6 @@
-template <typename Cancellable>
+template <bool use_external_store, typename Cancellable>
 void
-T <Cancellable>::cancel ()
+T <use_external_store, Cancellable>::cancel ()
 {
 	std::unique_lock lock (this -> m_mutex);
 

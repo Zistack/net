@@ -1,14 +1,14 @@
-template <typename Cancellable>
+template <bool use_external_store, typename Cancellable>
 template <typename Function, typename ... Arguments>
 void
-T <Cancellable>::add
+T <use_external_store, Cancellable>::add
 (
 	Cancellable cancellable,
 	Function && function,
 	Arguments && ... arguments
 )
 {
-	this -> Base::T <Cancellable>::add
+	this -> Base::T <use_external_store, Cancellable>::add
 	(
 		cancellable,
 		std::forward <Function> (function),
@@ -16,15 +16,16 @@ T <Cancellable>::add
 	);
 }
 
+template <bool use_external_store>
 template <typename Function, typename ... Arguments>
 void
-T <std::nullptr_t>::add
+T <use_external_store, std::nullptr_t>::add
 (
 	Function && function,
 	Arguments && ... arguments
 )
 {
-	this -> Base::T <std::nullptr_t>::add
+	this -> Base::T <use_external_store, std::nullptr_t>::add
 	(
 		nullptr,
 		std::forward <Function> (function),

@@ -1,1 +1,1 @@
-children : Thread.typedef
+children : ExceptionStore.typedef, Thread.typedef

@@ -1,7 +1,7 @@
-template <typename Cancellable>
+template <bool use_external_store, typename Cancellable>
 template <typename Function, typename ... Arguments>
 void
-T <Cancellable>::add
+T <use_external_store, Cancellable>::add
 (
 	Cancellable cancellable,
 	Function && function,

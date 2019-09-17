@@ -1,9 +1,9 @@
-template <typename Cancellable>
+template <bool use_external_store, typename Cancellable>
 template <typename Function, typename ... Arguments>
 void
-T <Cancellable>::wrapperFunction
+T <use_external_store, Cancellable>::wrapperFunction
 (
-	T * collection,
+	T <use_external_store, Cancellable> * collection,
 	Function && function,
 	Arguments && ... arguments
 )
