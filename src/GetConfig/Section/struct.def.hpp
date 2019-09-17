@@ -5,7 +5,14 @@ struct T : MemberPack::T <Members ...>
 
 	T () = default;
 
-	template <typename InputStream>
+	template
+	<
+		typename InputStream,
+		typename = std::enable_if_t
+		<
+			IO::TypeTraits::IsInputStream::T <InputStream>::value
+		>
+	>
 	T (InputStream && input_stream);
 
 	template <typename InputStream>
