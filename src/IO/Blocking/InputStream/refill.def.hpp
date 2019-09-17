@@ -10,7 +10,7 @@ T <NonblockingInputStream>::refill ()
 		{
 			size_t size = this -> m_input_stream . read
 			(
-				this -> m_buffer,
+				this -> m_buffer . get (),
 				T::BUFFER_SIZE
 			);
 			if (size)

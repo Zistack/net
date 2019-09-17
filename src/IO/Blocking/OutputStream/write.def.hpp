@@ -10,7 +10,7 @@ T <NonblockingOutputStream>::write (const char * buffer, size_t count)
 	}
 	else
 	{
-		memcpy (this -> m_buffer + this -> m_next, buffer, count);
+		memcpy (this -> m_buffer . get () + this -> m_next, buffer, count);
 		this -> m_next += count;
 	}
 }
