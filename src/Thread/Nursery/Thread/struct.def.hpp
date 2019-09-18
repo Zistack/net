@@ -9,6 +9,8 @@ struct T : Base::T
 		Arguments && ... arguments
 	);
 
+	T (T && other);
+
 	void
 	cancel ();
 
