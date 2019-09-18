@@ -8,26 +8,31 @@ T <Protocol>::run (OutputStream && output_stream)
 	{
 		Scope::T close_scope (std::move (this -> m_close_scope));
 
-		Thread::Nursery::T nursery (exception_store);
-
-		nursery . add
+		Thread::Nursery::Aggregate::T nursery
 		(
-			this -> messageSender (),
-			& MessageSender::
-				T <Interface::T <Protocol>>::
-				template run <OutputStream>,
-			& this -> messageSender (),
-			std::forward <OutputStream> (output_stream)
-		);
-
-		nursery . run
-		(
-			this -> pingPongSender (),
-			& PingPongSender::
-				T <Interface::T <Protocol>>::
-				template run <OutputStream>,
-			& this -> pingPongSender (),
-			std::forward <OutputStream> (output_stream)
+			exception_store,
+			std::forward_as_tuple
+			(
+				this -> messageSender (),
+				[&] ()
+				{
+					this -> messageSender () . run
+					(
+						std::forward <OutputStream> (output_stream)
+					);
+				}
+			),
+			std::forward_as_tuple
+			(
+				this -> pingPongSender (),
+				[&] ()
+				{
+					this -> pingPongSender () . run
+					(
+						std::forward <OutputStream> (output_stream)
+					);
+				}
+			)
 		);
 	}
 

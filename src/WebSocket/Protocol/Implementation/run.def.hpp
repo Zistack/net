@@ -6,26 +6,31 @@ T <Dispatcher>::run (InputStream && input_stream, OutputStream && output_stream)
 	Failure::ExceptionStore::T exception_store;
 
 	{
-		Thread::Nursery::T nursery (exception_store);
-
-		nursery . add
+		Thread::Nursery::Aggregate::T nursery
 		(
-			this -> input (),
-			& Input::
-				T <Interface::T <Dispatcher>, Dispatcher>::
-				template run <InputStream>,
-			& this -> input (),
-			std::forward <InputStream> (input_stream)
-		);
-
-		nursery . run
-		(
-			this -> output (),
-			& Output::
-				T <Interface::T <Dispatcher>>::
-				template run <OutputStream>,
-			& this -> output (),
-			std::forward <OutputStream> (output_stream)
+			exception_store,
+			std::forward_as_tuple
+			(
+				this -> input (),
+				[&] ()
+				{
+					this -> input () . run
+					(
+						std::forward <InputStream> (input_stream)
+					);
+				}
+			),
+			std::forward_as_tuple
+			(
+				this -> output (),
+				[&] ()
+				{
+					this -> output () . run
+					(
+						std::forward <OutputStream> (output_stream)
+					);
+				}
+			)
 		);
 	}
 
