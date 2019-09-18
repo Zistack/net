@@ -3,7 +3,7 @@ void
 T <ServerProtocol>::accept
 (
 	Socket::T & server_socket,
-	Thread::Nursery::T & nursery
+	Thread::Nursery::Collection::T <true, ConnectionProtocol> & nursery
 )
 {
 	auto connection_protocol = this -> m_server_protocol . make ();
@@ -13,7 +13,7 @@ T <ServerProtocol>::accept
 	std::unique_ptr <Connection::Socket::T> connection_socket =
 		server_socket . accept ();
 
-	nursery.add
+	nursery . add
 	(
 		* connection_protocol,
 		[

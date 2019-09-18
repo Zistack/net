@@ -8,17 +8,24 @@ T <ServerProtocol>::run ()
 			std::move (this -> m_shutdown_scope)
 		);
 
-		Thread::Nursery::T nursery (this -> m_exception_store);
+		Socket::T server_socket (this -> m_config);
 
-		nursery.run
+		Thread::Nursery::Collection::T <true, ConnectionProtocol> nursery
 		(
-			this -> m_shutdown_signal,
-			[this, & nursery] ()
-			{
-				this -> listen (nursery);
-				nursery . cancel ();
-			}
+			this -> m_exception_store
 		);
+
+		IO::Util::eventLoop
+		(
+			this -> m_exception_store,
+			server_socket,
+			this -> m_shutdown_signal,
+			& T::accept,
+			server_socket,
+			nursery
+		);
+
+		nursery . cancel ();
 	}
 
 	this -> m_exception_store . pop ();
