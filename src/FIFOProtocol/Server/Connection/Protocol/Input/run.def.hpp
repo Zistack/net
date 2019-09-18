@@ -15,7 +15,10 @@ T <Protocol, Request, Response, Details>::run (InputStream && input_stream)
 			std::move (this -> m_input_shutdown_scope)
 		);
 
-		Thread::Nursery::T nursery (this -> m_exception_store);
+		Thread::Nursery::Collection::T <true> nursery
+		(
+			this -> m_exception_store
+		);
 
 		IO::Util::eventLoop
 		(

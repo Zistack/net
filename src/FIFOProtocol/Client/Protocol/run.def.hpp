@@ -7,26 +7,29 @@ T <Request, Response, Details>::run
 	OutputStream && output_stream
 )
 {
-	Thread::Nursery::T nursery;
-
-	nursery . add
+	Thread::Nursery::Aggregate::T nursery
 	(
-		this -> input (),
-		[&] ()
-		{
-			this -> input () . run (std::forward <InputStream> (input_stream));
-		}
-	);
-
-	nursery . run
-	(
-		this -> output (),
-		[&] ()
-		{
-			this -> output () . run
-			(
-				std::forward <OutputStream> (output_stream)
-			);
-		}
+		std::forward_as_tuple
+		(
+			this -> input (),
+			[&] ()
+			{
+				this -> input () . run
+				(
+					std::forward <InputStream> (input_stream)
+				);
+			}
+		),
+		std::forward_as_tuple
+		(
+			this -> output (),
+			[&] ()
+			{
+				this -> output () . run
+				(
+					std::forward <OutputStream> (output_stream)
+				);
+			}
+		)
 	);
 }

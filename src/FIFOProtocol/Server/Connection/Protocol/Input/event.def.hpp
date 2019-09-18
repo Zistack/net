@@ -10,7 +10,7 @@ void
 T <Protocol, Request, Response, Details>::event
 (
 	InputStream && input_stream,
-	Thread::Nursery::T & nursery
+	Thread::Nursery::Collection::T <true> & nursery
 )
 {
 	Request request = this -> details () . readRequest

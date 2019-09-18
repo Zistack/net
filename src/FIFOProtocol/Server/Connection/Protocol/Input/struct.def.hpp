@@ -33,7 +33,11 @@ private:
 
 	template <typename InputStream>
 	void
-	event (InputStream && input_stream, Thread::Nursery::T & nursery);
+	event
+	(
+		InputStream && input_stream,
+		Thread::Nursery::Collection::T <true> & nursery
+	);
 
 	void
 	respond
