@@ -1,8 +1,2 @@
-template
-<
-	typename InputStream,
-	typename Stage,
-	typename OutputStream,
-	bool has_pipe
->
+template <typename InputStream, typename Stage, typename OutputStream>
 struct T;

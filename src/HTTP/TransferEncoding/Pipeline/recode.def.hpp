@@ -28,106 +28,100 @@ T <Stage>::recode
 	}
 	else
 	{
-		Failure::ExceptionStore::T exception_store;
-		Thread::Nursery::T nursery (exception_store);
+		std::list <IO::Pipe::T> pipes (this -> m_stages . size () - 1);
 
-		Scope::T recode_cancel_scope (recode_cancel_slot, nursery);
-
-		// Iterators so that we can deal with the first and last stages in a 
-		// special way.
-		auto next_it = this -> m_stages . begin ();
-		auto current_it = next_it;
-		++ next_it;
-
-		// Do first stage.
-
-		IO::Pipe::T first_pipe;
-		IO::Blocking::InputStream::T next_input_stream
-		(
-			first_pipe . reciever ()
-		);
+		auto stage_iterator = this -> m_stages . begin ();
+		auto next_pipe_iterator = this -> m_pipes . begin ();
 
 		StageExecutor::T first_stage
 		(
 			std::forward <InputStream> (input_stream),
-			* current_it,
-			IO::Blocking::OutputStream::T (first_pipe . sender ()),
-			std::move (first_pipe)
+			* stage_iterator,
+			IO::Blocking::OutputStream::T (next_pipe_iterator -> sender ())
 		);
 
-		nursery . add
+		++ stage_iterator;
+		auto last_pipe_iterator = next_pipe_iterator ++;
+
+		std::list <InnerStageExecutor::T <Stage>> inner_stages;
+		for
 		(
-			first_stage,
-			& decltype (first_stage)::run,
-			& first_stage
-		);
-
-		// Do bulk stages
-
-		current_it = next_it;
-		next_it ++;
-
-		using InnerStageExecutor = decltype
-		(
-			StageExecutor::T
-			(
-				IO::Blocking::InputStream::T
-				(
-					std::declval <IO::Pipe::T> () . reciever ()
-				),
-				std::declval <Stage> (),
-				IO::Blocking::OutputStream::T
-				(
-					std::declval <IO::Pipe::T> () . reciever ()
-				),
-				std::move (std::declval <IO::Pipe::T> ())
-			)
-		);
-
-		std::list <InnerStageExecutor> inner_stages;
-		IO::Blocking::InputStream::T current_input_stream
-		(
-			std::move (next_input_stream)
-		);
-
-		while (next_it != this -> m_stages . end ())
+			;
+			next_pipe_iterator != pipes . end ();
+			++ stage_iterator, last_pipe_iterator = next_pipe_iterator ++
+		)
 		{
-			IO::Pipe::T pipe_to_next;
-			next_input_stream = IO::Blocking::InputStream::T
-			(
-				first_pipe . reciever ()
-			);
-
 			inner_stages . emplace_back
 			(
-				std::move (current_input_stream),
-				* current_it,
-				IO::Blocking::OutputStream::T (pipe_to_next . sender ()),
-				std::move (pipe_to_next)
+				IO::Blocking::InputStream::T (last_pipe_iterator -> reciever ()),
+				* stage_iterator,
+				IO::Blocking::OutputStream::T (next_pipe_iterator -> sender ())
 			);
-
-			nursery . add
-			(
-				inner_stages . back (),
-				& InnerStageExecutor::run,
-				& inner_stages . back ()
-			);
-
-			current_input_stream = std::move (next_input_stream);
-
-			current_it = next_it;
-			next_it ++;
 		}
-
-		// Do last stage
 
 		StageExecutor::T last_stage
 		(
-			std::move (current_input_stream),
-			* current_it,
+			IO::Blocking::InputStream::T (last_pipe_iterator -> reciever ()),
+			* stage_iterator,
 			std::forward <OutputStream> (output_stream)
 		);
 
-		nursery . run (last_stage, & decltype (last_stage)::run, & last_stage);
+		InnerCancellableSlot::T <Stage> inner_cancel_slot;
+
+		Thread::Nursery::Aggregate::T nursery
+		(
+			std::forward_as_tuple
+			(
+				first_stage,
+				[&] ()
+				{
+					first_stage . run ();
+					pipes . front () . shutdown ();
+				}
+			),
+			std::forward_as_tuple
+			(
+				inner_cancel_slot,
+				[&] ()
+				{
+					InnerNursery::T <Stage> inner_nursery;
+
+					Scope::T inner_cancel_scope
+					(
+						inner_cancel_slot,
+						inner_nursery
+					);
+
+					auto executor_iterator = inner_stages . begin ();
+					auto next_pipe_iterator = ++ pipes . begin ();
+
+					for
+					(
+						;
+						executor_iterator != inner_stages . end ();
+						++ executor_iterator, ++ next_pipe_iterator
+					)
+					{
+						inner_nursery . add
+						(
+							* executor_iterator,
+							[&] ()
+							{
+								executor_iterator -> run ();
+								next_pipe_iterator -> shutdown ();
+							}
+						);
+					}
+				}
+			),
+			std::forward_as_tuple
+			(
+				last_stage,
+				[&] ()
+				{ last_stage . run (); }
+			)
+		);
+
+		Scope::T recode_cancel_scope (recode_cancel_slot, nursery);
 	}
 }

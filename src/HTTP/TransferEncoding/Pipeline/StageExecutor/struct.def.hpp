@@ -1,41 +1,20 @@
 template <typename InputStream, typename Stage, typename OutputStream>
-struct T <InputStream, Stage, OutputStream, false>
-:	Implementation::T <InputStream, Stage, OutputStream>
+struct T
 {
-	using Implementation::T <InputStream, Stage, OutputStream>::T;
-};
-
-template <typename InputStream, typename Stage, typename OutputStream>
-T (InputStream && input_stream, Stage & stage, OutputStream && output_stream) ->
-	T <InputStream, Stage, OutputStream, false>;
-
-template <typename InputStream, typename Stage, typename OutputStream>
-struct T <InputStream, Stage, OutputStream, true>
-:	Implementation::T <InputStream, Stage, OutputStream>
-{
-	T
-	(
-		InputStream input_stream,
-		Stage & stage,
-		OutputStream output_stream,
-		IO::Pipe::T && pipe
-	);
+	T (InputStream input_stream, Stage & stage, OutputStream output_stream);
 
 	void
 	run ();
+
+	void
+	cancel ();
 
 	~T () = default;
 
 private:
 
-	IO::Pipe::T m_pipe;
+	InputStream m_input_stream;
+	Stage & m_stage;
+	OutputStream m_output_stream;
 };
 
-template <typename InputStream, typename Stage, typename OutputStream>
-T
-(
-	InputStream && input_stream,
-	Stage & stage,
-	OutputStream & output_stream,
-	IO::Pipe::T && pipe
-) -> T <InputStream, Stage, OutputStream, true>;
