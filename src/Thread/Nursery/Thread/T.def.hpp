@@ -2,7 +2,7 @@ template <typename Cancellable>
 template <typename Function, typename ... Arguments>
 T <Cancellable>::T
 (
-	Cancellable && cancellable,
+	Cancellable & cancellable,
 	Function && function,
 	Arguments && ... arguments
 )

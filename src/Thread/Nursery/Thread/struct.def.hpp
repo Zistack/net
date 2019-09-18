@@ -4,7 +4,7 @@ struct T : Base::T
 	template <typename Function, typename ... Arguments>
 	T
 	(
-		Cancellable && cancellable,
+		Cancellable & cancellable,
 		Function && function,
 		Arguments && ... arguments
 	);
@@ -16,7 +16,7 @@ struct T : Base::T
 
 private:
 
-	Cancellable m_cancellable;
+	Cancellable & m_cancellable;
 
 	std::thread m_thread;
 };

@@ -4,14 +4,14 @@ auto
 T <use_external_store, Cancellables ...>::wrapFunction
 (
 	T <use_external_store, Cancellables ...> * aggregate,
-	Cancellable && cancellable,
+	Cancellable & cancellable,
 	Function && function,
 	Arguments && ... arguments
 )
 {
 	return std::forward_as_tuple
 	(
-		std::forward <Cancellable> (cancellable),
+		cancellable,
 		& T::wrapperFunction,
 		aggregate,
 		std::forward <Function> (function),

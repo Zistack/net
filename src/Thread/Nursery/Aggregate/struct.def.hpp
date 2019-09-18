@@ -23,7 +23,7 @@ private:
 	wrapFunction
 	(
 		T * aggregate,
-		Cancellable && cancellable,
+		Cancellable & cancellable,
 		Function && function,
 		Arguments && ... arguments
 	);
