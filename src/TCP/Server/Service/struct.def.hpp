@@ -16,11 +16,15 @@ struct T
 
 private:
 
-	void
-	listen (Thread::Nursery::T & nursery);
+	using ConnectionProtocol =
+		decltype (* std::declval <ServerProtocol> () . make ());
 
 	void
-	accept (Socket::T & server_socket, Thread::Nursery::T & nursery);
+	accept
+	(
+		Socket::T & server_socket,
+		Thread::Nursery::Collection::T <true, ConnectionProtocol> & nursery
+	);
 
 	// Given members
 
