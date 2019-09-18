@@ -3,5 +3,5 @@ void
 T <Request, Response, Details>::prime ()
 {
 	this -> input () . prime ();
-	this -> output () . prime ();
+	this -> Output::T <T, Response, Details>::output () . prime ();
 }
