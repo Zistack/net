@@ -5,7 +5,7 @@ template
 	typename Function,
 	typename ... Arguments
 >
-struct T <ArgumentPackContainer <Cancellable, Function, Arguments ...>>
+struct T <ArgumentPackContainer <Cancellable &, Function, Arguments ...>>
 {
 	using Type = Cancellable;
 };

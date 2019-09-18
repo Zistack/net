@@ -18,14 +18,44 @@ struct T : ExceptionStore::T <use_external_store>
 
 private:
 
-	template <typename Cancellable, typename Function, typename ... Arguments>
+	template
+	<
+		template <typename ...> typename ArgumentPackContainer,
+		typename Cancellable,
+		typename Function,
+		typename ... Arguments,
+		std::size_t ... index
+	>
 	static auto
 	wrapFunction
 	(
 		T * aggregate,
-		Cancellable & cancellable,
-		Function && function,
-		Arguments && ... arguments
+		ArgumentPackContainer
+		<
+			Cancellable &,
+			Function &&,
+			Arguments && ...
+		> && arguments,
+		std::index_sequence <index ...>
+	);
+
+	template
+	<
+		template <typename ...> typename ArgumentPackContainer,
+		typename Cancellable,
+		typename Function,
+		typename ... Arguments
+	>
+	static auto
+	wrapFunction
+	(
+		T * aggregate,
+		ArgumentPackContainer
+		<
+			Cancellable &,
+			Function &&,
+			Arguments && ...
+		> && arguments
 	);
 
 	template <typename Function, typename ... Arguments>

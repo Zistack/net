@@ -8,10 +8,10 @@ T <use_external_store, Cancellables ...>::T
 	(
 		std::make_from_tuple <Thread::T <Cancellable::T <ArgumentPacks>>>
 		(
-			std::apply
+			T::wrapFunction
 			(
-				T::wrapFunction,
-				std::tuple_cat (std::make_tuple (this), argument_packs)
+				this,
+				std::forward <ArgumentPacks> (argument_packs)
 			)
 		) ...
 	)
@@ -30,10 +30,10 @@ T <use_external_store, Cancellables ...>::T
 	(
 		std::make_from_tuple <Thread::T <Cancellable::T <ArgumentPacks>>>
 		(
-			std::apply
+			T::wrapFunction
 			(
-				T::wrapFunction,
-				std::tuple_cat (std::make_tuple (this), argument_packs)
+				this,
+				std::forward <ArgumentPacks> (argument_packs)
 			)
 		) ...
 	)
