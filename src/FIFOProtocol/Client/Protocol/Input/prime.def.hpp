@@ -2,7 +2,7 @@ template <typename Protocol, typename Response, typename Details>
 void
 T <Protocol, Response, Details>::prime ()
 {
-	this -> input_shutdown_scope = std::move
+	this -> m_input_shutdown_scope = std::move
 	(
 		SuppressingScope::T
 		(
