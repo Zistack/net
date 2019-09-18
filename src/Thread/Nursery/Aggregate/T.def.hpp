@@ -11,7 +11,7 @@ T <use_external_store, Cancellables ...>::T
 			std::apply
 			(
 				T::wrapFunction,
-				std_tuple_cat (std::make_tuple (this), argument_packs)
+				std::tuple_cat (std::make_tuple (this), argument_packs)
 			)
 		) ...
 	)
