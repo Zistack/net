@@ -22,7 +22,7 @@ struct T : private ExceptionStore::T <use_external_store>
 private:
 
 	template <typename Function, typename ... Arguments>
-	void
+	static void
 	wrapperFunction
 	(
 		T * collection,
