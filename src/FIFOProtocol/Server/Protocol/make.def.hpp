@@ -13,7 +13,7 @@ T <Request, Response, Details, Arguments ...>::make ()
 		std::make_unique
 		<
 			Connection::Protocol::T <Request, Response, Details>,
-			Arguments...
+			Arguments ...
 		>,
 		this -> m_arguments
 	);
