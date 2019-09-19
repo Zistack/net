@@ -14,6 +14,9 @@ struct T
 	void
 	join ();
 
+	void
+	detach ();
+
 	~T () = default;
 
 private:
