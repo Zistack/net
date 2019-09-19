@@ -32,6 +32,11 @@ struct T <std::nullptr_t> : Base::T
 	template <typename Function, typename ... Arguments>
 	T (std::nullptr_t, Function && function, Arguments && ... arguments);
 
+	T (T && other) = default;
+
+	T &
+	operator = (T && other) = default;
+
 	void
 	cancel ();
 
