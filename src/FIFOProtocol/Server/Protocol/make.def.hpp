@@ -10,11 +10,16 @@ T <Request, Response, Details, Arguments ...>::make ()
 {
 	return std::apply
 	(
-		std::make_unique
-		<
-			Connection::Protocol::T <Request, Response, Details>,
-			Arguments ...
-		>,
+		[] (Arguments ... arguments)
+		{
+			return std::make_unique
+			<
+				Connection::Protocol::T <Request, Response, Details>
+			>
+			(
+				std::forward <Arguments> (arguments) ...
+			);
+		},
 		this -> m_arguments
 	);
 }
