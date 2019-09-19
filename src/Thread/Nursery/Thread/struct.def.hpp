@@ -11,6 +11,9 @@ struct T : Base::T
 
 	T (T && other);
 
+	T &
+	operator = (T && other);
+
 	void
 	cancel ();
 
