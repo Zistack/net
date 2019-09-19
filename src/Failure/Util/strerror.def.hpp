@@ -5,9 +5,10 @@ strerror (int errnum)
 	const size_t BUFFER_LEN = 1024;
 	char message [BUFFER_LEN];
 
-	// As long as we don't feed an invalid errnum into this function, we don't
-	// have to worry about this call failing.
+#if (_POSIX_C_SOURCE >= 200112L) && ! _GNU_SOURCE
 	strerror_r (errnum, message, BUFFER_LEN);
-
 	return std::string (message);
+#else
+	return std::string (strerror_r (errnum, message, BUFFER_LEN));
+#endif
 }
