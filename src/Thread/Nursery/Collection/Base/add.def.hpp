@@ -21,5 +21,10 @@ T <use_external_store, Cancellable>::add
 		std::forward <Arguments> (arguments) ...
 	);
 
-	this -> m_threads . emplace (thread . id (), std::move (thread));
+	this -> m_threads . emplace
+	(
+		std::piecewise_construct,
+		std::forward_as_tuple (thread . id ()),
+		std::forward_as_tuple (std::move (thread))
+	);
 }
