@@ -3,5 +3,5 @@ void
 T <Request, Response, Details>::cancel ()
 {
 	this -> input () . cancel ();
-	this -> output () . cancel ();
+	this -> Output::T <T, Response, Details>::output () . cancel ();
 }
