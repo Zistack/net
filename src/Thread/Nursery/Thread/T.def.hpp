@@ -6,18 +6,18 @@ T <Cancellable>::T
 	Function && function,
 	Arguments && ... arguments
 )
-:	m_cancellable (cancellable),
-	m_thread
+:	Base::T
 	(
-		TypeTraits::launder <Function> (function),
-		TypeTraits::launder <Arguments> (arguments) ...
-	)
+		std::forward <Function> (function),
+		std::forward <Arguments> (arguments) ...
+	),
+	m_cancellable (cancellable)
 {
 }
 
 template <typename Cancellable>
 T <Cancellable>::T (T && other)
-:	Base::T (std::move (static_cast <Base::T &> (other))),
+:	Base::T (static_cast <Base::T &&> (other)),
 	m_cancellable (other . m_cancellable),
 	m_thread (std::move (other . m_thread))
 {
@@ -30,10 +30,10 @@ T <std::nullptr_t>::T
 	Function && function,
 	Arguments && ... arguments
 )
-:	m_thread
+:	Base::T
 	(
-		TypeTraits::launder <Function> (function),
-		TypeTraits::launder <Arguments> (arguments) ...
+		std::forward <Function> (function),
+		std::forward <Arguments> (arguments) ...
 	)
 {
 }
