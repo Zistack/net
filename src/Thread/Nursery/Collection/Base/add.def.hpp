@@ -15,7 +15,7 @@ T <use_external_store, Cancellable>::add
 	Thread::T <Cancellable> thread
 	(
 		cancellable,
-		& T::wrapperFunction,
+		& T::wrapperFunction <Function, Arguments ...>,
 		this,
 		std::forward <Function> (function),
 		std::forward <Arguments> (arguments) ...
