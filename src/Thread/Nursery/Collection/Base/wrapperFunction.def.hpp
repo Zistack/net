@@ -18,10 +18,11 @@ T <use_external_store, Cancellable>::wrapperFunction
 
 	std::unique_lock lock (collection -> m_mutex);
 
-	auto thread = collection -> m_threads . find (std::this_thread::get_id ());
+	auto thread_it = collection -> m_threads . find (std::this_thread::get_id ());
 
-	thread -> detach ();
-	collection -> m_threads . erase (thread);
+	auto && [thread_id, thread] = * thread_it;
+	thread . detach ();
 
+	collection -> m_threads . erase (thread_it);
 	collection -> m_condition_variable . notify_all ();
 }
