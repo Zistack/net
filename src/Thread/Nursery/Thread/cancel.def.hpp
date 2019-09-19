@@ -2,7 +2,7 @@ template <typename Cancellable>
 void
 T <Cancellable>::cancel ()
 {
-	this -> m_cancel ();
+	this -> m_cancellable . cancel ();
 }
 
 void
