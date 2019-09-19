@@ -29,5 +29,5 @@ T <V, Members ...>::writeTo
 	size_t indentation
 )
 {
-	value -> writeTo (std::forward <OutputStream> (output_stream), indentation);
+	value . writeTo (std::forward <OutputStream> (output_stream), indentation);
 }
