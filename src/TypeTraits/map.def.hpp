@@ -72,10 +72,10 @@ map_impl
 
 template
 <
+	template <typename ...> typename ResultPackContainer,
 	typename Function,
 	template <typename ...> typename ArgumentPackContainer,
-	typename ... Arguments,
-	template <typename ...> typename ResultPackContainer
+	typename ... Arguments
 >
 auto
 map
@@ -94,10 +94,10 @@ map
 
 template
 <
+	template <typename ...> typename ResultPackContainer,
 	typename Function,
 	template <typename ...> typename ArgumentPackContainer,
-	typename ... Arguments,
-	template <typename ...> typename ResultPackContainer
+	typename ... Arguments
 >
 auto
 map
