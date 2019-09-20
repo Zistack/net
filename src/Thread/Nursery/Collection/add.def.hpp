@@ -3,7 +3,7 @@ template <typename Function, typename ... Arguments>
 void
 T <use_external_store, Cancellable>::add
 (
-	Cancellable & cancellable,
+	Cancellable cancellable,
 	Function && function,
 	Arguments && ... arguments
 )

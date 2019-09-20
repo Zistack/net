@@ -3,7 +3,7 @@ template <typename Function, typename ... Arguments>
 void
 T <use_external_store, Cancellable>::add
 (
-	Cancellable & cancellable,
+	Cancellable cancellable,
 	Function && function,
 	Arguments && ... arguments
 )
@@ -14,7 +14,7 @@ T <use_external_store, Cancellable>::add
 
 	Thread::T <Cancellable> thread
 	(
-		cancellable,
+		std::forward <Cancellable> (cancellable),
 		& T::wrapperFunction <Function, Arguments ...>,
 		this,
 		std::forward <Function> (function),

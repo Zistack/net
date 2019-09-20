@@ -2,7 +2,7 @@ template <typename Cancellable>
 template <typename Function, typename ... Arguments>
 T <Cancellable>::T
 (
-	Cancellable & cancellable,
+	Cancellable cancellable,
 	Function && function,
 	Arguments && ... arguments
 )
@@ -11,14 +11,14 @@ T <Cancellable>::T
 		std::forward <Function> (function),
 		std::forward <Arguments> (arguments) ...
 	),
-	m_cancellable (cancellable)
+	m_cancellable (std::forward <Cancellable> (cancellable))
 {
 }
 
 template <typename Cancellable>
 T <Cancellable>::T (T && other)
 :	Base::T (static_cast <Base::T &&> (other)),
-	m_cancellable (other . m_cancellable),
+	m_cancellable (std::forward <Cancellable> (other . m_cancellable)),
 	m_thread (std::move (other . m_thread))
 {
 }

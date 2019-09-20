@@ -7,7 +7,7 @@ struct T : Base::T <use_external_store, Cancellable>
 	void
 	add
 	(
-		Cancellable & cancellable,
+		Cancellable cancellable,
 		Function && function,
 		Arguments && ... arguments
 	);

@@ -9,7 +9,7 @@ struct T : private ExceptionStore::T <use_external_store>
 	void
 	add
 	(
-		Cancellable & cancellable,
+		Cancellable cancellable,
 		Function && function,
 		Arguments && ... arguments
 	);

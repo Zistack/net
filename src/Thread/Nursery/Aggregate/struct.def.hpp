@@ -27,15 +27,15 @@ private:
 		std::size_t ... index
 	>
 	static auto
-	wrapFunction
+	wrapFunctionImplementation
 	(
 		T * aggregate,
 		ArgumentPackContainer
 		<
-			Cancellable &,
-			Function &&,
-			Arguments && ...
-		> && arguments,
+			Cancellable,
+			Function,
+			Arguments ...
+		> & arguments,
 		std::index_sequence <index ...>
 	);
 
@@ -52,9 +52,28 @@ private:
 		T * aggregate,
 		ArgumentPackContainer
 		<
-			Cancellable &,
-			Function &&,
-			Arguments && ...
+			Cancellable,
+			Function,
+			Arguments ...
+		> & arguments
+	);
+
+	template
+	<
+		template <typename ...> typename ArgumentPackContainer,
+		typename Cancellable,
+		typename Function,
+		typename ... Arguments
+	>
+	static auto
+	wrapFunction
+	(
+		T * aggregate,
+		ArgumentPackContainer
+		<
+			Cancellable,
+			Function,
+			Arguments ...
 		> && arguments
 	);
 

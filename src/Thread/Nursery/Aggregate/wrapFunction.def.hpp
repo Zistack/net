@@ -4,8 +4,7 @@ template
 	template <typename ...> typename ArgumentPackContainer,
 	typename Cancellable,
 	typename Function,
-	typename ... Arguments,
-	std::size_t ... index
+	typename ... Arguments
 >
 auto
 T <use_external_store, Cancellables ...>::wrapFunction
@@ -13,20 +12,17 @@ T <use_external_store, Cancellables ...>::wrapFunction
 	T <use_external_store, Cancellables ...> * aggregate,
 	ArgumentPackContainer
 	<
-		Cancellable &,
-		Function &&,
-		Arguments && ...
-	> && arguments,
-	std::index_sequence <index ...>
+		Cancellable,
+		Function,
+		Arguments ...
+	> & arguments
 )
 {
-	return std::forward_as_tuple
+	return wrapFunctionImplementation
 	(
-		std::forward <Cancellable &> (std::get <0> (arguments)),
-		& T::wrapperFunction <Function, Arguments ...>,
 		aggregate,
-		std::forward <Function> (std::get <1> (arguments)),
-		std::forward <Arguments> (std::get <2 + index> (arguments)) ...
+		arguments,
+		std::index_sequence_for <Arguments ...> {}
 	);
 }
 
@@ -44,16 +40,16 @@ T <use_external_store, Cancellables ...>::wrapFunction
 	T <use_external_store, Cancellables ...> * aggregate,
 	ArgumentPackContainer
 	<
-		Cancellable &,
-		Function &&,
-		Arguments && ...
+		Cancellable,
+		Function,
+		Arguments ...
 	> && arguments
 )
 {
-	return wrapFunction
+	return wrapFunctionImplementation
 	(
 		aggregate,
-		std::forward <decltype (arguments)> (arguments),
+		arguments,
 		std::index_sequence_for <Arguments ...> {}
 	);
 }
