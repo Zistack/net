@@ -2,26 +2,13 @@ template
 <
 	template <typename ...> typename ResultPackContainser = std::tuple,
 	typename Function,
-	template <typename ...> typename ArgumentPackContainer,
-	typename ... Arguments
+	typename ArgumentPack,
+	typename ... ArgumentPacks
 >
 auto
 map
 (
 	Function && function,
-	ArgumentPackContainer <Arguments ...> & arguments
-);
-
-template
-<
-	template <typename ...> typename ResultPackContainser = std::tuple,
-	typename Function,
-	template <typename ...> typename ArgumentPackContainer,
-	typename ... Arguments
->
-auto
-map
-(
-	Function && function,
-	ArgumentPackContainer <Arguments ...> && arguments
+	ArgumentPack && argument_pack,
+	ArgumentPacks && ... argument_packs
 );
