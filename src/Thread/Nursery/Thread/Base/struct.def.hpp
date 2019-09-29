@@ -1,12 +1,15 @@
 struct T
 {
-	template <typename Function, typename ... Arguments>
-	T (Function && function, Arguments && ... arguments);
+	T () = default;
 
 	T (T && other) = default;
 
 	T &
 	operator = (T && other) = default;
+
+	template <typename Function, typename ... Arguments>
+	void
+	run (Function && function, Arguments && ... arguments);
 
 	std::thread::id
 	id () const;

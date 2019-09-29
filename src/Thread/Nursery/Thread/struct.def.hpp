@@ -1,13 +1,7 @@
 template <typename Cancellable>
 struct T : Base::T
 {
-	template <typename Function, typename ... Arguments>
-	T
-	(
-		Cancellable cancellable,
-		Function && function,
-		Arguments && ... arguments
-	);
+	T (Cancellable cancellable);
 
 	T (T && other);
 
@@ -22,15 +16,12 @@ struct T : Base::T
 private:
 
 	Cancellable m_cancellable;
-
-	std::thread m_thread;
 };
 
 template <>
 struct T <std::nullptr_t> : Base::T
 {
-	template <typename Function, typename ... Arguments>
-	T (std::nullptr_t, Function && function, Arguments && ... arguments);
+	T (std::nullptr_t);
 
 	T (T && other) = default;
 
@@ -41,10 +32,6 @@ struct T <std::nullptr_t> : Base::T
 	cancel ();
 
 	~T () = default;
-
-private:
-
-	std::thread m_thread;
 };
 
 template <typename Cancellable, typename Function, typename ... Arguments>
@@ -55,4 +42,3 @@ T
 	Arguments && ... arguments
 ) ->
 T <Cancellable>;
-

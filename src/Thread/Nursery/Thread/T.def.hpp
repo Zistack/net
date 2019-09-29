@@ -1,39 +1,16 @@
 template <typename Cancellable>
-template <typename Function, typename ... Arguments>
-T <Cancellable>::T
-(
-	Cancellable cancellable,
-	Function && function,
-	Arguments && ... arguments
-)
-:	Base::T
-	(
-		std::forward <Function> (function),
-		std::forward <Arguments> (arguments) ...
-	),
-	m_cancellable (std::forward <Cancellable> (cancellable))
+T <Cancellable>::T (Cancellable cancellable)
+:	m_cancellable (std::forward <Cancellable> (cancellable))
 {
 }
 
 template <typename Cancellable>
 T <Cancellable>::T (T && other)
 :	Base::T (static_cast <Base::T &&> (other)),
-	m_cancellable (std::forward <Cancellable> (other . m_cancellable)),
-	m_thread (std::move (other . m_thread))
+	m_cancellable (std::forward <Cancellable> (other . m_cancellable))
 {
 }
 
-template <typename Function, typename ... Arguments>
-T <std::nullptr_t>::T
-(
-	std::nullptr_t,
-	Function && function,
-	Arguments && ... arguments
-)
-:	Base::T
-	(
-		std::forward <Function> (function),
-		std::forward <Arguments> (arguments) ...
-	)
+T <std::nullptr_t>::T (std::nullptr_t)
 {
 }

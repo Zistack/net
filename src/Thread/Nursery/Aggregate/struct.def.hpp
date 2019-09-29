@@ -18,6 +18,10 @@ struct T : ExceptionStore::T <use_external_store>
 
 private:
 
+	template <typename ... ArgumentPacks>
+	void
+	init (ArgumentPacks && ... argument_packs);
+
 	template
 	<
 		template <typename ...> typename ArgumentPackContainer,
@@ -26,10 +30,10 @@ private:
 		typename ... Arguments,
 		std::size_t ... index
 	>
-	static auto
+	void
 	wrapFunctionImplementation
 	(
-		T * aggregate,
+		Thread::T <Filter::T <Cancellable>> & thread,
 		ArgumentPackContainer
 		<
 			Cancellable,
@@ -46,10 +50,10 @@ private:
 		typename Function,
 		typename ... Arguments
 	>
-	static auto
+	void
 	wrapFunction
 	(
-		T * aggregate,
+		Thread::T <Filter::T <Cancellable>> & thread,
 		ArgumentPackContainer
 		<
 			Cancellable,
@@ -65,10 +69,10 @@ private:
 		typename Function,
 		typename ... Arguments
 	>
-	static auto
+	void
 	wrapFunction
 	(
-		T * aggregate,
+		Thread::T <Filter::T <Cancellable>> & thread,
 		ArgumentPackContainer
 		<
 			Cancellable,
@@ -91,7 +95,7 @@ private:
 
 template <typename ... ArgumentPacks>
 T (ArgumentPacks && ... argument_packs) ->
-T <false, Cancellable::T <ArgumentPacks> ...>;
+T <false, Filter::T <std::tuple_element_t <0, ArgumentPacks>> ...>;
 
 template <typename ... ArgumentPacks>
 T
@@ -99,4 +103,4 @@ T
 	Failure::ExceptionStore::T & exception_store,
 	ArgumentPacks && ... argument_packs
 ) ->
-T <true, Cancellable::T <ArgumentPacks> ...>;
+T <true, Filter::T <std::tuple_element_t <0, ArgumentPacks>> ...>;

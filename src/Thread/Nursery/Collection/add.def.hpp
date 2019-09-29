@@ -25,11 +25,9 @@ T <use_external_store, std::nullptr_t>::add
 	Arguments && ... arguments
 )
 {
-	std::nullptr_t n = nullptr;
-
 	this -> Base::T <use_external_store, std::nullptr_t>::add
 	(
-		n,
+		nullptr,
 		std::forward <Function> (function),
 		std::forward <Arguments> (arguments) ...
 	);

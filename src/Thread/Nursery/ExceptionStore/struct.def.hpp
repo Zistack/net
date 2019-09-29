@@ -1,7 +1,7 @@
 template <>
 struct T <false>
 {
-	T () = default;
+	T ();
 
 	~T () = default;
 

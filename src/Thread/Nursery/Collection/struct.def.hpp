@@ -23,4 +23,3 @@ struct T <use_external_store, std::nullptr_t>
 	void
 	add (Function && function, Arguments && ... arguments);
 };
-

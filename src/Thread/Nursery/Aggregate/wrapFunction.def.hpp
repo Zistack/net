@@ -6,10 +6,10 @@ template
 	typename Function,
 	typename ... Arguments
 >
-auto
+void
 T <use_external_store, Cancellables ...>::wrapFunction
 (
-	T <use_external_store, Cancellables ...> * aggregate,
+	Thread::T <Filter::T <Cancellable>> & thread,
 	ArgumentPackContainer
 	<
 		Cancellable,
@@ -18,9 +18,9 @@ T <use_external_store, Cancellables ...>::wrapFunction
 	> & arguments
 )
 {
-	return wrapFunctionImplementation
+	this -> wrapFunctionImplementation
 	(
-		aggregate,
+		thread,
 		arguments,
 		std::index_sequence_for <Arguments ...> {}
 	);
@@ -34,10 +34,10 @@ template
 	typename Function,
 	typename ... Arguments
 >
-auto
+void
 T <use_external_store, Cancellables ...>::wrapFunction
 (
-	T <use_external_store, Cancellables ...> * aggregate,
+	Thread::T <Filter::T <Cancellable>> & thread,
 	ArgumentPackContainer
 	<
 		Cancellable,
@@ -46,9 +46,9 @@ T <use_external_store, Cancellables ...>::wrapFunction
 	> && arguments
 )
 {
-	return wrapFunctionImplementation
+	this -> wrapFunctionImplementation
 	(
-		aggregate,
+		thread,
 		arguments,
 		std::index_sequence_for <Arguments ...> {}
 	);

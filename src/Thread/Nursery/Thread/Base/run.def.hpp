@@ -1,9 +1,10 @@
 template <typename Function, typename ... Arguments>
-T::T (Function && function, Arguments && ... arguments)
-:	m_thread
+void
+T::run (Function && function, Arguments && ... arguments)
+{
+	this -> m_thread = std::thread
 	(
 		TypeTraits::launder <Function> (function),
 		TypeTraits::launder <Arguments> (arguments) ...
-	)
-{
+	);
 }

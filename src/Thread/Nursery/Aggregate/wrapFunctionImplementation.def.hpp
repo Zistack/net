@@ -7,10 +7,10 @@ template
 	typename ... Arguments,
 	std::size_t ... index
 >
-auto
+void
 T <use_external_store, Cancellables ...>::wrapFunctionImplementation
 (
-	T <use_external_store, Cancellables ...> * aggregate,
+	Thread::T <Filter::T <Cancellable>> & thread,
 	ArgumentPackContainer
 	<
 		Cancellable,
@@ -20,11 +20,10 @@ T <use_external_store, Cancellables ...>::wrapFunctionImplementation
 	std::index_sequence <index ...>
 )
 {
-	return std::forward_as_tuple
+	thread . run
 	(
-		std::forward <Cancellable> (std::get <0> (arguments)),
 		T::wrapperFunction <Function, Arguments ...>,
-		aggregate,
+		std::move (this),
 		std::forward <Function> (std::get <1> (arguments)),
 		std::forward <Arguments> (std::get <2 + index> (arguments)) ...
 	);

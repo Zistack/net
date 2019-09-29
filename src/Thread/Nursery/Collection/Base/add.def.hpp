@@ -12,10 +12,11 @@ T <use_external_store, Cancellable>::add
 
 	if (this -> m_cancelled) return;
 
-	Thread::T <Cancellable> thread
+	Thread::T <Cancellable> thread (std::forward <Cancellable> (cancellable));
+
+	thread . run
 	(
-		std::forward <Cancellable> (cancellable),
-		& T::wrapperFunction <Function, Arguments ...>,
+		T::wrapperFunction <Function, Arguments ...>,
 		this,
 		std::forward <Function> (function),
 		std::forward <Arguments> (arguments) ...
