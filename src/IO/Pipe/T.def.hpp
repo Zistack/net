@@ -17,49 +17,14 @@ T::T ()
 
 	try
 	{
-		if
-		(
-			fcntl
-			(
-				this -> m_read_file_descriptor,
-				F_SETFL,
-				fcntl (this -> m_read_file_descriptor, F_GETFL) | O_NONBLOCK
-			) == -1
-		)
-		{
-			throw Failure::ResourceError::T
-			(
-				message_prefix +
-					"fcntl: " +
-					Failure::Util::strerror (errno) +
-					"\n"
-			);
-		}
-
-		if
-		(
-			fcntl
-			(
-				this -> m_write_file_descriptor,
-				F_SETFL,
-				fcntl (this -> m_write_file_descriptor, F_GETFL) | O_NONBLOCK
-			) == -1
-		)
-		{
-			throw Failure::ResourceError::T
-			(
-				message_prefix +
-					"fcntl: " +
-					Failure::Util::strerror (errno) +
-					"\n"
-			);
-		}
+		Util::setNonblocking (this -> m_read_file_descriptor);
+		Util::setNonblocking (this -> m_write_file_descriptor);
 	}
-	catch (Failure::ResourceError::T)
+	catch (Failure::ResourceError::T & e)
 	{
 		close (this -> m_read_file_descriptor);
 		close (this -> m_write_file_descriptor);
-		throw;
+		throw Failure::ResourceError::T (message_prefix + e . what ());
 	}
 }
 

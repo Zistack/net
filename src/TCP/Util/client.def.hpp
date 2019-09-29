@@ -60,20 +60,14 @@ client (const char * hostname, const char * port)
 		);
 	}
 
-	if
-	(
-		fcntl
-		(
-			client_socket,
-			F_SETFD,
-			fcntl (client_socket, F_GETFD, 0) | O_NONBLOCK
-		) == -1
-	)
+	try
 	{
-		std::string message =
-			message_prefix + "fcntl: " + Failure::Util::strerror (errno) + "\n";
+		IO::Util::setNonblocking (client_socket);
+	}
+	catch (Failure::ResourceError::T & e)
+	{
 		close (client_socket);
-		throw Failure::ResourceError::T (message);
+		throw Failure::ResourceError::T (message_prefix + e . what ());
 	}
 
 	return client_socket;
