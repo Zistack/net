@@ -25,7 +25,7 @@ T <use_external_store, Cancellable>::add
 	this -> m_threads . emplace
 	(
 		std::piecewise_construct,
-		std::forward_as_tuple (thread . id ()),
+		std::make_tuple (thread . id ()),
 		std::forward_as_tuple (std::move (thread))
 	);
 }
