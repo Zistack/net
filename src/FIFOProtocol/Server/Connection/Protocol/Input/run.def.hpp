@@ -36,5 +36,7 @@ T <Protocol, Request, Response, Details>::run (InputStream && input_stream)
 		);
 	}
 
+	this -> output () . cancel ();
+
 	this -> m_exception_store . pop ();
 }
