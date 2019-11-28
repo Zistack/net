@@ -1,4 +1,4 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 struct T
 {
 	T () = default;
@@ -16,15 +16,13 @@ struct T
 	void
 	push (const Thread::Delay::T <Response> & response_delay);
 
-	~T () = default;
-
-protected:
-
 	const T &
 	input () const;
 
 	T &
 	input ();
+
+	~T () = default;
 
 private:
 
@@ -32,13 +30,13 @@ private:
 	void
 	event (InputStream && input_stream);
 
-	// External members
+	// Access to external members
 
-	const Details &
-	details () const;
+	const Interface &
+	interface () const;
 
-	Details &
-	details ();
+	Interface &
+	interface ();
 
 	// Internal members
 
@@ -52,4 +50,3 @@ private:
 	SuppressingScope::T <ShutdownSignal::T> m_input_shutdown_scope;
 	Scope::T <decltype (m_response_queue)> m_response_scope;
 };
-

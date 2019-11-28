@@ -1,7 +1,7 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 template <typename InputStream>
 void
-T <Protocol, Response, Details>::event (InputStream && input_stream)
+T <Interface, Response>::event (InputStream && input_stream)
 {
 	Thread::Delay::T <Response> response_delay =
 		this -> m_response_queue . pop ();
@@ -10,7 +10,7 @@ T <Protocol, Response, Details>::event (InputStream && input_stream)
 	(
 		std::move
 		(
-			this -> details () . readResponse
+			this -> interface () . readResponse
 			(
 				std::forward <InputStream> (input_stream)
 			)

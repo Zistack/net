@@ -1,4 +1,4 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 struct T
 {
 	T () = default;
@@ -16,25 +16,23 @@ struct T
 	void
 	push (const Thread::Delay::T <Response> & response_delay);
 
-	~T () = default;
-
-protected:
-
 	const T &
 	output () const;
 
 	T &
 	output ();
 
+	~T () = default;
+
 private:
 
-	// External members
+	// Access to external members
 
-	const Details &
-	details () const;
+	const Interface &
+	interface () const;
 
-	Details &
-	details ();
+	Interface &
+	interface ();
 
 	// Internal members
 

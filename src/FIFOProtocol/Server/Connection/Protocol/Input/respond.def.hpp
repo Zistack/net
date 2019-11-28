@@ -1,12 +1,6 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 void
-T <Protocol, Request, Response, Details>::respond
+T <Interface, Request, Response>::respond
 (
 	const Request & request,
 	Thread::Delay::T <Response> response_delay
@@ -14,7 +8,7 @@ T <Protocol, Request, Response, Details>::respond
 {
 	try
 	{
-		response_delay . set (std::move (this -> details () . map (request)));
+		response_delay . set (std::move (this -> interface () . map (request)));
 	}
 	catch (...)
 	{

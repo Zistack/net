@@ -1,6 +1,6 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 void
-T <Protocol, Response, Details>::push
+T <Interface, Response>::push
 (
 	const Thread::Delay::T <Response> & response_delay
 )

@@ -1,7 +1,7 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 template <typename InputStream, typename OutputStream>
 void
-T <Request, Response, Details>::run
+T <Interface, Request, Response>::run
 (
 	InputStream && input_stream,
 	OutputStream && output_stream
@@ -26,10 +26,10 @@ T <Request, Response, Details>::run
 			),
 			std::forward_as_tuple
 			(
-				this -> Output::T <T, Response, Details>::output (),
+				this -> output (),
 				[&] ()
 				{
-					this -> Output::T <T, Response, Details>::output () . run
+					this -> output () . run
 					(
 						std::forward <OutputStream> (output_stream)
 					);

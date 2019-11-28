@@ -1,6 +1,6 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 Response
-T <Request, Response, Details>::makeRequest (const Request & request)
+T <Interface, Request, Response>::makeRequest (const Request & request)
 {
 	Thread::Delay::T <Response> response_delay;
 
@@ -27,9 +27,9 @@ T <Request, Response, Details>::makeRequest (const Request & request)
 	}
 }
 
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 Response
-T <Request, Response, Details>::makeRequest (Request && request)
+T <Interface, Request, Response>::makeRequest (Request && request)
 {
 	Thread::Delay::T <Response> response_delay;
 
@@ -55,4 +55,3 @@ T <Request, Response, Details>::makeRequest (Request && request)
 		throw Failure::ResourceError::T ("Request timed out\n");
 	}
 }
-

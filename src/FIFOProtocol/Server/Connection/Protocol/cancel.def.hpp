@@ -1,7 +1,7 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 void
-T <Request, Response, Details>::cancel ()
+T <Interface, Request, Response>::cancel ()
 {
 	this -> input () . cancel ();
-	this -> Output::T <T, Response, Details>::output () . cancel ();
+	this -> output () . cancel ();
 }

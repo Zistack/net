@@ -1,12 +1,6 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 void
-T <Protocol, Request, Response, Details>::prime ()
+T <Interface, Request, Response>::prime ()
 {
 	this -> m_input_shutdown_scope = SuppressingScope::T
 	(

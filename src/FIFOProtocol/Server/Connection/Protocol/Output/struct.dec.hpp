@@ -1,2 +1,2 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 struct T;

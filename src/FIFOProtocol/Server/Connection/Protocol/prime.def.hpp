@@ -1,7 +1,7 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 void
-T <Request, Response, Details>::prime ()
+T <Interface, Request, Response>::prime ()
 {
 	this -> input () . prime ();
-	this -> Output::T <T, Response, Details>::output () . prime ();
+	this -> output () . prime ();
 }

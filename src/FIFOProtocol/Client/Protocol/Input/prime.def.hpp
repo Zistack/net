@@ -1,6 +1,6 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 void
-T <Protocol, Response, Details>::prime ()
+T <Interface, Response>::prime ()
 {
 	this -> m_input_shutdown_scope = std::move
 	(

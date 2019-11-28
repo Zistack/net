@@ -1,12 +1,6 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 void
-T <Protocol, Request, Response, Details>::cancel ()
+T <Interface, Request, Response>::cancel ()
 {
 	this -> m_input_shutdown_signal . cancel ();
 }

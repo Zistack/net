@@ -1,6 +1,6 @@
-template <typename Protocol, typename Request, typename Details>
+template <typename Interface, typename Request>
 void
-T <Protocol, Request, Details>::push (const Request & request)
+T <Interface, Request>::push (const Request & request)
 {
 	try
 	{
@@ -12,9 +12,9 @@ T <Protocol, Request, Details>::push (const Request & request)
 	}
 }
 
-template <typename Protocol, typename Request, typename Details>
+template <typename Interface, typename Request>
 void
-T <Protocol, Request, Details>::push (Request && request)
+T <Interface, Request>::push (Request && request)
 {
 	try
 	{

@@ -1,7 +1,7 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 template <typename InputStream, typename OutputStream>
 void
-T <Request, Response, Details>::run
+T <Interface, Request, Response>::run
 (
 	InputStream && input_stream,
 	OutputStream && output_stream

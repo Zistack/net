@@ -1,10 +1,4 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 struct T
 {
 	T () = default;
@@ -19,15 +13,13 @@ struct T
 	void
 	cancel ();
 
-	~T () = default;
-
-protected:
-
 	const T &
 	input () const;
 
 	T &
 	input ();
+
+	~T () = default;
 
 private:
 
@@ -46,19 +38,13 @@ private:
 		Thread::Delay::T <Response> response_delay
 	);
 
-	// External members
+	// Access to external members
 
-	const Output::T <Protocol, Response, Details> &
-	output () const;
+	const Interface &
+	interface () const;
 
-	Output::T <Protocol, Response, Details> &
-	output ();
-
-	const Details &
-	details () const;
-
-	Details &
-	details ();
+	Interface &
+	interface ();
 
 	// Internal members
 

@@ -1,7 +1,7 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 template <typename InputStream>
 void
-T <Protocol, Response, Details>::run (InputStream && input_stream)
+T <Interface, Response>::run (InputStream && input_stream)
 {
 	{
 		SuppressingScope::T input_shutdown_scope

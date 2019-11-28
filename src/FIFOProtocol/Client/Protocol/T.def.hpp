@@ -1,11 +1,8 @@
-template <typename Request, typename Response, typename Details>
-template <typename ... Arguments>
-T <Request, Response, Details>::T
+template <typename Interface, typename Request, typename Response>
+T <Interface, Request, Response>::T
 (
-	std::chrono::nanoseconds round_trip_timeout,
-	Arguments &&... arguments
+	std::chrono::nanoseconds round_trip_timeout
 )
-:	m_details (std::forward <Arguments> (arguments) ...),
-	m_round_trip_timeout (round_trip_timeout)
+:	m_round_trip_timeout (round_trip_timeout)
 {
 }

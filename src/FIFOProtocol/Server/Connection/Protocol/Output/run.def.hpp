@@ -1,7 +1,7 @@
-template <typename Protocol, typename Response, typename Details>
+template <typename Interface, typename Response>
 template <typename OutputStream>
 void
-T <Protocol, Response, Details>::run (OutputStream && output_stream)
+T <Interface, Response>::run (OutputStream && output_stream)
 {
 	Scope::T response_scope (std::move (this -> m_response_scope));
 
@@ -36,7 +36,7 @@ T <Protocol, Response, Details>::run (OutputStream && output_stream)
 
 		try
 		{
-			this -> details () . writeResponse
+			this -> interface () . writeResponse
 			(
 				response,
 				std::forward <OutputStream> (output_stream)
@@ -47,8 +47,7 @@ T <Protocol, Response, Details>::run (OutputStream && output_stream)
 			// This happens when the protocol details want to shut down the
 			// protocol.
 
-			// I _might_ want to wrap this cast in an accessor method.
-			static_cast <Protocol &> (* this) . cancel ();
+			this -> interface () . cancelProtocol ();
 
 			return;
 		}

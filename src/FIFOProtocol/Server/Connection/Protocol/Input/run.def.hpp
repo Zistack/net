@@ -1,13 +1,7 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 template <typename InputStream>
 void
-T <Protocol, Request, Response, Details>::run (InputStream && input_stream)
+T <Interface, Request, Response>::run (InputStream && input_stream)
 {
 	{
 		SuppressingScope::T input_shutdown_scope
@@ -36,7 +30,7 @@ T <Protocol, Request, Response, Details>::run (InputStream && input_stream)
 		);
 	}
 
-	this -> output () . cancel ();
+	this -> interface () . cancelOutput ();
 
 	this -> m_exception_store . pop ();
 }

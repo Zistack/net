@@ -1,26 +1,20 @@
-template
-<
-	typename Protocol,
-	typename Request,
-	typename Response,
-	typename Details
->
+template <typename Interface, typename Request, typename Response>
 template <typename InputStream>
 void
-T <Protocol, Request, Response, Details>::event
+T <Interface, Request, Response>::event
 (
 	InputStream && input_stream,
 	Thread::Nursery::Collection::T <true> & nursery
 )
 {
-	Request request = this -> details () . readRequest
+	Request request = this -> interface () . readRequest
 	(
 		std::forward <InputStream> (input_stream)
 	);
 
 	Thread::Delay::T <Response> response_delay;
 
-	this -> output () . push (response_delay);
+	this -> interface () . pushOutput (response_delay);
 
 	nursery . add
 	(

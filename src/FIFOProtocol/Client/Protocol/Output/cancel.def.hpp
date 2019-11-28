@@ -1,6 +1,6 @@
-template <typename Protocol, typename Request, typename Details>
+template <typename Interface, typename Request>
 void
-T <Protocol, Request, Details>::cancel ()
+T <Interface, Request>::cancel ()
 {
 	this -> m_request_queue . cancel ();
 }

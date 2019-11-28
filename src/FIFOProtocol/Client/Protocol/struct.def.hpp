@@ -1,24 +1,9 @@
-template <typename Request, typename Response, typename Details>
+template <typename Interface, typename Request, typename Response>
 struct T
-:	private Input::T
-	<
-		T <Request, Response, Details>,
-		Response,
-		Details
-	>,
-	private Output::T
-	<
-		T <Request, Response, Details>,
-		Request,
-		Details
-	>
+:	private InputInterface::T <Interface, Response>,
+	private OutputInterface::T <Interface, Response>
 {
-	template <typename ... Arguments>
-	T
-	(
-		std::chrono::nanoseconds round_trip_timeout,
-		Arguments && ... arguments
-	);
+	T (std::chrono::nanoseconds round_trip_timeout);
 
 	void
 	prime ();
@@ -38,12 +23,6 @@ struct T
 
 	~T () = default;
 
-protected:
-
-	// Internal members
-
-	Details m_details;
-
 private:
 
 	// Given members
@@ -53,26 +32,17 @@ private:
 	// Internal members
 
 	std::mutex m_queue_mutex;
-
-	// Submodules
-
-	friend Input::T <T, Response, Details>;
-	friend Output::T <T, Request, Details>;
 };
 
 static_assert
 (
-	IO::
-		TypeTraits::
-		IsProtocol::
+	IO::TypeTraits::IsProtocol::T
+	<
 		T
 		<
-			T
-			<
-				std::monostate,
-				std::monostate,
-				TypeTraits::ClientDetails::T <std::monostate, std::monostate>
-			>
-		>::
-		value
+			TypeTraits::Interface::T <std::monostate, std::monostate>,
+			std::monostate,
+			std::monostate
+		>
+	>::value
 );

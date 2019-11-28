@@ -1,4 +1,4 @@
-template <typename Protocol, typename Request, typename Details>
+template <typename Interface, typename Request>
 struct T
 {
 	T () = default;
@@ -19,25 +19,23 @@ struct T
 	void
 	push (Request && request);
 
-	~T () = default;
-
-protected:
-
 	const T &
 	output () const;
 
 	T &
 	output ();
 
+	~T () = default;
+
 private:
 
-	// External members
+	// Access to external members
 
-	const Details &
-	details () const;
+	const Interface &
+	interface () const;
 
-	Details &
-	details ();
+	Interface &
+	interface ();
 
 	// Internal members
 
