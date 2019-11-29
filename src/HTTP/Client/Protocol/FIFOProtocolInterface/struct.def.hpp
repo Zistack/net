@@ -1,12 +1,8 @@
-struct T
+struct T : FIFOProtocol::Client::Protocol::T <T, Request::T, Response::T>
 {
-	T
-	(
-		std::chrono::nanoseconds input_timeout,
-		std::chrono::nanoseconds output_timeout,
-		TransferEncoding::Config::T transfer_encoding_config,
-		uint64_t temp_file_threshhold
-	);
+protected:
+
+	T (const Config::T & config);
 
 	template <typename OutputStream>
 	void

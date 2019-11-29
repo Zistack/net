@@ -1,6 +1,6 @@
-template <typename Responder, typename ... UpgradeTargets>
+template <typename Interface, typename ... UpgradeTargets>
 Response::T
-T <Responder, UpgradeTargets ...>::map (const Request::T & request)
+T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 {
 	try
 	{
@@ -40,7 +40,7 @@ T <Responder, UpgradeTargets ...>::map (const Request::T & request)
 			}
 		}
 
-		return this -> m_responder . respond (request);
+		return this -> interface () . respond (request);
 	}
 	catch (const CodeError::T & e)
 	{

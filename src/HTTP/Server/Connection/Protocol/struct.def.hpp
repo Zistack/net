@@ -1,19 +1,10 @@
-template <typename Responder, typename ... UpgradeTargets>
-struct T : Base::T <Responder, UpgradeTargets ...>
+template <typename Interface, typename ... UpgradeTargets>
+struct T : private FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 {
-	template <typename ... ResponderArguments, typename ... UpgradeArguments>
-	T
-	(
-		std::chrono::nanoseconds input_timeout,
-		std::chrono::nanoseconds output_timeput,
-		const TransferEncoding::Config::T & transfer_encoding_config,
-		uint64_t temp_file_threshhold,
-		const std::tuple <ResponderArguments ...> & responder_arguments,
-		UpgradeArguments && ... upgrade_arguments
-	);
+	template <typename ... UpgradeArguments>
+	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
 
-	void
-	prime ();
+	using FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::prime;
 
 	template <typename InputStream, typename OutputStream>
 	void

@@ -1,18 +1,15 @@
-template <typename Responder, typename ... UpgradeTargets>
+template <typename Interface, typename ... UpgradeTargets>
 void
-T <Responder, UpgradeTargets ...>::cancel ()
+T <Interface, UpgradeTargets ...>::cancel ()
 {
-	std::unique_lock upgrade_lock (this -> details () . m_upgrade_mutex);
+	std::unique_lock upgrade_lock (this -> m_upgrade_mutex);
 
-	this -> Base::T <Responder, UpgradeTargets ...>::cancel ();
+	this -> FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::cancel ();
 
 	this -> m_cancelled = true;
 
-	std::optional
-	<
-		typename Details::T <Responder, UpgradeTargets ...>::UpgradeProtocol
-	> & upgrade_protocol =
-		this -> details () . m_upgrade_protocol;
+	std::optional <typename T::UpgradeProtocol> & upgrade_protocol =
+		this -> m_upgrade_protocol;
 
 	if (upgrade_protocol)
 	{

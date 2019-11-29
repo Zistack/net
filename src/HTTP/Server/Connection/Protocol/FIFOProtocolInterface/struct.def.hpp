@@ -1,18 +1,18 @@
-template <typename Responder, typename ... UpgradeTargets>
+template <typename Interface, typename ... UpgradeTargets>
 struct T
+:	FIFOProtocol::Server::Connection::Protocol::T
+	<
+		T <Interface, UpgradeTargets ...>,
+		Request::T,
+		Response::T
+	>
 {
+protected:
+
 	using UpgradeProtocol = std::variant <std::unique_ptr <UpgradeTargets> ...>;
 
-	template <typename ... ResponderArguments, typename ... UpgradeArguments>
-	T
-	(
-		std::chrono::nanoseconds input_timeout,
-		std::chrono::nanoseconds output_timeout,
-		const TransferEncoding::Config::T & transfer_encoding_config,
-		uint64_t temp_file_threshhold,
-		const std::tuple <ResponderArguments ...> & responder_arguments,
-		UpgradeArguments && ... upgrade_arguments
-	);
+	template <typename ... UpgradeArguments>
+	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
 
 	template <typename InputStream>
 	Request::T
@@ -33,6 +33,14 @@ struct T
 
 private:
 
+	// Access to external members
+
+	const Interface &
+	interface () const;
+
+	Interface &
+	interface ();
+
 	// Given members
 
 	std::chrono::nanoseconds m_input_timeout;
@@ -40,13 +48,11 @@ private:
 	const TransferEncoding::Config::T & m_transfer_encoding_config;
 	uint64_t m_temp_file_threshhold;
 
-	// Internal members
+protected:
 
-	Responder m_responder;
+	// Internal members
 
 	std::mutex m_upgrade_mutex;
 	UpgradeFactory::T <UpgradeTargets ...> m_upgrade_factory;
 	std::optional <UpgradeProtocol> m_upgrade_protocol;
-
-	friend Connection::Protocol::T <Responder, UpgradeTargets ...>;
 };

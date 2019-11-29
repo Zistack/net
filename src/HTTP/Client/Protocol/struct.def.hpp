@@ -1,6 +1,11 @@
-struct T : Base::T
+struct T : private FIFOProtocolInterface::T
 {
-	T (const Config::T & config);
+	using FIFOProtocolInterface::T::T;
+
+	using FIFOProtocolInterface::T::prime;
+	using FIFOProtocolInterface::T::run;
+	using FIFOProtocolInterface::T::cancel;
+	using FIFOProtocolInterface::T::makeRequest;
 
 	template
 	<

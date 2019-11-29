@@ -1,7 +1,7 @@
-template <typename Responder, typename ... UpgradeTargets>
+template <typename Interface, typename ... UpgradeTargets>
 template <typename InputStream>
 Request::T
-T <Responder, UpgradeTargets ...>::readRequest
+T <Interface, UpgradeTargets ...>::readRequest
 (
 	InputStream && input_stream
 ) const

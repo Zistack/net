@@ -1,21 +1,13 @@
-template <typename Responder, typename ... UpgradeTargets>
-template <typename ... ResponderArguments, typename ... UpgradeArguments>
-T <Responder, UpgradeTargets ...>::T
+template <typename Interface, typename ... UpgradeTargets>
+template <typename ... UpgradeArguments>
+T <Interface, UpgradeTargets ...>::T
 (
-	std::chrono::nanoseconds input_timeout,
-	std::chrono::nanoseconds output_timeout,
-	const TransferEncoding::Config::T & transfer_encoding_config,
-	uint64_t temp_file_threshhold,
-	const std::tuple <ResponderArguments ...> & responder_arguments,
+	const Config::T & config,
 	UpgradeArguments && ... upgrade_arguments
 )
-:	Base::T <Responder, UpgradeTargets ...>
+:	FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 	(
-		input_timeout,
-		output_timeout,
-		transfer_encoding_config,
-		temp_file_threshhold,
-		responder_arguments,
+		config,
 		upgrade_arguments ...
 	),
 	m_cancelled (false)

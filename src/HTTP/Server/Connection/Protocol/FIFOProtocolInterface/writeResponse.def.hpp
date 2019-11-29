@@ -1,7 +1,7 @@
-template <typename Responder, typename ... UpgradeTargets>
+template <typename Interface, typename ... UpgradeTargets>
 template <typename OutputStream>
 void
-T <Responder, UpgradeTargets ...>::writeResponse
+T <Interface, UpgradeTargets ...>::writeResponse
 (
 	const Response::T & response,
 	OutputStream && output_stream
