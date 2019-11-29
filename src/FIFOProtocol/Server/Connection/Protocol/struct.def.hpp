@@ -8,6 +8,8 @@ struct T
 		Response
 	>
 {
+protected:
+
 	T () = default;
 
 	void
@@ -21,17 +23,11 @@ struct T
 	cancel ();
 
 	~T () = default;
-};
 
-static_assert
-(
-	IO::TypeTraits::IsProtocol::T
+	friend OutputInterface::T
 	<
-		T
-		<
-			TypeTraits::Interface::T <std::monostate, std::monostate>,
-			std::monostate,
-			std::monostate
-		>
-	>::value
-);
+		Interface,
+		T <Interface, Request, Response>,
+		Response
+	>;
+};

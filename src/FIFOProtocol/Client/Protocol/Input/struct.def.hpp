@@ -1,6 +1,8 @@
 template <typename Interface, typename Response>
 struct T
 {
+protected:
+
 	T () = default;
 
 	void

@@ -3,6 +3,8 @@ struct T
 :	private InputInterface::T <Interface, Response>,
 	private OutputInterface::T <Interface, Response>
 {
+protected:
+
 	T (std::chrono::nanoseconds round_trip_timeout);
 
 	void
@@ -33,16 +35,3 @@ private:
 
 	std::mutex m_queue_mutex;
 };
-
-static_assert
-(
-	IO::TypeTraits::IsProtocol::T
-	<
-		T
-		<
-			TypeTraits::Interface::T <std::monostate, std::monostate>,
-			std::monostate,
-			std::monostate
-		>
-	>::value
-);
