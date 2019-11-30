@@ -1,10 +1,6 @@
 template <typename Interface, typename Request>
 struct T
 {
-protected:
-
-	T () = default;
-
 	void
 	prime ();
 
@@ -20,6 +16,10 @@ protected:
 
 	void
 	push (Request && request);
+
+protected:
+
+	T () = default;
 
 	const T &
 	output () const;

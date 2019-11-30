@@ -3,10 +3,6 @@ struct T
 :	private InputInterface::T <Interface, Response>,
 	private OutputInterface::T <Interface, Response>
 {
-protected:
-
-	T (std::chrono::nanoseconds round_trip_timeout);
-
 	void
 	prime ();
 
@@ -22,6 +18,10 @@ protected:
 
 	Response
 	makeRequest (Request && request);
+
+protected:
+
+	T (std::chrono::nanoseconds round_trip_timeout);
 
 	~T () = default;
 

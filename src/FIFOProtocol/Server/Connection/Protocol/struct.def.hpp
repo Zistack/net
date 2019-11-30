@@ -8,10 +8,6 @@ struct T
 		Response
 	>
 {
-protected:
-
-	T () = default;
-
 	void
 	prime ();
 
@@ -22,12 +18,9 @@ protected:
 	void
 	cancel ();
 
-	~T () = default;
+protected:
 
-	friend OutputInterface::T
-	<
-		Interface,
-		T <Interface, Request, Response>,
-		Response
-	>;
+	T () = default;
+
+	~T () = default;
 };

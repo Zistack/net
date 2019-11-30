@@ -1,10 +1,6 @@
 template <typename Interface, typename Response>
 struct T
 {
-protected:
-
-	T () = default;
-
 	void
 	prime ();
 
@@ -17,6 +13,10 @@ protected:
 
 	void
 	push (const Thread::Delay::T <Response> & response_delay);
+
+protected:
+
+	T () = default;
 
 	const T &
 	output () const;

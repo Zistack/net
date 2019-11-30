@@ -7,7 +7,7 @@ template
 >
 struct T
 :	Input::T <T <Interface, Protocol, Request, Response>, Request, Response>,
-	OutputInterface::T <Interface, Protocol, Response>
+	protected OutputInterface::T <Interface, Protocol, Response>
 {
 	template <typename InputStream>
 	Request

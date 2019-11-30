@@ -1,10 +1,6 @@
 template <typename Interface, typename Request, typename Response>
 struct T
 {
-protected:
-
-	T () = default;
-
 	void
 	prime ();
 
@@ -14,6 +10,10 @@ protected:
 
 	void
 	cancel ();
+
+protected:
+
+	T () = default;
 
 	const T &
 	input () const;

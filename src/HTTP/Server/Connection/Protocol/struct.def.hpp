@@ -1,9 +1,6 @@
 template <typename Interface, typename ... UpgradeTargets>
 struct T : private FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 {
-	template <typename ... UpgradeArguments>
-	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
-
 	using FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::prime;
 
 	template <typename InputStream, typename OutputStream>
@@ -12,6 +9,13 @@ struct T : private FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 
 	void
 	cancel ();
+
+protected:
+
+	template <typename ... UpgradeArguments>
+	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
+
+	~T () = default;
 
 private:
 
