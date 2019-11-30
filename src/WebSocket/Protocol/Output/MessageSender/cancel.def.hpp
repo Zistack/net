@@ -1,6 +1,6 @@
-template <typename Output>
+template <typename Interface>
 void
-T <Output>::cancel ()
+T <Interface>::cancel ()
 {
 	this -> m_output_queue . cancel ();
 }

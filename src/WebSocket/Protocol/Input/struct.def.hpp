@@ -1,16 +1,6 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 struct T
 {
-	template <typename ... DispatcherArguments>
-	T
-	(
-		std::chrono::nanoseconds input_timeout,
-		std::chrono::nanoseconds close_timeout,
-		uint64_t temp_file_threshhold,
-		const URI::T & requested_resource,
-		DispatcherArguments && ... dispatcher_arguments
-	);
-
 	void
 	prime ();
 
@@ -21,9 +11,14 @@ struct T
 	void
 	cancel ();
 
-	~T () = default;
-
 protected:
+
+	T
+	(
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds close_timeout,
+		uint64_t temp_file_threshhold
+	);
 
 	const T &
 	input () const;
@@ -31,13 +26,9 @@ protected:
 	T &
 	input ();
 
+	~T () = default;
+
 private:
-
-	const Output::T <Protocol> &
-	output () const;
-
-	Output::T <Protocol> &
-	output ();
 
 	template <typename InputStream>
 	void
@@ -92,14 +83,20 @@ private:
 	void
 	finalizeMessage ();
 
+	// Access to external members
+
+	const Interface &
+	interface () const;
+
+	Interface &
+	interface ();
+
 	// Given members
 
 	std::chrono::nanoseconds m_input_timeout;
 	std::chrono::nanoseconds m_close_timeout;
 
 	uint64_t m_temp_file_threshhold;
-
-	Dispatcher m_dispatcher;
 
 	// Internal members
 
@@ -114,19 +111,3 @@ private:
 
 	SuppressingScope::T <ShutdownSignal::T> m_input_shutdown_scope;
 };
-
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T
-		<
-			T
-			<
-				Interface::T <TypeTraits::Dispatcher::T>,
-				TypeTraits::Dispatcher::T
-			>
-		>::
-		value
-);

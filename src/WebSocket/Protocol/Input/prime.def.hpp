@@ -1,6 +1,6 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 void
-T <Protocol, Dispatcher>::prime ()
+T <Interface>::prime ()
 {
 	this -> m_input_shutdown_scope = SuppressingScope::T
 	(

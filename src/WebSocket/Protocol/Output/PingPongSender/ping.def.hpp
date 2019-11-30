@@ -1,6 +1,6 @@
-template <typename Output>
+template <typename Interface>
 void
-T <Output>::ping (const std::vector <uint8_t> & payload)
+T <Interface>::ping (const std::vector <uint8_t> & payload)
 {
 	try
 	{

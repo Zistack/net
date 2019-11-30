@@ -1,6 +1,6 @@
-template <typename Output>
+template <typename Interface>
 void
-T <Output>::send (Message::T && message)
+T <Interface>::send (Message::T && message)
 {
 	try
 	{

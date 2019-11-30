@@ -1,7 +1,7 @@
-template <typename Output>
+template <typename Interface>
 template <typename OutputStream>
 void
-T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
+T <Interface>::writeMessage (Message::T & message, OutputStream && output_stream)
 {
 	uint64_t remaining_bytes = (uint64_t) message . size ();
 	uint64_t position = 0;
@@ -15,9 +15,10 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 
 	Masking::Key::T masking_key;
 	{
-		std::unique_lock rng_lock (this -> rngMutex ());
+		std::unique_lock rng_lock (this -> interface () . rng_mutex);
 		this ->
-			rng () .
+			interface () .
+			rng .
 			generate (masking_key . data (), masking_key . size ());
 	}
 	FrameHeader::T message_header
@@ -51,9 +52,10 @@ T <Output>::writeMessage (Message::T & message, OutputStream && output_stream)
 		remaining_bytes -= next_chunk_size;
 
 		{
-			std::unique_lock rng_lock (this -> rngMutex ());
+			std::unique_lock rng_lock (this -> rng_mutex);
 			this ->
-				rng () .
+				interface () .
+				rng .
 				generate (masking_key . data (), masking_key . size ());
 		}
 		FrameHeader::T continuation_header

@@ -1,11 +1,1 @@
-children :
-	Config.typedef,
-	CloseMessage.typedef,
-	FrameHeader.typedef,
-	InputEntitySlot.typedef,
-	Masking.children,
-	Message.typedef,
-	OutputEntitySlot.typedef,
-	Type.definitions,
-	TypeTraits.children,
-	Util.declarations
+children : Message.typedec, Config.typedef

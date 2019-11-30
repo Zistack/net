@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::waitForCloseFrame (InputStream && input_stream)
+T <Interface>::waitForCloseFrame (InputStream && input_stream)
 {
 	ShutdownSignal::T wait_shutdown_signal;
 

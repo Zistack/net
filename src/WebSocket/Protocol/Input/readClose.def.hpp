@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::readClose
+T <Interface>::readClose
 (
 	const FrameHeader::T & frame_header,
 	InputStream && input_stream
@@ -19,7 +19,7 @@ T <Protocol, Dispatcher>::readClose
 		frame_header . payload_length
 	);
 
-	this -> output () . cancel (this -> m_close_message . value ());
+	this -> interface () . cancelOutput (this -> m_close_message . value ());
 
 	throw Failure::EndOfResource::T ();
 }

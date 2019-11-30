@@ -1,6 +1,6 @@
-template <typename Output>
+template <typename Interface>
 void
-T <Output>::prime ()
+T <Interface>::prime ()
 {
 	this -> m_output_scope = Scope::T (this -> m_output_queue);
 }

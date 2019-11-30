@@ -1,13 +1,13 @@
-template <typename Output>
-const T <Output> &
-T <Output>::messageSender () const
+template <typename Interface>
+const T <Interface> &
+T <Interface>::messageSender () const
 {
 	return * this;
 }
 
-template <typename Output>
-T <Output> &
-T <Output>::messageSender ()
+template <typename Interface>
+T <Interface> &
+T <Interface>::messageSender ()
 {
 	return * this;
 }

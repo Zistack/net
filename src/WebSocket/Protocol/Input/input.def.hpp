@@ -1,13 +1,13 @@
-template <typename Protocol, typename Dispatcher>
-const T <Protocol, Dispatcher> &
-T <Protocol, Dispatcher>::input () const
+template <typename Interface>
+const T <Interface> &
+T <Interface>::input () const
 {
 	return * this;
 }
 
-template <typename Protocol, typename Dispatcher>
-T <Protocol, Dispatcher> &
-T <Protocol, Dispatcher>::input ()
+template <typename Interface>
+T <Interface> &
+T <Interface>::input ()
 {
 	return * this;
 }

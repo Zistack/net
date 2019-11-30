@@ -1,8 +1,8 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 void
-T <Protocol, Dispatcher>::finalizeMessage ()
+T <Interface>::finalizeMessage ()
 {
-	this -> m_dispatcher . dispatch (std::move (* this -> message));
+	this -> interface () . dispatch (std::move (* this -> message));
 
 	this -> m_message = std::nullopt;
 }

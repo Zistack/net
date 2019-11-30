@@ -1,7 +1,7 @@
-template <typename Output>
+template <typename Interface>
 template <typename OutputStream>
 void
-T <Output>::run (OutputStream && output_stream)
+T <Interface>::run (OutputStream && output_stream)
 {
 	Scope::T output_scope (std::move (this -> m_output_scope));
 
@@ -13,9 +13,10 @@ T <Output>::run (OutputStream && output_stream)
 
 			Masking::Key::T masking_key;
 			{
-				std::unique_lock rng_lock (this -> rngMutex ());
+				std::unique_lock rng_lock (this -> interface () . rng_mutex);
 				this ->
-					rng () .
+					interface () .
+					rng .
 					generate (masking_key . data (), masking_key . size ());
 			}
 			FrameHeader::T frame_header

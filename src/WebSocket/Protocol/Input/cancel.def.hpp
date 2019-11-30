@@ -1,6 +1,6 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 void
-T <Protocol, Dispatcher>::cancel ()
+T <Interface>::cancel ()
 {
 	this -> m_input_shutdown_signal . cancel ();
 }

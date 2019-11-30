@@ -1,8 +1,6 @@
-template <typename Output>
-struct T : private Shared::T <Output>
+template <typename Interface>
+struct T
 {
-	T () = default;
-
 	void
 	prime ();
 
@@ -19,15 +17,17 @@ struct T : private Shared::T <Output>
 	void
 	pong (const std::vector <uint8_t> & payload);
 
-	~T () = default;
-
 protected:
+
+	T () = default;
 
 	const T &
 	pingPongSender () const;
 
 	T &
 	pingPongSender ();
+
+	~T () = default;
 
 private:
 
@@ -40,6 +40,14 @@ private:
 		OutputStream && output_stream
 	);
 
+	// Access to external members
+
+	const Interface &
+	interface () const;
+
+	Interface &
+	interface ();
+
 	// Internal members
 
 	Thread::ConcurrentQueue::T <std::pair <Type::T, std::vector <uint8_t>>>
@@ -49,21 +57,3 @@ private:
 
 	Scope::T <decltype (m_output_queue)> m_output_scope;
 };
-
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T
-		<
-			T
-			<
-				Interface::T
-				<
-					Protocol::Interface::T <TypeTraits::Dispatcher::T>
-				>
-			>
-		>::
-		value
-);

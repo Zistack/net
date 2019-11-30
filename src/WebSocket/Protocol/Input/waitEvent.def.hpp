@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::waitEvent (InputStream && input_stream)
+T <Interface>::waitEvent (InputStream && input_stream)
 {
 	try
 	{

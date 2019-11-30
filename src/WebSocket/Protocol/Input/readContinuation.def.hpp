@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::readContinuation
+T <Interface>::readContinuation
 (
 	const FrameHeader::T & frame_header,
 	InputStream && input_stream,

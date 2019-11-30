@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::processFrames (InputStream && input_stream)
+T <Interface>::processFrames (InputStream && input_stream)
 {
 	IO::Util::eventLoop
 	(

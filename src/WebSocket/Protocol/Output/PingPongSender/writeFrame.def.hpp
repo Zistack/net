@@ -1,7 +1,7 @@
-template <typename Output>
+template <typename Interface>
 template <typename OutputStream>
 void
-T <Output>::writeFrame
+T <Interface>::writeFrame
 (
 	const FrameHeader::T & frame_header,
 	const std::vector <uint8_t> & payload,
@@ -14,14 +14,14 @@ T <Output>::writeFrame
 		frame_header . masking_key
 	);
 
-	std::unique_lock output_lock (this -> outputMutex ());
+	std::unique_lock output_lock (this -> interface () . outputMutex ());
 
 	try
 	{
 		{
 			Thread::Timer::T
 			(
-				this -> outputTimeout (),
+				this -> interface () . output_timeout,
 				& OutputStream::cancel,
 				& output_stream
 			);

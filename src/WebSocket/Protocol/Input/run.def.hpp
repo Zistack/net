@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::run (InputStream && input_stream)
+T <Interface>::run (InputStream && input_stream)
 {
 	SuppressingScope::T input_shutdown_scope
 	(

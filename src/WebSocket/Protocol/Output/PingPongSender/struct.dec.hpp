@@ -1,2 +1,2 @@
-template <typename Output>
+template <typename Interface>
 struct T;

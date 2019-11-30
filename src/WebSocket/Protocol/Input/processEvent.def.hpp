@@ -1,7 +1,7 @@
-template <typename Protocol, typename Dispatcher>
+template <typename Interface>
 template <typename InputStream>
 void
-T <Protocol, Dispatcher>::processEvent (InputStream && input_stream)
+T <Interface>::processEvent (InputStream && input_stream)
 {
 	InputEntitySlot::T entity_slot;
 	Failure::CancellableAggregate::T cancel_handle (input_stream, entity_slot);
@@ -30,7 +30,7 @@ T <Protocol, Dispatcher>::processEvent (InputStream && input_stream)
 				this -> m_exception_store . store (std::current_exception ());
 
 				this -> cancel ();
-				this -> output () . cancel (CloseMessage::T (1002, e . what ()));
+				this -> interface () . cancelOutput (CloseMessage::T (1002, e . what ()));
 
 				Util::discard
 				(

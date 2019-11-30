@@ -1,13 +1,13 @@
-template <typename Output>
-const T <Output> &
-T <Output>::pingPongSender () const
+template <typename Interface>
+const T <Interface> &
+T <Interface>::pingPongSender () const
 {
 	return * this;
 }
 
-template <typename Output>
-T <Output> &
-T <Output>::pingPongSender ()
+template <typename Interface>
+T <Interface> &
+T <Interface>::pingPongSender ()
 {
 	return * this;
 }

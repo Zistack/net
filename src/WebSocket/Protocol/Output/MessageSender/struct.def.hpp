@@ -1,8 +1,6 @@
-template <typename Output>
-struct T : private Shared::T <Output>
+template <typename Interface>
+struct T
 {
-	T (uint64_t chunk_size);
-
 	void
 	prime ();
 
@@ -16,15 +14,17 @@ struct T : private Shared::T <Output>
 	void
 	send (Message::T && message);
 
-	~T () = default;
-
 protected:
+
+	T (uint64_t chunk_size);
 
 	const T &
 	messageSender () const;
 
 	T &
 	messageSender ();
+
+	~T () = default;
 
 private:
 
@@ -42,6 +42,14 @@ private:
 		OutputStream && output_stream
 	);
 
+	// Access to external members
+
+	const Interface &
+	interface () const;
+
+	Interface &
+	interface ();
+
 	// Given members
 
 	uint64_t m_chunk_size;
@@ -54,21 +62,3 @@ private:
 
 	Scope::T <decltype (m_output_queue)> m_output_scope;
 };
-
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T
-		<
-			T
-			<
-				Interface::T
-				<
-					Protocol::Interface::T <TypeTraits::Dispatcher::T>
-				>
-			>
-		>::
-		value
-);

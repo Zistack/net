@@ -1,6 +1,6 @@
-template <typename Output>
+template <typename Interface>
 void
-T <Output>::pong (const std::vector <uint8_t> & payload)
+T <Interface>::pong (const std::vector <uint8_t> & payload)
 {
 	try
 	{
