@@ -19,5 +19,11 @@ protected:
 
 	using InputOutputInterface::T <Interface>::T;
 
+	const T &
+	webSocketProtocol () const;
+
+	T &
+	webSocketProtocol ();
+
 	~T () = default;
 };
