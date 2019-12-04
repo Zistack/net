@@ -1,6 +1,5 @@
-template <typename Dispatcher>
 HTTP::Request::T
-T <Dispatcher>::createUpgradeRequest (const URI::T & uri)
+T::createUpgradeRequest (const URI::T & uri)
 {
 	assert (uri . authority);
 
@@ -11,7 +10,7 @@ T <Dispatcher>::createUpgradeRequest (const URI::T & uri)
 	(
 		client_key,
 		client_key . size (),
-		this -> m_client_key_base64
+		this -> client_key_base64
 	);
 
 	return HTTP::Request::T
@@ -24,7 +23,7 @@ T <Dispatcher>::createUpgradeRequest (const URI::T & uri)
 			{"Host", uri . authority -> toString ()},
 			{"Upgrade", "WebSocket"},
 			{"Connection", "Upgrade"},
-			{"Sec-Websocket-Key", this -> m_client_key_base64},
+			{"Sec-Websocket-Key", this -> client_key_base64},
 			{"Sec-WebSocket-Version", "13"}
 		},
 		std::nullopt

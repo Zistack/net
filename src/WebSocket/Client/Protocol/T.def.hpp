@@ -1,12 +1,11 @@
-template <typename Dispatcher>
-template <typename ... DispatcherArguments>
-std::unique_ptr <WebSocket::Protocol::T <Dispatcher>>
-T <Dispatcher>::createClientProtocol
+template <typename Interface>
+T <Interface>::T
 (
+	const UpgradeFactory & upgrade_factory,
 	const HTTP::Response::T & response,
-	const Config::T & config,
-	DispatcherArguments && ... dispatcher_arguments
+	const Config::T & config
 )
+:	WebSocket::Protocol::T <Interface> (config)
 {
 	const HTTP::HeaderMap::T & headers = response . headers ();
 
@@ -25,7 +24,10 @@ T <Dispatcher>::createClientProtocol
 	);
 
 	std::string expected_server_key_hash_base64 =
-		Util::computeServerKeyFromClientKey (this -> m_client_key_base64);
+		Util::computeServerKeyFromClientKey
+		(
+			upgrade_factory . client_key_base64
+		);
 
 	HTTP::Util::validateClientUpgradeCondition
 	(
@@ -37,11 +39,5 @@ T <Dispatcher>::createClientProtocol
 		"Expected 'Sec-WebSocket-Accept' header with value '" +
 			expected_server_key_hash_base64 +
 			"'\n"
-	);
-
-	return std::make_unique <WebSocket::Protocol::T <Dispatcher>>
-	(
-		config,
-		std::forward <DispatcherArguments> (dispatcher_arguments) ...
 	);
 }

@@ -1,6 +1,5 @@
-template <typename Dispatcher>
-T <Dispatcher>::T ()
-:	m_client_key_base64
+T::T ()
+:	client_key_base64
 	(
 		Crypto::Base64::encodedLength
 		(
