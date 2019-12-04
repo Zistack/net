@@ -20,4 +20,6 @@ struct T : private FIFOProtocolInterface::T
 		const std::tuple <ClientProtocolArguments ...> &
 			client_protocol_arguments
 	);
+
+	~T () = default;
 };
