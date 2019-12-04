@@ -1,7 +1,7 @@
 template <typename Interface>
 T <Interface>::T
 (
-	const UpgradeFactory & upgrade_factory,
+	const RequestFactory & request_factory,
 	const HTTP::Response::T & response,
 	const Config::T & config
 )
@@ -26,7 +26,7 @@ T <Interface>::T
 	std::string expected_server_key_hash_base64 =
 		Util::computeServerKeyFromClientKey
 		(
-			upgrade_factory . client_key_base64
+			request_factory . client_key_base64
 		);
 
 	HTTP::Util::validateClientUpgradeCondition

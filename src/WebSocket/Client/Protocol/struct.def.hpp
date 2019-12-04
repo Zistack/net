@@ -1,11 +1,11 @@
 template <typename Interface>
 struct T : WebSocket::Protocol::T <Interface>
 {
-	using UpgradeFactory = UpgradeFactory::T;
+	using RequestFactory = RequestFactory::T;
 
 	T
 	(
-		const UpgradeFactory & upgrade_factory,
+		const RequestFactory & request_factory,
 		const HTTP::Response::T & response,
 		const Config::T & config
 	);
