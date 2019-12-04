@@ -11,24 +11,12 @@ T::upgrade
 	const std::tuple <ProtocolArguments ...> & protocol_arguments
 )
 {
-	using UpgradeFactory = typename UpgradeTarget::UpgradeFactory;
+	using RequestFactory = typename UpgradeTarget::RequestFactory;
 
-	UpgradeFactory upgrade_factory;
+	RequestFactory request_factory =
+		std::make_from_tuple <RequestFactory> (request_arguments);
 
-	Response::T response = this -> makeRequest
-	(
-		std::apply
-		(
-			[&] (RequestArguments ... request_arguments)
-			{
-				upgrade_factory . createUpgradeRequest
-				(
-					std::forward <RequestArguments> (request_arguments) ...
-				);
-			},
-			request_arguments
-		)
-	);
+	Response::T response = this -> makeRequest (request_factory . request);
 
 	if (response . statusCode () == 101)
 	{
@@ -38,21 +26,21 @@ T::upgrade
 		(
 			[]
 			(
-				const UpgradeFactory & upgrade_factory,
-				const Request::T & request,
+				const RequestFactory & request_factory,
+				const Response::T & response,
 				ProtocolArguments ... protocol_arguments
 			)
 			{
 				return std::make_unique <UpgradeTarget>
 				(
-					upgrade_factory,
-					request,
+					request_factory,
+					response,
 					std::forward <ProtocolArguments> (protocol_arguments) ...
 				);
 			},
 			std::tuple_cat
 			(
-				std::forward_as_tuple (upgrade_factory, response),
+				std::forward_as_tuple (request_factory, response),
 				protocol_arguments
 			)
 		);
