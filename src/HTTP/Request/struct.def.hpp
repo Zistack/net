@@ -33,6 +33,9 @@ struct T
 		const TransferEncoding::Config::T & transfer_encoding_config
 	) const;
 
+	std::string
+	toString () const;
+
 	void
 	check () const;
 
