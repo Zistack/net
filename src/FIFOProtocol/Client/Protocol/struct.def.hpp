@@ -23,6 +23,12 @@ protected:
 
 	T (std::chrono::nanoseconds round_trip_timeout);
 
+	const T &
+	fifoProtocol () const;
+
+	T &
+	fifoProtocol ();
+
 	~T () = default;
 
 private:

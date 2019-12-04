@@ -22,5 +22,11 @@ protected:
 
 	T () = default;
 
+	const T &
+	fifoProtocol () const;
+
+	T &
+	fifoProtocol ();
+
 	~T () = default;
 };
