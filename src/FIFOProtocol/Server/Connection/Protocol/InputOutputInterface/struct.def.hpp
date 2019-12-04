@@ -22,6 +22,12 @@ struct T
 	void
 	pushOutput (const Thread::Delay::T <Response> & response_delay);
 
+protected:
+
+	T () = default;
+
+	~T () = default;
+
 private:
 
 	const Interface &

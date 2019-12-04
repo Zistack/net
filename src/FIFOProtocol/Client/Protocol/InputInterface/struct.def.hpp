@@ -5,6 +5,12 @@ struct T : Input::T <T <Interface, Response>, Response>
 	Response
 	readResponse (InputStream && input_stream);
 
+protected:
+
+	using Input::T <T <Interface, Response>, Response>::T;
+
+	~T () = default;
+
 private:
 
 	Interface &

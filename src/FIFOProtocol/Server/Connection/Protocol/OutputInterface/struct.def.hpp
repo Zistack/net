@@ -8,6 +8,12 @@ struct T : Output::T <T <Interface, Protocol, Response>, Response>
 	void
 	cancelProtocol ();
 
+protected:
+
+	using Output::T <T <Interface, Protocol, Response>, Response>::T;
+
+	~T () = default;
+
 private:
 
 	const Interface &
