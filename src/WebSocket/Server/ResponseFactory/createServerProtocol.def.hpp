@@ -1,19 +1,6 @@
-template <typename Dispatcher>
-template <bool upgrade_required, typename ... DispatcherArguments>
-std::optional
-<
-	std::pair
-	<
-		HTTP::Response::T,
-		std::unique_ptr <WebSocket::Protocol::T <Dispatcher>>
-	>
->
-T <Dispatcher>::createServerProtocol
-(
-	const HTTP::Request::T & request,
-	const Config::T & config,
-	DispatcherArguments && ... dispatcher_arguments
-)
+template <bool upgrade_required>
+HTTP::Response::T
+T <upgrade_required>::createUpgradeResponse (const HTTP::Request::T & request)
 {
 	const HTTP::HeaderMap::T & headers = request . headers ();
 
@@ -76,26 +63,17 @@ T <Dispatcher>::createServerProtocol
 	std::string server_key_base64 =
 		Util::computeServerKeyFromClientKey (client_key_base64);
 
-	return
-	{
-		HTTP::Response::T
-		(
-			"HTTP/1.1",
-			101,
-			HTTP::Util::reasonPhrase (101),
-			std::initializer_list <std::pair <std::string, std::string>>
-			{
-				{"Upgrade", "WebSocket"},
-				{"Connection", "Upgrade"},
-				{"Sec-WebSocket-Accept", server_key_base64}
-			},
-			std::nullopt
-		),
-		std::make_unique <T <Dispatcher>>
-		(
-			config,
-			request . uri (),
-			std::forward <DispatcherArguments> (dispatcher_arguments) ...
-		)
-	};
+	return HTTP::Response::T
+	(
+		"HTTP/1.1",
+		101,
+		HTTP::Util::reasonPhrase (101),
+		std::initializer_list <std::pair <std::string, std::string>>
+		{
+			{"Upgrade", "WebSocket"},
+			{"Connection", "Upgrade"},
+			{"Sec-WebSocket-Accept", server_key_base64}
+		},
+		std::nullopt
+	);
 }
