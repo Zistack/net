@@ -15,6 +15,12 @@ protected:
 	template <typename ... UpgradeArguments>
 	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
 
+	const T &
+	http () const;
+
+	T &
+	http ();
+
 	~T () = default;
 
 private:
