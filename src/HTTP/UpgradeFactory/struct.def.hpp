@@ -6,8 +6,12 @@ struct T
 		std::pair <Response::T, std::unique_ptr <UpgradeTargets>> ...
 	>;
 
-	template <typename ... UpgradeArguments>
-	T (UpgradeArguments && ... upgrade_arguments);
+	template <typename ... ResponseArguments, typename ... ProtocolArguments>
+	T
+	(
+		const std::pair <ResponseArguments, ProtocolArguments> & ...
+			upgrade_arguments
+	);
 
 	std::optional <ResponseAndProtocol>
 	upgrade

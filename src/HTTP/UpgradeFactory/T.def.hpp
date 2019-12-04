@@ -1,22 +1,59 @@
 template <typename ... UpgradeTargets>
-template <typename ... UpgradeArguments>
-T <UpgradeTargets ...>::T (UpgradeArguments && ... upgrade_arguments)
+template <typename ... ResponseArguments, typename ... ProtocolArguments>
+T <UpgradeTargets ...>::T (const std::pair <ResponseArguments, ProtocolArguments> & ... upgrade_arguments)
 {
 	(
 		this -> m_upgrade_methods . emplace
 		(
-			UpgradeTargets::PROTOCOL . toString (),
-			[& upgrade_arguments] (const Request::T & request)
+			UpgradeTargets::NAME . toString (),
+			[
+				response_arguments = upgrade_arguments . first,
+				protocol_arguments = upgrade_arguments . second
+			]
+			(
+				const Request::T & request
+			)
 			{
-				return std::apply
+				using ResponseFactory =
+					typename UpgradeTargets::ResponseFactory;
+
+				ResponseFactory response_factory =
+					std::make_from_tuple <ResponseFactory>
+					(
+						std::tuple_cat
+						(
+							std::forward_as_tuple (request),
+							response_arguments
+						)
+					);
+
+				std::unique_ptr <UpgradeTargets> protocol = std::apply
 				(
-					UpgradeTargets::createServerProtocol,
+					[]
+					(
+						const Request::T & request,
+						const ResponseFactory & response_factory,
+						ProtocolArguments & ... protocol_arguments
+					)
+					{
+						return std::make_unique <UpgradeTargets>
+						(
+							request,
+							response_factory,
+							std::forward <ProtocolArguments>
+							(
+								protocol_arguments
+							) ...
+						);
+					},
 					std::tuple_cat
 					(
-						std::forward_as_tuple (request),
-						std::forward <UpgradeArguments> (upgrade_arguments)
+						std::forward_as_tuple (request, response_factory),
+						protocol_arguments
 					)
 				);
+
+				return std::make_pair (response_factory . response, protocol);
 			}
 		), ...
 	);
