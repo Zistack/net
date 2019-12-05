@@ -2,7 +2,6 @@
 #include <functional>
 
 #include <Failure.hpp>
-#include <GetConfig.hpp>
 #include <IO.hpp>
 #include <Scope.hpp>
 #include <ShutdownSignal.hpp>
