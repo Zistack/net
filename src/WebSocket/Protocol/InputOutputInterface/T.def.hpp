@@ -1,11 +1,18 @@
 template <typename Interface>
-T <Interface>::T (const Config::T & config)
+T <Interface>::T
+(
+	std::chrono::nanoseconds input_timeout,
+	std::chrono::nanoseconds output_timeout,
+	std::chrono::nanoseconds close_timeout,
+	uint64_t chunk_size,
+	uint64_t temp_file_threshhold
+)
 :	Input::T <T <Interface>>
 	(
-		config . inputTimeout (),
-		config . closeTimeout (),
-		config . tempFileThreshhold ()
+		input_timeout,
+		output_timeout,
+		temp_file_threshhold
 	),
-	Output::T (config . outputTimeout (), config . chunkSize ())
+	Output::T (output_timeout, chunk_size)
 {
 }

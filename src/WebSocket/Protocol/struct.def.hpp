@@ -17,7 +17,7 @@ struct T : InputOutputInterface::T <Interface>
 
 protected:
 
-	using InputOutputInterface::T <Interface>::T;
+	T (const Config::T & config);
 
 	const T &
 	webSocketProtocol () const;
