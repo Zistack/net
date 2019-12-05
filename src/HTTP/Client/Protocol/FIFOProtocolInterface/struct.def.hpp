@@ -1,9 +1,5 @@
 struct T : FIFOProtocol::Client::Protocol::T <T, Request::T, Response::T>
 {
-protected:
-
-	T (const Config::T & config);
-
 	template <typename OutputStream>
 	void
 	writeRequest
@@ -15,6 +11,10 @@ protected:
 	template <typename InputStream>
 	Response::T
 	readResponse (InputStream && input_stream) const;
+
+protected:
+
+	T (const Config::T & config);
 
 	~T () = default;
 
