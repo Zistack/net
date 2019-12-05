@@ -14,7 +14,14 @@ struct T : FIFOProtocol::Client::Protocol::T <T, Request::T, Response::T>
 
 protected:
 
-	T (const Config::T & config);
+	T
+	(
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds output_timeout,
+		std::chrono::nanoseconds round_trip_timeout,
+		const TransferEncoding::Config::T & transfer_encoding_config,
+		uint64_t temp_file_threshhold
+	);
 
 	~T () = default;
 

@@ -1,6 +1,6 @@
 struct T : private FIFOProtocolInterface::T
 {
-	using FIFOProtocolInterface::T::T;
+	T (const Config::T & config);
 
 	using FIFOProtocolInterface::T::prime;
 	using FIFOProtocolInterface::T::run;

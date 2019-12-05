@@ -7,13 +7,6 @@ struct T
 		Response::T
 	>
 {
-protected:
-
-	using UpgradeProtocol = std::variant <std::unique_ptr <UpgradeTargets> ...>;
-
-	template <typename ... UpgradeArguments>
-	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
-
 	template <typename InputStream>
 	Request::T
 	readRequest (InputStream && input_stream) const;
@@ -29,7 +22,27 @@ protected:
 		OutputStream && output_stream
 	) const;
 
+protected:
+
+	using UpgradeProtocol = std::variant <std::unique_ptr <UpgradeTargets> ...>;
+
+	template <typename ... UpgradeArguments>
+	T
+	(
+		std::chrono::nanoseconds input_timeout,
+		std::chrono::nanoseconds output_timeout,
+		const TransferEncoding::Config::T & transfer_encoding_config,
+		uint64_t temp_file_threshhold,
+		UpgradeArguments && ... upgrade_arguments
+	);
+
 	~T () = default;
+
+	// Internal members
+
+	std::mutex m_upgrade_mutex;
+	UpgradeFactory::T <UpgradeTargets ...> m_upgrade_factory;
+	std::optional <UpgradeProtocol> m_upgrade_protocol;
 
 private:
 
@@ -47,12 +60,4 @@ private:
 	std::chrono::nanoseconds m_output_timeout;
 	const TransferEncoding::Config::T & m_transfer_encoding_config;
 	uint64_t m_temp_file_threshhold;
-
-protected:
-
-	// Internal members
-
-	std::mutex m_upgrade_mutex;
-	UpgradeFactory::T <UpgradeTargets ...> m_upgrade_factory;
-	std::optional <UpgradeProtocol> m_upgrade_protocol;
 };

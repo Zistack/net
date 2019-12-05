@@ -7,7 +7,10 @@ T <Interface, UpgradeTargets ...>::T
 )
 :	FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 	(
-		config,
+		config . inputTimeout (),
+		config . outputTimeout (),
+		config . transferEncodingConfig (),
+		config . tempFileThreshhold (),
 		upgrade_arguments ...
 	),
 	m_cancelled (false)
