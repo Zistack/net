@@ -24,18 +24,6 @@ struct T
 	T &
 	operator = (T && other) = default;
 
-	template <typename OutputStream, typename CancellableSlot>
-	void
-	writeTo
-	(
-		OutputStream && output_stream,
-		CancellableSlot & response_slot,
-		const TransferEncoding::Config::T & transfer_encoding_config
-	) const;
-
-	std::string
-	toString () const;
-
 	const std::string &
 	version () const;
 
@@ -51,6 +39,18 @@ struct T
 	const std::optional <Entity::T> &
 	entity () const;
 
+	template <typename OutputStream, typename CancellableSlot>
+	void
+	writeTo
+	(
+		OutputStream && output_stream,
+		CancellableSlot & response_slot,
+		const TransferEncoding::Config::T & transfer_encoding_config
+	) const;
+
+	std::string
+	head () const;
+
 	~T () = default;
 
 private:
@@ -62,6 +62,10 @@ private:
 	template <typename OutputStream>
 	void
 	putStatusLine (OutputStream && output_stream) const;
+
+	template <typename OutputStream>
+	void
+	putHead (OutputStream && output_stream) const;
 
 	std::string m_version;
 	uint64_t m_status_code;

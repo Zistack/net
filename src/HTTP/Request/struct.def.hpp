@@ -24,18 +24,6 @@ struct T
 	T &
 	operator = (T && other) = default;
 
-	template <typename OutputStream, typename CancellableSlot>
-	void
-	writeTo
-	(
-		OutputStream && output_stream,
-		CancellableSlot & request_slot,
-		const TransferEncoding::Config::T & transfer_encoding_config
-	) const;
-
-	std::string
-	toString () const;
-
 	void
 	check () const;
 
@@ -54,6 +42,18 @@ struct T
 	const std::optional <Entity::T> &
 	entity () const;
 
+	template <typename OutputStream, typename CancellableSlot>
+	void
+	writeTo
+	(
+		OutputStream && output_stream,
+		CancellableSlot & request_slot,
+		const TransferEncoding::Config::T & transfer_encoding_config
+	) const;
+
+	std::string
+	head () const;
+
 	~T () = default;
 
 private:
@@ -65,6 +65,10 @@ private:
 	template <typename OutputStream>
 	void
 	putRequestLine (OutputStream && output_stream) const;
+
+	template <typename OutputStream>
+	void
+	putHead (OutputStream && output_stream) const;
 
 	std::exception_ptr m_e_ptr;
 
