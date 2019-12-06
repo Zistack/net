@@ -4,3 +4,4 @@
 
 #include <Failure.hpp>
 #include <IO.hpp>
+#include <URI.hpp>
