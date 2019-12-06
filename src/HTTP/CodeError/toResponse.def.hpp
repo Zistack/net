@@ -6,10 +6,20 @@ T::toResponse (uint64_t temp_file_threshhold) const
 	(
 		[&] (auto && writer)
 		{
-			Scope::T writer_scope (writer);
+			using OutputStream = decltype (writer);
 
-			writer . print (this -> m_message);
-			writer . put ('\n');
+			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
+			{
+				Scope::T writer_scope (writer);
+
+				writer . print (this -> m_message);
+				writer . put ('\n');
+			}
+			else
+			{
+				writer . print (this -> m_message);
+				writer . put ('\n');
+			}
 		}
 	);
 
