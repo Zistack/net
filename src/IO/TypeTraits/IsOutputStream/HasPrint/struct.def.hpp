@@ -21,6 +21,7 @@ struct T
 			void
 		>
 	>
-> : std::true_type
+>
+:	std::true_type
 {
 };

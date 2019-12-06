@@ -12,6 +12,7 @@ struct T
 		RETURNS_UNIQUE_PTR <ServerProtocol> &&
 			CONNECTION_PROTOCOL_IS_PROTOCOL <ServerProtocol>
 	>
-> : std::true_type
+>
+:	std::true_type
 {
 };

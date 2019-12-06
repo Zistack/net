@@ -15,6 +15,7 @@ struct T
 			IO::Watchable::Events::T
 		>
 	>
-> : std::true_type
+>
+:	std::true_type
 {
 };

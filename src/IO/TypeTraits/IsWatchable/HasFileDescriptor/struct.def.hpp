@@ -15,6 +15,7 @@ struct T
 			int
 		>
 	>
-> : std::true_type
+>
+:	std::true_type
 {
 };

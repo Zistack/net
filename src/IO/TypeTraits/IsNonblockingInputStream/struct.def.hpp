@@ -22,6 +22,7 @@ struct T
 			size_t
 		>
 	>
-> : std::true_type
+>
+:	std::true_type
 {
 };
