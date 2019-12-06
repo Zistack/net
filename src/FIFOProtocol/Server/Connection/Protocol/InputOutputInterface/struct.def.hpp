@@ -7,7 +7,7 @@ template
 >
 struct T
 :	Input::T <T <Interface, Protocol, Request, Response>, Request, Response>,
-	protected OutputInterface::T <Interface, Protocol, Response>
+	OutputInterface::T <Interface, Protocol, Response>
 {
 	template <typename InputStream>
 	Request
@@ -29,6 +29,16 @@ protected:
 	~T () = default;
 
 private:
+
+	using Input::
+		T <T <Interface, Protocol, Request, Response>, Request, Response>::
+		prime;
+	using Input::
+		T <T <Interface, Protocol, Request, Response>, Request, Response>::
+		run;
+	using Input::
+		T <T <Interface, Protocol, Request, Response>, Request, Response>::
+		cancel;
 
 	const Interface &
 	interface () const;

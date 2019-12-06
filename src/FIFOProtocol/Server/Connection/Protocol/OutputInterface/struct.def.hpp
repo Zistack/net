@@ -16,6 +16,11 @@ protected:
 
 private:
 
+	using Output::T <T <Interface, Protocol, Response>, Response>::prime;
+	using Output::T <T <Interface, Protocol, Response>, Response>::run;
+	using Output::T <T <Interface, Protocol, Response>, Response>::cancel;
+	using Output::T <T <Interface, Protocol, Response>, Response>::push;
+
 	const Interface &
 	interface () const;
 

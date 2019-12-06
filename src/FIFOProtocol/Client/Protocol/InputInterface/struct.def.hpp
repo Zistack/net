@@ -13,6 +13,11 @@ protected:
 
 private:
 
+	using Input::T <T <Interface, Response>, Response>::prime;
+	using Input::T <T <Interface, Response>, Response>::run;
+	using Input::T <T <Interface, Response>, Response>::cancel;
+	using Input::T <T <Interface, Response>, Response>::push;
+
 	Interface &
 	interface ();
 
