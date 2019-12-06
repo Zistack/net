@@ -6,7 +6,10 @@ T <Protocol, Arguments ...>::make ()
 	(
 		[] (Arguments ... arguments)
 		{
-			std::make_unique <Protocol> (std::forward <Arguments> (arguments) ...);
+			return std::make_unique <Protocol>
+			(
+				std::forward <Arguments> (arguments) ...
+			);
 		},
 		this -> m_arguments
 	);
