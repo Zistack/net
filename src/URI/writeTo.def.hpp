@@ -1,6 +1,6 @@
 template <typename OutputStream>
 void
-T::writeTo (OutputStream && output_stream)
+T::writeTo (OutputStream && output_stream) const
 {
 	if (this -> scheme)
 	{

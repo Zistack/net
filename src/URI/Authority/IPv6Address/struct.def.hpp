@@ -18,7 +18,7 @@ struct T
 
 	template <typename OutputStream>
 	void
-	writeTo (OutputStream && output_stream);
+	writeTo (OutputStream && output_stream) const;
 
 	std::string
 	toString () const;
