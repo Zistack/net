@@ -4,7 +4,7 @@ T <Scopable>::T () : m_scopable (nullptr)
 }
 
 template <typename Scopable>
-template <typename... Arguments>
+template <typename... Arguments, typename ProxyScopable, typename>
 T <Scopable>::T (Scopable & scopable, Arguments && ... arguments)
 :	m_scopable (& scopable)
 {
