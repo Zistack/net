@@ -1,4 +1,4 @@
-template <typename InputStream>
+template <typename InputStream, typename>
 T::T (InputStream && input_stream)
 {
 	while (! IO::Util::test (std::forward <InputStream> (input_stream), '\r'))

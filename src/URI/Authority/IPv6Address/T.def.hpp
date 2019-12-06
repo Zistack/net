@@ -2,7 +2,7 @@ T::T () : m_hexadecitets ({0, 0, 0, 0, 0, 0, 0, 1})
 {
 }
 
-template <typename InputStream>
+template <typename InputStream, typename>
 T::T (InputStream && input_stream) : m_hexadecitets ({0})
 {
 	this -> init (std::forward <InputStream> (input_stream));

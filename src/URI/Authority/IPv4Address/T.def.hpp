@@ -2,7 +2,7 @@ T::T () : m_octets ({127, 0, 0, 1})
 {
 }
 
-template <typename InputStream>
+template <typename InputStream, typename>
 T::T (InputStream && input_stream)
 {
 	this -> init (std::forward <InputStream> (input_stream));

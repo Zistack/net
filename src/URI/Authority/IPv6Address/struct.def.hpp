@@ -2,7 +2,14 @@ struct T
 {
 	T ();
 
-	template <typename InputStream>
+	template
+	<
+		typename InputStream,
+		typename = std::enable_if_t
+		<
+			IO::TypeTraits::IsInputStream::T <InputStream>::value
+		>
+	>
 	T (InputStream && input_stream);
 
 	T (const std::string & address_string);

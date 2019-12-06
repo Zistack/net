@@ -1,6 +1,6 @@
 T::T () : m_registered_name ("localhost") {}
 
-template <typename InputStream>
+template <typename InputStream, typename>
 T::T (InputStream && input_stream)
 {
 	this -> m_registered_name = Rule::getClassDecode

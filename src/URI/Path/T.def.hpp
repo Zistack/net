@@ -2,7 +2,7 @@ T::T () : m_absolute (true)
 {
 }
 
-template <typename InputStream>
+template <typename InputStream, typename>
 T::T (InputStream && input_stream)
 {
 	this -> init (std::forward <InputStream> (input_stream));
