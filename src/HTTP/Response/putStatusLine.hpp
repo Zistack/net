@@ -1,6 +1,6 @@
 template <typename OutputStream>
 void
-T::statusLineToString (OutputStream && output_stream) const
+T::putStatusLine (OutputStream && output_stream) const
 {
 	output_stream . print (this -> m_version);
 
