@@ -1,14 +1,17 @@
 template <typename Interface>
 struct T : WebSocket::Protocol::T <Interface>
 {
-	using RequestFactory = RequestFactory::T;
+	using ProtocolData = ProtocolData::T;
 
 	T
 	(
-		const RequestFactory & request_factory,
+		const ProtocolData & protocol_data,
 		const HTTP::Response::T & response,
 		const Config::T & config
 	);
 
 	~T () = default;
+
+	static std::pair <HTTP::Request::T, ProtocolData>
+	createRequest (const URI::T & uri);
 };

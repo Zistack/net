@@ -1,6 +1,13 @@
-template <bool upgrade_required>
-HTTP::Response::T
-T <upgrade_required>::createUpgradeResponse (const HTTP::Request::T & request)
+template <typename Interface, bool upgrade_required>
+std::pair
+<
+	HTTP::Response::T,
+	typename T <Interface, upgrade_required>::ProtocolData
+>
+T <Interface, upgrade_required>::createResponse
+(
+	const HTTP::Request::T & request
+)
 {
 	const HTTP::HeaderMap::T & headers = request . headers ();
 
@@ -63,17 +70,21 @@ T <upgrade_required>::createUpgradeResponse (const HTTP::Request::T & request)
 	std::string server_key_base64 =
 		Util::computeServerKeyFromClientKey (client_key_base64);
 
-	return HTTP::Response::T
+	return std::make_pair
 	(
-		"HTTP/1.1",
-		101,
-		HTTP::Util::reasonPhrase (101),
-		std::initializer_list <std::pair <std::string, std::string>>
-		{
-			{"Upgrade", "WebSocket"},
-			{"Connection", "Upgrade"},
-			{"Sec-WebSocket-Accept", server_key_base64}
-		},
-		std::nullopt
+		HTTP::Response::T
+		(
+			"HTTP/1.1",
+			101,
+			HTTP::Util::reasonPhrase (101),
+			std::initializer_list <std::pair <std::string, std::string>>
+			{
+				{"Upgrade", "WebSocket"},
+				{"Connection", "Upgrade"},
+				{"Sec-WebSocket-Accept", server_key_base64}
+			},
+			std::nullopt
+		),
+		ProtocolData ()
 	);
 }

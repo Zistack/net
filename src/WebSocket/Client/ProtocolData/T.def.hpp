@@ -1,4 +1,4 @@
-T::T (const URI::T & uri)
+T::T ()
 :	client_key_base64
 	(
 		Crypto::Base64::encodedLength
@@ -6,7 +6,6 @@ T::T (const URI::T & uri)
 			std::tuple_size <HandshakeKey::T>::value
 		),
 		'\0'
-	),
-	request (createUpgradeRequest (uri))
+	)
 {
 }
