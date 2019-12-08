@@ -12,8 +12,7 @@ T::readResponse (InputStream && input_stream) const
 			Thread::Timer::T input_timer
 			(
 				this -> m_input_timeout,
-				& decltype (input_slot)::cancel,
-				& input_slot
+				[&] () { input_slot . cancel (); }
 			);
 
 			response = std::move (

@@ -14,8 +14,7 @@ T::writeRequest
 			Thread::Timer::T output_timer
 			(
 				this -> m_output_timeout,
-				& decltype (output_slot)::cancel,
-				& output_slot
+				[&] () { output_slot . cancel (); }
 			);
 
 			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
