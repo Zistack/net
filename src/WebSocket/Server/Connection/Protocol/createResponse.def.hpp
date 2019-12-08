@@ -42,6 +42,7 @@ T <Interface, upgrade_required>::createResponse
 		"Websocket Version " +
 			headers . at ("Sec-WebSocket-Version") +
 			" is unsupported\n",
+		std::initializer_list <std::pair <std::string, std::string>>
 		{{"Sec-WebSocket-Version", "13"}}
 	);
 
