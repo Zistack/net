@@ -27,7 +27,7 @@ private:
 	std::map
 	<
 		Header::Upgrade::Protocol::T,
-		ResponseAndProtocol (const Request::T & request)
+		std::function <ResponseAndProtocol (const Request::T & request)>
 	>
 	m_upgrade_methods;
 };
