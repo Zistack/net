@@ -7,7 +7,7 @@ putIntType (IntType integer, OutputStream && output_stream)
 	int i;
 	for (i = 0; i < sizeof (IntType); ++i)
 	{
-		buffer [i] = (integer >> (i * 8)) & 0xFF;
+		buffer [i] = (char) ((integer >> (i * 8)) & 0xFF);
 	}
 
 	output_stream . write (buffer, sizeof (IntType));
