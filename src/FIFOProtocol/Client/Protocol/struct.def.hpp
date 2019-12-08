@@ -1,7 +1,7 @@
 template <typename Interface, typename Request, typename Response>
 struct T
 :	InputInterface::T <Interface, Response>,
-	OutputInterface::T <Interface, Response>
+	OutputInterface::T <Interface, Request>
 {
 	void
 	prime ();
