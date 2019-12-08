@@ -23,12 +23,12 @@ T <UpgradeTargets ...>::T
 				std::pair <Response::T, ProtocolData> response_package =
 					std::apply
 					(
-						[&] (ResponseArguments & ... response_arguments)
+						[&] (auto && ... response_arguments)
 						{
 							return UpgradeTargets::createResponse
 							(
 								request,
-								std::forward <ResponseArguments>
+								std::forward <decltype (response_arguments)>
 								(
 									response_arguments
 								) ...
@@ -42,13 +42,13 @@ T <UpgradeTargets ...>::T
 
 				std::unique_ptr <UpgradeTargets> protocol = std::apply
 				(
-					[&] (ProtocolArguments & ... protocol_arguments)
+					[&] (auto && ... protocol_arguments)
 					{
 						return std::make_unique <UpgradeTargets>
 						(
 							request,
 							protocol_data,
-							std::forward <ProtocolArguments>
+							std::forward <decltype (protocol_arguments)>
 							(
 								protocol_arguments
 							) ...
