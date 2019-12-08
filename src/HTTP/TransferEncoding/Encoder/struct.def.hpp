@@ -16,7 +16,7 @@ struct T : Pipeline::T <Stage::T>
 	void
 	encode
 	(
-		Entity::T & entity,
+		const Entity::T & entity,
 		OutputStream && output_stream,
 		CancellableSlot & encode_slot
 	) const;

@@ -2,7 +2,7 @@ template <typename OutputStream, typename CancellableSlot>
 void
 T::encode
 (
-	Entity::T & entity,
+	const Entity::T & entity,
 	OutputStream && output_stream,
 	CancellableSlot & encode_slot
 ) const
