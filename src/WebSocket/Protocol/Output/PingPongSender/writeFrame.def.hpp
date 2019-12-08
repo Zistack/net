@@ -14,7 +14,7 @@ T <Interface>::writeFrame
 		frame_header . masking_key
 	);
 
-	std::unique_lock output_lock (this -> interface () . outputMutex ());
+	std::unique_lock output_lock (this -> interface () . output_mutex);
 
 	try
 	{
