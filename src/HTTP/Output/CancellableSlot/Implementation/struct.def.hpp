@@ -6,5 +6,9 @@ template
 >
 struct T <OutputStream, CancellablePackContainer <Cancellables ...>>
 {
-	using Type = Failure::CancellableSlot::T <OutputStream, Cancellables ...>;
+	using Type = Failure::CancellableSlot::T
+	<
+		std::remove_reference_t <OutputStream>,
+		Cancellables ...
+	>;
 };
