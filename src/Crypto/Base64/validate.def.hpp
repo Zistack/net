@@ -27,7 +27,7 @@ validate (Base64 && base64, size_t count, size_t count_without_padding)
 		if (! Class::base64Data (base64 [i])) return false;
 	}
 
-	for (; i < count; ++ i) if (! base64 [i] == '=') return false;
+	for (; i < count; ++ i) if (base64 [i] != '=') return false;
 
 	return true;
 }
