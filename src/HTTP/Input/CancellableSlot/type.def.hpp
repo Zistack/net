@@ -1,2 +1,2 @@
 template <typename InputStream>
-using T = Implementation::T <InputStream>;
+using T = typename Implementation::T <InputStream>::Type;
