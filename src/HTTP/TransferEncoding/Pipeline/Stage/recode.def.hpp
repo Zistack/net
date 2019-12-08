@@ -5,7 +5,7 @@ T <Recoders ...>::recode
 (
 	InputStream && input_stream,
 	OutputStream && output_stream
-)
+) const
 {
 	std::visit
 	(
