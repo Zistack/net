@@ -14,11 +14,11 @@ struct T
 
 	template <typename Visitor>
 	auto
-	withReader (Visitor && visitor);
+	withReader (Visitor && visitor) const;
 
 	template <typename Visitor>
 	auto
-	withReaderAt (Visitor && visitor, uint64_t position);
+	withReaderAt (Visitor && visitor, size_t position) const;
 
 	template <typename Visitor>
 	auto
@@ -26,7 +26,7 @@ struct T
 
 	template <typename Visitor>
 	auto
-	withWriterAt (Visitor && visitor, uint64_t position);
+	withWriterAt (Visitor && visitor, size_t position);
 
 	~T () = default;
 

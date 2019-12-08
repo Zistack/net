@@ -1,6 +1,6 @@
 template <typename Visitor>
 auto
-T::withReaderAt (Visitor && visitor, uint64_t position)
+T::withReaderAt (Visitor && visitor, size_t position) const
 {
 	return std::visit
 	(

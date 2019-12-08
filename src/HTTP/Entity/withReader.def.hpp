@@ -1,6 +1,6 @@
 template <typename Visitor>
 auto
-T::withReader (Visitor && visitor)
+T::withReader (Visitor && visitor) const
 {
 	return std::visit
 	(
