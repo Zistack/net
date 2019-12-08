@@ -39,9 +39,16 @@ private:
 	// Transient members
 
 	SuppressingScope::T <ShutdownSignal::T> m_shutdown_scope;
-
-	static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
 };
 
 template <typename ServerProtocol>
 T (ServerProtocol && server_protocol, Config::T & config) -> T <ServerProtocol>;
+
+static_assert
+(
+	Failure::
+		TypeTraits::
+		IsCancellable::
+		T <T <IO::TypeTraits::ServerProtocol::T>>::
+		value
+);
