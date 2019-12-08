@@ -1,1 +1,1 @@
-typedef : Protocol.typedec
+typedef : Protocol.typedec, IsServerProtocol.typedef
