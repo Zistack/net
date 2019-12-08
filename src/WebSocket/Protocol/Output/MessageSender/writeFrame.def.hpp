@@ -26,8 +26,7 @@ T <Interface>::writeFrame
 			Thread::Timer::T output_timeout
 			(
 				this -> interface () . output_timeout,
-				& decltype (cancel_handle)::cancel,
-				& cancel_handle
+				[&] () { cancel_handle . cancel (); }
 			);
 
 			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
