@@ -57,7 +57,11 @@ T <UpgradeTargets ...>::T
 					protocol_arguments
 				);
 
-				return std::make_pair (std::move (response), protocol);
+				return std::make_pair
+				(
+					std::move (response),
+					std::move (protocol)
+				);
 			}
 		), ...
 	);
