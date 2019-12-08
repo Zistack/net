@@ -31,7 +31,7 @@ T <ServerProtocol>::accept
 					{
 						Thread::Timer::T handshake_timer
 						(
-							this -> m_config . getTimeout (),
+							this -> m_config . handshakeTimeout (),
 							& IO::CancelSignal::T::cancel,
 							& timeout_signal
 						);
@@ -59,7 +59,7 @@ T <ServerProtocol>::accept
 					{
 						Thread::Timer::T close_timer
 						(
-							this -> m_config . getTimeout (),
+							this -> m_config . handshakeTimeout (),
 							& IO::CancelSignal::T::cancel,
 							& timeout_signal
 						);

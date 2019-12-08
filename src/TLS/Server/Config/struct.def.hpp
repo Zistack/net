@@ -20,6 +20,12 @@ struct T : Spec::T <T>
 	KeyPair::T &
 	identity ();
 
+	const GetConfig::Duration::T::Value &
+	handshakeTimeout () const;
+
+	GetConfig::Duration::T::Value &
+	handshakeTimeout ();
+
 	std::unique_ptr <struct tls_config, Functor::T <tls_config_free>>
 	makeTLSConfig () const;
 };
