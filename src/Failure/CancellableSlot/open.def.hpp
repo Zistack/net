@@ -7,5 +7,5 @@ T <Cancellables...>::open (Cancellable & cancellable)
 
 	this -> m_cancellable = cancellable;
 
-	if (this -> m_cancelled) this -> callCancellable ();
+	if (this -> m_cancelled) this -> cancelCancellable ();
 }
