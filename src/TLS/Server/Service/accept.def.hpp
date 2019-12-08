@@ -32,8 +32,7 @@ T <ServerProtocol>::accept
 						Thread::Timer::T handshake_timer
 						(
 							this -> m_config . handshakeTimeout (),
-							& IO::CancelSignal::T::cancel,
-							& timeout_signal
+							[&] () { timeout_signal . cancel (); }
 						);
 						connection_socket -> handshake (timeout_signal);
 					}
