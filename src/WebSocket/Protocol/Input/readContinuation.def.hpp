@@ -14,7 +14,7 @@ T <Interface>::readContinuation
 		frame_header . masking_key
 	);
 
-	this -> m_message -> writeWriterAt
+	this -> m_message -> withWriterAt
 	(
 		Message::Writer::T
 		(
