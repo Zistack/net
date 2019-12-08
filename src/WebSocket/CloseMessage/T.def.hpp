@@ -16,7 +16,7 @@ T::T (InputStream && input_stream, uint64_t count)
 		if (count > sizeof (this -> m_status_code))
 		{
 			this -> m_reason = "";
-			IO::String::Reader::T output_stream (* this -> m_reason);
+			IO::String::Writer::T output_stream (* this -> m_reason);
 
 			Util::transfer
 			(
