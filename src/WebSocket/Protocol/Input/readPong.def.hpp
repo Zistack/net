@@ -21,5 +21,5 @@ T <Interface>::readPong
 		payload . push_back ((uint8_t) masking_input_stream . get ());
 	}
 
-	this -> interface () . pong (payload);
+	this -> interface () . pong (std::move (payload));
 }
