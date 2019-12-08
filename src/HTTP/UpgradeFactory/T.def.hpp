@@ -1,6 +1,10 @@
 template <typename ... UpgradeTargets>
 template <typename ... ResponseArguments, typename ... ProtocolArguments>
-T <UpgradeTargets ...>::T (const std::pair <ResponseArguments, ProtocolArguments> & ... upgrade_arguments)
+T <UpgradeTargets ...>::T
+(
+	const std::pair <ResponseArguments, ProtocolArguments> & ...
+		upgrade_arguments
+)
 {
 	(
 		this -> m_upgrade_methods . emplace
@@ -14,46 +18,46 @@ T <UpgradeTargets ...>::T (const std::pair <ResponseArguments, ProtocolArguments
 				const Request::T & request
 			)
 			{
-				using ResponseFactory =
-					typename UpgradeTargets::ResponseFactory;
+				using ProtocolData = typename UpgradeTargets::ProtocolData;
 
-				ResponseFactory response_factory =
-					std::make_from_tuple <ResponseFactory>
+				std::pair <Response::T, ProtocolData> response_package =
+					std::apply
 					(
-						std::tuple_cat
-						(
-							std::forward_as_tuple (request),
-							response_arguments
-						)
+						[&] (ResponseArguments & ... response_arguments)
+						{
+							return UpgradeTargets::createResponse
+							(
+								request,
+								std::forward <ResponseArguments>
+								(
+									response_arguments
+								) ...
+							);
+						},
+						response_arguments
 					);
+
+				Response::T & response = response_package . first;
+				ProtocolData & protocol_data = response_package . second;
 
 				std::unique_ptr <UpgradeTargets> protocol = std::apply
 				(
-					[]
-					(
-						const Request::T & request,
-						const ResponseFactory & response_factory,
-						ProtocolArguments & ... protocol_arguments
-					)
+					[&] (ProtocolArguments & ... protocol_arguments)
 					{
 						return std::make_unique <UpgradeTargets>
 						(
 							request,
-							response_factory,
+							protocol_data,
 							std::forward <ProtocolArguments>
 							(
 								protocol_arguments
 							) ...
 						);
 					},
-					std::tuple_cat
-					(
-						std::forward_as_tuple (request, response_factory),
-						protocol_arguments
-					)
+					protocol_arguments
 				);
 
-				return std::make_pair (response_factory . response, protocol);
+				return std::make_pair (std::move (response), protocol);
 			}
 		), ...
 	);
