@@ -18,7 +18,7 @@ T <Interface>::readMessage
 	(
 		frame_header . opcode,
 		frame_header . payload_length,
-		this -> temp_file_threshhold
+		this -> m_temp_file_threshhold
 	);
 
 	this -> m_message -> withWriter
