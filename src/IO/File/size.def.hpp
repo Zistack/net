@@ -1,4 +1,4 @@
-off_t
+size_t
 T::size () const
 {
 	const std::string message_prefix = "Failed to stat file\n";
@@ -12,5 +12,5 @@ T::size () const
 		);
 	}
 
-	return file_status . st_size;
+	return (size_t) file_status . st_size;
 }

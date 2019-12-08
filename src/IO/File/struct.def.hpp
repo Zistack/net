@@ -16,20 +16,20 @@ struct T
 
 	operator bool () const;
 
-	off_t
+	size_t
 	size () const;
 
 	FileDescriptor::Reader::T
 	reader () const;
 
 	FileDescriptor::Reader::T
-	readerAt (off_t position) const;
+	readerAt (size_t position) const;
 
 	FileDescriptor::Writer::T
 	writer ();
 
 	FileDescriptor::Writer::T
-	writerAt (off_t position);
+	writerAt (size_t position);
 
 	~T ();
 

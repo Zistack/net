@@ -2,7 +2,7 @@ struct T
 {
 	T (int file_descriptor);
 
-	T (int file_descriptor, off_t initial_position);
+	T (int file_descriptor, size_t initial_position);
 
 	Watchable::Events::T
 	events () const;
@@ -18,7 +18,7 @@ struct T
 private:
 
 	int m_file_descriptor;
-	off_t m_pointer;
+	size_t m_pointer;
 };
 
 static_assert (TypeTraits::IsWatchable::T <T>::value);

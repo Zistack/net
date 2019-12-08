@@ -8,7 +8,7 @@ T::read (char * buffer, size_t count)
 			this -> m_file_descriptor,
 			buffer,
 			count,
-			this -> m_pointer
+			(off_t) this -> m_pointer
 		);
 
 		if (size == 0) throw Failure::EndOfResource::T ();
@@ -36,7 +36,7 @@ T::read (char * buffer, size_t count)
 			}
 		}
 
-		this -> m_pointer += size;
+		this -> m_pointer += (size_t) size;
 
 		return (size_t) size;
 	}

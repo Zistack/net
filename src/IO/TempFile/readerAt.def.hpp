@@ -1,5 +1,5 @@
 FileDescriptor::Reader::T
-T::readerAt (off_t position) const
+T::readerAt (size_t position) const
 {
 	return {this -> m_file_descriptor, position};
 }
