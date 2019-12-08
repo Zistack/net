@@ -17,6 +17,9 @@ struct T : Input::T <T <Interface>>, Output::T
 	cancelOutput ();
 
 	void
+	cancelOutput (const CloseMessage::T & close_message);
+
+	void
 	dispatch (Message::T && message);
 
 	void
