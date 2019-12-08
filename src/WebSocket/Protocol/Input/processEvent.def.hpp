@@ -12,8 +12,7 @@ T <Interface>::processEvent (InputStream && input_stream)
 			Thread::Timer::T input_timer
 			(
 				this -> m_input_timeout,
-				& decltype (cancel_handle)::cancel,
-				& cancel_handle
+				[&] () { cancel_handle . cancel (); }
 			);
 
 			FrameHeader::T frame_header
