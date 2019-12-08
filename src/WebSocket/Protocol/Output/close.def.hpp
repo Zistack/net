@@ -27,8 +27,7 @@ T::close (OutputStream && output_stream)
 			Thread::Timer::T output_timer
 			(
 				this -> output_timeout,
-				& OutputStream::cancel,
-				& output_stream
+				[&] () { output_stream . cancel (); }
 			);
 
 			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
