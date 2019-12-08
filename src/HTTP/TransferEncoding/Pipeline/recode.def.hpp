@@ -31,7 +31,7 @@ T <Stage>::recode
 		std::list <IO::Pipe::T> pipes (this -> m_stages . size () - 1);
 
 		auto stage_iterator = this -> m_stages . begin ();
-		auto next_pipe_iterator = this -> m_pipes . begin ();
+		auto next_pipe_iterator = pipes . begin ();
 
 		StageExecutor::T first_stage
 		(
