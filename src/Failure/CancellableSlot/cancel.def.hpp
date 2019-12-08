@@ -8,5 +8,5 @@ T <Cancellables ...>::cancel ()
 
 	this -> m_cancelled = true;
 
-	this -> callCancellable ();
+	this -> cancelCancellable ();
 }
