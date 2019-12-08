@@ -4,7 +4,7 @@ struct T
 
 	template <typename InputStream, typename OutputStream>
 	void
-	recode (InputStream && input_stream, OutputStream && output_stream);
+	recode (InputStream && input_stream, OutputStream && output_stream) const;
 
 	~T () = default;
 

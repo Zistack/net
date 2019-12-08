@@ -1,6 +1,6 @@
 template <typename InputStream, typename OutputStream>
 void
-T::recode (InputStream && input_stream, OutputStream && output_stream)
+T::recode (InputStream && input_stream, OutputStream && output_stream) const
 {
 	while (true)
 	{
