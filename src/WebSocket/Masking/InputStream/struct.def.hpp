@@ -6,6 +6,12 @@ struct T
 	char
 	get ();
 
+	char
+	peek ();
+
+	bool
+	eof ();
+
 	~T () = default;
 
 private:
@@ -14,10 +20,14 @@ private:
 
 	Key::T m_masking_key;
 
-	unsigned int m_masking_key_idx;
+	unsigned int m_masking_key_index;
 
-	static_assert (IO::TypeTraits::IsInputStream::T <T>::value);
 };
 
 template <typename InputStream>
 T (InputStream && input_stream, Key::T masking_key) -> T <InputStream>;
+
+static_assert
+(
+	IO::TypeTraits::IsInputStream::T <T <IO::TypeTraits::InputStream::T>>::value
+);

@@ -6,6 +6,6 @@ T <InputStream>::T
 )
 :	m_input_stream (input_stream),
 	m_masking_key (masking_key),
-	m_masking_key_idx (0)
+	m_masking_key_index (0)
 {
 }
