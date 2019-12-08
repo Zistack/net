@@ -11,9 +11,8 @@ T <Protocol>::run ()
 		{
 			Thread::Timer::T handshake_timer
 			(
-				this -> m_config . getTimeout (),
-				& IO::CancelSignal::T::cancel,
-				& timeout_signal
+				this -> m_config . handshakeTimeout (),
+				[&] () { timeout_signal . cancel (); }
 			);
 			client_socket . handshake (timeout_signal);
 		}
@@ -34,9 +33,8 @@ T <Protocol>::run ()
 		{
 			Thread::Timer::T close_timer
 			(
-				this -> m_config . getTimeout (),
-				& IO::CancelSignal::T::cancel,
-				& timeout_signal
+				this -> m_config . handshakeTimeout (),
+				[&] () { timeout_signal . cancel (); }
 			);
 			client_socket . close (timeout_signal);
 		}

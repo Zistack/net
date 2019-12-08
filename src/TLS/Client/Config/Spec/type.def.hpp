@@ -29,5 +29,13 @@ using T = GetConfig::Section::T
 		true,
 		IDENTITY,
 		IDENTITY_DESCRIPTION
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::Duration::T,
+		false,
+		HANDSHAKE_TIMEOUT,
+		HANDSHAKE_TIMEOUT_DESCRIPTION,
+		HANDSHAKE_TIMEOUT_DEFAULT
 	>
 >;
