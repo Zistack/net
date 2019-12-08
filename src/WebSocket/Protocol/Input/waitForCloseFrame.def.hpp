@@ -14,8 +14,7 @@ T <Interface>::waitForCloseFrame (InputStream && input_stream)
 	Thread::Timer::T
 	(
 		this -> m_close_timeout,
-		& InputStream::cancel,
-		& input_stream
+		[&] () { input_stream . cancel (); }
 	);
 
 	IO::Util::eventLoop
@@ -23,8 +22,9 @@ T <Interface>::waitForCloseFrame (InputStream && input_stream)
 		this -> m_exception_store,
 		std::forward <InputStream> (input_stream),
 		wait_shutdown_signal,
-		& T::waitEvent <InputStream>,
-		this,
-		std::forward <InputStream> (input_stream)
+		[&] ()
+		{
+			this -> waitEvent (std::forward <InputStream> (input_stream));
+		}
 	);
 }
