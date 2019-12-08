@@ -52,7 +52,7 @@ T <Interface>::writeMessage (Message::T & message, OutputStream && output_stream
 		remaining_bytes -= next_chunk_size;
 
 		{
-			std::unique_lock rng_lock (this -> rng_mutex);
+			std::unique_lock rng_lock (this -> interface () . rng_mutex);
 			this ->
 				interface () .
 				rng .
