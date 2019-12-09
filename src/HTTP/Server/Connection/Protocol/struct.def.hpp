@@ -1,5 +1,5 @@
 template <typename Interface, typename ... UpgradeTargets>
-struct T : private FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
+struct T : FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 {
 	using FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::prime;
 
@@ -24,6 +24,22 @@ protected:
 	~T () = default;
 
 private:
+
+	using FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::readRequest;
+	using FIFOProtocolInterface::T <Interface, UpgradeTargets ...>::map;
+	using FIFOProtocolInterface::
+		T <Interface, UpgradeTargets ...>::
+		writeResponse;
+
+	using FIFOProtocolInterface::
+		T <Interface, UpgradeTargets ...>::
+		m_upgrade_mutex;
+	using FIFOProtocolInterface::
+		T <Interface, UpgradeTargets ...>::
+		m_upgrade_factory;
+	using FIFOProtocolInterface::
+		T <Interface, UpgradeTargets ...>::
+		m_upgrade_protocol;
 
 	bool m_cancelled;
 };
