@@ -31,9 +31,9 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 					{
 						auto && [response, protocol] = response_and_protocol;
 
-						this -> m_upgrade_protocol = protocol;
+						this -> m_upgrade_protocol = std::move (protocol);
 
-						return response;
+						return std::move (response);
 					},
 					* response_and_protocol
 				);
