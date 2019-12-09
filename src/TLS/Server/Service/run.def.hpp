@@ -20,9 +20,7 @@ T <ServerProtocol>::run ()
 			this -> m_exception_store,
 			server_socket,
 			this -> m_shutdown_signal,
-			& T::accept,
-			server_socket,
-			nursery
+			[&] () { this -> accept (server_socket, nursery); }
 		);
 
 		nursery . cancel ();
