@@ -39,7 +39,7 @@ T::T
 			decoder . decode
 			(
 				std::forward <InputStream> (input_stream),
-				this -> m_entity,
+				* this -> m_entity,
 				input_slot
 			);
 		}
