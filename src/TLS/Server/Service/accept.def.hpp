@@ -59,8 +59,7 @@ T <ServerProtocol>::accept
 						Thread::Timer::T close_timer
 						(
 							this -> m_config . handshakeTimeout (),
-							& IO::CancelSignal::T::cancel,
-							& timeout_signal
+							[&] () { timeout_signal . cancel (); }
 						);
 						connection_socket -> close (timeout_signal);
 					}
