@@ -10,17 +10,21 @@ T <UpgradeTargets ...>::upgrade
 	{
 		std::string protocol_string = protocol . toString ();
 
-		if (this -> m_upgrade_methods . contains (protocol_string))
+		auto upgrade_method_it =
+			this -> m_upgrade_methods . find (protocol_string);
+
+		if (upgrade_method_it != this -> m_upgrade_methods . end ())
 		{
-			return this -> m_upgrade_methods . at (protocol_string) (request);
+			return upgrade_method_it -> second (request);
 		}
 		else if (protocol . version)
 		{
-			if (this -> m_upgrade_methods . contains (protocol . name))
+			upgrade_method_it =
+				this -> m_upgrade_methods . find (protocol . name);
+
+			if (upgrade_method_it != this -> m_upgrade_methods . end ())
 			{
-				return this ->
-					m_upgrade_methods .
-					at (protocol . name) (request);
+				return upgrade_method_it -> second (request);
 			}
 		}
 	}
