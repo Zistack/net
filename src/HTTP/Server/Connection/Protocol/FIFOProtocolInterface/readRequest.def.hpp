@@ -16,8 +16,7 @@ T <Interface, UpgradeTargets ...>::readRequest
 			Thread::Timer::T input_timer
 			(
 				this -> m_input_timeout,
-				& decltype (input_slot)::cancel,
-				& input_slot
+				[&] () { input_slot . cancel (); }
 			);
 
 			request = Request::T
