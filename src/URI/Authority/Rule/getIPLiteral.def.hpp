@@ -1,6 +1,6 @@
 template <typename InputStream>
 Authority::IPv6Address::T
-T::getIPLiteral (InputStream && input_stream)
+getIPLiteral (InputStream && input_stream)
 {
 	IO::Util::expect (std::forward <InputStream> (input_stream), '[');
 

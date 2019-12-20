@@ -1,10 +1,10 @@
 template <typename InputStream>
 std::string
-T::getFirstPart (InputStream && input_stream)
+getUserInfo (InputStream && input_stream)
 {
-	return IO::Rule::getNotClass
+	return URI::Rule::getClassDecode
 	(
 		std::forward <InputStream> (input_stream),
-		'@'
+		Class::uichar
 	);
 }

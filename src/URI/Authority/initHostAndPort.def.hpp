@@ -4,7 +4,7 @@ T::initHostAndPort (InputStream && input_stream)
 {
 	this -> host = std::move
 	(
-		getHost (std::forward <InputStream> (input_stream))
+		Rule::getHost (std::forward <InputStream> (input_stream))
 	);
 
 	if (IO::Util::test (std::forward <InputStream> (input_stream), ':'))

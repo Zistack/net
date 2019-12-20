@@ -41,20 +41,4 @@ private:
 	template <typename InputStream>
 	void
 	initHostAndPort (InputStream && input_stream);
-
-	template <typename InputStream>
-	static std::string
-	getFirstPart (InputStream && input_stream);
-
-	template <typename InputStream>
-	static std::string
-	getUserInfo (InputStream && input_stream);
-
-	template <typename InputStream>
-	static Host::T
-	getHost (InputStream && input_stream);
-
-	template <typename InputStream>
-	static IPv6Address::T
-	getIPLiteral (InputStream && input_stream);
 };

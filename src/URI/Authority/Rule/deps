@@ -1,0 +1,2 @@
+declarations : IPv6Address.typedec, Host.typedef
+definitions : IPv6Address.typedef

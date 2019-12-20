@@ -1,6 +1,6 @@
 template <typename InputStream>
 Host::T
-T::getHost (InputStream && input_stream)
+getHost (InputStream && input_stream)
 {
 	if (IO::Util::test (std::forward <InputStream> (input_stream), '['))
 	{
