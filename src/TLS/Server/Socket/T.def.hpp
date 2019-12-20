@@ -1,15 +1,18 @@
-T::T (const Config::T & config)
-:	TLS::Socket::T
-	(
-		std::make_from_tuple <TLS::Socket::T>
-		(
-			Util::server
-			(
-				config . tcpConfig () . hostname () -> data (),
-				config . tcpConfig () . port () -> data (),
-				config . makeTLSConfig () . get ()
-			)
-		)
-	)
+T::T () : m_tcp_socket (-1)
 {
+}
+
+T::T
+(
+	const std::optional <URI::Authority::Host::T> & hostname,
+	const std::optional <uint64_t> & port
+)
+:	m_tcp_socket (TCP::Util::server (hostname, port))
+{
+}
+
+T::T (T && other)
+:	m_tcp_socket (other . m_tcp_socket)
+{
+	other . m_tcp_socket = -1;
 }

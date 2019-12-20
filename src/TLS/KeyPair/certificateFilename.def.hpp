@@ -1,10 +1,10 @@
-const std::string &
+const URI::Path::T &
 T::certificateFilename () const
 {
 	return this -> value <Spec::CERTIFICATE_FILENAME> ();
 }
 
-std::string &
+URI::Path::T &
 T::certificateFilename ()
 {
 	return this -> value <Spec::CERTIFICATE_FILENAME> ();

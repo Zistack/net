@@ -10,65 +10,30 @@ T <ServerProtocol>::accept
 
 	connection_protocol -> prime ();
 
-	std::unique_ptr <Connection::Socket::T> connection_socket =
-		server_socket . accept ();
+	int tcp_connection_socket = server_socket . accept ();
 
 	nursery . add
 	(
 		* connection_protocol,
 		[
 			this,
-			connection_protocol (std::move (connection_protocol)),
-			connection_socket (std::move (connection_socket))
+			tcp_connection_socket,
+			connection_protocol (std::move (connection_protocol))
 		] ()
 		{
 			try
 			{
-				IO::CancelSignal::T timeout_signal;
+				Connection::Socket::T connection_socket
+				(
+					tcp_connection_socket,
+					this -> m_config
+				);
 
-				try
-				{
-					{
-						Thread::Timer::T handshake_timer
-						(
-							this -> m_config . handshakeTimeout (),
-							[&] () { timeout_signal . cancel (); }
-						);
-						connection_socket -> handshake (timeout_signal);
-					}
-					timeout_signal . clear ();
-				}
-				catch (Failure::CancelException::T)
-				{
-					throw Failure::ResourceError::T
-					(
-						"TLS handshake timed out\n"
-					);
-				}
-
-				ConnectionSocket::Reciever::T input_stream =
-					connection_socket -> reciever ();
-				ConnectionSocket::Sender::T output_stream =
-					connection_socket -> sender ();
-
-				connection_protocol -> run (input_stream, output_stream);
-
-				try
-				{
-					{
-						Thread::Timer::T close_timer
-						(
-							this -> m_config . handshakeTimeout (),
-							[&] () { timeout_signal . cancel (); }
-						);
-						connection_socket -> close (timeout_signal);
-					}
-					timeout_signal . clear ();
-				}
-				catch (Failure::CancelException::T)
-				{
-					throw Failure::ResourceError::T ("TLS close timed out\n");
-				}
+				connection_protocol -> run
+				(
+					connection_socket . reciever (),
+					connection_socket . sender ()
+				);
 			}
 			catch (...)
 			{

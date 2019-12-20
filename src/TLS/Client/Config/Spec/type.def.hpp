@@ -11,15 +11,15 @@ using T = GetConfig::Section::T
 	>,
 	GetConfig::Member::T
 	<
-		GetConfig::String::T,
+		GetConfig::URI::Path::T,
 		false,
 		CA_PATH,
 		CA_PATH_DESCRIPTION
 	>,
 	GetConfig::Member::T
 	<
-		GetConfig::String::T,
-		false,
+		GetConfig::URI::Host::T,
+		true,
 		SERVER_NAME,
 		SERVER_NAME_DESCRIPTION
 	>,
@@ -37,5 +37,13 @@ using T = GetConfig::Section::T
 		HANDSHAKE_TIMEOUT,
 		HANDSHAKE_TIMEOUT_DESCRIPTION,
 		HANDSHAKE_TIMEOUT_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		MAX_RECORD_SIZE,
+		MAX_RECORD_SIZE_DESCRIPTION,
+		MAX_RECORD_SIZE_DEFAULT
 	>
 >;

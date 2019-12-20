@@ -8,10 +8,10 @@ struct T : Spec::T <T>
 	TCP::Config::T &
 	tcpConfig ();
 
-	const std::optional <std::string> &
+	const std::optional <URI::Path::T> &
 	caPath () const;
 
-	std::optional <std::string> &
+	std::optional <URI::Path::T> &
 	caPath ();
 
 	const KeyPair::T &
@@ -26,6 +26,9 @@ struct T : Spec::T <T>
 	GetConfig::Duration::T::Value &
 	handshakeTimeout ();
 
-	std::unique_ptr <struct tls_config, Functor::T <tls_config_free>>
-	makeTLSConfig () const;
+	const GetConfig::UInt::T::Value &
+	maxRecordSize () const;
+
+	GetConfig::UInt::T::Value &
+	maxRecordSize ();
 };

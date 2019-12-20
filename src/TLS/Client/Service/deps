@@ -1,2 +1,2 @@
-typedef : Config.typedef
-definitions : Socket.typedef
+typedef : Config.typedec
+definitions : Config.typedef, Socket.typedef

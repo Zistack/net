@@ -2,15 +2,15 @@ struct T : Spec::T <T>
 {
 	using Spec::T <T>::T;
 
-	const std::string &
+	const URI::Path::T &
 	certificateFilename () const;
 
-	std::string &
+	URI::Path::T &
 	certificateFilename ();
 
-	const std::string &
+	const URI::Path::T &
 	privateKeyFilename () const;
 
-	std::string &
+	URI::Path::T &
 	privateKeyFilename ();
 };

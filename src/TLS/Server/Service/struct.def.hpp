@@ -29,7 +29,7 @@ private:
 	// Given members
 
 	ServerProtocol m_server_protocol;
-	Config::T & m_config;
+	Config::T m_config;
 
 	// Internal members
 

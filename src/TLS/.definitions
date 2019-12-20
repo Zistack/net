@@ -1,7 +1,7 @@
 # User-configurable options
 
-TLS-CFLAGS ::= -I/usr/include/libressl
-TLS-LFLAGS ::=
+TLS-CFLAGS ::=
+TLS-LFLAGS ::= -lgnutls
 
 # Boilerplate that shouldn't be touched
 

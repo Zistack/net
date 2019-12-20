@@ -1,1 +1,1 @@
-children : ConnectionSocket.typedef, KeyPair.typedef, Util.definitions
+children : Credentials.typedef, Socket.typedef, KeyPair.typedef, Util.declarations

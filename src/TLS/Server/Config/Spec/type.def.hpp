@@ -11,7 +11,7 @@ using T = GetConfig::Section::T
 	>,
 	GetConfig::Member::T
 	<
-		GetConfig::String::T,
+		GetConfig::URI::Path::T,
 		true,
 		CA_PATH,
 		CA_PATH_DESCRIPTION
@@ -24,5 +24,13 @@ using T = GetConfig::Section::T
 		HANDSHAKE_TIMEOUT,
 		HANDSHAKE_TIMEOUT_DESCRIPTION,
 		HANDSHAKE_TIMEOUT_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
+		GetConfig::UInt::T,
+		false,
+		MAX_RECORD_SIZE,
+		MAX_RECORD_SIZE_DESCRIPTION,
+		MAX_RECORD_SIZE_DEFAULT
 	>
 >;

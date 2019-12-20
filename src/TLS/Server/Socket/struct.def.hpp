@@ -1,8 +1,24 @@
-struct T : TLS::Socket::T
+struct T
 {
-	T (const Config::T & config);
+	T ();
 
-	std::unique_ptr <Connection::Socket::T>
+	T
+	(
+		const std::optional <URI::Authority::Host::T> & hostname,
+		const std::optional <uint64_t> & port
+	);
+
+	T (const T & other) = delete;
+
+	T (T && other);
+
+	T &
+	operator = (const T & other) = delete;
+
+	T &
+	operator = (T && other);
+
+	int
 	accept ();
 
 	IO::Watchable::Events::T
@@ -11,7 +27,14 @@ struct T : TLS::Socket::T
 	int
 	fileDescriptor () const;
 
-	~T () = default;
+	~T ();
+
+private:
+
+	void
+	clean ();
+
+	int m_tcp_socket;
 };
 
 static_assert (IO::TypeTraits::IsWatchable::T <T>::value);

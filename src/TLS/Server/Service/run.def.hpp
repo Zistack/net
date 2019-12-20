@@ -8,7 +8,7 @@ T <ServerProtocol>::run ()
 			std::move (this -> m_shutdown_scope)
 		);
 
-		Socket::T server_socket (this -> m_config);
+		Socket::T server_socket;
 
 		Thread::Nursery::Collection::T <true, ConnectionProtocol> nursery
 		(

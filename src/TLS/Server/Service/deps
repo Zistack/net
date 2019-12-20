@@ -1,2 +1,2 @@
-typedef : Config.typedef, Socket.typedef
-definitions : Connection.children
+typedef : Config.typedef, Socket.typedec
+definitions : Connection.children, Socket.typedef

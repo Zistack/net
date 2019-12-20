@@ -1,6 +1,16 @@
 struct T : Spec::T <T>
 {
-	using Spec::T <T>::T;
+	T () = default;
+
+	template
+	<
+		typename InputStream,
+		typename = std::enable_if_t
+		<
+			IO::TypeTraits::IsInputStream::T <InputStream>::Value
+		>
+	>
+	T (InputStream && input_stream);
 
 	const TCP::Config::T &
 	tcpConfig () const;
@@ -8,16 +18,16 @@ struct T : Spec::T <T>
 	TCP::Config::T &
 	tcpConfig ();
 
-	const std::string &
+	const URI::Path::T &
 	caPath () const;
 
-	std::string &
+	URI::Path::T &
 	caPath ();
 
-	const std::string &
+	const std::optional <URI::Authority::Host::T> &
 	serverName () const;
 
-	std::string &
+	std::optional <URI::Authority::Host::T> &
 	serverName ();
 
 	const std::optional <KeyPair::T> &
@@ -32,6 +42,9 @@ struct T : Spec::T <T>
 	GetConfig::Duration::T::Value &
 	handshakeTimeout ();
 
-	std::unique_ptr<struct tls_config, Functor::T <tls_config_free>>
-	makeTLSConfig () const;
+	const GetConfig::UInt::T::Value &
+	maxRecordSize () const;
+
+	GetConfig::UInt::T::Value &
+	maxRecordSize ();
 };

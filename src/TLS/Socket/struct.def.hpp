@@ -1,18 +1,17 @@
-struct T
+template <typename Specialization>
+struct T : private StreamInterface::T <Specialization>
 {
-	T ();
-
-	T (int tcp_socket, struct tls * tls_context);
-
-	T (T && other);
-
-	T &
-	operator = (T && other);
-
-	virtual ~T ();
+	using StreamInterface::T <Specialization>::reciever;
+	using StreamInterface::T <Specialization>::sender;
 
 protected:
 
-	int m_tcp_socket;
-	std::unique_ptr <struct tls, Functor::T <tls_free>> m_tls_context;
+	using StreamInterface::T <Specialization>::T;
+
+	~T () = default;
+
+private:
+
+	using StreamInterface::T <Specialization>::tcp_socket;
+	using StreamInterface::T <Specialization>::session;
 };
