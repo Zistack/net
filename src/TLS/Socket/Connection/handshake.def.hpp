@@ -1,7 +1,7 @@
-template <typename Interface>
+template <typename Interface, typename Specialization>
 template <typename CancelSignal>
 void
-T <Interface>::handshake (CancelSignal && cancel_signal)
+T <Interface, Specialization>::handshake (CancelSignal && cancel_signal)
 {
 	while (true)
 	{
@@ -22,12 +22,20 @@ T <Interface>::handshake (CancelSignal && cancel_signal)
 			dir = gnutls_record_get_direction (this -> session);
 			if (dir == 0 /* read */)
 			{
-				IO::Util::wait (this -> reciever (), cancel_signal);
+				IO::Util::wait
+				(
+					this -> interface () . reciever (),
+					cancel_signal
+				);
 				continue;
 			}
 			else // dir == 1 /* write */
 			{
-				IO::Util::wait (this -> sender (), cancel_signal);
+				IO::Util::wait
+				(
+					this -> interface () . sender (),
+					cancel_signal
+				);
 				continue;
 			}
 

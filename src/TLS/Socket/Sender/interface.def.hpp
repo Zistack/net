@@ -2,7 +2,7 @@ template <typename Interface>
 const Interface &
 T <Interface>::interface () const
 {
-	return static_cast <Interface &> (* this);
+	return static_cast <const Interface &> (* this);
 }
 
 template <typename Interface>

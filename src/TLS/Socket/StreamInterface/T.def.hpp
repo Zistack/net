@@ -8,7 +8,7 @@ T <Specialization>::T
 	size_t config_max_record_size,
 	SpecializationArguments && ... specialization_arguments
 )
-:	Connection::T <Specialization>
+:	Connection::T <T <Specialization>, Specialization>
 	(
 		tcp_socket,
 		flags,

@@ -1,4 +1,4 @@
-template <typename Specialization>
+template <typename Interface, typename Specialization>
 struct T
 {
 	template <typename CancelSignal>
@@ -53,6 +53,14 @@ private:
 	template <typename CancelSignal>
 	void
 	close (CancelSignal && cancel_signal);
+
+	// Access to external members
+
+	const Interface &
+	interface () const;
+
+	Interface &
+	interface ();
 
 	// Given members
 

@@ -1,9 +1,12 @@
 template <typename Specialization>
 struct T
-:	Connection::T <Specialization>,
+:	Connection::T <T <Specialization>, Specialization>,
 	Reciever::T <T <Specialization>>,
 	Sender::T <T <Specialization>>
 {
+	using Reciever::T <T <Specialization>>::reciever;
+	using Sender::T <T <Specialization>>::sender;
+
 	std::mutex write_mutex;
 
 protected:

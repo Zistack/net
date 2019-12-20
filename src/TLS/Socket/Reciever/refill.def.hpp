@@ -55,7 +55,7 @@ T <Interface>::refill ()
 				throw Failure::Error::T
 				(
 					std::string ("Failed to read from TLS connection: ") +
-						gnutls_strerror (size) +
+						gnutls_strerror ((int) size) +
 						gnutls_alert_get_name (alert) +
 						"\n"
 				);

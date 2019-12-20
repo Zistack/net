@@ -1,6 +1,6 @@
-template <typename Specialization>
+template <typename Interface, typename Specialization>
 template <typename ... SpecializationArguments, typename>
-T <Specialization>::T
+T <Interface, Specialization>::T
 (
 	int tcp_socket,
 	unsigned int flags,
@@ -16,7 +16,7 @@ T <Specialization>::T
 		std::forward <SpecializationArguments> (specialization_arguments) ...
 	)
 {
-	gnutls_set_transport_int (this -> session, this -> tcp_socket);
+	gnutls_transport_set_int (this -> session, this -> tcp_socket);
 
 	IO::CancelSignal::T cancel_signal;
 

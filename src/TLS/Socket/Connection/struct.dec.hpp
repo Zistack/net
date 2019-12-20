@@ -1,2 +1,2 @@
-template <typename Specialization>
+template <typename Interface, typename Specialization>
 struct T;

@@ -1,5 +1,5 @@
-template <typename Credentials>
-T <Credentials>::~T ()
+template <typename Interface, typename Specialization>
+T <Interface, Specialization>::~T ()
 {
 	IO::CancelSignal::T cancel_signal;
 
@@ -21,5 +21,5 @@ T <Credentials>::~T ()
 	}
 
 	gnutls_deinit (this -> session);
-	close (this -> tcp_socket);
+	::close (this -> tcp_socket);
 }
