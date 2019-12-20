@@ -1,10 +1,10 @@
-const std::optional <std::string> &
+const std::optional <uint64_t> &
 T::port () const
 {
 	return this -> value <Spec::PORT> ();
 }
 
-std::optional <std::string> &
+std::optional <uint64_t> &
 T::port ()
 {
 	return this -> value <Spec::PORT> ();

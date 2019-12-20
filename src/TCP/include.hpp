@@ -7,10 +7,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <string.h>
+#include <optional>
+#include <string>
 
 #include <Failure.hpp>
 #include <GetConfig.hpp>
 #include <IO.hpp>
 #include <ShutdownSignal.hpp>
 #include <SuppressingScope.hpp>
+#include <URI.hpp>

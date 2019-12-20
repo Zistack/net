@@ -1,5 +1,9 @@
 int
-client (const char * hostname, const char * port)
+client
+(
+	const std::optional <URI::Authority::Host::T> & hostname,
+	const std::optional <uint64_t> & port
+)
 {
 	const std::string message_prefix = "Failed to create TCP client:\n";
 
@@ -7,12 +11,21 @@ client (const char * hostname, const char * port)
 
 	memset (& hints, 0, sizeof (hints));
 
+	hints . ai_flags = AI_NUMERICSERV;
 	hints . ai_family = AF_UNSPEC;
 	hints . ai_socktype = SOCK_STREAM;
 
 	struct addrinfo * results;
 
-	int err = getaddrinfo (hostname, port, & hints, & results);
+	int err = getaddrinfo
+	(
+		hostname ?
+			URI::Authority::Host::toString (* hostname) . data () :
+			nullptr,
+		port ? std::to_string (* port) . data () : nullptr,
+		& hints,
+		& results
+	);
 
 	if (err)
 	{

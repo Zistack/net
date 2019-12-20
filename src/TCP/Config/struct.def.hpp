@@ -2,15 +2,15 @@ struct T : Spec::T <T>
 {
 	using Spec::T <T>::T;
 
-	const std::optional <std::string> &
+	const std::optional <URI::Authority::Host::T> &
 	hostname () const;
 
-	std::optional <std::string> &
+	std::optional <URI::Authority::Host::T> &
 	hostname ();
 
-	const std::optional <std::string> &
+	const std::optional <uint64_t> &
 	port () const;
 
-	std::optional <std::string> &
+	std::optional <uint64_t> &
 	port ();
 };

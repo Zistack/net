@@ -1,2 +1,6 @@
 int
-server (const char * hostname, const char * port);
+server
+(
+	const std::optional <URI::Authority::Host::T> & hostname,
+	const std::optional <uint64_t> & port
+);
