@@ -36,6 +36,9 @@ struct T
 
 	T () = default;
 
+	void
+	validate () const;
+
 	template <const std::string & identifier>
 	decltype (auto)
 	value () const;
@@ -54,9 +57,6 @@ protected:
 
 	void
 	unset (const std::string & identifier);
-
-	void
-	validate () const;
 
 	template <typename OutputStream>
 	void
@@ -82,6 +82,9 @@ struct T <>
 {
 	T () = default;
 
+	void
+	validate () const;
+
 	template <const std::string & identifier>
 	void
 	value () const;
@@ -96,9 +99,6 @@ protected:
 
 	void
 	unset (const std::string & identifier);
-
-	void
-	validate () const;
 
 	template <typename OutputStream>
 	void
