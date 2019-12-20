@@ -7,7 +7,7 @@ struct T : Spec::T <T>
 		typename InputStream,
 		typename = std::enable_if_t
 		<
-			IO::TypeTraits::IsInputStream::T <InputStream>::Value
+			IO::TypeTraits::IsInputStream::T <InputStream>::value
 		>
 	>
 	T (InputStream && input_stream);
