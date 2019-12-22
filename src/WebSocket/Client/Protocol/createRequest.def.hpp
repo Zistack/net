@@ -1,9 +1,11 @@
 template <typename Interface>
 std::pair <HTTP::Request::T, typename T <Interface>::ProtocolData>
-T <Interface>::createRequest (const URI::T & uri)
+T <Interface>::createRequest
+(
+	const URI::Authority::Host::T & host,
+	const URI::T & resource
+)
 {
-	assert (uri . authority);
-
 	HandshakeKey::T client_key;
 	Crypto::Util::getRandom (client_key . data (), client_key . size ());
 
@@ -21,11 +23,11 @@ T <Interface>::createRequest (const URI::T & uri)
 		HTTP::Request::T
 		(
 			"GET",
-			uri,
+			resource,
 			"HTTP/1.1",
 			std::initializer_list <std::pair <std::string, std::string>>
 			{
-				{"Host", uri . authority -> toString ()},
+				{"Host", URI::Authority::Host::toString (host)},
 				{"Upgrade", "WebSocket"},
 				{"Connection", "Upgrade"},
 				{"Sec-Websocket-Key", protocol_data . client_key_base64},

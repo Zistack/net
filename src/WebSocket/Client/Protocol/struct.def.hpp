@@ -13,5 +13,9 @@ struct T : WebSocket::Protocol::T <Interface>
 	~T () = default;
 
 	static std::pair <HTTP::Request::T, ProtocolData>
-	createRequest (const URI::T & uri);
+	createRequest
+	(
+		const URI::Authority::Host::T & host,
+		const URI::T & resource
+	);
 };
