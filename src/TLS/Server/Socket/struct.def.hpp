@@ -2,11 +2,7 @@ struct T
 {
 	T ();
 
-	T
-	(
-		const std::optional <URI::Authority::Host::T> & hostname,
-		const std::optional <uint64_t> & port
-	);
+	T (const TCP::Config::T & tcp_config);
 
 	T (const T & other) = delete;
 
