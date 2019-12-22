@@ -1,11 +1,15 @@
-const std::optional <URI::Authority::Host::T> &
+const URI::Authority::Host::T &
 T::serverName () const
 {
-	return this -> value <Spec::SERVER_NAME> ();
+	auto & explicit_server_name = this -> value <Spec::SERVER_NAME> ();
+	if (explicit_server_name) return explicit_server_name . value ();
+	else return this -> tcpConfig () . hostname () . value ();
 }
 
-std::optional <URI::Authority::Host::T> &
+URI::Authority::Host::T &
 T::serverName ()
 {
-	return this -> value <Spec::SERVER_NAME> ();
+	auto & explicit_server_name = this -> value <Spec::SERVER_NAME> ();
+	if (explicit_server_name) return explicit_server_name . value ();
+	else return this -> tcpConfig () . hostname () . value ();
 }

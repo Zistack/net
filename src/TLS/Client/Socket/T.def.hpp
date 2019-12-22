@@ -6,9 +6,7 @@ T::T (const Config::T & config, const Ciphers::T & ciphers)
 		config . maxRecordSize (),
 		config . identity (),
 		config . caPath (),
-		config . serverName () ?
-			* config . serverName () :
-			* config . tcpConfig () . hostname (),
+		config . serverName (),
 		ciphers
 	)
 {

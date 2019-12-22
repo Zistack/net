@@ -24,10 +24,10 @@ struct T : Spec::T <T>
 	URI::Path::T &
 	caPath ();
 
-	const std::optional <URI::Authority::Host::T> &
+	const URI::Authority::Host::T &
 	serverName () const;
 
-	std::optional <URI::Authority::Host::T> &
+	URI::Authority::Host::T &
 	serverName ();
 
 	const std::optional <KeyPair::T> &
