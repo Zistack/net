@@ -1,6 +1,6 @@
 struct T : TLS::Socket::T <Specialization::T>
 {
-	T (const Config::T & config);
+	T (const Config::T & config, const Ciphers::T & ciphers);
 
 	~T () = default;
 
@@ -13,6 +13,7 @@ private:
 		size_t config_max_record_size,
 		const std::optional <KeyPair::T> & identity,
 		const URI::Path::T & ca_path,
-		const URI::Authority::Host::T & server_name
+		const URI::Authority::Host::T & server_name,
+		const Ciphers::T & ciphers
 	);
 };

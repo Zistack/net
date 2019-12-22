@@ -4,6 +4,7 @@ T::T
 	const std::optional <KeyPair::T> & identity,
 	const URI::Path::T & ca_path,
 	const URI::Authority::Host::T & server_name,
+	const Ciphers::T & ciphers,
 	size_t config_max_record_size
 )
 :	m_credentials (identity, ca_path),
@@ -22,6 +23,8 @@ T::T
 		this -> m_server_name . data (),
 		0
 	);
+
+	Ciphers::T::apply (session, ciphers);
 
 	Util::setMaxRecordSize (session, config_max_record_size);
 }

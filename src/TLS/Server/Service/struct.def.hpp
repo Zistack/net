@@ -30,6 +30,7 @@ private:
 
 	ServerProtocol m_server_protocol;
 	Config::T m_config;
+	const Ciphers::T m_ciphers;
 
 	// Internal members
 

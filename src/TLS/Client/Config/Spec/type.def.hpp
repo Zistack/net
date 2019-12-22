@@ -23,12 +23,14 @@ using T = GetConfig::Section::T
 		SERVER_NAME,
 		SERVER_NAME_DESCRIPTION
 	>,
+	GetConfig::Member::T <KeyPair::T, true, IDENTITY, IDENTITY_DESCRIPTION>,
 	GetConfig::Member::T
 	<
-		KeyPair::T,
-		true,
-		IDENTITY,
-		IDENTITY_DESCRIPTION
+		GetConfig::String::T,
+		false,
+		CIPHER_STRING,
+		CIPHER_STRING_DESCRIPTION,
+		CIPHER_STRING_DEFAULT
 	>,
 	GetConfig::Member::T
 	<

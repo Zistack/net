@@ -1,4 +1,5 @@
 children :
+	Ciphers.typedef,
 	Credentials.typedef,
 	KeyPair.typedef,
 	Socket.typedef,

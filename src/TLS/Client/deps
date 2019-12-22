@@ -1,1 +1,6 @@
-children : Credentials.typedef, Socket.typedef, KeyPair.typedef, Util.declarations
+children :
+	Ciphers.typedef,
+	Credentials.typedef,
+	Socket.typedef,
+	KeyPair.typedef,
+	Util.declarations

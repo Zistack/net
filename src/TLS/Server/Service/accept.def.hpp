@@ -26,7 +26,8 @@ T <ServerProtocol>::accept
 				Connection::Socket::T connection_socket
 				(
 					tcp_connection_socket,
-					this -> m_config
+					this -> m_config,
+					this -> m_ciphers
 				);
 
 				connection_protocol -> run

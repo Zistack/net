@@ -1,11 +1,12 @@
-T::T (int tcp_socket, const Config::T & config)
+T::T (int tcp_socket, const Config::T & config, const Ciphers::T & ciphers)
 :	T
 	(
 		tcp_socket,
 		config . handshakeTimeout (),
 		config . maxRecordSize (),
 		config . identity (),
-		config . caPath ()
+		config . caPath (),
+		ciphers
 	)
 {
 }
@@ -16,7 +17,8 @@ T::T
 	std::chrono::nanoseconds handshake_timeout,
 	size_t config_max_record_size,
 	const KeyPair::T & identity,
-	const std::optional <URI::Path::T> & ca_path
+	const std::optional <URI::Path::T> & ca_path,
+	const Ciphers::T & ciphers
 )
 :	TLS::Socket::T <Specialization::T>
 	(
@@ -25,7 +27,8 @@ T::T
 		handshake_timeout,
 		config_max_record_size,
 		identity,
-		ca_path
+		ca_path,
+		ciphers
 	)
 {
 }

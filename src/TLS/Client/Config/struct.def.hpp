@@ -36,6 +36,12 @@ struct T : Spec::T <T>
 	std::optional <KeyPair::T> &
 	identity ();
 
+	const GetConfig::String::T::Value &
+	cipherString () const;
+
+	GetConfig::String::T::Value &
+	cipherString ();
+
 	const GetConfig::Duration::T::Value &
 	handshakeTimeout () const;
 

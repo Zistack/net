@@ -20,6 +20,12 @@ struct T : Spec::T <T>
 	KeyPair::T &
 	identity ();
 
+	const GetConfig::String::T::Value &
+	cipherString () const;
+
+	GetConfig::String::T::Value &
+	cipherString ();
+
 	const GetConfig::Duration::T::Value &
 	handshakeTimeout () const;
 

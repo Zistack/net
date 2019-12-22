@@ -1,4 +1,4 @@
-T::T (const Config::T & config)
+T::T (const Config::T & config, const Ciphers::T & ciphers)
 :	T
 	(
 		config . tcpConfig (),
@@ -8,7 +8,8 @@ T::T (const Config::T & config)
 		config . caPath (),
 		config . serverName () ?
 			* config . serverName () :
-			* config . tcpConfig () . hostname ()
+			* config . tcpConfig () . hostname (),
+		ciphers
 	)
 {
 }
@@ -20,7 +21,8 @@ T::T
 	size_t config_max_record_size,
 	const std::optional <KeyPair::T> & identity,
 	const URI::Path::T & ca_path,
-	const URI::Authority::Host::T & server_name
+	const URI::Authority::Host::T & server_name,
+	const Ciphers::T & ciphers
 )
 :	TLS::Socket::T <Specialization::T>
 	(
@@ -35,6 +37,7 @@ T::T
 		identity,
 		ca_path,
 		server_name,
+		ciphers,
 		config_max_record_size
 	)
 {

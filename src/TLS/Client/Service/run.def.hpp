@@ -2,7 +2,7 @@ template <typename Protocol>
 void
 T <Protocol>::run ()
 {
-	Socket::T client_socket (this -> m_config);
+	Socket::T client_socket (this -> m_config, this -> m_ciphers);
 
 	this -> m_protocol . run
 	(

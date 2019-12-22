@@ -17,7 +17,8 @@ struct T
 private:
 
 	Protocol m_protocol;
-	Config::T & m_config;
+	Config::T m_config;
+	Ciphers::T m_ciphers;
 };
 
 template <typename Protocol>

@@ -19,6 +19,14 @@ using T = GetConfig::Section::T
 	GetConfig::Member::T <KeyPair::T, false, IDENTITY, IDENTITY_DESCRIPTION>,
 	GetConfig::Member::T
 	<
+		GetConfig::String::T,
+		false,
+		CIPHER_STRING,
+		CIPHER_STRING_DESCRIPTION,
+		CIPHER_STRING_DEFAULT
+	>,
+	GetConfig::Member::T
+	<
 		GetConfig::Duration::T,
 		false,
 		HANDSHAKE_TIMEOUT,
