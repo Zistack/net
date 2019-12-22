@@ -1,0 +1,2 @@
+bool
+urichar (char c);

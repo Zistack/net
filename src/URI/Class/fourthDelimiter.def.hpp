@@ -1,5 +1,5 @@
 bool
 fourthDelimiter (char c)
 {
-	return c == '#';
+	return c == '#' || ! urichar (c);
 }

@@ -1,0 +1,2 @@
+bool
+gendelims (char c);

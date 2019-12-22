@@ -1,5 +1,5 @@
 bool
 firstDelimiter (char c)
 {
-	return c == ':' || c == '/' || c == '?' || c == '#';
+	return c == ':' || c == '/' || c == '?' || c == '#' || ! urichar (c);
 }

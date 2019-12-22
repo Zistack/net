@@ -1,0 +1,2 @@
+bool
+reserved (char c);
