@@ -20,5 +20,5 @@ struct T
 };
 
 static_assert (IsWatchable::T <T>::value);
-static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert (Failure::IsCancellable::T <T>::value);
 static_assert (IsOutputStream::T <T>::value);

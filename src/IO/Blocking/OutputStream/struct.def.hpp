@@ -54,35 +54,11 @@ private:
 template <typename NonblockingOutputStream>
 T (NonblockingOutputStream && output_stream) -> T <NonblockingOutputStream>;
 
+static_assert (IsWatchable::T <T <DummyNonblockingOutputStream::T>>::value);
 static_assert
 (
-	IsWatchable::
-		T <T <DummyNonblockingOutputStream::T>>::
-		value
+	Failure::IsCancellable::T <T <DummyNonblockingOutputStream::T>>::value
 );
-static_assert
-(
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T <T <DummyNonblockingOutputStream::T>>::
-		value
-);
-static_assert
-(
-	IsClearable::
-		T <T <DummyNonblockingOutputStream::T>>::
-		value
-);
-static_assert
-(
-	IsOutputStream::
-		T <T <DummyNonblockingOutputStream::T>>::
-		value
-);
-static_assert
-(
-	IsBuffered::
-		T <T <DummyNonblockingOutputStream::T>>::
-		value
-);
+static_assert (IsClearable::T <T <DummyNonblockingOutputStream::T>>::value);
+static_assert (IsOutputStream::T <T <DummyNonblockingOutputStream::T>>::value);
+static_assert (IsBuffered::T <T <DummyNonblockingOutputStream::T>>::value);
