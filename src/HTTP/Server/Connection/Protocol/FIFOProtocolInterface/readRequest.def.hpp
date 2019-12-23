@@ -26,7 +26,7 @@ T <Interface, UpgradeTargets ...>::readRequest
 				this -> m_temp_file_threshhold
 			);
 		}
-		if constexpr (IO::TypeTraits::IsClearable::T <InputStream>::value)
+		if constexpr (IO::IsClearable::T <InputStream>::value)
 		{
 			input_stream . clear ();
 		}

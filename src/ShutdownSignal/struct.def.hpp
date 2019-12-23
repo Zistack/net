@@ -31,5 +31,5 @@ private:
 	friend SuppressingScope::T <T>;
 };
 
-static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
-static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
+static_assert (IO::IsWatchable::T <T>::value);
+static_assert (Failure::IsCancellable::T <T>::value);

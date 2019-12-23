@@ -8,10 +8,7 @@ struct T : MemberPack::T <Members ...>
 	template
 	<
 		typename InputStream,
-		typename = std::enable_if_t
-		<
-			IO::TypeTraits::IsInputStream::T <InputStream>::value
-		>
+		typename = std::enable_if_t <IO::IsInputStream::T <InputStream>::value>
 	>
 	T (InputStream && input_stream);
 

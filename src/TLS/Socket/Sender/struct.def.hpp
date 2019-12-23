@@ -22,6 +22,9 @@ struct T
 	void
 	print (const std::string & string);
 
+	void
+	flush ();
+
 protected:
 
 	T (size_t config_max_record_size);
@@ -37,16 +40,7 @@ private:
 	outputBufferSize (size_t config_max_record_size);
 
 	void
-	flush ();
-
-	void
 	send (const char * buffer, size_t count);
-
-	void
-	open ();
-
-	void
-	close ();
 
 	// Access to external members
 
@@ -64,6 +58,4 @@ private:
 
 	const size_t m_output_buffer_size;
 	std::unique_ptr <char []> m_buffer;
-
-	friend struct Scope::T <T>;
 };

@@ -6,10 +6,16 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 	{
 		request . check ();
 
+		// DEBUG
+		fprintf (stderr, "Recieved:\n%s", request . head () . data ());
+
 		const HeaderMap::T & headers = request . headers ();
 
 		if (headers . contains ("Upgrade"))
 		{
+			// DEBUG
+			fprintf (stderr, "Request contains upgrade request\n");
+
 			Header::Upgrade::T upgrade (headers . at ("Upgrade"));
 
 			std::unique_lock upgrade_lock (this -> m_upgrade_mutex);

@@ -1,6 +1,6 @@
 using T = TypeTraits::Filter::T
 <
 	HTTP::Entity::Readers::T,
-	Failure::TypeTraits::IsCancellable::T,
+	Failure::IsCancellable::T,
 	Failure::CancellableSlot::T
 >;

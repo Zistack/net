@@ -30,11 +30,18 @@ T <ServerProtocol>::accept
 					this -> m_ciphers
 				);
 
-				connection_protocol -> run
-				(
-					connection_socket . reciever (),
-					connection_socket . sender ()
-				);
+				try
+				{
+					connection_protocol -> run
+					(
+						connection_socket . reciever (),
+						connection_socket . sender ()
+					);
+				}
+				catch (...)
+				{
+					// Log it, which for now means ignore it.
+				}
 			}
 			catch (...)
 			{

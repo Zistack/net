@@ -30,28 +30,19 @@ T::close (OutputStream && output_stream)
 				[&] () { output_stream . cancel (); }
 			);
 
-			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
+			close_header . writeTo
+			(
+				std::forward <OutputStream> (output_stream)
+			);
+
+			this -> m_close_message . writeTo (masking_output_stream);
+
+			if constexpr (IO::IsBuffered::T <OutputStream>::value)
 			{
-				Scope::T output_scope (output_stream);
-
-				close_header . writeTo
-				(
-					std::forward <OutputStream> (output_stream)
-				);
-
-				this -> m_close_message . writeTo (masking_output_stream);
-			}
-			else
-			{
-				close_header . writeTo
-				(
-					std::forward <OutputStream> (output_stream)
-				);
-
-				this -> m_close_message . writeTo (masking_output_stream);
+				output_stream . flush ();
 			}
 		}
-		if constexpr (IO::TypeTraits::IsClearable::T <OutputStream>::value)
+		if constexpr (IO::IsClearable::T <OutputStream>::value)
 		{
 			output_stream . clear ();
 		}

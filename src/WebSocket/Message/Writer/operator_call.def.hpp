@@ -3,7 +3,7 @@ template <typename OutputStream>
 void
 T <InputStream>::operator () (OutputStream && output_stream)
 {
-	if constexpr (Failure::TypeTraits::IsCancellable::T <OutputStream>::value)
+	if constexpr (Failure::IsCancellable::T <OutputStream>::value)
 	{
 		Scope::T entity_scope (this -> m_entity_slot, output_stream);
 

@@ -29,46 +29,28 @@ T <Interface>::writeFrame
 				[&] () { cancel_handle . cancel (); }
 			);
 
-			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
+			frame_header . writeTo
+			(
+				std::forward <OutputStream> (output_stream)
+			);
+
+			message . withReaderAt
+			(
+				Message::Reader::T
+				(
+					frame_header . payload_length,
+					masking_output_stream,
+					entity_slot
+				),
+				chunk_position
+			);
+
+			if constexpr (IO::IsBuffered::T <OutputStream>::value)
 			{
-				Scope::T output_scope (output_stream);
-
-				frame_header . writeTo
-				(
-					std::forward <OutputStream> (output_stream)
-				);
-
-				message . withReaderAt
-				(
-					Message::Reader::T
-					(
-						frame_header . payload_length,
-						masking_output_stream,
-						entity_slot
-					),
-					chunk_position
-				);
-			}
-			else
-			{
-				frame_header . writeTo
-				(
-					std::forward <OutputStream> (output_stream)
-				);
-
-				message . withReaderAt
-				(
-					Message::Reader::T
-					(
-						frame_header . payload_length,
-						masking_output_stream,
-						entity_slot
-					),
-					chunk_position
-				);
+				output_stream . flush ();
 			}
 		}
-		if constexpr (IO::TypeTraits::IsClearable::T <OutputStream>::value)
+		if constexpr (IO::IsClearable::T <OutputStream>::value)
 		{
 			output_stream . clear ();
 		}

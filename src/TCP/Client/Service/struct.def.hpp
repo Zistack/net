@@ -23,7 +23,4 @@ private:
 template <typename Protocol>
 T (Protocol && protocol, const Config::T & config) -> T <Protocol>;
 
-static_assert
-(
-	Failure::TypeTraits::IsCancellable::T <IO::TypeTraits::Protocol::T>::value
-);
+static_assert (Failure::IsCancellable::T <IO::DummyProtocol::T>::value);

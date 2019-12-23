@@ -27,7 +27,4 @@ private:
 template <typename InputStream>
 T (InputStream && input_stream, Key::T masking_key) -> T <InputStream>;
 
-static_assert
-(
-	IO::TypeTraits::IsInputStream::T <T <IO::TypeTraits::InputStream::T>>::value
-);
+static_assert (IO::IsInputStream::T <T <IO::DummyInputStream::T>>::value);

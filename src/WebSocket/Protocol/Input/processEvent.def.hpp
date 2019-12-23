@@ -83,7 +83,7 @@ T <Interface>::processEvent (InputStream && input_stream)
 				);
 			}
 		}
-		if constexpr (IO::TypeTraits::IsClearable::T <InputStream>::value)
+		if constexpr (IO::IsClearable::T <InputStream>::value)
 		{
 			input_stream . clear ();
 		}

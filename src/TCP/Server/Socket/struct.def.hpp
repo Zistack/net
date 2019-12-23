@@ -30,4 +30,4 @@ private:
 	int m_file_descriptor;
 };
 
-static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+static_assert (IO::IsWatchable::T <T>::value);

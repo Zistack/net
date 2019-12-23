@@ -18,28 +18,19 @@ T <Interface, UpgradeTargets ...>::writeResponse
 				[&] () { output_slot . cancel (); }
 			);
 
-			if constexpr (IO::TypeTraits::IsBuffered::T <OutputStream>::value)
-			{
-				Scope::T output_scope (output_stream);
+			response . writeTo
+			(
+				std::forward <OutputStream> (output_stream),
+				output_slot,
+				this -> m_transfer_encoding_config
+			);
 
-				response . writeTo
-				(
-					std::forward <OutputStream> (output_stream),
-					output_slot,
-					this -> m_transfer_encoding_config
-				);
-			}
-			else
+			if constexpr (IO::IsBuffered::T <OutputStream>::value)
 			{
-				response . writeTo
-				(
-					std::forward <OutputStream> (output_stream),
-					output_slot,
-					this -> m_transfer_encoding_config
-				);
+				output_stream . flush ();
 			}
 		}
-		if constexpr (IO::TypeTraits::IsClearable::T <OutputStream>::value)
+		if constexpr (IO::IsClearable::T <OutputStream>::value)
 		{
 			output_stream . clear ();
 		}

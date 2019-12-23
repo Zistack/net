@@ -45,7 +45,4 @@ template <typename ServerProtocol>
 T (ServerProtocol && server_protocol, const Config::T & config) ->
 	T <ServerProtocol>;
 
-static_assert
-(
-	Failure::TypeTraits::IsCancellable::T <IO::TypeTraits::Protocol::T>::value
-);
+static_assert (Failure::IsCancellable::T <IO::DummyProtocol::T>::value);

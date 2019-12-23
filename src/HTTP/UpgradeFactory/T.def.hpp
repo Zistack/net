@@ -9,7 +9,7 @@ T <UpgradeTargets ...>::T
 	(
 		this -> m_upgrade_methods . emplace
 		(
-			UpgradeTargets::NAME . toString (),
+			UpgradeTargets::NAME,
 			[
 				response_arguments = upgrade_arguments . first,
 				protocol_arguments = upgrade_arguments . second
@@ -18,6 +18,9 @@ T <UpgradeTargets ...>::T
 				const Request::T & request
 			)
 			{
+				// DEBUG
+				fprintf (stderr, "Creating upgrade response\n");
+
 				using ProtocolData = typename UpgradeTargets::ProtocolData;
 
 				std::pair <Response::T, ProtocolData> response_package =
@@ -37,8 +40,14 @@ T <UpgradeTargets ...>::T
 						response_arguments
 					);
 
+				// DEBUG
+				fprintf (stderr, "Retrieving protocol data\n");
+
 				Response::T & response = response_package . first;
 				ProtocolData & protocol_data = response_package . second;
+
+				// DEBUG
+				fprintf (stderr, "Creating upgrade protocol\n");
 
 				std::unique_ptr <UpgradeTargets> protocol = std::apply
 				(
@@ -55,6 +64,15 @@ T <UpgradeTargets ...>::T
 						);
 					},
 					protocol_arguments
+				);
+
+				// DEBUG
+				fprintf
+				(
+					stderr,
+					"Upgrading to protocol %p with response:\n%s",
+					protocol . get (),
+					response . head () . data ()
 				);
 
 				return std::make_pair

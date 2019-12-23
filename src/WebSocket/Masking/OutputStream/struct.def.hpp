@@ -27,11 +27,4 @@ template <typename OutputStream>
 T (OutputStream && output_stream, Key::T masking_key) ->
 	T <OutputStream>;
 
-static_assert
-(
-	IO::
-		TypeTraits::
-		IsOutputStream::
-		T <T <IO::TypeTraits::OutputStream::T>>::
-		value
-);
+static_assert (IO::IsOutputStream::T <T <IO::DummyOutputStream::T>>::value);

@@ -33,4 +33,4 @@ private:
 	int m_tcp_socket;
 };
 
-static_assert (IO::TypeTraits::IsWatchable::T <T>::value);
+static_assert (IO::IsWatchable::T <T>::value);

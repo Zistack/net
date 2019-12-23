@@ -47,9 +47,5 @@ T (ServerProtocol && server_protocol, Config::T & config) -> T <ServerProtocol>;
 
 static_assert
 (
-	Failure::
-		TypeTraits::
-		IsCancellable::
-		T <T <IO::TypeTraits::ServerProtocol::T>>::
-		value
+	Failure::IsCancellable::T <T <IO::DummyServerProtocol::T>>::value
 );

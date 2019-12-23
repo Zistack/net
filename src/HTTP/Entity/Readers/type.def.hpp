@@ -1,1 +1,1 @@
-using T = IO::TypeTraits::BlockingReaders::T <Data::T>::Type;
+using T = IO::BlockingReaders::T <Data::T>::Type;
