@@ -15,8 +15,8 @@ struct T
 			(
 				std::declval <Protocol> () . run
 				(
-					std::declval <InputStream::T> (),
-					std::declval <OutputStream::T> ()
+					std::declval <DummyInputStream::T> (),
+					std::declval <DummyOutputStream::T> ()
 				)
 			),
 			void

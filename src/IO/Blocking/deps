@@ -1,1 +1,11 @@
-children : CancelSignal.typedef, TypeTraits.children, Watchable.children
+children :
+	CancelSignal.typedef,
+	Watchable.children,
+	IsWatchable.typedef,
+	IsClearable.typedef,
+	IsBuffered.typedef,
+	IsInputStream.typedef,
+	IsOutputStream.typedef,
+	DummyNonblockingInputStream.typedef,
+	DummyNonblockingOutputStream.typedef,
+	OutputScope.typedec

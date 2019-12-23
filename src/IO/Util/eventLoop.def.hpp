@@ -21,7 +21,7 @@ eventLoop
 		{
 			try
 			{
-				if constexpr (TypeTraits::IsBuffered::T <Watchable>::value)
+				if constexpr (IsBuffered::T <Watchable>::value)
 				{
 					if (watchable . isReady ()) break;
 				}
@@ -32,7 +32,7 @@ eventLoop
 					std::forward <ShutdownSignal> (shutdown_signal)
 				);
 
-				if constexpr (TypeTraits::IsSpurious::T <Watchable>::value)
+				if constexpr (IsSpurious::T <Watchable>::value)
 				{
 					if (watchable . spurious ()) continue;
 				}

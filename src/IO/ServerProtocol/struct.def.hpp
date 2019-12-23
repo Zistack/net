@@ -15,5 +15,5 @@ private:
 
 static_assert
 (
-	TypeTraits::IsServerProtocol::T <T <TypeTraits::Protocol::T>>::value
+	IsServerProtocol::T <T <DummyProtocol::T>>::value
 );

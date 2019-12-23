@@ -1,1 +1,1 @@
-typedef : TypeTraits.children, Watchable.children
+typedef : Watchable.children, IsWatchable.typedef

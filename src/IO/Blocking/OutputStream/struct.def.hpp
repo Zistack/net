@@ -39,12 +39,6 @@ private:
 	void
 	send (const char * buffer, size_t count);
 
-	void
-	open ();
-
-	void
-	close ();
-
 	NonblockingOutputStream m_output_stream;
 	CancelSignal::T m_cancel_signal;
 
@@ -54,7 +48,7 @@ private:
 
 	std::unique_ptr <char []> m_buffer;
 
-	friend struct Scope::T <T>;
+	friend struct BufferedOutputScope::T <T>;
 };
 
 template <typename NonblockingOutputStream>
@@ -62,9 +56,8 @@ T (NonblockingOutputStream && output_stream) -> T <NonblockingOutputStream>;
 
 static_assert
 (
-	TypeTraits::
-		IsWatchable::
-		T <T <TypeTraits::NonblockingOutputStream::T>>::
+	IsWatchable::
+		T <T <DummyNonblockingOutputStream::T>>::
 		value
 );
 static_assert
@@ -72,27 +65,24 @@ static_assert
 	Failure::
 		TypeTraits::
 		IsCancellable::
-		T <T <TypeTraits::NonblockingOutputStream::T>>::
+		T <T <DummyNonblockingOutputStream::T>>::
 		value
 );
 static_assert
 (
-	TypeTraits::
-		IsClearable::
-		T <T <TypeTraits::NonblockingOutputStream::T>>::
+	IsClearable::
+		T <T <DummyNonblockingOutputStream::T>>::
 		value
 );
 static_assert
 (
-	TypeTraits::
-		IsOutputStream::
-		T <T <TypeTraits::NonblockingOutputStream::T>>::
+	IsOutputStream::
+		T <T <DummyNonblockingOutputStream::T>>::
 		value
 );
 static_assert
 (
-	TypeTraits::
-		IsBuffered::
-		T <T <TypeTraits::NonblockingOutputStream::T>>::
+	IsBuffered::
+		T <T <DummyNonblockingOutputStream::T>>::
 		value
 );

@@ -58,9 +58,8 @@ T (NonblockingInputStream && input_stream) -> T <NonblockingInputStream>;
 
 static_assert
 (
-	TypeTraits::
-		IsWatchable::
-		T <T <TypeTraits::NonblockingInputStream::T>>::
+	IsWatchable::
+		T <T <DummyNonblockingInputStream::T>>::
 		value
 );
 static_assert
@@ -68,24 +67,22 @@ static_assert
 	Failure::
 		TypeTraits::
 		IsCancellable::
-		T <T <TypeTraits::NonblockingInputStream::T>>::
+		T <T <DummyNonblockingInputStream::T>>::
 		value
 );
 static_assert
 (
-	TypeTraits::
-		IsClearable::
-		T <T <TypeTraits::NonblockingInputStream::T>>::
+	IsClearable::
+		T <T <DummyNonblockingInputStream::T>>::
 		value
 );
 static_assert
 (
-	TypeTraits::IsBuffered::T <T <TypeTraits::NonblockingInputStream::T>>::value
+	IsBuffered::T <T <DummyNonblockingInputStream::T>>::value
 );
 static_assert
 (
-	TypeTraits::
-		IsInputStream::
-		T <T <TypeTraits::NonblockingInputStream::T>>::
+	IsInputStream::
+		T <T <DummyNonblockingInputStream::T>>::
 		value
 );

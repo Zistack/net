@@ -1,1 +1,5 @@
-children : TypeTraits.children, Watchable.children
+children :
+	Watchable.children,
+	IsWatchable.typedef,
+	IsNonblockingInputStream.typedef,
+	IsNonblockingOutputStream.typedef

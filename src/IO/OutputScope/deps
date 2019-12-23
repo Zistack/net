@@ -1,0 +1,2 @@
+typedec : IsBuffered.typedef
+typedef : BufferedOutputScope.typedef, IsOutputStream.typedef

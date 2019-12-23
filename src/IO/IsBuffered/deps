@@ -1,1 +1,2 @@
+children : BufferedOutputScope.typedef
 typedef : IsInputStream.typedef, IsOutputStream.typedef

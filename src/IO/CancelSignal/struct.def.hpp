@@ -27,6 +27,6 @@ private:
 	Signal::T m_signal;
 };
 
-static_assert (TypeTraits::IsWatchable::T <T>::value);
+static_assert (IsWatchable::T <T>::value);
 static_assert (Failure::TypeTraits::IsCancellable::T <T>::value);
-static_assert (TypeTraits::IsClearable::T <T>::value);
+static_assert (IsClearable::T <T>::value);

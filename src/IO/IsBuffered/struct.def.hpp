@@ -8,6 +8,6 @@ struct T
 		) ||
 		(
 			IsOutputStream::T <Buffered>::value &&
-			::TypeTraits::IsScopable::T <Buffered>::value
+			IsScopable::T <Buffered>::value
 		);
 };

@@ -1,6 +1,6 @@
 struct T
 {
-	std::unique_ptr <Protocol::T>
+	std::unique_ptr <DummyProtocol::T>
 	make ();
 };
 

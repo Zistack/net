@@ -1,1 +1,1 @@
-typedef : TypeTraits.children
+typedef : IsServerProtocol.typedef, DummyProtocol.typedef

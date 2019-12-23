@@ -21,4 +21,4 @@ private:
 	Size::T m_pointer;
 };
 
-static_assert (TypeTraits::IsInputStream::T <T>::value);
+static_assert (IsInputStream::T <T>::value);

@@ -1,1 +1,1 @@
-children : TypeTraits.children
+children : IsOutputStream.typedef, IsInputStream.typedef

@@ -1,1 +1,1 @@
-typedef : Signal.typedef, Watchable.children
+typedef : Signal.typedef, Watchable.children, IsWatchable.typedef, IsClearable.typedef

@@ -21,5 +21,5 @@ private:
 	size_t m_pointer;
 };
 
-static_assert (TypeTraits::IsWatchable::T <T>::value);
-static_assert (TypeTraits::IsNonblockingOutputStream::T <T>::value);
+static_assert (IsWatchable::T <T>::value);
+static_assert (IsNonblockingOutputStream::T <T>::value);

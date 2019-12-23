@@ -3,4 +3,9 @@ definitions :
 	File.typedef,
 	Class.declarations,
 	Rule.declarations,
-	TypeTraits.children
+	IsBuffered.typedef,
+	IsSpurious.typedef,
+	IsInputStream.typedef,
+	IsOutputStream.typedef,
+	IsNonblockingInputStream.typedef,
+	IsNonblockingOutputStream.typedef

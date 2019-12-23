@@ -18,5 +18,5 @@ private:
 	int m_file_descriptor;
 };
 
-static_assert (TypeTraits::IsWatchable::T <T>::value);
-static_assert (TypeTraits::IsNonblockingInputStream::T <T>::value);
+static_assert (IsWatchable::T <T>::value);
+static_assert (IsNonblockingInputStream::T <T>::value);
