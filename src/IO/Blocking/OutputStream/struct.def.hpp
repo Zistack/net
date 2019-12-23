@@ -29,12 +29,12 @@ struct T
 	void
 	print (const std::string & string);
 
+	void
+	flush ();
+
 	~T () = default;
 
 private:
-
-	void
-	flush ();
 
 	void
 	send (const char * buffer, size_t count);
@@ -47,8 +47,6 @@ private:
 	static const size_t BUFFER_SIZE = 4096;
 
 	std::unique_ptr <char []> m_buffer;
-
-	friend struct BufferedOutputScope::T <T>;
 };
 
 template <typename NonblockingOutputStream>

@@ -7,5 +7,4 @@ children :
 	IsInputStream.typedef,
 	IsOutputStream.typedef,
 	DummyNonblockingInputStream.typedef,
-	DummyNonblockingOutputStream.typedef,
-	OutputScope.typedec
+	DummyNonblockingOutputStream.typedef

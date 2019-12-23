@@ -8,6 +8,6 @@ struct T
 		) ||
 		(
 			IsOutputStream::T <Buffered>::value &&
-			IsScopable::T <Buffered>::value
+			HasFlush::T <Buffered>::value
 		);
 };
