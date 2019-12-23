@@ -1,1 +1,1 @@
-typedef : TypeTraits.children
+typedef : IsCancellable.typedef, DummyCancellable.typedef

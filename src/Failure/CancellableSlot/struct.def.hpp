@@ -30,7 +30,4 @@ private:
 	friend struct Scope::T <T>;
 };
 
-static_assert
-(
-	TypeTraits::IsCancellable::T <T <TypeTraits::Cancellable::T>>::value
-);
+static_assert (IsCancellable::T <T <DummyCancellable::T>>::value);

@@ -17,7 +17,4 @@ private:
 	size_t m_next;
 };
 
-static_assert
-(
-	TypeTraits::IsCancellable::T <T <TypeTraits::Cancellable::T>>::value
-);
+static_assert (IsCancellable::T <T <DummyCancellable::T>>::value);

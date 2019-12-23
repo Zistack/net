@@ -20,7 +20,4 @@ private:
 template <typename ... Cancellables>
 T (Cancellables && ... cancellables) -> T <Cancellables ...>;
 
-static_assert
-(
-	TypeTraits::IsCancellable::T <T <TypeTraits::Cancellable::T>>::value
-);
+static_assert (IsCancellable::T <T <DummyCancellable::T>>::value);
