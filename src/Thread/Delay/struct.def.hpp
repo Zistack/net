@@ -22,4 +22,4 @@ private:
 	std::shared_ptr <std::promise <Element>> m_promise;
 };
 
-static_assert (Failure::TypeTraits::IsCancellable::T <T <int>>::value);
+static_assert (Failure::IsCancellable::T <T <int>>::value);

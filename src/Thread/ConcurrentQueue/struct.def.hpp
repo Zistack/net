@@ -41,5 +41,5 @@ private:
 
 static_assert
 (
-	Failure::TypeTraits::IsCancellable::T <T <std::monostate>>::value
+	Failure::IsCancellable::T <T <std::monostate>>::value
 );
