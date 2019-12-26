@@ -33,6 +33,7 @@ protected:
 		std::chrono::nanoseconds output_timeout,
 		const TransferEncoding::Config::T & transfer_encoding_config,
 		uint64_t temp_file_threshhold,
+		const std::optional <HostData::T> & host_data,
 		UpgradeArguments && ... upgrade_arguments
 	);
 
@@ -60,4 +61,5 @@ private:
 	std::chrono::nanoseconds m_output_timeout;
 	const TransferEncoding::Config::T & m_transfer_encoding_config;
 	uint64_t m_temp_file_threshhold;
+	std::optional <HostData::T> m_host_data;
 };

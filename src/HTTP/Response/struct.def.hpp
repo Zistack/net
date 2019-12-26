@@ -48,8 +48,12 @@ struct T
 		const TransferEncoding::Config::T & transfer_encoding_config
 	) const;
 
+	template <typename OutputStream>
+	void
+	writeTo (OutputStream && output_stream) const;
+
 	std::string
-	head () const;
+	toString () const;
 
 	~T () = default;
 

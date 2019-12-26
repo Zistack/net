@@ -6,10 +6,14 @@ struct T
 		std::pair <Response::T, std::unique_ptr <UpgradeTargets>> ...
 	>;
 
-	template <typename ... ResponseArguments, typename ... ProtocolArguments>
+	template
+	<
+		typename ... ResponseArgumentPacks,
+		typename ... ProtocolArgumentPacks
+	>
 	T
 	(
-		const std::pair <ResponseArguments, ProtocolArguments> & ...
+		const std::pair <ResponseArgumentPacks, ProtocolArgumentPacks> & ...
 			upgrade_arguments
 	);
 
@@ -23,6 +27,20 @@ struct T
 	~T () = default;
 
 private:
+
+	template
+	<
+		typename UpgradeTarget,
+		typename ... ResponseArguments,
+		typename ... ProtocolArguments
+	>
+	static ResponseAndProtocol
+	make
+	(
+		const std::tuple <ResponseArguments ...> & response_arguments,
+		const std::tuple <ProtocolArguments ...> & protocol_arguments,
+		const Request::T & request
+	);
 
 	std::map
 	<

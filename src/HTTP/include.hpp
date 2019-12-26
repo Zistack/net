@@ -14,4 +14,6 @@
 #include <Failure.hpp>
 #include <GetConfig.hpp>
 #include <IO.hpp>
+#include <TCP.hpp>
+#include <TLS.hpp>
 #include <URI.hpp>

@@ -25,6 +25,30 @@ T::T
 			);
 		}
 
+		if (! this -> m_headers . contains ("Host"))
+		{
+			this -> m_e_ptr = std::make_exception_ptr
+			(
+				CodeError::T (400, "Host is required\n")
+			);
+		}
+
+		this -> m_host = Header::Host::T (this -> m_headers . at ("Host"));
+
+		if (! this -> m_host . match (this -> m_uri))
+		{
+			this -> m_e_ptr = std::make_exception_ptr
+			(
+				CodeError::T
+				(
+					400,
+					"Host header field value must match host in request URI\n"
+				)
+			);
+		}
+
+		this -> m_headers . remove ("Host");
+
 		auto entity_kit = Input::headersToEntity <true>
 		(
 			this -> m_headers,
@@ -84,12 +108,14 @@ T::T
 	const std::string & method,
 	const URI::T & uri,
 	const std::string & version,
+	const Header::Host::T & host,
 	const HeaderMap::T & headers,
 	std::optional <Entity::T> && entity
 )
 :	m_method (method),
 	m_uri (uri),
 	m_version (version),
+	m_host (host),
 	m_headers (headers),
 	m_entity (std::move (entity))
 {

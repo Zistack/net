@@ -41,3 +41,12 @@ T::T (const Iterable & iterable)
 :	m_map (iterable . begin (), iterable . end ())
 {
 }
+
+T::T
+(
+	const std::initializer_list <std::pair <std::string, std::string>> &
+		header_fields
+)
+:	m_map (header_fields . begin (), header_fields . end ())
+{
+}

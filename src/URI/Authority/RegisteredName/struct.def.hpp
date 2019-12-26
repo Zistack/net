@@ -11,6 +11,27 @@ struct T
 
 	T (const std::string & registered_name);
 
+	int
+	compare (const T & other) const;
+
+	bool
+	operator == (const T & other) const;
+
+	bool
+	operator != (const T & other) const;
+
+	bool
+	operator < (const T & other) const;
+
+	bool
+	operator > (const T & other) const;
+
+	bool
+	operator <= (const T & other) const;
+
+	bool
+	operator >= (const T & other) const;
+
 	template <typename OutputStream>
 	void
 	writeTo (OutputStream && output_stream) const;

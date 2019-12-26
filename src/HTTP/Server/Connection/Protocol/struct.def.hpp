@@ -13,7 +13,12 @@ struct T : FIFOProtocolInterface::T <Interface, UpgradeTargets ...>
 protected:
 
 	template <typename ... UpgradeArguments>
-	T (const Config::T & config, UpgradeArguments && ... upgrade_arguments);
+	T
+	(
+		const Config::T & config,
+		const std::optional <HostData::T> & host_data,
+		UpgradeArguments && ... upgrade_arguments
+	);
 
 	const T &
 	http () const;

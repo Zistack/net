@@ -13,6 +13,27 @@ struct T
 
 	T (const std::array <uint8_t, 4> & octets);
 
+	int
+	compare (const T & other) const;
+
+	bool
+	operator == (const T & other) const;
+
+	bool
+	operator != (const T & other) const;
+
+	bool
+	operator < (const T & other) const;
+
+	bool
+	operator > (const T & other) const;
+
+	bool
+	operator <= (const T & other) const;
+
+	bool
+	operator >= (const T & other) const;
+
 	template <typename OutputStream>
 	void
 	writeTo (OutputStream && output_stream) const;

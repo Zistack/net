@@ -23,6 +23,12 @@ struct T
 	>
 	T (const Iterable & iterable);
 
+	T
+	(
+		const std::initializer_list <std::pair <std::string, std::string>> &
+			header_fields
+	);
+
 	bool
 	contains (const std::string & field_name) const;
 

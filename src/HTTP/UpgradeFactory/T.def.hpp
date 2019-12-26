@@ -1,8 +1,12 @@
 template <typename ... UpgradeTargets>
-template <typename ... ResponseArguments, typename ... ProtocolArguments>
+template
+<
+	typename ... ResponseArgumentPacks,
+	typename ... ProtocolArgumentPacks
+>
 T <UpgradeTargets ...>::T
 (
-	const std::pair <ResponseArguments, ProtocolArguments> & ...
+	const std::pair <ResponseArgumentPacks, ProtocolArgumentPacks> & ...
 		upgrade_arguments
 )
 {
@@ -18,67 +22,11 @@ T <UpgradeTargets ...>::T
 				const Request::T & request
 			)
 			{
-				// DEBUG
-				fprintf (stderr, "Creating upgrade response\n");
-
-				using ProtocolData = typename UpgradeTargets::ProtocolData;
-
-				std::pair <Response::T, ProtocolData> response_package =
-					std::apply
-					(
-						[&] (auto && ... response_arguments)
-						{
-							return UpgradeTargets::createResponse
-							(
-								request,
-								std::forward <decltype (response_arguments)>
-								(
-									response_arguments
-								) ...
-							);
-						},
-						response_arguments
-					);
-
-				// DEBUG
-				fprintf (stderr, "Retrieving protocol data\n");
-
-				Response::T & response = response_package . first;
-				ProtocolData & protocol_data = response_package . second;
-
-				// DEBUG
-				fprintf (stderr, "Creating upgrade protocol\n");
-
-				std::unique_ptr <UpgradeTargets> protocol = std::apply
+				return T::make <UpgradeTargets>
 				(
-					[&] (auto && ... protocol_arguments)
-					{
-						return std::make_unique <UpgradeTargets>
-						(
-							request,
-							protocol_data,
-							std::forward <decltype (protocol_arguments)>
-							(
-								protocol_arguments
-							) ...
-						);
-					},
-					protocol_arguments
-				);
-
-				// DEBUG
-				fprintf
-				(
-					stderr,
-					"Upgrading to protocol %p with response:\n%s",
-					protocol . get (),
-					response . head () . data ()
-				);
-
-				return std::make_pair
-				(
-					std::move (response),
-					std::move (protocol)
+					response_arguments,
+					protocol_arguments,
+					request
 				);
 			}
 		), ...

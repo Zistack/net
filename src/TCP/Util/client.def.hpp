@@ -2,7 +2,7 @@ int
 client
 (
 	const std::optional <URI::Authority::Host::T> & hostname,
-	const std::optional <uint64_t> & port
+	uint64_t port
 )
 {
 	const std::string message_prefix = "Failed to create TCP client:\n";
@@ -22,7 +22,7 @@ client
 		hostname ?
 			URI::Authority::Host::toString (* hostname) . data () :
 			nullptr,
-		port ? std::to_string (* port) . data () : nullptr,
+		std::to_string (port) . data (),
 		& hints,
 		& results
 	);

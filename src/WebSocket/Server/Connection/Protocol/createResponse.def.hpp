@@ -20,14 +20,6 @@ T <Interface, upgrade_required>::createResponse
 
 	HTTP::Util::validateServerUpgradeCondition <upgrade_required>
 	(
-		headers . contains ("Host") &&
-			URI::T (headers . at ("Host")) . authority,
-		"Upgrading to the WebSocket protocol requires the 'Host' header field "
-			"to exist and be set to the client's authority\n"
-	);
-
-	HTTP::Util::validateServerUpgradeCondition <upgrade_required>
-	(
 		headers . contains ("Connection") &&
 			HTTP::Header::Connection::T (headers . at ("Connection")) .
 				options .
@@ -42,7 +34,6 @@ T <Interface, upgrade_required>::createResponse
 		"Websocket Version " +
 			headers . at ("Sec-WebSocket-Version") +
 			" is unsupported\n",
-		std::initializer_list <std::pair <std::string, std::string>>
 		{{"Sec-WebSocket-Version", "13"}}
 	);
 
@@ -78,7 +69,6 @@ T <Interface, upgrade_required>::createResponse
 			"HTTP/1.1",
 			101,
 			HTTP::Util::reasonPhrase (101),
-			std::initializer_list <std::pair <std::string, std::string>>
 			{
 				{"Upgrade", "WebSocket"},
 				{"Connection", "Upgrade"},

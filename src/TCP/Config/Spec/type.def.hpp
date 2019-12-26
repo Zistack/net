@@ -9,5 +9,5 @@ using T = GetConfig::Section::T
 		HOSTNAME,
 		HOSTNAME_DESCRIPTION
 	>,
-	GetConfig::Member::T <GetConfig::UInt::T, true, PORT, PORT_DESCRIPTION>
+	GetConfig::Member::T <GetConfig::UInt::T, false, PORT, PORT_DESCRIPTION>
 >;

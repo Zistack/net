@@ -10,9 +10,7 @@ T::writeTo
 	{
 		Scope::T header_scope (output_slot, output_stream);
 
-		this -> putRequestLine (std::forward <OutputStream> (output_stream));
-
-		this -> m_headers . writeTo (std::forward <OutputStream> (output_stream));
+		this -> putHead (std::forward <OutputStream> (output_stream));
 
 		if (this -> m_entity)
 		{
@@ -40,6 +38,39 @@ T::writeTo
 			* this -> m_entity,
 			std::forward <OutputStream> (output_stream),
 			output_slot
+		);
+	}
+}
+
+template <typename OutputStream>
+void
+T::writeTo
+(OutputStream && output_stream) const
+{
+	this -> putHead (std::forward <OutputStream> (output_stream));
+
+	if (this -> m_entity)
+	{
+		HeaderMap::T
+		(
+			{{"Content-Length", std::to_string (this -> m_entity -> size ())}}
+		) .
+			writeTo (std::forward <OutputStream> (output_stream));
+	}
+
+	output_stream . print ("\r\n");
+
+	if (this -> m_entity)
+	{
+		this -> m_entity -> withReader
+		(
+			[&] (auto && input_stream)
+			{
+				while (! input_stream . eof ())
+				{
+					output_stream . put (input_stream . get ());
+				}
+			}
 		);
 	}
 }

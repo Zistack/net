@@ -25,9 +25,8 @@ T <Interface>::createRequest
 			"GET",
 			resource,
 			"HTTP/1.1",
-			std::initializer_list <std::pair <std::string, std::string>>
+			HTTP::Header::Host::T (host, std::nullopt),
 			{
-				{"Host", URI::Authority::Host::toString (host)},
 				{"Upgrade", "WebSocket"},
 				{"Connection", "Upgrade"},
 				{"Sec-Websocket-Key", protocol_data . client_key_base64},

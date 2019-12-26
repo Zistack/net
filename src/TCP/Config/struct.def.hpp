@@ -8,9 +8,9 @@ struct T : Spec::T <T>
 	std::optional <URI::Authority::Host::T> &
 	hostname ();
 
-	const std::optional <uint64_t> &
+	const GetConfig::UInt::T::Value &
 	port () const;
 
-	std::optional <uint64_t> &
+	GetConfig::UInt::T::Value &
 	port ();
 };

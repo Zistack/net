@@ -1,10 +1,10 @@
-const std::optional <uint64_t> &
+const GetConfig::UInt::T::Value &
 T::port () const
 {
 	return this -> value <Spec::PORT> ();
 }
 
-std::optional <uint64_t> &
+GetConfig::UInt::T::Value &
 T::port ()
 {
 	return this -> value <Spec::PORT> ();

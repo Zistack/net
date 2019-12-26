@@ -1,9 +1,9 @@
 children :
 	CodeError.typedef,
+	HostData.typedef,
 	Input.children,
 	Output.children,
 	Request.typedef,
 	Response.typedef,
 	TransferEncoding.children,
 	UpgradeFactory.typedef
-
