@@ -20,10 +20,10 @@ T::T (InputStream && input_stream)
 
 		// One wonders if we couldn't just use the byte and pull bools
 		// on-demand.
-		this -> final_frame = (bool) code_bits & 0x80;
-		this -> reserved_1 = (bool) code_bits & 0x40;
-		this -> reserved_2 = (bool) code_bits & 0x20;
-		this -> reserved_3 = (bool) code_bits & 0x10;
+		this -> final_frame = (bool) (code_bits & 0x80);
+		this -> reserved_1 = (bool) (code_bits & 0x40);
+		this -> reserved_2 = (bool) (code_bits & 0x20);
+		this -> reserved_3 = (bool) (code_bits & 0x10);
 
 		this -> opcode = code_bits & 0x0F;
 
