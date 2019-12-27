@@ -13,11 +13,6 @@ T <InputStream>::operator () (OutputStream && output_stream)
 			this -> m_count,
 			std::forward <OutputStream> (output_stream)
 		);
-
-		if constexpr (IO::IsBuffered::T <OutputStream>::value)
-		{
-			output_stream . flush ();
-		}
 	}
 	else
 	{
@@ -27,10 +22,5 @@ T <InputStream>::operator () (OutputStream && output_stream)
 			this -> m_count,
 			std::forward <OutputStream> (output_stream)
 		);
-
-		if constexpr (IO::IsBuffered::T <OutputStream>::value)
-		{
-			output_stream . flush ();
-		}
 	}
 }
