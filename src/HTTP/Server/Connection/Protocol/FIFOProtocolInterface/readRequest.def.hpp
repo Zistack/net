@@ -6,9 +6,6 @@ T <Interface, UpgradeTargets ...>::readRequest
 	InputStream && input_stream
 ) const
 {
-	// Test for EOF
-	input_stream . peek ();
-
 	Input::CancellableSlot::T <InputStream> input_slot;
 
 	try
@@ -21,6 +18,9 @@ T <Interface, UpgradeTargets ...>::readRequest
 				this -> m_input_timeout,
 				[&] () { input_slot . cancel (); }
 			);
+
+			// Test for EOF
+			input_stream . peek ();
 
 			request = Request::T
 			(
