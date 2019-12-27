@@ -4,7 +4,7 @@ T <Protocol, Arguments ...>::make ()
 {
 	return std::apply
 	(
-		[] (Arguments ... arguments)
+		[] (auto & ... arguments)
 		{
 			return std::make_unique <Protocol>
 			(
