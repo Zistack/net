@@ -2,7 +2,7 @@ template <typename Interface>
 std::pair <HTTP::Request::T, typename T <Interface>::ProtocolData>
 T <Interface>::createRequest
 (
-	const URI::Authority::Host::T & host,
+	const HTTP::Header::Host::T & host,
 	const URI::T & resource
 )
 {
@@ -25,7 +25,7 @@ T <Interface>::createRequest
 			"GET",
 			resource,
 			"HTTP/1.1",
-			HTTP::Header::Host::T (host, std::nullopt),
+			host,
 			{
 				{"Upgrade", "WebSocket"},
 				{"Connection", "Upgrade"},

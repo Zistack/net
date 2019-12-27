@@ -15,7 +15,7 @@ struct T
 		const std::string & method,
 		const URI::T & uri,
 		const std::string & version,
-		const Header::Host::T & host,
+		const std::optional <Header::Host::T> & host,
 		const HeaderMap::T & headers,
 		std::optional <Entity::T> && entity
 	);
@@ -40,7 +40,7 @@ struct T
 	const HeaderMap::T &
 	headers () const;
 
-	const Header::Host::T &
+	const std::optional <Header::Host::T> &
 	host () const;
 
 	const std::optional <Entity::T> &
@@ -52,8 +52,7 @@ struct T
 	(
 		OutputStream && output_stream,
 		CancellableSlot & request_slot,
-		const TransferEncoding::Config::T & transfer_encoding_config =
-			TransferEncoding::Config::T ()
+		const TransferEncoding::Config::T & transfer_encoding_config
 	) const;
 
 	template <typename OutputStream>
@@ -85,7 +84,7 @@ private:
 	URI::T m_uri;
 	std::string m_version;
 
-	Header::Host::T m_host;
+	std::optional <Header::Host::T> m_host;
 
 	HeaderMap::T m_headers;
 

@@ -40,9 +40,10 @@ T <Interface, UpgradeTargets ...>::writeResponse
 		throw Failure::ResourceError::T ("Writing response timed out\n");
 	}
 
-	if (response . statusCode () == 101)
+	if (response . statusCode () == 101 || response . statusCode () == 400)
 	{
-		// If this response is switching protocols...
+		// If this response is switching protocols or signifying a bad
+		// request...
 		throw Failure::EndOfResource::T ();
 	}
 }

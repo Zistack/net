@@ -18,3 +18,31 @@ T::T
 : host (host), port (port)
 {
 }
+
+T::T (const TCP::Config::T & tcp_config)
+:	host
+	(
+		tcp_config . hostname () ?
+			* tcp_config . hostname () :
+			URI::Authority::RegisteredName::T ("*")
+	),
+	port (tcp_config . port ())
+{
+}
+
+T::T (const TLS::Client::Config::T & tls_config)
+:	host (tls_config . serverName ()),
+	port (tls_config . tcpConfig () . port ())
+{
+}
+
+T::T (const TLS::Server::Config::T & tls_config)
+:	host
+	(
+		tls_config . tcpConfig () . hostname () ?
+			* tls_config . tcpConfig () . hostname () :
+			URI::Authority::RegisteredName::T ("*")
+	),
+	port (tls_config . tcpConfig () . port ())
+{
+}

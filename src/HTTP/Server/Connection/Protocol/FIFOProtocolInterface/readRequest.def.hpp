@@ -6,6 +6,9 @@ T <Interface, UpgradeTargets ...>::readRequest
 	InputStream && input_stream
 ) const
 {
+	// Test for EOF
+	input_stream . peek ();
+
 	Input::CancellableSlot::T <InputStream> input_slot;
 
 	try

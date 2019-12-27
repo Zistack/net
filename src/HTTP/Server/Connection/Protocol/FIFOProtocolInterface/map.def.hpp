@@ -4,12 +4,38 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 {
 	try
 	{
-		request . check ();
+		try
+		{
+			request . check ();
+		}
+		catch (const Failure::ResourceError::T & e)
+		{
+			throw CodeError::T (400, e . what ());
+		}
+		catch (const Failure::EncodingError::T & e)
+		{
+			throw CodeError::T (400, e . what ());
+		}
+		catch (const Failure::SyntaxError::T & e)
+		{
+			throw CodeError::T (400, e . what ());
+		}
+		catch (const Failure::SemanticError::T & e)
+		{
+			throw CodeError::T (400, e . what ());
+		}
+		catch (const Failure::ImplementationError::T & e)
+		{
+			throw CodeError::T (501, e . what ());
+		}
+		catch (const Failure::Error::T & e)
+		{
+			throw CodeError::T (500, e . what ());
+		}
 
 		const HeaderMap::T & headers = request . headers ();
 
-		const std::string & request_host_string = headers . at ("Host");
-		if (! request_host_string . empty ())
+		if (request . host ())
 		{
 			if (! this -> m_host_data)
 			{
@@ -21,9 +47,18 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 				);
 			}
 
-			Header::Host::T request_host = Header::Host::T (request_host_string);
-
-			if (request_host . host != this -> m_host_data -> host . host)
+			if
+			(
+				this -> m_host_data -> host . host !=
+					URI::Authority::Host::T
+					(
+						URI::Authority::RegisteredName::T ("*")
+					) &&
+				(
+					request . host () -> host !=
+					this -> m_host_data -> host . host
+				)
+			)
 			{
 				throw CodeError::T
 				(
@@ -35,7 +70,7 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 
 			if
 			(
-				! request_host . port &&
+				! request . host () -> port &&
 				! this -> m_host_data -> using_default_port
 			)
 			{
@@ -49,8 +84,11 @@ T <Interface, UpgradeTargets ...>::map (const Request::T & request)
 
 			if
 			(
-				request_host . port &&
-				(request_host . port != this -> m_host_data -> host . port)
+				request . host () -> port &&
+				(
+					request . host () -> port !=
+					this -> m_host_data -> host . port
+				)
 			)
 			{
 				throw CodeError::T

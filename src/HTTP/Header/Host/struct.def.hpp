@@ -10,6 +10,12 @@ struct T
 		const std::optional <uint64_t> & port
 	);
 
+	T (const TCP::Config::T & tcp_config);
+
+	T (const TLS::Client::Config::T & tls_config);
+
+	T (const TLS::Server::Config::T & tls_config);
+
 	bool
 	match (const URI::T & uri);
 

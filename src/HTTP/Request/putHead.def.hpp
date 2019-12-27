@@ -6,7 +6,7 @@ T::putHead (OutputStream && output_stream) const
 
 	HeaderMap::T
 	(
-		{{"Host", this -> m_host . toString ()}}
+		{{"Host", this -> m_host ? this -> m_host -> toString () : ""}}
 	) .
 		writeTo (std::forward <OutputStream> (output_stream));
 

@@ -25,30 +25,6 @@ T::T
 			);
 		}
 
-		if (! this -> m_headers . contains ("Host"))
-		{
-			this -> m_e_ptr = std::make_exception_ptr
-			(
-				CodeError::T (400, "Host is required\n")
-			);
-		}
-
-		this -> m_host = Header::Host::T (this -> m_headers . at ("Host"));
-
-		if (! this -> m_host . match (this -> m_uri))
-		{
-			this -> m_e_ptr = std::make_exception_ptr
-			(
-				CodeError::T
-				(
-					400,
-					"Host header field value must match host in request URI\n"
-				)
-			);
-		}
-
-		this -> m_headers . remove ("Host");
-
 		auto entity_kit = Input::headersToEntity <true>
 		(
 			this -> m_headers,
@@ -70,36 +46,35 @@ T::T
 
 		this -> m_headers . remove ("Content-Length");
 		this -> m_headers . remove ("Transfer-Encoding");
+
+		if (! this -> m_headers . contains ("Host"))
+		{
+			throw Failure::SemanticError::T ("Host is required\n");
+		}
+
+		std::string host_string = this -> m_headers . at ("Host");
+		if (! host_string . empty ())
+		{
+			this -> m_host = Header::Host::T (host_string);
+		}
+
+		if
+		(
+			(this -> m_host && ! this -> m_host -> match (this -> m_uri)) ||
+			(! this -> m_host && this -> m_uri . authority)
+		)
+		{
+			throw Failure::SemanticError::T
+			(
+				"Host header field value must match host in request URI\n"
+			);
+		}
+
+		this -> m_headers . remove ("Host");
 	}
-	catch (const Failure::ResourceError::T & e)
+	catch (...)
 	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (500, e.what ()));
-	}
-	catch (const Failure::EncodingError::T & e)
-	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (400, e.what ()));
-	}
-	catch (const Failure::SyntaxError::T & e)
-	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (400, e.what ()));
-	}
-	catch (const Failure::SemanticError::T & e)
-	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (400, e.what ()));
-	}
-	catch (const Failure::ImplementationError::T & e)
-	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (501, e.what ()));
-	}
-	catch (const Failure::Error::T & e)
-	{
-		this -> m_e_ptr =
-			std::make_exception_ptr (CodeError::T (500, e.what ()));
+		this -> m_e_ptr = std::current_exception ();
 	}
 }
 
@@ -108,7 +83,7 @@ T::T
 	const std::string & method,
 	const URI::T & uri,
 	const std::string & version,
-	const Header::Host::T & host,
+	const std::optional <Header::Host::T> & host,
 	const HeaderMap::T & headers,
 	std::optional <Entity::T> && entity
 )

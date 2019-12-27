@@ -12,14 +12,20 @@ T <Interface>::T
 	HTTP::Util::validateClientUpgradeCondition
 	(
 		headers . contains ("Upgrade") &&
-			(headers . at ("Upgrade") == HTTP::Util::normalize ("WebSocket")),
+			(
+				HTTP::Util::normalize (headers . at ("Upgrade")) ==
+				HTTP::Util::normalize ("WebSocket")
+			),
 		"Expected 'Upgrade' header with value 'WebSocket'\n"
 	);
 
 	HTTP::Util::validateClientUpgradeCondition
 	(
 		headers . contains ("Connection") &&
-			(headers . at ("Connection") == HTTP::Util::normalize ("Upgrade")),
+			(
+				HTTP::Util::normalize (headers . at ("Connection")) ==
+				HTTP::Util::normalize ("Upgrade")
+			),
 		"Expected 'Connection' header with value 'Upgrade'\n"
 	);
 

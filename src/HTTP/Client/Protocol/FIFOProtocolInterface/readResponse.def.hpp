@@ -15,13 +15,11 @@ T::readResponse (InputStream && input_stream) const
 				[&] () { input_slot . cancel (); }
 			);
 
-			response = std::move (
-				Response::T
-				(
-					std::forward <InputStream> (input_stream),
-					input_slot,
-					this -> m_temp_file_threshhold
-				)
+			response = Response::T
+			(
+				std::forward <InputStream> (input_stream),
+				input_slot,
+				this -> m_temp_file_threshhold
 			);
 		}
 		if constexpr (IO::IsClearable::T <InputStream>::value)
