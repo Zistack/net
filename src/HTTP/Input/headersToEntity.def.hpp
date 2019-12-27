@@ -23,32 +23,29 @@ headersToEntity (const HeaderMap::T & headers, size_t temp_file_threshhold)
 			Entity::T ()
 		);
 	}
+	else if (headers . contains ("Content-Length"))
+	{
+		Header::ContentLength::T content_length
+		(
+			headers . at ("Content-Length")
+		);
+
+		return std::make_pair
+		(
+			TransferEncoding::Decoder::T (content_length),
+			Entity::T (content_length, temp_file_threshhold)
+		);
+	}
+	else if constexpr (is_request)
+	{
+		return std::nullopt;
+	}
 	else
 	{
-		if (headers . contains ("Content-Length"))
-		{
-			Header::ContentLength::T content_length
-			(
-				headers . at ("Content-Length")
-			);
-
-			return std::make_pair
-			(
-				TransferEncoding::Decoder::T (content_length),
-				Entity::T (content_length, temp_file_threshhold)
-			);
-		}
-		else if constexpr (is_request)
-		{
-			return std::nullopt;
-		}
-		else
-		{
-			return std::make_pair
-			(
-				TransferEncoding::Decoder::T (),
-				Entity::T ()
-			);
-		}
+		return std::make_pair
+		(
+			TransferEncoding::Decoder::T (),
+			Entity::T ()
+		);
 	}
 }
