@@ -29,7 +29,7 @@ T::T (InputStream && input_stream)
 
 		uint8_t payload_bits = (uint8_t) input_stream . get ();
 
-		this -> use_mask = (bool) payload_bits & 0x80;
+		this -> use_mask = (bool) (payload_bits & 0x80);
 		payload_bits &= ~ 0x80;
 
 		if (payload_bits == 126)
