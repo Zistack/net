@@ -19,13 +19,23 @@ T::T
 		IO::Util::expect (std::forward <InputStream> (input_stream), "\r\n");
 	}
 
+	// No entity for information responses, regardless of headers.
+	if (this -> m_status_code >= 100 && this -> m_status_code <= 199) return;
+
+	// No entity for No Content, regardless of headers.
+	if (this -> m_status_code == 204) return;
+
+	// No entity for Not Modified, regardless of headers;
+	if (this -> m_status_code == 304) return;
+
 	auto entity_kit = Input::headersToEntity <false>
 	(
 		this -> m_headers,
 		temp_file_threshhold
 	);
 
-	if (this -> m_entity)
+	// It should actually be impossible for this to be false for a response.
+	if (entity_kit)
 	{
 		TransferEncoding::Decoder::T decoder = entity_kit -> first;
 		this -> m_entity = std::move (entity_kit -> second);
