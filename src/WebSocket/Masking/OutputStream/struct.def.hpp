@@ -3,6 +3,39 @@ struct T
 {
 	T (OutputStream output_stream, Key::T masking_key);
 
+	template
+	<
+		typename ProxyOutputStream = OutputStream,
+		typename = std::enable_if_t
+		<
+			IO::IsWatchable::T <ProxyOutputStream>::value
+		>
+	>
+	IO::Watchable::Events::T
+	events () const;
+
+	template
+	<
+		typename ProxyOutputStream = OutputStream,
+		typename = std::enable_if_t
+		<
+			IO::IsWatchable::T <ProxyOutputStream>::value
+		>
+	>
+	int
+	fileDescriptor () const;
+
+	template
+	<
+		typename ProxyOutputStream = OutputStream,
+		typename = std::enable_if_t
+		<
+			Failure::IsCancellable::T <ProxyOutputStream>::value
+		>
+	>
+	void
+	cancel ();
+
 	void
 	put (char c);
 
@@ -11,6 +44,17 @@ struct T
 
 	void
 	print (const std::string & string);
+
+	template
+	<
+		typename ProxyOutputStream = OutputStream,
+		typename = std::enable_if_t
+		<
+			IO::IsBuffered::T <ProxyOutputStream>::value
+		>
+	>
+	void
+	flush ();
 
 	~T () = default;
 
