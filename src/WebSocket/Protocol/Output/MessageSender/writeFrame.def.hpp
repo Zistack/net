@@ -60,4 +60,3 @@ T <Interface>::writeFrame
 		throw Failure::ResourceError::T ("Writing frame timed out\n");
 	}
 }
-
