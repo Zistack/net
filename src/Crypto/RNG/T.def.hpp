@@ -3,10 +3,8 @@ T::T (SeedGenerator && getSeed) : m_handle (newHandle ())
 {
 	uint32_t seed_size = kcapi_rng_seedsize (this -> m_handle . get ());
 
-	if (! seed_size)
-	{
-		throw Failure::ResourceError::T ("Failed to get RNG seed size\n");
-	}
+	// Some RNGs don't have a seed size because they seed themselves.
+	if (! seed_size) return;
 
 	uint8_t seed_buf [seed_size];
 	getSeed (seed_buf, seed_size);
