@@ -15,6 +15,9 @@ T <Interface>::processEvent (InputStream && input_stream)
 				[&] () { cancel_handle . cancel (); }
 			);
 
+			// Check for EOF
+			input_stream . peek ();
+
 			FrameHeader::T frame_header
 			(
 				std::forward <InputStream> (input_stream)
