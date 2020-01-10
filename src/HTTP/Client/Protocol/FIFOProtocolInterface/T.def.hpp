@@ -1,4 +1,5 @@
-T::T (
+template <typename Interface>
+T <Interface>::T (
 	std::chrono::nanoseconds input_timeout,
 	std::chrono::nanoseconds output_timeout,
 	std::chrono::nanoseconds round_trip_timeout,

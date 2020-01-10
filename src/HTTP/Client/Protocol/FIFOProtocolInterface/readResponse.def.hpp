@@ -1,6 +1,7 @@
+template <typename Interface>
 template <typename InputStream>
 Response::T
-T::readResponse (InputStream && input_stream) const
+T <Interface>::readResponse (InputStream && input_stream) const
 {
 	Input::CancellableSlot::T <InputStream> input_slot;
 

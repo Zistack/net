@@ -1,11 +1,13 @@
-struct T : private FIFOProtocolInterface::T
+template <typename Interface>
+struct T
+:	FIFOProtocolInterface::T <Interface>
 {
 	T (const Config::T & config);
 
-	using FIFOProtocolInterface::T::prime;
-	using FIFOProtocolInterface::T::run;
-	using FIFOProtocolInterface::T::cancel;
-	using FIFOProtocolInterface::T::makeRequest;
+	using FIFOProtocolInterface::T <Interface>::prime;
+	using FIFOProtocolInterface::T <Interface>::run;
+	using FIFOProtocolInterface::T <Interface>::cancel;
+	using FIFOProtocolInterface::T <Interface>::makeRequest;
 
 	template
 	<
@@ -22,4 +24,15 @@ struct T : private FIFOProtocolInterface::T
 	);
 
 	~T () = default;
+
+private:
+
+	using FIFOProtocolInterface::T <Interface>::writeRequest;
+	using FIFOProtocolInterface::T <Interface>::readResponse;
+	using FIFOProtocolInterface::T <Interface>::writeActive;
+	using FIFOProtocolInterface::T <Interface>::writeIdle;
+	using FIFOProtocolInterface::T <Interface>::queueActive;
+	using FIFOProtocolInterface::T <Interface>::queueIdle;
+	using FIFOProtocolInterface::T <Interface>::readActive;
+	using FIFOProtocolInterface::T <Interface>::readIdle;
 };

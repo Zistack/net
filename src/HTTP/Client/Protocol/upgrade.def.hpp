@@ -1,3 +1,4 @@
+template <typename Interface>
 template
 <
 	typename UpgradeTarget,
@@ -5,7 +6,7 @@ template
 	typename ... ProtocolArguments
 >
 std::variant <std::unique_ptr <UpgradeTarget>, Response::T>
-T::upgrade
+T <Interface>::upgrade
 (
 	const std::tuple <RequestArguments ...> & request_arguments,
 	const std::tuple <ProtocolArguments ...> & protocol_arguments

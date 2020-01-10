@@ -1,4 +1,6 @@
-struct T : FIFOProtocol::Client::Protocol::T <T, Request::T, Response::T>
+template <typename Interface>
+struct T
+:	FIFOProtocol::Client::Protocol::T <T <Interface>, Request::T, Response::T>
 {
 	template <typename OutputStream>
 	void
@@ -11,6 +13,72 @@ struct T : FIFOProtocol::Client::Protocol::T <T, Request::T, Response::T>
 	template <typename InputStream>
 	Response::T
 	readResponse (InputStream && input_stream) const;
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	writeActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	writeIdle ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	queueActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	queueIdle ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	readActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	void
+	readIdle ();
 
 protected:
 
@@ -26,6 +94,28 @@ protected:
 	~T () = default;
 
 private:
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	const ProxyInterface &
+	interface () const;
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t
+		<
+			FIFOProtocol::HooksLoadEvents::T <ProxyInterface>::value
+		>
+	>
+	ProxyInterface &
+	interface ();
 
 	std::chrono::nanoseconds m_input_timeout;
 	std::chrono::nanoseconds m_output_timeout;
