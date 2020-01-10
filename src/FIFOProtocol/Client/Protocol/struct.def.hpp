@@ -35,10 +35,10 @@ protected:
 private:
 
 	using InputInterface::T <Interface, Response>::readResponse;
-	using InputInterface::T <Interface, Response>::readActive;
-	using InputInterface::T <Interface, Response>::readIdle;
 	using InputInterface::T <Interface, Response>::queueActive;
 	using InputInterface::T <Interface, Response>::queueIdle;
+	using InputInterface::T <Interface, Response>::readActive;
+	using InputInterface::T <Interface, Response>::readIdle;
 
 	using InputOutputInterface::T <Interface, Request, Response>::writeRequest;
 	using InputOutputInterface::T <Interface, Request, Response>::pushInput;

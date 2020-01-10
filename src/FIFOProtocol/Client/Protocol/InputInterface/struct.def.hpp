@@ -11,22 +11,6 @@ struct T : Input::T <T <Interface, Response>, Response>
 		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
 	>
 	void
-	readActive ();
-
-	template
-	<
-		typename ProxyInterface = Interface,
-		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
-	>
-	void
-	readIdle ();
-
-	template
-	<
-		typename ProxyInterface = Interface,
-		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
-	>
-	void
 	queueActive ();
 
 	template
@@ -36,6 +20,22 @@ struct T : Input::T <T <Interface, Response>, Response>
 	>
 	void
 	queueIdle ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	readActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	readIdle ();
 
 protected:
 
