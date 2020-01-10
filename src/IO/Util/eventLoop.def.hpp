@@ -1,9 +1,11 @@
+// The template here assumes that you're gonna use lambdas for the callable
+// arguments.
 template
 <
 	typename Watchable,
 	typename ShutdownSignal,
-	typename Function,
-	typename ... Arguments
+	typename StreamEvent,
+	typename WaitEvent
 >
 void
 eventLoop
@@ -11,8 +13,8 @@ eventLoop
 	Failure::ExceptionStore::T & exception_store,
 	Watchable && watchable,
 	ShutdownSignal && shutdown_signal,
-	Function && event,
-	Arguments && ... arguments
+	StreamEvent && streamEvent,
+	WaitEvent && waitEvent
 )
 {
 	try
@@ -24,6 +26,14 @@ eventLoop
 				if constexpr (IsBuffered::T <Watchable>::value)
 				{
 					if (watchable . isReady ()) break;
+				}
+
+				if constexpr
+				(
+					! std::is_same_v <WaitEvent, std::nullptr_t>
+				)
+				{
+					waitEvent ();
 				}
 
 				IO::Util::wait
@@ -44,7 +54,7 @@ eventLoop
 
 			try
 			{
-				event (std::forward <Arguments> (arguments) ...);
+				streamEvent ();
 			}
 			catch (Failure::EndOfResource::T)
 			{

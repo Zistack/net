@@ -2,8 +2,8 @@ template
 <
 	typename Watchable,
 	typename ShutdownSignal,
-	typename Function,
-	typename ... Arguments
+	typename StreamEvent,
+	typename WaitEvent = std::nullptr_t
 >
 void
 eventLoop
@@ -11,6 +11,6 @@ eventLoop
 	Failure::ExceptionStore::T & exception_store,
 	Watchable && watchable,
 	ShutdownSignal && shutdown_signal,
-	Function && event,
-	Arguments && ... arguments
+	StreamEvent && streamEvent,
+	WaitEvent && waitEvent = nullptr
 );
