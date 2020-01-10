@@ -1,4 +1,4 @@
-template <typename Interface, typename Request>
+template <typename Interface, typename Request, typename Response>
 struct T
 {
 	void
@@ -9,13 +9,24 @@ struct T
 	run (OutputStream && output_stream);
 
 	void
+	stop ();
+
+	void
 	cancel ();
 
 	void
-	push (const Request & request);
+	push
+	(
+		const Request & request,
+		const Thread::Delay::T <Response> & response_delay
+	);
 
 	void
-	push (Request && request);
+	push
+	(
+		Request && request,
+		const Thread::Delay::T <Response> & response_delay
+	);
 
 protected:
 
@@ -41,10 +52,13 @@ private:
 
 	// Internal members
 
-	Thread::ConcurrentQueue::T <Request> m_request_queue;
+	Thread::ConcurrentQueue::T
+	<
+		std::pair <Request, Thread::Delay::T <Response>>
+	>
+	m_request_queue;
 
 	// Transient members
 
 	Scope::T <decltype (m_request_queue)> m_request_scope;
 };
-

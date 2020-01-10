@@ -5,6 +5,38 @@ struct T : Input::T <T <Interface, Response>, Response>
 	Response
 	readResponse (InputStream && input_stream);
 
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	readActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	readIdle ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	queueActive ();
+
+	template
+	<
+		typename ProxyInterface = Interface,
+		typename = std::enable_if_t <HooksLoadEvents::T <ProxyInterface>::value>
+	>
+	void
+	queueIdle ();
+
 protected:
 
 	using Input::T <T <Interface, Response>, Response>::T;
@@ -15,6 +47,7 @@ private:
 
 	using Input::T <T <Interface, Response>, Response>::prime;
 	using Input::T <T <Interface, Response>, Response>::run;
+	using Input::T <T <Interface, Response>, Response>::stop;
 	using Input::T <T <Interface, Response>, Response>::cancel;
 	using Input::T <T <Interface, Response>, Response>::push;
 

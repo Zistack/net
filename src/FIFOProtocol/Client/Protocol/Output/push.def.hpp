@@ -1,10 +1,17 @@
-template <typename Interface, typename Request>
+template <typename Interface, typename Request, typename Response>
 void
-T <Interface, Request>::push (const Request & request)
+T <Interface, Request, Response>::push
+(
+	const Request & request,
+	const Thread::Delay::T <Response> & response_delay
+)
 {
 	try
 	{
-		this -> m_request_queue . push (request);
+		this -> m_request_queue . push
+		(
+			std::make_pair (request, response_delay)
+		);
 	}
 	catch (Failure::EndOfResource::T)
 	{
@@ -12,13 +19,20 @@ T <Interface, Request>::push (const Request & request)
 	}
 }
 
-template <typename Interface, typename Request>
+template <typename Interface, typename Request, typename Response>
 void
-T <Interface, Request>::push (Request && request)
+T <Interface, Request, Response>::push
+(
+	Request && request,
+	const Thread::Delay::T <Response> & response_delay
+)
 {
 	try
 	{
-		this -> m_request_queue . push (std::move (request));
+		this -> m_request_queue . push
+		(
+			std::make_pair (std::move (request), response_delay)
+		);
 	}
 	catch (Failure::EndOfResource::T)
 	{

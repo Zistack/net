@@ -11,16 +11,38 @@ T <Interface, Response>::run (InputStream && input_stream)
 
 		Scope::T response_scope (std::move (this -> m_response_scope));
 
-		IO::Util::eventLoop
-		(
-			this -> m_exception_store,
-			std::forward <InputStream> (input_stream),
-			this -> m_input_shutdown_signal,
-			[&] ()
-			{
-				this -> event (std::forward <InputStream> (input_stream));
-			}
-		);
+		if constexpr (HooksLoadEvents::HasReadIdle::T <Interface>::value)
+		{
+			IO::Util::eventLoop
+			(
+				this -> m_exception_store,
+				std::forward <InputStream> (input_stream),
+				this -> m_input_shutdown_signal,
+				[&] ()
+				{
+					this -> event (std::forward <InputStream> (input_stream));
+				},
+				[&] ()
+				{
+					this -> interface () . readIdle ();
+				}
+			);
+
+			this -> interface () . readIdle ();
+		}
+		else
+		{
+			IO::Util::eventLoop
+			(
+				this -> m_exception_store,
+				std::forward <InputStream> (input_stream),
+				this -> m_input_shutdown_signal,
+				[&] ()
+				{
+					this -> event (std::forward <InputStream> (input_stream));
+				}
+			);
+		}
 	}
 
 	this -> m_exception_store . pop ();

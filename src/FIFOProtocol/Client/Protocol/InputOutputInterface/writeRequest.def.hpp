@@ -1,7 +1,7 @@
-template <typename Interface, typename Request>
+template <typename Interface, typename Request, typename Response>
 template <typename OutputStream>
 void
-T <Interface, Request>::writeRequest
+T <Interface, Request, Response>::writeRequest
 (
 	const Request & request,
 	OutputStream && output_stream

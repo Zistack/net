@@ -4,13 +4,7 @@ T <Interface, Request, Response>::makeRequest (const Request & request)
 {
 	Thread::Delay::T <Response> response_delay;
 
-	{
-		std::unique_lock queue_lock (this -> m_queue_mutex);
-
-		this -> input () . push (response_delay);
-
-		this -> output () . push (request);
-	}
+	this -> output () . push (request, response_delay);
 
 	try
 	{
@@ -33,13 +27,7 @@ T <Interface, Request, Response>::makeRequest (Request && request)
 {
 	Thread::Delay::T <Response> response_delay;
 
-	{
-		std::unique_lock queue_lock (this -> m_queue_mutex);
-
-		this -> input () . push (response_delay);
-
-		this -> output () . push (std::move (request));
-	}
+	this -> output () . push (std::move (request), response_delay);
 
 	try
 	{

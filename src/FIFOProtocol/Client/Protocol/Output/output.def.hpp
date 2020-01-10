@@ -1,13 +1,13 @@
-template <typename Interface, typename Request>
-const T <Interface, Request> &
-T <Interface, Request>::output () const
+template <typename Interface, typename Request, typename Response>
+const T <Interface, Request, Response> &
+T <Interface, Request, Response>::output () const
 {
 	return * this;
 }
 
-template <typename Interface, typename Request>
-T <Interface, Request> &
-T <Interface, Request>::output ()
+template <typename Interface, typename Request, typename Response>
+T <Interface, Request, Response> &
+T <Interface, Request, Response>::output ()
 {
 	return * this;
 }

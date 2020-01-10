@@ -7,7 +7,15 @@ T <Interface, Response>::push
 {
 	try
 	{
-		this -> m_response_queue . push (response_delay);
+		if constexpr (HooksLoadEvents::HasQueueActive::T <Interface>::value)
+		{
+			this -> m_response_queue . push
+			(
+				response_delay,
+				[&] () { this -> interface () . queueActive (); }
+			);
+		}
+		else this -> m_response_queue . push (response_delay);
 	}
 	catch (Failure::EndOfResource::T)
 	{

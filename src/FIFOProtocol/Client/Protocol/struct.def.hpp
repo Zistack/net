@@ -1,7 +1,5 @@
 template <typename Interface, typename Request, typename Response>
-struct T
-:	InputInterface::T <Interface, Response>,
-	OutputInterface::T <Interface, Request>
+struct T : InputOutputInterface::T <Interface, Request, Response>
 {
 	void
 	prime ();
@@ -9,6 +7,9 @@ struct T
 	template <typename InputStream, typename OutputStream>
 	void
 	run (InputStream && input_stream, OutputStream && output_stream);
+
+	void
+	stop ();
 
 	void
 	cancel ();
@@ -33,11 +34,19 @@ protected:
 
 private:
 
+	using InputInterface::T <Interface, Response>::readResponse;
+	using InputInterface::T <Interface, Response>::readActive;
+	using InputInterface::T <Interface, Response>::readIdle;
+	using InputInterface::T <Interface, Response>::queueActive;
+	using InputInterface::T <Interface, Response>::queueIdle;
+
+	using InputOutputInterface::T <Interface, Request, Response>::writeRequest;
+	using InputOutputInterface::T <Interface, Request, Response>::pushInput;
+	using InputOutputInterface::T <Interface, Request, Response>::stopInput;
+	using InputOutputInterface::T <Interface, Request, Response>::writeActive;
+	using InputOutputInterface::T <Interface, Request, Response>::writeIdle;
+
 	// Given members
 
 	std::chrono::nanoseconds m_round_trip_timeout;
-
-	// Internal members
-
-	std::mutex m_queue_mutex;
 };

@@ -9,6 +9,9 @@ struct T
 	run (InputStream && input_stream);
 
 	void
+	stop ();
+
+	void
 	cancel ();
 
 	void
