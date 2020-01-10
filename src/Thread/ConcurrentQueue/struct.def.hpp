@@ -9,11 +9,30 @@ struct T
 	void
 	push (Element && element);
 
+	template <typename NonEmptyEvent>
+	void
+	push (const Element & element, NonEmptyEvent && nonEmptyEvent);
+
+	template <typename NonEmptyEvent>
+	void
+	push (Element && element, NonEmptyEvent && nonEmptyEvent);
+
 	Element
 	pop ();
 
+	template <typename EmptyEvent>
+	Element
+	pop (EmptyEvent && emptyEvent);
+
 	std::optional <Element>
 	tryPop ();
+
+	template <typename EmptyEvent>
+	std::optional <Element>
+	tryPop (EmptyEvent && emptyEvent);
+
+	void
+	close ();
 
 	void
 	cancel ();
@@ -24,9 +43,6 @@ private:
 
 	void
 	open ();
-
-	void
-	close ();
 
 	void
 	flush ();
