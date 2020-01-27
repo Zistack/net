@@ -8,5 +8,8 @@ struct T
 	run (InputStream && input_stream, OutputStream && output_stream);
 
 	void
+	stop ();
+
+	void
 	cancel ();
 };
