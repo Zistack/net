@@ -1,7 +1,15 @@
 template <typename ServerProtocol>
-struct T
+struct T : ServerProtocol
 {
-	T (ServerProtocol server_protocol, Config::T & config);
+	template
+	<
+		typename ... ProtocolArguments,
+		typename = std::enable_if_t
+		<
+			std::is_constructible_v <ServerProtocol, ProtocolArguments ...>
+		>
+	>
+	T (Config::T & config, ProtocolArguments && ... protocol_arguments);
 
 	void
 	prime ();
@@ -41,9 +49,6 @@ private:
 
 	SuppressingScope::T <ShutdownSignal::T> m_shutdown_scope;
 };
-
-template <typename ServerProtocol>
-T (ServerProtocol && server_protocol, Config::T & config) -> T <ServerProtocol>;
 
 static_assert
 (

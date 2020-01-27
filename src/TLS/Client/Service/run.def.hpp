@@ -12,7 +12,7 @@ T <Protocol>::run ()
 		(
 			[&] ()
 			{
-				this -> m_protocol . run
+				this -> Protocol::run
 				(
 					client_socket . reciever (),
 					client_socket . sender ()

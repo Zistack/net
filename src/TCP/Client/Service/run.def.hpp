@@ -7,5 +7,5 @@ T <Protocol>::run ()
 	IO::Blocking::InputStream::T input_stream (client_socket . reciever ());
 	IO::Blocking::OutputStream::T output_stream (client_socket . sender ());
 
-	this -> m_protocol . run (input_stream, output_stream);
+	this -> Protocol::run (input_stream, output_stream);
 }

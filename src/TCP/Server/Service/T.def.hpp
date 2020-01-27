@@ -1,9 +1,14 @@
 template <typename ServerProtocol>
+template <typename ... ProtocolArguments, typename>
 T <ServerProtocol>::T
 (
-	ServerProtocol server_protocol,
-	const Config::T & config
+	const Config::T & config,
+	ProtocolArguments && ... protocol_arguments
 )
-:	m_server_protocol (server_protocol), m_config (config)
+:	m_config (config),
+	m_server_protocol
+	(
+		std::forward <ProtocolArguments> (protocol_arguments) ...
+	)
 {
 }

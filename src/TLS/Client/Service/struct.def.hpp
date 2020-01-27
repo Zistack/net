@@ -1,25 +1,32 @@
 template <typename Protocol>
-struct T
+struct T : Protocol
 {
-	T (Protocol client_protcol, Config::T & config);
+	template
+	<
+		typename ... ProtocolArguments,
+		typename = std::enable_if_t
+		<
+			std::is_constructible_v <Protocol, ProtocolArguments ...>
+		>
+	>
+	T (Config::T & config, ProtocolArguments && ... protocol_arguments);
 
-	void
-	prime ();
+	using Protocol::prime;
 
 	void
 	run ();
 
-	void
-	cancel ();
+	using Protocol::stop;
+	using Protocol::cancel;
 
 	~T () = default;
 
 private:
 
-	Protocol m_protocol;
+	using Protocol::run;
+
 	Config::T m_config;
 	Ciphers::T m_ciphers;
 };
 
-template <typename Protocol>
-T (Protocol && protocol, Config::T & config) -> T <Protocol>;
+static_assert (Failure::IsCancellable::T <T <IO::DummyProtocol::T>>::value);

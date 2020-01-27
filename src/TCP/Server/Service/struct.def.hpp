@@ -1,7 +1,15 @@
 template <typename ServerProtocol>
 struct T
 {
-	T (ServerProtocol server_protocol, const Config::T & config);
+	template
+	<
+		typename ... ProtocolArguments,
+		typename = std::enable_if_t
+		<
+			std::is_constructible_v <ServerProtocol, ProtocolArguments ...>
+		>
+	>
+	T (const Config::T & config, ProtocolArguments && ... protocol_arguments);
 
 	void
 	prime ();
@@ -28,8 +36,8 @@ private:
 
 	// Given members
 
-	ServerProtocol m_server_protocol;
 	Config::T m_config;
+	ServerProtocol m_server_protocol;
 
 	// Internal members
 
@@ -41,8 +49,4 @@ private:
 	SuppressingScope::T <ShutdownSignal::T> m_shutdown_scope;
 };
 
-template <typename ServerProtocol>
-T (ServerProtocol && server_protocol, const Config::T & config) ->
-	T <ServerProtocol>;
-
-static_assert (Failure::IsCancellable::T <IO::DummyProtocol::T>::value);
+static_assert (Failure::IsCancellable::T <T <IO::DummyServerProtocol::T>>::value);
