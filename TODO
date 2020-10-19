@@ -1,0 +1,9 @@
+Make Thread::Nursery::T use a thread pool.
+
+Find a better way of organizing all the code in this project.  It's not clear
+that the current division into modules actually makes any sense, and some things
+that ought to be in modules per the current scheme are not.
+
+Fix GetConfig's help output to actually contain complete information.  The only
+reason I haven't done this yet is because I haven't figured out what that should
+look like.

@@ -13,17 +13,47 @@ struct T
 	bool
 	isArray () const;
 
+	const Array::T &
+	asArray () const;
+
+	Array::T &
+	asArray ();
+
 	bool
 	isBoolean () const;
+
+	const Boolean::T &
+	asBoolean () const;
+
+	Boolean::T &
+	asBoolean ();
 
 	bool
 	isNumber () const;
 
+	const Number::T &
+	asNumber () const;
+
+	Number::T &
+	asNumber ();
+
 	bool
 	isObject () const;
 
+	const Object::T &
+	asObject () const;
+
+	Object::T &
+	asObject ();
+
 	bool
 	isString () const;
+
+	const String::T &
+	asString () const;
+
+	String::T &
+	asString ();
 
 	// IDK how I want to handle pretty-printing.
 	template <typename OutputStream>

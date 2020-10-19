@@ -11,8 +11,41 @@ struct T
 	bool
 	contains (const std::string & name) const;
 
-	// This is the part I wonder about.  I don't know exactly what kind of
-	// accessors are desired here.
+	const Value::T &
+	valueAt (const std::string & name) const;
+
+	Value::T &
+	valueAt (const std::string & name);
+
+	const Array::T &
+	arrayAt (const std::string & name) const;
+
+	Array::T &
+	arrayAt (const std::string & name);
+
+	const Boolean::T &
+	booleanAt (const std::string & name) const;
+
+	Boolean::T &
+	booleanAt (const std::string & name);
+
+	const Number::T &
+	numberAt (const std::string & name) const;
+
+	Number::T &
+	numberAt (const std::string & name);
+
+	const Object::T &
+	objectAt (const std::string & name) const;
+
+	Object::T &
+	objectAt (const std::string & name);
+
+	const String::T &
+	stringAt (const std::string & name) const;
+
+	String::T &
+	stringAt (const std::string & name);
 
 	template <typename OutputStream>
 	void
