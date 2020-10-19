@@ -1,6 +1,5 @@
 #include <cctype>
 #include <chrono>
-#include <cmath>
 #include <exception>
 #include <list>
 #include <map>

@@ -1,1 +1,0 @@
-typedef : ConnectionManager.typedef, CapacityScaler.typedef, Connection.typedef
